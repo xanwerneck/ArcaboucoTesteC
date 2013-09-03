@@ -79,8 +79,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GENERICO.H" />
+    <ClInclude Include="LERPARM.H" />
     <ClInclude Include="LISTA.H" />
     <ClInclude Include="MATRIZ.H" />
+    <ClInclude Include="TST_ESPC.H" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
