@@ -7,15 +7,16 @@
 *  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
 *  Arquivo da base de software: D:\AUTOTEST\PROJETOS\LISTA.BSW
 *
-*  Projeto: INF 1301 Automatização dos testes de módulos C
+*  Projeto: INF 1301 / 1628 Automatização dos testes de módulos C
 *  Gestor:  LES/DI/PUC-Rio
-*  Autores: aw - Alexandre Werneck
-*           fe - Fernanda Ribeiro
-*			vi - Vinicius
+*  Autores: avs
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*       1.00   aw   29/08/2013 Início do desenvolvimento
+*     4       avs   01/fev/2006 criar linguagem script simbólica
+*     3       avs   08/dez/2004 uniformização dos exemplos
+*     2       avs   07/jul/2003 unificação de todos os módulos em um só projeto
+*     1       avs   16/abr/2003 início desenvolvimento
 *
 ***************************************************************************/
 
@@ -51,14 +52,13 @@ static const char AVANCAR_ELEM_CMD        [ ] = "=avancarelem"    ;
 #define NAO_VAZIO 1
 
 #define DIM_VT_LISTA   10
-//cria ate 10 listas - VETOR que armazena as listas criadas
 #define DIM_VALOR     100
 
 LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
 
-/***** Protótipos das funções encapsuladas no módulo *****/
+/***** Protótipos das funções encapuladas no módulo *****/
 
-   static void DestruirValor( char pValor ) ;
+   static void DestruirValor( void * pValor ) ;
 
    static int ValidarInxLista( int inxLista , int Modo ) ;
 
@@ -98,8 +98,8 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
 
       TST_tpCondRet CondRet ;
 
-      char   StringDado;
-      char   pDado ;
+      char   StringDado[  DIM_VALOR ] ;
+      char * pDado ;
 
       int ValEsp = -1 ;
 
@@ -107,7 +107,7 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
 
       int numElem = -1 ;
 
-      StringDado = 0 ;
+      StringDado[ 0 ] = 0 ;
 
       /* Efetuar reset de teste de lista */
 
@@ -200,14 +200,13 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
                return TST_CondRetParm ;
             } /* if */
 
-            pDado = StringDado;
-
+            pDado = ( char * ) malloc( strlen( StringDado ) + 1 ) ;
             if ( pDado == NULL )
             {
                return TST_CondRetMemoria ;
             } /* if */
 
-            //strcpy( pDado , StringDado ) ;
+            strcpy( pDado , StringDado ) ;
 
 
             CondRet = LIS_InserirElementoAntes( vtListas[ inxLista ] , pDado ) ;

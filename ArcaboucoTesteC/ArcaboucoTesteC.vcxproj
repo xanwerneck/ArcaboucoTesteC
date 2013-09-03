@@ -76,6 +76,7 @@
   <ItemGroup>
     <ClCompile Include="LISTA.C" />
     <ClCompile Include="MATRIZ.C" />
+    <ClCompile Include="TESTLIS.C" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GENERICO.H" />

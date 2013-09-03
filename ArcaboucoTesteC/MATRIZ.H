@@ -1,10 +1,10 @@
-#if ! defined( ARVORE_ )
-#define ARVORE_
+#if ! defined( MATRIZ_ )
+#define MATRIZ_
 /***************************************************************************
 *
 *  $MCD Módulo de definição: Módulo árvore
 *
-*  Arquivo gerado:              ARVORE.H
+*  Arquivo gerado:              MATRIZ.H
 *  Letras identificadoras:      ARV
 *
 *  Nome da base de software:    Exemplo de teste automatizado
@@ -34,10 +34,10 @@
 *
 ***************************************************************************/
  
-#if defined( ARVORE_OWN )
-   #define ARVORE_EXT
+#if defined( MATRIZ_OWN )
+   #define MATRIZ_EXT
 #else
-   #define ARVORE_EXT extern
+   #define MATRIZ_EXT extern
 #endif
 
 
@@ -62,10 +62,10 @@
          ARV_CondRetNaoEhFolha = 3 ,
                /* Não é folha relativa à direção de inserção desejada */
 
-         ARV_CondRetArvoreNaoExiste = 4 ,
+         ARV_CondRetMATRIZNaoExiste = 4 ,
                /* Árvore não existe */
 
-         ARV_CondRetArvoreVazia = 5 ,
+         ARV_CondRetMATRIZVazia = 5 ,
                /* Árvore está vazia */
 
          ARV_CondRetNohEhRaiz = 6 ,
@@ -94,7 +94,7 @@
 *
 ***********************************************************************/
 
-   ARV_tpCondRet ARV_CriarArvore( void ) ;
+   ARV_tpCondRet ARV_CriarMATRIZ( void ) ;
 
 
 /***********************************************************************
@@ -107,7 +107,7 @@
 *
 ***********************************************************************/
 
-   void ARV_DestruirArvore( void ) ;
+   void ARV_DestruirMATRIZ( void ) ;
 
 
 /***********************************************************************
@@ -152,8 +152,8 @@
 *
 *  $FV Valor retornado
 *     ARV_CondRetOK
-*     ARV_CondRetArvoreNaoExiste
-*     ARV_CondRetArvoreVazia
+*     ARV_CondRetMATRIZNaoExiste
+*     ARV_CondRetMATRIZVazia
 *     ARV_CondRetNoEhRaiz
 *
 ***********************************************************************/
@@ -167,8 +167,8 @@
 *
 *  $FV Valor retornado
 *     ARV_CondRetOK
-*     ARV_CondRetArvoreNaoExiste
-*     ARV_CondRetArvoreVazia
+*     ARV_CondRetMATRIZNaoExiste
+*     ARV_CondRetMATRIZVazia
 *     ARV_CondRetNaoPossuiFilho   - nó corrente não possui filho à esquerda
 *
 ***********************************************************************/
@@ -182,8 +182,8 @@
 *
 *  $FV Valor retornado
 *     ARV_CondRetOK
-*     ARV_CondRetArvoreNaoExiste
-*     ARV_CondRetArvoreVazia
+*     ARV_CondRetMATRIZNaoExiste
+*     ARV_CondRetMATRIZVazia
 *     ARV_CondRetNaoPossuiFilho   - nó corrente não possui filho à direita
 *
 ***********************************************************************/
@@ -201,14 +201,14 @@
 *
 *  $FV Valor retornado
 *     ARV_CondRetOK
-*     ARV_CondRetArvoreNaoExiste
-*     ARV_CondRetArvoreVazia
+*     ARV_CondRetMATRIZNaoExiste
+*     ARV_CondRetMATRIZVazia
 *
 ***********************************************************************/
 
    ARV_tpCondRet ARV_ObterValorCorr( char * ValorParm ) ;
 
-#undef ARVORE_EXT
+#undef MATRIZ_EXT
 
 /********** Fim do módulo de definição: Módulo árvore **********/
 

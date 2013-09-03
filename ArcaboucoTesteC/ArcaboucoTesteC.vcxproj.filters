@@ -21,6 +21,9 @@
     <ClCompile Include="MATRIZ.C">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TESTLIS.C">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GENERICO.H">
