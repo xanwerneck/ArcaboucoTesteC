@@ -24,6 +24,9 @@
     <ClCompile Include="TESTLIS.C">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TESTMAT.C">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GENERICO.H">

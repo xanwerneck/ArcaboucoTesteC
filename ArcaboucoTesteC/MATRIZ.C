@@ -1,22 +1,21 @@
 /***************************************************************************
-*  $MCI Módulo de implementação: Módulo árvore
+*  $MCI Módulo de implementação: Módulo MATRIZ
 *
 *  Arquivo gerado:              MATRIZ.C
-*  Letras identificadoras:      ARV
+*  Letras identificadoras:      MAT
 *
 *  Nome da base de software:    Exemplo de teste automatizado
 *  Arquivo da base de software: D:\AUTOTEST\PROJETOS\SIMPLES.BSW
 *
-*  Projeto: Disciplinas INF 1628 / 1301
-*  Gestor:  DI/PUC-Rio
-*  Autores: avs - Arndt von Staa
+*  Projeto: INF 1301 Automatização dos testes de módulos C
+*  Gestor:  LES/DI/PUC-Rio
+*  Autores: aw - Alexandre Werneck
+*           fe - Fernanda Ribeiro
+*			vi - Vinicius
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*       3.00   avs   28/02/2003 Uniformização da interface das funções e
-*                               de todas as condições de retorno.
-*       2.00   avs   03/08/2002 Eliminação de código duplicado, reestruturação
-*       1.00   avs   15/08/2001 Início do desenvolvimento
+*       1.00   aw   29/08/2013 Início do desenvolvimento
 *
 ***************************************************************************/
 
@@ -30,84 +29,44 @@
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: ARV Descritor do nó da árvore
+*  $TC Tipo de dados: MAT Descritor do elemento da matriz - 05/09/2013
 *
 *
 *  $ED Descrição do tipo
-*     Descreve a organização do nó
+*     Descreve a organização do elemento
 *
 ***********************************************************************/
 
-   typedef struct tpElemMatriz {
+typedef struct tpElemMatriz {
 
-         struct tpElemMatriz * pNoNoroeste ; // fe: Adjacente da quina superior esquerda.
-               /* Ponteiro para pai
-               *
-               *$EED Assertivas estruturais
-               *   É NULL sse o nó é raiz
-               *   Se não for raiz, um de pNoEsq ou pNoDir de pNoPai do nó
-               *   corrente apontam para o nó corrente */
+        struct tpElemMatriz * pNoNoroeste ; 
+			/* Adjacente da quina superior esquerda */
+		
+        struct tpElemMatriz * pNoNorte ;
+			/* Adjacente de cima */
 
-         struct tpElemMatriz * pNoNorte ; // fe: Adjacente de cima.
-               /* Ponteiro para pai
-               *
-               *$EED Assertivas estruturais
-               *   É NULL sse o nó é raiz
-               *   Se não for raiz, um de pNoEsq ou pNoDir de pNoPai do nó
-               *   corrente apontam para o nó corrente */
+        struct tpElemMatriz * pNoNordeste ;
+            /* Adjacente da quina superior direita */
+            
+        struct tpElemMatriz * pNoOeste ; 
+            /* Adjacente da esqueda */
+            
+        struct tpElemMatriz * pNoLeste ;
+            /* Adjacente da direita */
 
-         struct tpElemMatriz * pNoNordeste ; // fe: Adjacente da quina superior direita.
-               /* Ponteiro para pai
-               *
-               *$EED Assertivas estruturais
-               *   É NULL sse o nó é raiz
-               *   Se não for raiz, um de pNoEsq ou pNoDir de pNoPai do nó
-               *   corrente apontam para o nó corrente */
+        struct tpElemMatriz * pNoSudoeste ;
+            /* Adjacente da quina inferior esquerda */
+            
+        struct tpElemMatriz * pNoSul ;
+            /* Adjacente de baixo */
 
-         struct tpElemMatriz * pNoOeste ; // fe: Adjacente da esqueda.
-               /* Ponteiro para pai
-               *
-               *$EED Assertivas estruturais
-               *   É NULL sse o nó é raiz
-               *   Se não for raiz, um de pNoEsq ou pNoDir de pNoPai do nó
-               *   corrente apontam para o nó corrente */
+        struct tpElemMatriz * pNoSudeste ;
+            /* Adjacente da quina inferior direita */
 
-         struct tpElemMatriz * pNoLeste ; // fe: Adjacente da direita.
-               /* Ponteiro para pai
-               *
-               *$EED Assertivas estruturais
-               *   É NULL sse o nó é raiz
-               *   Se não for raiz, um de pNoEsq ou pNoDir de pNoPai do nó
-               *   corrente apontam para o nó corrente */
+        struct LIS_tppLista * Lista;
+			/* Lista para o elemento da Matriz que armazena caracteres */
 
-         struct tpElemMatriz * pNoSudoeste ; // fe: Adjacente da quina inferior esquerda.
-               /* Ponteiro para pai
-               *
-               *$EED Assertivas estruturais
-               *   É NULL sse o nó é raiz
-               *   Se não for raiz, um de pNoEsq ou pNoDir de pNoPai do nó
-               *   corrente apontam para o nó corrente */
-
-         struct tpElemMatriz * pNoSul ; // fe: Adjacente de baixo.
-               /* Ponteiro para pai
-               *
-               *$EED Assertivas estruturais
-               *   É NULL sse o nó é raiz
-               *   Se não for raiz, um de pNoEsq ou pNoDir de pNoPai do nó
-               *   corrente apontam para o nó corrente */
-
-         struct tpElemMatriz * pNoSudeste ; // fe: Adjacente da quina inferior direita.
-               /* Ponteiro para pai
-               *
-               *$EED Assertivas estruturais
-               *   É NULL sse o nó é raiz
-               *   Se não for raiz, um de pNoEsq ou pNoDir de pNoPai do nó
-               *   corrente apontam para o nó corrente */
-
-
-         struct LIS_tppLista * Lista;
-
-   } tpElemMatriz ;
+} tpElemMatriz ;
 
    // fe: Mudei os nomes de tipos e variáveis de Arvore para Matriz
    // fe: Mudei os elementos pNoPai, pNoEsq, pNoDir e Valor; Apaguei e criei a estrutura da Matriz.
@@ -115,459 +74,693 @@
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: ARV Descritor da cabeça de uma árvore
+*  $TC Tipo de dados: MAT Descritor da raiz de uma matriz
 *
 *
 *  $ED Descrição do tipo
-*     A cabe‡a da árvore é o ponto de acesso para uma determinada árvore.
-*     Por intermédio da referência para o nó corrente e do ponteiro
-*     pai pode-se navegar a árvore sem necessitar de uma pilha.
-*     Pode-se, inclusive, operar com a árvore em forma de co-rotina.
+*	  A raiz da matriz indica o início da matriz , refere-se ao elemento (0,0)
+*	  A estrutura matriz também armazena uma referência ao nó indíce 
+*	  de coluna para a criação da matriz.
+*	  Através do nó corrente pode-se navegar a matriz.
 *
 ***********************************************************************/
 
-   typedef struct tgMatriz {
+typedef struct tgMatriz {
 
-         tpElemMatriz * pNoRaiz ;
-               /* Ponteiro para a raiz da árvore */
+        tpElemMatriz * pNoRaiz ;
+            /* Ponteiro para a raiz da matriz */
 
-         tpElemMatriz * pNoCorr ;
-               /* Ponteiro para o nó corrente da árvore */
+		tpElemMatriz * pNoIndLinha ;
+            /* Ponteiro para a indice de linha da matriz */
 
-   } tpMatriz ;
+        tpElemMatriz * pNoCorr ;
+            /* Ponteiro para o nó corrente da matriz */
+
+} tpMatriz ;
 
 
 /*****  Dados encapsulados no módulo  *****/
 
-      static tpMATRIZ * pMATRIZ = NULL ;
-            /* Ponteiro para a cabe‡a da árvore */
+static int numElementos = 0 ;
+    /* Número de linhas e colunas da matriz (n x n) */
 
-/***** Protótipos das funções encapuladas no módulo *****/
+static tpMatriz * tpMat = NULL ;
+    /* Ponteiro para a cabeça da matriz */
 
-   static tpNoMATRIZ * CriarNo( char ValorParm ) ;
+/***** Protótipos das funções encapsuladas no módulo *****/
 
-   static ARV_tpCondRet CriarNoRaiz( char ValorParm ) ;
+static MAT_tpCondRet PreparaEstruturaMatriz( ) ;
 
-   static void DestroiMATRIZ( tpNoMATRIZ * pNo ) ;
+static MAT_tpCondRet CriarNoRaiz( ) ;
+
+static void DestroiMatriz( tpElemMatriz * tpMatExc ) ;
+
+static tpElemMatriz * CriarNo( ) ;
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
 /***************************************************************************
 *
-*  Função: ARV Criar árvore
-*  ****/
-
+*  Função: MAT CriarMatriz - 05/09/2013
+*  
+****/
 
 MAT_tpCondRet MAT_CriarMatriz( void ){
+	   
+		if(tpMat != NULL){
+			DestroiMatriz( tpMat );
+		} /* if */
 
-	   int i=0, j=0;
+	   tpMat = (tpMatriz *) malloc(sizeof(tpMatriz));
+	   
+	   if(tpMat == NULL){
+		   return MAT_CondRetFaltouMemoria ;
+	   } /* if */
 
-	   tpMatriz * tpMat = (tpMatriz *) malloc(sizeof(tpMatriz));
-	   tpMat->pNoCorr = NULL;
-	   tpMat->pNoRaiz = NULL;
+	   tpMat->pNoCorr      = NULL;
+	   tpMat->pNoRaiz      = NULL;
+	   tpMat->pNoIndLinha  = NULL;
 
-	   LIS_tppLista * lista = (LIS_tppLista *) malloc (sizeof(LIS_tppLista));
-
-	   for(;i<num;i++)
-		   for(;j<num;j++)
-			   MAT_CriarElementoMatriz(tpMat,lista,i,j, num-1);
+	   return MAT_CondRetOK;
 }
 
 
-  MAT_tpCondRet MAT_CriarElementoMatriz(tpMatriz * tpMat, LIS_tppLista * lt, int i, int j, int num){
+/***************************************************************************
+*
+*  Função: MAT InsereListaMatriz - 05/09/2013
+*
+*	Percorre a estrutura da matriz procurando espaço vazio para
+*	armazenar a lista criada.
+*  
+****/
 
-	   tpElemMatriz * tpElem = (tpElemMatriz *) malloc(sizeof(tpElemMatriz));
-	   
-	   tpElem->Lista = lt;
+MAT_tpCondRet MAT_InsereListaMatriz( LIS_tppLista * lt){
 
-	   //checa se a matriz é um por um
-	   if(num == 1){
-		   tpElem->Lista = lt;
-		   tpMat->pNoCorr  = tpElem;
-		   tpMat->pNoRaiz  = tpElem;
-	   }
+	if(tpMat == NULL){
+		return MAT_CondRetFaltouMemoria ;
+	} /* if */
 
-	   //if que testa a condicão para 3 adjacentes
-	   if((i==0 || j==0) && (i==num || j==num)){
+	if ( tpMat->pNoCorr == NULL )
+    {
+        return MAT_CondRetMatrizVazia ; // Devemos apresentar a mensagem de que a matriz deverá ser montada antes
+    } /* if */
 
-		   if(i==0 && j==0){
-				tpMat->pNoCorr  = tpElem;
-				tpMat->pNoRaiz  = tpElem;
+	tpMat->pNoCorr     = tpMat->pNoRaiz;
+	tpMat->pNoIndLinha = tpMat->pNoCorr;
 
-				tpElemMatriz * tpElemLesteCabeca   = (tpElemMatriz *) malloc(sizeof(tpElemMatriz));
-				tpElemMatriz * tpElemSudesteCabeca = (tpElemMatriz *) malloc(sizeof(tpElemMatriz));
-				tpElemMatriz * tpElemSulCabeca     = (tpElemMatriz *) malloc(sizeof(tpElemMatriz));
+	// procura a próxima posição de memória vazia para inserir a lista
+	while(tpMat->pNoCorr != NULL){
+		if(tpMat->pNoCorr->Lista == NULL){
+				tpMat->pNoCorr->Lista = lt;
+				return MAT_CondRetOK; // Como interrompo o while
+		}else{
+			if(tpMat->pNoCorr->pNoLeste == NULL){
+				tpMat->pNoCorr     = tpMat->pNoIndLinha->pNoSul;
+				tpMat->pNoIndLinha = tpMat->pNoCorr;
+			}else{
+				tpMat->pNoCorr = tpMat->pNoCorr->pNoLeste;
+			} /* if */
+		}/* if */
+	}
+	return MAT_CondRetMatrizCheia ; // retorno que a matriz está cheia
 
-				tpElem->pNoLeste   = tpElemLesteCabeca;
-				tpElem->pNoSudeste = tpElemSudesteCabeca;
-				tpElem->pNoSul     = tpElemSulCabeca;
-		   }
-		   if(i==0 && j==num){
-
-				tpElem->pNoSul      = tpMat->pNoCorr->pNoSudeste;
-				tpElem->pNoSudoeste = tpMat->pNoCorr->pNoSul;
-				tpElem->pNoOeste    = tpMat->pNoCorr;
-
-				// no final sta como corrente
-				tpMat->pNoCorr  = tpElem;
-				tpMat->pNoRaiz  = tpElem;
-
-		   }
-		   if(i==num && j==0){
-
-			   tpElem->pNoNorte    = tpMat->pNoRaiz;
-			   tpElem->pNoNordeste = tpMat->pNoRaiz->pNoLeste;
-			   tpElem->pNoLeste    = tpMat->pNoRaiz->pNoSudeste;
-
-				// no final sta como corrente
-				tpMat->pNoCorr  = tpElem;
-
-		   }
-		   if(i==num && j==num){
-
-			   tpElem->pNoNorte     = tpMat->pNoCorr->pNoNordeste;
-			   tpElem->pNoNoroeste  = tpMat->pNoCorr->pNoNorte;
-			   tpElem->pNoOeste     = tpMat->pNoCorr;
-
-				// no final sta como corrente
-				tpMat->pNoCorr  = tpElem;
-				tpMat->pNoRaiz  = tpElem;
-
-		   }
-
-	   }
-
-	   //if que testa a condição para 5 adjacentes
-	   else if(i==0 || i==num || j==0 || j==num){
-
-
-		   if(i==0 && (j!=num || j!=0)){
-			    
-				tpElemMatriz * tpElemLesteNo   = (tpElemMatriz *) malloc(sizeof(tpElemMatriz));
-				tpElemMatriz * tpElemSudesteNo = (tpElemMatriz *) malloc(sizeof(tpElemMatriz));
-
-				tpElem->pNoLeste    = tpElemLesteNo;
-				tpElem->pNoSudeste  = tpElemSudesteNo;
-				tpElem->pNoSul      = tpMat->pNoCorr->pNoSudeste;
-				tpElem->pNoSudoeste = tpMat->pNoCorr->pNoSul;
-				tpElem->pNoOeste    = tpMat->pNoCorr;
-
-				// no final sta como corrente
-				tpMat->pNoCorr  = tpElem;
-
-		   }
-		   if(j==0 && (i!=num || i!=0)){
-
-			    tpElemMatriz * tpElemSulNo     = (tpElemMatriz *) malloc(sizeof(tpElemMatriz));
-				tpElemMatriz * tpElemSudesteNo = (tpElemMatriz *) malloc(sizeof(tpElemMatriz));
-
-				tpElem->pNoSudeste  = tpElemSudesteNo;
-				tpElem->pNoSul      = tpElemSulNo;
-				tpElem->pNoLeste    = tpMat->pNoCorr->pNoSudeste;				
-				tpElem->pNoNordeste = tpMat->pNoCorr->pNoLeste;
-				tpElem->pNoNorte    = tpMat->pNoCorr;
-
-				// no final sta como corrente
-				tpMat->pNoCorr  = tpElem;
-
-		   }
-		   if(i==num && (j!=num || j!=0)){
-			    
-				tpElemMatriz * tpElemLesteNo   = (tpElemMatriz *) malloc(sizeof(tpElemMatriz));
-
-				tpElem->pNoLeste    = tpElemLesteNo;
-				tpElem->pNoNordeste = tpMat->pNoCorr->pNoNordeste->pNoLeste;
-				tpElem->pNoNorte    = tpMat->pNoCorr->pNoNordeste;
-				tpElem->pNoNoroeste = tpMat->pNoCorr->pNoNorte;
-				tpElem->pNoOeste    = tpMat->pNoCorr->pNoNoroeste;
-
-				// no final sta como corrente
-				tpMat->pNoCorr  = tpElem;
-
-		   }
-		   if(j==num && (i!=num || i!=0)){
-
-			    tpElemMatriz * tpElemLesteNo   = (tpElemMatriz *) malloc(sizeof(tpElemMatriz));
-
-				tpElem->pNoNorte     = tpMat->pNoCorr->pNoNoroeste;
-				tpElem->pNoSul       = tpMat->pNoCorr->pNoSudeste;
-				tpElem->pNoSudoeste  = tpMat->pNoCorr->pNoSul;
-				tpElem->pNoOeste     = tpMat->pNoCorr;
-				tpElem->pNoNoroeste  = tpMat->pNoCorr->pNoNorte;
-
-				// no final sta como corrente
-				tpMat->pNoCorr  = tpElem;
-
-		   }
-
-	   }
-	   //else com 8 adjacentes
-	   else{
-
-				tpElemMatriz * tpElemSudesteNo   = (tpElemMatriz *) malloc(sizeof(tpElemMatriz));
-
-		        tpElem->pNoNorte     = tpMat->pNoCorr->pNoNoroeste;
-				tpElem->pNoNordeste  = tpMat->pNoCorr->pNoNordeste->pNoLeste;
-				tpElem->pNoLeste     = tpMat->pNoCorr->pNoNordeste->pNoLeste->pNoSul;
-				tpElem->pNoSudeste   = tpElemSudesteNo;
-				tpElem->pNoSul       = tpMat->pNoCorr->pNoSudeste;
-				tpElem->pNoSudoeste  = tpMat->pNoCorr->pNoSul;
-				tpElem->pNoOeste     = tpMat->pNoCorr;
-				tpElem->pNoNoroeste  = tpMat->pNoCorr->pNoNorte;
-
-	   }
-	   
-
-   }
-
-
-   ARV_tpCondRet ARV_CriarMATRIZ( void )
-   {
-
-      if ( pMATRIZ != NULL )
-      {
-         ARV_DestruirMATRIZ( ) ;
-      } /* if */
-
-      pMATRIZ = ( tpMATRIZ * ) malloc( sizeof( tpMATRIZ )) ;
-      if ( pMATRIZ == NULL )
-      {
-         return ARV_CondRetFaltouMemoria ;
-      } /* if */
-
-      pMATRIZ->pNoRaiz = NULL ;
-      pMATRIZ->pNoCorr = NULL ;
-
-      return ARV_CondRetOK ;
-
-   } /* Fim função: ARV Criar árvore */
+}
 
 /***************************************************************************
 *
-*  Função: ARV Destruir árvore
-*  ****/
+*  Função: MAT IrNoNorte - 05/09/2013
+*  
+****/
+   
+MAT_tpCondRet MAT_IrNoNorte(tpMatriz * tpMat){
 
-   void ARV_DestruirMATRIZ( void )
-   {
-
-      if ( pMATRIZ != NULL )
+	  if ( tpMat == NULL )
       {
-         if ( pMATRIZ->pNoRaiz != NULL )
-         {
-            DestroiMATRIZ( pMATRIZ->pNoRaiz ) ;
-         } /* if */
-         free( pMATRIZ ) ;
-         pMATRIZ = NULL ;
+         return MAT_CondRetMatrizNaoExiste ;
       } /* if */
 
-   } /* Fim função: ARV Destruir árvore */
+      if ( tpMat->pNoCorr == NULL )
+      {
+         return MAT_CondRetMatrizVazia ;
+      } /* if */
+
+	  if ( tpMat->pNoCorr->pNoNorte == NULL )
+      {
+         return MAT_CondRetNaoPossuiNo ;
+      } /* if */
+
+      tpMat->pNoCorr = tpMat->pNoCorr->pNoNorte ;
+
+      return MAT_CondRetOK ;
+
+} /* Fim do IrNoNorte */
 
 /***************************************************************************
 *
-*  Função: ARV Adicionar filho à esquerda
-*  ****/
+*  Função: MAT IrNoNordeste - 05/09/2013
+*  
+****/
+   
+MAT_tpCondRet MAT_IrNoNordeste(tpMatriz * tpMat){
 
-   ARV_tpCondRet ARV_InserirEsquerda( char ValorParm )
-   {
+	  if ( tpMat == NULL )
+      {
+         return MAT_CondRetMatrizNaoExiste ;
+      } /* if */
 
-      ARV_tpCondRet CondRet ;
+      if ( tpMat->pNoCorr == NULL )
+      {
+         return MAT_CondRetMatrizVazia ;
+      } /* if */
 
-      tpNoMATRIZ * pCorr ;
-      tpNoMATRIZ * pNo ;
+	  if ( tpMat->pNoCorr->pNoNordeste == NULL )
+      {
+         return MAT_CondRetNaoPossuiNo ;
+      } /* if */
 
-      /* Tratar vazio, esquerda */
+      tpMat->pNoCorr = tpMat->pNoCorr->pNoNordeste ;
 
-         CondRet = CriarNoRaiz( ValorParm ) ;
-         if ( CondRet != ARV_CondRetNaoCriouRaiz )
-         {
-            return CondRet ;
-         } /* if */
+      return MAT_CondRetOK ;
 
-      /* Criar nó à esquerda de folha */
-
-         pCorr = pMATRIZ->pNoCorr ;
-         if ( pCorr == NULL )
-         {
-            return ARV_CondRetErroEstrutura ;
-         } /* if */
-               
-         if ( pCorr->pNoEsq == NULL )
-         {
-            pNo = CriarNo( ValorParm ) ;
-            if ( pNo == NULL )
-            {
-               return ARV_CondRetFaltouMemoria ;
-            } /* if */
-            pNo->pNoPai      = pCorr ;
-            pCorr->pNoEsq    = pNo ;
-            pMATRIZ->pNoCorr = pNo ;
-
-            return ARV_CondRetOK ;
-         } /* if */
-
-      /* Tratar não folha à esquerda */
-
-         return ARV_CondRetNaoEhFolha ;
-
-   } /* Fim função: ARV Adicionar filho à esquerda */
+} /* Fim do IrNoNordeste */
 
 /***************************************************************************
 *
-*  Função: ARV Adicionar filho à direita
-*  ****/
+*  Função: MAT IrNoLeste - 05/09/2013
+*  
+****/
+   
+MAT_tpCondRet MAT_IrNoLeste(tpMatriz * tpMat){
 
-   ARV_tpCondRet ARV_InserirDireita( char ValorParm )
-   {
+	  if ( tpMat == NULL )
+      {
+         return MAT_CondRetMatrizNaoExiste ;
+      } /* if */
 
-      ARV_tpCondRet CondRet ;
+      if ( tpMat->pNoCorr == NULL )
+      {
+         return MAT_CondRetMatrizVazia ;
+      } /* if */
 
-      tpNoMATRIZ * pCorr ;
-      tpNoMATRIZ * pNo ;
+	  if ( tpMat->pNoCorr->pNoLeste == NULL )
+      {
+         return MAT_CondRetNaoPossuiNo ;
+      } /* if */
 
-      /* Tratar vazio, direita */
+      tpMat->pNoCorr = tpMat->pNoCorr->pNoLeste ;
 
-         CondRet = CriarNoRaiz( ValorParm ) ;
-         if ( CondRet != ARV_CondRetNaoCriouRaiz )
-         {
-            return CondRet ;
-         } /* if */
+      return MAT_CondRetOK ;
 
-      /* Criar nó à direita de folha */
-
-         pCorr = pMATRIZ->pNoCorr ;
-         if ( pCorr == NULL )
-         {
-            return ARV_CondRetErroEstrutura ;
-         } /* if */
-
-         if ( pCorr->pNoDir == NULL )
-         {
-            pNo = CriarNo( ValorParm ) ;
-            if ( pNo == NULL )
-            {
-               return ARV_CondRetFaltouMemoria ;
-            } /* if */
-            pNo->pNoPai      = pCorr ;
-            pCorr->pNoDir    = pNo ;
-            pMATRIZ->pNoCorr = pNo ;
-
-            return ARV_CondRetOK ;
-         } /* if */
-
-      /* Tratar não folha à direita */
-
-         return ARV_CondRetNaoEhFolha ;
-
-   } /* Fim função: ARV Adicionar filho à direita */
+} /* Fim do MAT IrNoLeste */
 
 /***************************************************************************
 *
-*  Função: ARV Ir para nó pai
-*  ****/
+*  Função: MAT IrNoSudeste - 05/09/2013
+*  
+****/
+   
+MAT_tpCondRet MAT_IrNoSudeste(tpMatriz * tpMat){
 
-   ARV_tpCondRet ARV_IrPai( void )
-   {
-
-      if ( pMATRIZ == NULL )
+	  if ( tpMat == NULL )
       {
-         return ARV_CondRetMATRIZNaoExiste ;
-      } /* if */
-      if ( pMATRIZ->pNoCorr == NULL )
-      {
-         return ARV_CondRetMATRIZVazia ;
+         return MAT_CondRetMatrizNaoExiste ;
       } /* if */
 
-      if ( pMATRIZ->pNoCorr->pNoPai != NULL )
+      if ( tpMat->pNoCorr == NULL )
       {
-         pMATRIZ->pNoCorr = pMATRIZ->pNoCorr->pNoPai ;
-         return ARV_CondRetOK ;
-      } else {
-         return ARV_CondRetNohEhRaiz ;
+         return MAT_CondRetMatrizVazia ;
       } /* if */
 
-   } /* Fim função: ARV Ir para nó pai */
+	  if ( tpMat->pNoCorr->pNoSudeste == NULL )
+      {
+         return MAT_CondRetNaoPossuiNo ;
+      } /* if */
+
+      tpMat->pNoCorr = tpMat->pNoCorr->pNoSudeste ;
+
+      return MAT_CondRetOK ;
+
+} /* Fim do MAT IrNoSudeste */
 
 /***************************************************************************
 *
-*  Função: ARV Ir para nó à esquerda
-*  ****/
+*  Função: MAT IrNoSul - 05/09/2013
+*  
+****/
+   
+MAT_tpCondRet MAT_IrNoSul(tpMatriz * tpMat){
 
-   ARV_tpCondRet ARV_IrNoEsquerda( void )
-   {
-
-      if ( pMATRIZ == NULL )
+	  if ( tpMat == NULL )
       {
-         return ARV_CondRetMATRIZNaoExiste ;
+         return MAT_CondRetMatrizNaoExiste ;
       } /* if */
 
-      if ( pMATRIZ->pNoCorr == NULL )
+      if ( tpMat->pNoCorr == NULL )
       {
-         return ARV_CondRetMATRIZVazia ;
+         return MAT_CondRetMatrizVazia ;
       } /* if */
 
-      if ( pMATRIZ->pNoCorr->pNoEsq == NULL )
+	  if ( tpMat->pNoCorr->pNoSul == NULL )
       {
-         return ARV_CondRetNaoPossuiFilho ;
+         return MAT_CondRetNaoPossuiNo ;
       } /* if */
 
-      pMATRIZ->pNoCorr = pMATRIZ->pNoCorr->pNoEsq ;
-      return ARV_CondRetOK ;
+      tpMat->pNoCorr = tpMat->pNoCorr->pNoSul ;
 
-   } /* Fim função: ARV Ir para nó à esquerda */
+      return MAT_CondRetOK ;
+
+} /* Fim do MAT IrNoSul */
 
 /***************************************************************************
 *
-*  Função: ARV Ir para nó à direita
-*  ****/
+*  Função: MAT IrNoSudoeste - 05/09/2013
+*  
+****/
+   
+MAT_tpCondRet MAT_IrNoSudoeste(tpMatriz * tpMat){
 
-   ARV_tpCondRet ARV_IrNoDireita( void )
-   {
-
-      if ( pMATRIZ == NULL )
+	  if ( tpMat == NULL )
       {
-         return ARV_CondRetMATRIZNaoExiste ;
+         return MAT_CondRetMatrizNaoExiste ;
       } /* if */
 
-      if ( pMATRIZ->pNoCorr == NULL )
+      if ( tpMat->pNoCorr == NULL )
       {
-         return ARV_CondRetMATRIZVazia ;
+         return MAT_CondRetMatrizVazia ;
       } /* if */
 
-      if ( pMATRIZ->pNoCorr->pNoDir == NULL )
+	  if ( tpMat->pNoCorr->pNoSudoeste == NULL )
       {
-         return ARV_CondRetNaoPossuiFilho ;
+         return MAT_CondRetNaoPossuiNo ;
       } /* if */
 
-      pMATRIZ->pNoCorr = pMATRIZ->pNoCorr->pNoDir ;
-      return ARV_CondRetOK ;
+      tpMat->pNoCorr = tpMat->pNoCorr->pNoSudoeste ;
 
-   } /* Fim função: ARV Ir para nó à direita */
+      return MAT_CondRetOK ;
+
+} /* Fim do MAT IrNoSudoeste */
 
 /***************************************************************************
 *
-*  Função: ARV Obter valor corrente
+*  Função: MAT IrNoOeste - 05/09/2013
+*  
+****/
+   
+MAT_tpCondRet MAT_IrNoOeste(tpMatriz * tpMat){
+
+	  if ( tpMat == NULL )
+      {
+         return MAT_CondRetMatrizNaoExiste ;
+      } /* if */
+
+      if ( tpMat->pNoCorr == NULL )
+      {
+         return MAT_CondRetMatrizVazia ;
+      } /* if */
+
+	  if ( tpMat->pNoCorr->pNoOeste == NULL )
+      {
+         return MAT_CondRetNaoPossuiNo ;
+      } /* if */
+
+      tpMat->pNoCorr = tpMat->pNoCorr->pNoOeste ;
+
+      return MAT_CondRetOK ;
+
+} /* Fim do MAT IrNoOeste */
+
+/***************************************************************************
+*
+*  Função: MAT IrNoNoroeste - 05/09/2013
+*  
+****/
+   
+MAT_tpCondRet MAT_IrNoNoroeste(tpMatriz * tpMat){
+
+	  if ( tpMat == NULL )
+      {
+         return MAT_CondRetMatrizNaoExiste ;
+      } /* if */
+
+      if ( tpMat->pNoCorr == NULL )
+      {
+         return MAT_CondRetMatrizVazia ;
+      } /* if */
+
+	  if ( tpMat->pNoCorr->pNoNoroeste == NULL )
+      {
+         return MAT_CondRetNaoPossuiNo ;
+      } /* if */
+
+      tpMat->pNoCorr = tpMat->pNoCorr->pNoNoroeste ;
+
+      return MAT_CondRetOK ;
+
+} /* Fim do MAT IrNoNoroeste */
+
+
+
+
+/***************************************************************************
+*
+*  Função: MAT Obter Lista corrente
 *  ****/
 
-   ARV_tpCondRet ARV_ObterValorCorr( char * ValorParm )
-   {
+MAT_tpCondRet MAT_ObterListaCorr( LIS_tppLista * lst_valor )
+{
 
-      if ( pMATRIZ == NULL )
-      {
-         return ARV_CondRetMATRIZNaoExiste ;
-      } /* if */
-      if ( pMATRIZ->pNoCorr == NULL )
-      {
-         return ARV_CondRetMATRIZVazia ;
-      } /* if */
-      * ValorParm = pMATRIZ->pNoCorr->Valor ;
+    if ( tpMat == NULL )
+    {
+        return MAT_CondRetMatrizNaoExiste  ;
+    } /* if */
+	if ( tpMat->pNoCorr == NULL )
+    {
+        return MAT_CondRetMatrizVazia ;
+    } /* if */
+    lst_valor = tpMat->pNoCorr->Lista ;
 
-      return ARV_CondRetOK ;
+    return MAT_CondRetOK  ;
 
-   } /* Fim função: ARV Obter valor corrente */
+} /* Fim função: MAT Obter Lista corrente */
+
+
+/***************************************************************************
+*
+*  Função: MAT Ir para nó raiz
+*  ****/
+
+MAT_tpCondRet MAT_IrRaiz( void )
+{
+
+    if ( tpMat == NULL )
+    {
+        return MAT_CondRetMatrizNaoExiste  ;
+    } /* if */
+    if ( tpMat->pNoCorr == NULL )
+    {
+        return MAT_CondRetMatrizVazia ;
+    } /* if */
+
+    if ( tpMat->pNoRaiz != NULL )
+    {
+		tpMat->pNoCorr = tpMat->pNoRaiz ;
+        return MAT_CondRetOK ;
+    } else {
+        return MAT_CondRetNohEhRaiz ;
+    } /* if */
+
+} /* Fim função: MAT Ir para nó raiz */
 
 
 /*****  Código das funções encapsuladas no módulo  *****/
 
+
+
+/***********************************************************************
+*
+*  $FC Função: MAT Destruir a estrutura da matriz
+*		Chamada recursiva que percorre os elementos do nó corrente
+*		da um free quando chega no último elemento
+*
+*  $EAE Assertivas de entradas esperadas
+*     pMatriz != NULL
+*
+***********************************************************************/
+
+void DestroiMatriz( tpMatriz * tpMatExc )
+   {
+
+	  if ( tpMatExc->pNoCorr->pNoSudeste != NULL )
+      {
+		 tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoSudeste;
+         DestroiMatriz( tpMatExc ) ;
+      } /* if */
+
+	  if ( tpMatExc->pNoCorr->pNoSul != NULL )
+      {
+         tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoSul;
+         DestroiMatriz( tpMatExc ) ;
+      } /* if */
+
+	  if ( tpMatExc->pNoCorr->pNoSudoeste != NULL )
+      {
+         tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoSudoeste;
+         DestroiMatriz( tpMatExc ) ;
+      } /* if */
+
+	  if ( tpMatExc->pNoCorr->pNoLeste != NULL )
+      {
+         tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoOeste;
+         DestroiMatriz( tpMatExc ) ;
+      } /* if */
+
+	  if ( tpMatExc->pNoCorr->pNoOeste != NULL )
+      {
+         tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoNoroeste;
+         DestroiMatriz( tpMatExc ) ;
+      } /* if */
+
+	  if ( tpMatExc->pNoCorr->pNoNordeste != NULL )
+      {
+         tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoSul;
+         DestroiMatriz( tpMatExc ) ;
+      } /* if */
+
+	  if ( tpMatExc->pNoCorr->pNoNorte != NULL )
+      {
+         tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoSul;
+         DestroiMatriz( tpMatExc ) ;
+      } /* if */
+
+	  if ( tpMatExc->pNoCorr->pNoNoroeste != NULL )
+      {
+         tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoNoroeste;
+         DestroiMatriz( tpMatExc ) ;
+      } /* if */
+
+      free( tpMatExc ) ;
+
+   } /* Fim função: MAT Destruir a estrutura da matriz */
+
+
+/***********************************************************************
+*
+*  $FC Função: MAT Prepara a estrutura da matriz - 05/09/2013
+*
+*  $FV Valor retornado
+*     MAT_CondRetOK
+*	  MAT_CondRetFaltouMemoria
+*	  ....
+*
+***********************************************************************/
+
+MAT_tpCondRet PreparaEstruturaMatriz(){
+
+	int i = 0, j = 0;
+
+	for(;i<numElementos;i++){
+
+		for(;j<numElementos;j++){	
+
+				tpElemMatriz * tpElem = CriarNo( );
+				if(tpElem != NULL){
+					return MAT_CondRetFaltouMemoria ;
+				}
+
+				//checa se a matriz é um por um
+				if(numElementos == 1){
+					tpMat->pNoCorr       = tpElem;
+					tpMat->pNoRaiz       = tpElem;
+					tpMat->pNoIndLinha   = tpElem;
+					return MAT_CondRetOK;
+				}
+
+				//if que testa a condicão para 3 adjacentes
+				if((i==0 || j==0) && (i==numElementos || j==numElementos)){
+
+					if(i==0 && j==0){
+						tpMat->pNoCorr       = tpElem;
+						tpMat->pNoRaiz       = tpElem;
+						tpMat->pNoIndLinha   = tpElem;
+
+						tpElemMatriz * tpElemLesteCabeca   = CriarNo( );
+						tpElemMatriz * tpElemSudesteCabeca = CriarNo( );
+						tpElemMatriz * tpElemSulCabeca     = CriarNo( );
+						if(tpElemLesteCabeca==NULL || tpElemSudesteCabeca==NULL || tpElemSulCabeca==NULL){
+							return MAT_CondRetFaltouMemoria ;
+						}
+
+						tpElem->pNoLeste     = tpElemLesteCabeca;
+						tpElem->pNoSudeste   = tpElemSudesteCabeca;
+						tpElem->pNoSul       = tpElemSulCabeca;
+						tpElem->pNoSudoeste  = NULL;
+						tpElem->pNoOeste     = NULL;
+						tpElem->pNoNoroeste  = NULL;
+						tpElem->pNoNorte     = NULL;
+						tpElem->pNoNordeste  = NULL;
+					}
+					if(i==0 && j==numElementos){
+
+						tpElem->pNoSul       = tpMat->pNoCorr->pNoSudeste;
+						tpElem->pNoSudoeste  = tpMat->pNoCorr->pNoSul;
+						tpElem->pNoOeste     = tpMat->pNoCorr;
+						tpElem->pNoNoroeste  = NULL;
+						tpElem->pNoNorte     = NULL;
+						tpElem->pNoNordeste  = NULL;
+						tpElem->pNoLeste     = NULL;
+						tpElem->pNoSudoeste  = NULL;
+
+						// no final sta como corrente
+						tpMat->pNoCorr       = tpElem;
+
+					}
+					if(i==numElementos && j==0){
+
+						tpElem->pNoNorte     = tpMat->pNoIndLinha;
+						tpElem->pNoNordeste  = tpMat->pNoIndLinha->pNoLeste;
+						tpElem->pNoLeste     = tpMat->pNoIndLinha->pNoSudeste;
+						tpElem->pNoSudeste   = NULL;
+						tpElem->pNoSul       = NULL;
+						tpElem->pNoSudoeste  = NULL;
+						tpElem->pNoOeste     = NULL;
+						tpElem->pNoNoroeste  = NULL;
+
+						// no final sta como corrente
+						tpMat->pNoCorr      = tpElem;
+						// no final aponta o indice da linha para o primeiro elemento da linha
+						tpMat->pNoIndLinha  = tpElem;
+
+					}
+					if(i==numElementos && j==numElementos){
+
+						tpElem->pNoNorte     = tpMat->pNoCorr->pNoNordeste;
+						tpElem->pNoNoroeste  = tpMat->pNoCorr->pNoNorte;
+						tpElem->pNoOeste     = tpMat->pNoCorr;
+						tpElem->pNoNordeste  = NULL;
+						tpElem->pNoLeste     = NULL;
+						tpElem->pNoSudeste   = NULL;
+						tpElem->pNoSul       = NULL;
+						tpElem->pNoSudoeste  = NULL;
+
+						// no final sta como corrente
+						tpMat->pNoCorr  = tpElem;
+
+					}
+
+				}
+
+				//if que testa a condição para 5 adjacentes
+				else if(i==0 || i==numElementos || j==0 || j==numElementos){
+
+
+					if(i==0 && (j!=numElementos || j!=0)){
+			    
+						tpElemMatriz * tpElemLesteNo   = CriarNo( );
+						tpElemMatriz * tpElemSudesteNo = CriarNo( );
+						if(tpElemLesteNo==NULL || tpElemSudesteNo==NULL){
+							return MAT_CondRetFaltouMemoria ;
+						}
+
+						tpElem->pNoLeste    = tpElemLesteNo;
+						tpElem->pNoSudeste  = tpElemSudesteNo;
+						tpElem->pNoSul      = tpMat->pNoCorr->pNoSudeste;
+						tpElem->pNoSudoeste = tpMat->pNoCorr->pNoSul;
+						tpElem->pNoOeste    = tpMat->pNoCorr;
+						tpElem->pNoNordeste = NULL;
+						tpElem->pNoNorte    = NULL;
+						tpElem->pNoNoroeste = NULL;
+
+
+						// no final sta como corrente
+						tpMat->pNoCorr  = tpElem;
+
+					}
+					if(j==0 && (i!=numElementos || i!=0)){
+
+						tpElemMatriz * tpElemSulNo     = CriarNo( );
+						tpElemMatriz * tpElemSudesteNo = CriarNo( );
+						if(tpElemSulNo==NULL || tpElemSudesteNo==NULL){
+							return MAT_CondRetFaltouMemoria ;
+						}
+
+						tpElem->pNoSudeste  = tpElemSudesteNo;
+						tpElem->pNoSul      = tpElemSulNo;
+						tpElem->pNoLeste    = tpMat->pNoCorr->pNoSudeste;				
+						tpElem->pNoNordeste = tpMat->pNoCorr->pNoLeste;
+						tpElem->pNoNorte    = tpMat->pNoCorr;
+						tpElem->pNoNoroeste = NULL;
+						tpElem->pNoOeste    = NULL;
+						tpElem->pNoSudoeste = NULL;
+
+						// no final sta como corrente
+						tpMat->pNoCorr      = tpElem;
+						// no final aponta o indice da linha para o primeiro elemento da linha
+						tpMat->pNoIndLinha  = tpElem;
+
+					}
+					if(i==numElementos && (j!=numElementos || j!=0)){
+			    
+						tpElemMatriz * tpElemLesteNo   = CriarNo( );
+						if(tpElemLesteNo==NULL){
+							return MAT_CondRetFaltouMemoria ;
+						}
+
+						tpElem->pNoLeste    = tpElemLesteNo;
+						tpElem->pNoNordeste = tpMat->pNoCorr->pNoNordeste->pNoLeste;
+						tpElem->pNoNorte    = tpMat->pNoCorr->pNoNordeste;
+						tpElem->pNoNoroeste = tpMat->pNoCorr->pNoNorte;
+						tpElem->pNoOeste    = tpMat->pNoCorr->pNoNoroeste;
+						tpElem->pNoSudoeste = NULL;
+						tpElem->pNoSul      = NULL;
+						tpElem->pNoSudeste  = NULL;
+
+						// no final sta como corrente
+						tpMat->pNoCorr  = tpElem;
+
+					}
+					if(j==numElementos && (i!=numElementos || i!=0)){
+
+						tpElem->pNoNorte     = tpMat->pNoCorr->pNoNoroeste;
+						tpElem->pNoSul       = tpMat->pNoCorr->pNoSudeste;
+						tpElem->pNoSudoeste  = tpMat->pNoCorr->pNoSul;
+						tpElem->pNoOeste     = tpMat->pNoCorr;
+						tpElem->pNoNoroeste  = tpMat->pNoCorr->pNoNorte;
+						tpElem->pNoNordeste  = NULL;
+						tpElem->pNoLeste     = NULL;
+						tpElem->pNoSudeste   = NULL;
+
+						// no final sta como corrente
+						tpMat->pNoCorr  = tpElem;
+
+					}
+
+				}
+				//else com 8 adjacentes
+				else{
+
+						tpElemMatriz * tpElemSudesteNo   = CriarNo( );
+						if(tpElemSudesteNo==NULL){
+							return MAT_CondRetFaltouMemoria ;
+						}
+
+
+						tpElem->pNoNorte     = tpMat->pNoCorr->pNoNoroeste;
+						tpElem->pNoNordeste  = tpMat->pNoCorr->pNoNordeste->pNoLeste;
+						tpElem->pNoLeste     = tpMat->pNoCorr->pNoNordeste->pNoLeste->pNoSul;
+						tpElem->pNoSudeste   = tpElemSudesteNo;
+						tpElem->pNoSul       = tpMat->pNoCorr->pNoSudeste;
+						tpElem->pNoSudoeste  = tpMat->pNoCorr->pNoSul;
+						tpElem->pNoOeste     = tpMat->pNoCorr;
+						tpElem->pNoNoroeste  = tpMat->pNoCorr->pNoNorte;
+
+				}
+		}
+
+	}
+	 
+	return MAT_CondRetOK;
+
+}
 
 /***********************************************************************
 *
@@ -581,96 +774,83 @@ MAT_tpCondRet MAT_CriarMatriz( void ){
 *
 ***********************************************************************/
 
-   tpNoMATRIZ * CriarNo( char ValorParm )
+   tpElemMatriz * CriarNo( )
    {
 
-      tpNoMATRIZ * pNo ;
+      tpElemMatriz * pNoMatriz ;
 
-      pNo = ( tpNoMATRIZ * ) malloc( sizeof( tpNoMATRIZ )) ;
-      if ( pNo == NULL )
+      pNoMatriz = ( tpElemMatriz * ) malloc( sizeof( tpElemMatriz )) ;
+      if ( pNoMatriz == NULL )
       {
          return NULL ;
       } /* if */
 
-      pNo->pNoPai = NULL ;
-      pNo->pNoEsq = NULL ;
-      pNo->pNoDir = NULL ;
-      pNo->Valor  = ValorParm ;
-      return pNo ;
+	  pNoMatriz->Lista       = NULL ;
+	  pNoMatriz->pNoLeste    = NULL ;
+	  pNoMatriz->pNoNordeste = NULL ;
+	  pNoMatriz->pNoNoroeste = NULL ;
+	  pNoMatriz->pNoNorte    = NULL ;
+	  pNoMatriz->pNoOeste    = NULL ;
+	  pNoMatriz->pNoSudeste  = NULL ;
+	  pNoMatriz->pNoSudoeste = NULL ;
+	  pNoMatriz->pNoSul      = NULL ;
+
+      return pNoMatriz ;
 
    } /* Fim função: ARV Criar nó da árvore */
 
 
 /***********************************************************************
 *
-*  $FC Função: ARV Criar nó raiz da árvore
+*  $FC Função: MAT Criar nó raiz da matriz
 *
 *  $FV Valor retornado
-*     ARV_CondRetOK
-*     ARV_CondRetFaltouMemoria
-*     ARV_CondRetNaoCriouRaiz
+*     MAT_CondRetOK
+*     MAT_CondRetFaltouMemoria
+*     MAT_CondRetNaoCriouRaiz
 *
 ***********************************************************************/
 
-   ARV_tpCondRet CriarNoRaiz( char ValorParm )
-   {
+MAT_tpCondRet CriarNoRaiz()
+{
 
-      ARV_tpCondRet CondRet ;
-      tpNoMATRIZ * pNo ;
+    MAT_tpCondRet CondRet ;
+    tpElemMatriz * tpElNo;
 
-      if ( pMATRIZ == NULL )
-      {
-         CondRet = ARV_CriarMATRIZ( ) ;
+	if ( tpMat == NULL )
+    {
+		CondRet = MAT_CriarMatriz( ) ;
 
-         if ( CondRet != ARV_CondRetOK )
-         {
-            return CondRet ;
-         } /* if */
-      } /* if */
+        if ( CondRet != MAT_CondRetOK )
+        {
+        return CondRet ;
+        } /* if */
+    } /* if */
 
-      if ( pMATRIZ->pNoRaiz == NULL )
-      {
-         pNo = CriarNo( ValorParm ) ;
-         if ( pNo == NULL )
-         {
-            return ARV_CondRetFaltouMemoria ;
-         } /* if */
-         pMATRIZ->pNoRaiz = pNo ;
-         pMATRIZ->pNoCorr = pNo ;
+	if ( tpMat->pNoRaiz == NULL )
+    {
 
-         return ARV_CondRetOK ;
-      } /* if */
+		CondRet = PreparaEstruturaMatriz();			
+		if ( CondRet != MAT_CondRetOK )
+        {
+        return CondRet ;
+        } /* if */
 
-      return ARV_CondRetNaoCriouRaiz ;
+        tpElNo = CriarNo( ) ;
+        if ( tpElNo == NULL )
+        {
+        return MAT_CondRetFaltouMemoria ;
+        } /* if */
+        tpMat->pNoRaiz     = tpElNo ;
+        tpMat->pNoCorr     = tpElNo ;
+		tpMat->pNoIndLinha = tpElNo ;
 
-   } /* Fim função: ARV Criar nó raiz da árvore */
+        return MAT_CondRetOK  ;
+    } /* if */
 
+    return MAT_CondRetNaoCriouRaiz ;
 
-/***********************************************************************
-*
-*  $FC Função: ARV Destruir a estrutura da árvore
-*
-*  $EAE Assertivas de entradas esperadas
-*     pNoMATRIZ != NULL
-*
-***********************************************************************/
+} /* Fim função: MAT Criar nó raiz da matriz */
 
-   void DestroiMATRIZ( tpNoMATRIZ * pNo )
-   {
-
-      if ( pNo->pNoEsq != NULL )
-      {
-         DestroiMATRIZ( pNo->pNoEsq ) ;
-      } /* if */
-
-      if ( pNo->pNoDir != NULL )
-      {
-         DestroiMATRIZ( pNo->pNoDir ) ;
-      } /* if */
-
-      free( pNo ) ;
-
-   } /* Fim função: ARV Destruir a estrutura da árvore */
-
-/********** Fim do módulo de implementação: Módulo árvore **********/
+/********** Fim do módulo de implementação: Módulo matriz **********/
 

@@ -5,32 +5,23 @@
 *  $MCD Módulo de definição: Módulo árvore
 *
 *  Arquivo gerado:              MATRIZ.H
-*  Letras identificadoras:      ARV
+*  Letras identificadoras:      MAT
 *
 *  Nome da base de software:    Exemplo de teste automatizado
 *  Arquivo da base de software: D:\AUTOTEST\PROJETOS\SIMPLES.BSW
 *
-*  Projeto: Disciplinas INF 1628 / 1301
-*  Gestor:  DI/PUC-Rio
-*  Autores: avs - Arndt von Staa
+*  Projeto: INF 1301 Automatização dos testes de módulos C
+*  Gestor:  LES/DI/PUC-Rio
+*  Autores: aw - Alexandre Werneck
+*           fe - Fernanda Ribeiro
+*			vi - Vinicius
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*       3.00   avs   28/02/2003 Uniformização da interface das funções e
-*                               de todas as condições de retorno.
-*       2.00   avs   03/08/2002 Eliminação de código duplicado, reestruturação
-*       1.00   avs   15/08/2001 Início do desenvolvimento
+*       1.00   aw   29/08/2013 Início do desenvolvimento
 *
 *  $ED Descrição do módulo
-*     Este módulo implementa um conjunto simples de funções para criar e
-*     explorar árvores binárias.
-*     A árvore possui uma cabeça que contém uma referência para a raíz da
-*     árvore e outra para um nó corrente da árvore.
-*     A cada momento o módulo admite no máximo uma única árvore.
-*     Ao iniciar a execução do programa não existe árvore.
-*     A árvore poderá estar vazia. Neste caso a raiz e o nó corrente
-*     serão nulos, embora a cabeça esteja definida.
-*     O nó corrente será nulo se e somente se a árvore estiver vazia.
+*     .......
 *
 ***************************************************************************/
  
@@ -40,6 +31,16 @@
    #define MATRIZ_EXT extern
 #endif
 
+/***** Declarações exportadas pelo módulo *****/
+
+/* Tipo referência para uma matriz */
+
+typedef struct MAT_tgMatriz * MAT_tppMatriz ;
+
+/* Tipo referência para uma lista */
+
+typedef struct LIS_tagLista * LIS_tpMatLista ;
+
 
 /***********************************************************************
 *
@@ -48,169 +49,220 @@
 *
 ***********************************************************************/
 
-   typedef enum {
+typedef enum {
 
-         ARV_CondRetOK = 0 ,
-               /* Executou correto */
+        MAT_CondRetOK = 0 ,
+            /* Executou correto */
 
-         ARV_CondRetNaoCriouRaiz = 1 ,
-               /* Não criou nó raiz */
+        MAT_CondRetNaoCriouRaiz = 1 ,
+            /* Não criou nó raiz */
 
-         ARV_CondRetErroEstrutura = 2 ,
-               /* Estrutura da árvore está errada */
+        MAT_CondRetErroEstrutura = 2 ,
+            /* Estrutura da matriz está errada */
+			
+        MAT_CondRetMatrizNaoExiste = 3 ,
+            /* Matriz não existe */
 
-         ARV_CondRetNaoEhFolha = 3 ,
-               /* Não é folha relativa à direção de inserção desejada */
+        MAT_CondRetMatrizVazia = 4 ,
+            /* Matriz está vazia */
 
-         ARV_CondRetMATRIZNaoExiste = 4 ,
-               /* Árvore não existe */
+        MAT_CondRetNohEhRaiz = 5 ,
+            /* Nó corrente é raiz */
 
-         ARV_CondRetMATRIZVazia = 5 ,
-               /* Árvore está vazia */
+		MAT_CondRetNaoPossuiNo = 6 ,
+            /* Faltou memória ao alocar dados */
 
-         ARV_CondRetNohEhRaiz = 6 ,
-               /* Nó corrente é raiz */
+		MAT_CondRetMatrizCheia  = 7 ,
+            /* Faltou espaço para inserir listas */
 
-         ARV_CondRetNaoPossuiFilho = 7 ,
-               /* Nó corrente não possui filho na direção desejada */
+        MAT_CondRetFaltouMemoria = 9
+            /* Faltou memória ao alocar dados */
 
-         ARV_CondRetFaltouMemoria = 8
-               /* Faltou memória ao alocar dados */
-
-   } ARV_tpCondRet ;
+} MAT_tpCondRet ;
 
 
 /***********************************************************************
 *
-*  $FC Função: ARV Criar árvore
+*  $FC Função: MAT Criar matriz
 *
 *  $ED Descrição da função
-*     Cria uma nova árvore vazia.
-*     Caso já exista uma árvore, esta será destruída.
+*     Cria uma nova matriz vazia.
+*     Caso já exista uma matriz, esta será destruída.
 *
 *  $FV Valor retornado
-*     ARV_CondRetOK
-*     ARV_CondRetFaltouMemoria
+*     MAT_CondRetOK
+*     MAT_CondRetFaltouMemoria
 *
 ***********************************************************************/
 
-   ARV_tpCondRet ARV_CriarMATRIZ( void ) ;
+MAT_tpCondRet MAT_CriarMatriz( void );
 
 
 /***********************************************************************
 *
-*  $FC Função: ARV Destruir árvore
+*  $FC Função: MAT Destruir matriz
 *
 *  $ED Descrição da função
+///////////////////////////////////////////////////////////
 *     Destrói o corpo e a cabeça da árvore, anulando a árvore corrente.
 *     Faz nada caso a árvore corrente não exista.
 *
 ***********************************************************************/
 
-   void ARV_DestruirMATRIZ( void ) ;
+void DestroiMatriz( void ) ;
 
 
 /***********************************************************************
 *
-*  $FC Função: ARV Adicionar filho à esquerda
+*  $FC Função: MAT Ir para nó norte
+*
+*  $FV Valor retornado
+*     MAT_CondRetMatrizNaoExiste
+*     MAT_CondRetMatrizVazia
+*     MAT_CondRetNaoPossuiNo
+*     MAT_CondRetOK
+*
+***********************************************************************/
+
+MAT_tpCondRet MAT_IrNoNorte(MAT_tppMatriz * tpMat);
+
+
+/***********************************************************************
+*
+*  $FC Função: MAT Ir para nó nordeste
+*
+*  $FV Valor retornado
+*     MAT_CondRetMatrizNaoExiste
+*     MAT_CondRetMatrizVazia
+*     MAT_CondRetNaoPossuiNo
+*     MAT_CondRetOK
+*
+***********************************************************************/
+
+MAT_tpCondRet MAT_IrNoNordeste(MAT_tppMatriz * tpMat) ;
+
+
+/***********************************************************************
+*
+*  $FC Função: MAT Ir para nó leste
+*
+*  $FV Valor retornado
+*     MAT_CondRetMatrizNaoExiste
+*     MAT_CondRetMatrizVazia
+*     MAT_CondRetNaoPossuiNo
+*     MAT_CondRetOK
+*
+***********************************************************************/
+
+MAT_tpCondRet MAT_IrNoLeste(MAT_tppMatriz * tpMat) ;
+
+/***********************************************************************
+*
+*  $FC Função: MAT Ir para nó sudeste
+*
+*  $FV Valor retornado
+*     MAT_CondRetMatrizNaoExiste
+*     MAT_CondRetMatrizVazia
+*     MAT_CondRetNaoPossuiNo
+*     MAT_CondRetOK
+*
+***********************************************************************/
+
+MAT_tpCondRet MAT_IrNoSudeste(MAT_tppMatriz * tpMat) ;
+
+
+/***********************************************************************
+*
+*  $FC Função: MAT Ir para nó sul
+*
+*  $FV Valor retornado
+*     MAT_CondRetMatrizNaoExiste
+*     MAT_CondRetMatrizVazia
+*     MAT_CondRetNaoPossuiNo
+*     MAT_CondRetOK
+*
+***********************************************************************/
+
+MAT_tpCondRet MAT_IrNoSul(MAT_tppMatriz * tpMat) ;
+
+/***********************************************************************
+*
+*  $FC Função: MAT Ir para nó sudoeste
+*
+*  $FV Valor retornado
+*     MAT_CondRetMatrizNaoExiste
+*     MAT_CondRetMatrizVazia
+*     MAT_CondRetNaoPossuiNo
+*     MAT_CondRetOK
+*
+***********************************************************************/
+
+MAT_tpCondRet MAT_IrNoSudoeste(MAT_tppMatriz * tpMat) ;
+
+/***********************************************************************
+*
+*  $FC Função: MAT Ir para nó oeste
+*
+*  $FV Valor retornado
+*     MAT_CondRetMatrizNaoExiste
+*     MAT_CondRetMatrizVazia
+*     MAT_CondRetNaoPossuiNo
+*     MAT_CondRetOK
+*
+***********************************************************************/
+
+MAT_tpCondRet MAT_IrNoOeste(MAT_tppMatriz * tpMat) ;
+
+/***********************************************************************
+*
+*  $FC Função: MAT Ir para nó noroeste
+*
+*  $FV Valor retornado
+*     MAT_CondRetMatrizNaoExiste
+*     MAT_CondRetMatrizVazia
+*     MAT_CondRetNaoPossuiNo
+*     MAT_CondRetOK
+*
+***********************************************************************/
+
+MAT_tpCondRet MAT_IrNoNoroeste(MAT_tppMatriz * tpMat) ;
+
+/***********************************************************************
+*
+*  $FC Função: MAT Obter valor corrente
 *
 *  $EP Parâmetros
-*     $P ValorParm - valor a ser inserido no novo nó.
+*     $P ValorParm - é o parâmetro que receberá o valor contido 
+* 	 				 no ponteiro da lista
 *
 *  $FV Valor retornado
-*     ARV_CondRetOK
-*     ARV_CondRetErroEstrutura
-*     ARV_CondRetFaltouMemoria
-*     ARV_CondRetNaoEhFolha     - caso não seja folha para a esquerda
+*     MAT_CondRetMatrizNaoExiste
+*     MAT_CondRetMatrizVazia
+*     MAT_CondRetOK
 *
 ***********************************************************************/
 
-   ARV_tpCondRet ARV_InserirEsquerda( char ValorParm ) ;
+MAT_tpCondRet MAT_ObterListaCorr( LIS_tpMatLista * lst_valor ) ;
 
 
 /***********************************************************************
 *
-*  $FC Função: ARV Adicionar filho à direita
+*  $FC Função: MAT Ir raiz
 *
-*  $EP Parâmetros
-*     $P ValorParm - valor a ser inserido no novo nó
 *
 *  $FV Valor retornado
-*     ARV_CondRetOK
-*     ARV_CondRetErroEstrutura
-*     ARV_CondRetFaltouMemoria
-*     ARV_CondRetNaoEhFolha     - caso não seja folha para a direita
+*     MAT_CondRetMatrizNaoExiste
+*     MAT_CondRetMatrizVazia
+*	  MAT_CondRetOK
+*     MAT_CondRetNohEhRaiz
 *
 ***********************************************************************/
 
-   ARV_tpCondRet ARV_InserirDireita( char ValorParm ) ;
-
-
-/***********************************************************************
-*
-*  $FC Função: ARV Ir para nó pai
-*
-*  $FV Valor retornado
-*     ARV_CondRetOK
-*     ARV_CondRetMATRIZNaoExiste
-*     ARV_CondRetMATRIZVazia
-*     ARV_CondRetNoEhRaiz
-*
-***********************************************************************/
-
-   ARV_tpCondRet ARV_IrPai( void ) ;
-
-
-/***********************************************************************
-*
-*  $FC Função: ARV Ir para nó à esquerda
-*
-*  $FV Valor retornado
-*     ARV_CondRetOK
-*     ARV_CondRetMATRIZNaoExiste
-*     ARV_CondRetMATRIZVazia
-*     ARV_CondRetNaoPossuiFilho   - nó corrente não possui filho à esquerda
-*
-***********************************************************************/
-
-   ARV_tpCondRet ARV_IrNoEsquerda( void ) ;
-
-
-/***********************************************************************
-*
-*  $FC Função: ARV Ir para nó à direita
-*
-*  $FV Valor retornado
-*     ARV_CondRetOK
-*     ARV_CondRetMATRIZNaoExiste
-*     ARV_CondRetMATRIZVazia
-*     ARV_CondRetNaoPossuiFilho   - nó corrente não possui filho à direita
-*
-***********************************************************************/
-
-   ARV_tpCondRet ARV_IrNoDireita( void ) ;
-
-
-/***********************************************************************
-*
-*  $FC Função: ARV Obter valor corrente
-*
-*  $EP Parâmetros
-*     $P ValorParm - é o parâmetro que receberá o valor contido no nó.
-*                    Este parâmetro é passado por referência.
-*
-*  $FV Valor retornado
-*     ARV_CondRetOK
-*     ARV_CondRetMATRIZNaoExiste
-*     ARV_CondRetMATRIZVazia
-*
-***********************************************************************/
-
-   ARV_tpCondRet ARV_ObterValorCorr( char * ValorParm ) ;
+MAT_tpCondRet MAT_IrRaiz( void );
 
 #undef MATRIZ_EXT
 
-/********** Fim do módulo de definição: Módulo árvore **********/
+/********** Fim do módulo de definição: Módulo matriz **********/
 
 #else
 #endif

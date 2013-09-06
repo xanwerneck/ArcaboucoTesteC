@@ -1,0 +1,29 @@
+MAT_CondRetOK = 0 ,
+            /* Executou correto */
+
+        
+MAT_CondRetNaoCriouRaiz = 1 ,
+            /* Não criou nó raiz */
+
+
+MAT_CondRetErroEstrutura = 2 ,
+            /* Estrutura da árvore está errada */
+			
+MAT_CondRetMatrizNaoExiste = 3 ,
+            /* Árvore não existe */
+
+ 
+MAT_CondRetMatrizVazia = 4 ,
+            /* Árvore está vazia */
+
+        
+MAT_CondRetNohEhRaiz = 5 ,
+            /* Nó corrente é raiz */
+
+ 
+MAT_CondRetNaoPossuiNo = 6
+            /* Faltou memória ao alocar dados */
+MAT_CondRetMatrizCheia = 7
+           /* Faltou espaço para inserir listas */      
+MAT_CondRetFaltouMemoria = 9
+            /* Faltou memória ao alocar dados */
