@@ -107,8 +107,15 @@ MAT_tppMatriz  vtMatrizes[ DIM_VT_MATRIZ ] ;
 
          } /* fim ativa: Testar MAT Criar matriz */
 
-		Testes que faltam ser feitos
 		/* Testar MAT Inserir Lista na Matriz */
+
+		if( strcmp( ComandoTeste , INSERIR_LISTA_MATRIZ_CMD ) == 0 )
+		{
+
+			NumLidos = LER_LerParametros ( "" , &CondRetEsperada );
+
+		}
+
 		/* Testar MAT Ir norte do no corrente */
 		/* Testar MAT Ir nordeste do no corrente */
 		/* Testar MAT Ir leste do no corrente */
