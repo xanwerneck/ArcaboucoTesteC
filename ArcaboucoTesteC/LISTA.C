@@ -1,5 +1,5 @@
 /***************************************************************************
-*  $MCI Módulo de implementação: LIS  Lista duplamente encadeada adaptada para trabalhar com caracteres
+*  $MCI Módulo de implementação: LIS  Lista duplamente encadeada
 *
 *  Arquivo gerado:              LISTA.c
 *  Letras identificadoras:      LIS
@@ -7,15 +7,16 @@
 *  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
 *  Arquivo da base de software: D:\AUTOTEST\PROJETOS\LISTA.BSW
 *
-*  Projeto: INF 1301 Automatização dos testes de módulos C
+*  Projeto: INF 1301 / 1628 Automatização dos testes de módulos C
 *  Gestor:  LES/DI/PUC-Rio
-*  Autores: aw - Alexandre Werneck
-*           fe - Fernanda Ribeiro
-*			vi - Vinicius
+*  Autores: avs
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*       1.00   aw   29/08/2013 Início do desenvolvimento
+*     4       avs   01/fev/2006 criar linguagem script simbólica
+*     3       avs   08/dez/2004 uniformização dos exemplos
+*     2       avs   07/jul/2003 unificação de todos os módulos em um só projeto
+*     1       avs   16/abr/2003 início desenvolvimento
 *
 ***************************************************************************/
 
@@ -27,21 +28,22 @@
 
 #define LISTA_OWN
 #include "LISTA.h"
-//arquivo de interface do módulo - 03/09/2013
 #undef LISTA_OWN
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: LIS Elemento da lista - 03/09/2013
+*  $TC Tipo de dados: LIS Elemento da lista
 *
 *
 ***********************************************************************/
 
    typedef struct tagElemLista {
 
+
          char pValor ;
-               /* Valor contido no elemento do tipo char */
-		 //Lista trabalhando com caracter - 02/09/2013
+               /* Ponteiro para o valor contido no elemento */
+	   // fe: Troquei o tipo de pValor, de (void *) para (char) 
+	   //		já que o enunciado parecer querer que pValor armazene caracter e não um array de caracteres
 
          struct tagElemLista * pAnt ;
                /* Ponteiro para o elemento predecessor */
@@ -53,7 +55,7 @@
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: LIS Descritor da cabeça de lista - 03/09/2013
+*  $TC Tipo de dados: LIS Descritor da cabeça de lista
 *
 *
 ***********************************************************************/
@@ -72,21 +74,21 @@
          int numElem ;
                /* Número de elementos da lista */
 
-         void ( * ExcluirValor ) ( char pValor ) ;
+         void ( * ExcluirValor ) ( char * pValor ) ; 
                /* Ponteiro para a função de destruição do valor contido em um elemento */
-		 //a função de destruir valor recebe um ponteiro para o elemento a ser destruído
-		 // estou em dúvida, ver com fe e vi, é ponteiro ou o char
+		 // fe: Troquei o parâmetro de ExcluirValor de (void *) para (char *) porque a função deleta o pValor por referência.
 
    } LIS_tpLista ;
 
-   /***** Protótipos das funções encapuladas no módulo *****/
+/***** Protótipos das funções encapuladas no módulo *****/
 
    static void LiberarElemento( LIS_tppLista   pLista ,
                                 tpElemLista  * pElem   ) ;
 
    static tpElemLista * CriarElemento( LIS_tppLista pLista ,
                                        char       pValor  ) ;
-   // criar elemento agora recebe um char e não mais o ponteiro void - 03/09/2013
+   // fe: Novamente, troquei o tipo do parâmetro pValor de (void *) para (char) 
+   //	já que ele vai utilizar o conteúdo da variável e não vai alterar seu valor por referência.
 
    static void LimparCabeca( LIS_tppLista pLista ) ;
 
@@ -94,57 +96,53 @@
 
 /***************************************************************************
 *
-*  Função: LIS  &Criar lista - 03/09/2013
+*  Função: LIS  &Criar lista
 *  ****/
 
-   LIS_tppLista LIS_CriarLista(
-             void   ( * ExcluirValor ) ( char pDado ) ) // duvida se ponteiro ou char
+   LIS_tpCondRet LIS_CriarLista(
+             void   ( * ExcluirValor ) ( char * pDado ) , LIS_tpLista * tpListaCriada )
+			 // fe: Troquei de (void *) parar (char *) porque a função deleta por referência.
    {
 
       LIS_tpLista * pLista = NULL ;
-	  // instancia uma variavel do tipo tpLista - 03/09/2013
 
       pLista = ( LIS_tpLista * ) malloc( sizeof( LIS_tpLista )) ;
-	  // aloca uma espaco de memoria para o tipo de lista - 03/09/2013
-
       if ( pLista == NULL )
       {
-         return NULL ;
+		  return LIS_CondRetFaltouMemoria;
       } /* if */
 
       LimparCabeca( pLista ) ;
-	  // chama uma funcao encapsulada do módulo - 03/09/2013
 
       pLista->ExcluirValor = ExcluirValor ;
+      
+	  tpListaCriada = pLista;
 
-      return pLista ;
+	  return LIS_CondRetOK ;
 
    } /* Fim função: LIS  &Criar lista */
 
 /***************************************************************************
 *
-*  Função: LIS  &Destruir lista - 03/09/2013
+*  Função: LIS  &Destruir lista
 *  ****/
 
    void LIS_DestruirLista( LIS_tppLista pLista )
    {
-	   // não entendemos o que faz aqui - 03/09/2013
+
       #ifdef _DEBUG
          assert( pLista != NULL ) ;
       #endif
 
       LIS_EsvaziarLista( pLista ) ;
-	  // chama uma funcao para limpar toda a lista antes de dar free
 
       free( pLista ) ;
 
    } /* Fim função: LIS  &Destruir lista */
 
-
 /***************************************************************************
 *
-*  Função: LIS  &Esvaziar lista - 03/09/2013
-*				Percorre a lista limpando os elementos da lista
+*  Função: LIS  &Esvaziar lista
 *  ****/
 
    void LIS_EsvaziarLista( LIS_tppLista pLista )
@@ -162,8 +160,6 @@
       {
          pProx = pElem->pProx ;
          LiberarElemento( pLista , pElem ) ;
-		 // chama o libera elemento, função encapsulada no módulo
-
          pElem = pProx ;
       } /* while */
 
@@ -173,12 +169,14 @@
 
 /***************************************************************************
 *
-*  Função: LIS  &Inserir elemento antes - 03/09/2013
+*  Função: LIS  &Inserir elemento antes
 *  ****/
 
    LIS_tpCondRet LIS_InserirElementoAntes( LIS_tppLista pLista ,
-                                           char pValor        ) // recebe um char para inserir
+                                           char pValor        )
    {
+	   // fe: Novamente, troquei o tipo do parâmetro pValor de (void *) para (char) 
+	   //		já que ele vai utilizar o conteúdo da variável e não vai alterar seu valor por referência.
 
       tpElemLista * pElem ;
 
@@ -186,11 +184,10 @@
          assert( pLista != NULL ) ;
       #endif
 
-      /* Criar elemento a inerir antes */
+      /* Criar elemento a inserir antes */
 
          pElem = CriarElemento( pLista , pValor ) ;
-		 // insere um elemento na lista
-
+		 // fe: CriarElementos já tem pValor como tipo char
          if ( pElem == NULL )
          {
             return LIS_CondRetFaltouMemoria ;
@@ -223,16 +220,17 @@
 
    } /* Fim função: LIS  &Inserir elemento antes */
 
-
 /***************************************************************************
 *
-*  Função: LIS  &Inserir elemento após - 03/09/2013
+*  Função: LIS  &Inserir elemento após
 *  ****/
 
    LIS_tpCondRet LIS_InserirElementoApos( LIS_tppLista pLista ,
                                           char pValor        )
       
    {
+	// fe: Novamente, troquei o tipo do parâmetro pValor de (void *) para (char) 
+	//	já que ele vai utilizar o conteúdo da variável e não vai alterar seu valor por referência.
 
       tpElemLista * pElem ;
 
@@ -240,7 +238,7 @@
          assert( pLista != NULL ) ;
       #endif
 
-      /* Criar elemento a inerir após */
+      /* Criar elemento a inserir após */
 
          pElem = CriarElemento( pLista , pValor ) ;
          if ( pElem == NULL )
@@ -278,7 +276,7 @@
 
 /***************************************************************************
 *
-*  Função: LIS  &Excluir elemento - 03/09/2013
+*  Função: LIS  &Excluir elemento
 *  ****/
 
    LIS_tpCondRet LIS_ExcluirElemento( LIS_tppLista pLista )
@@ -324,14 +322,15 @@
 
    } /* Fim função: LIS  &Excluir elemento */
 
-
 /***************************************************************************
 *
-*  Função: LIS  &Obter referência para o valor contido no elemento - 03/09/2013
+*  Função: LIS  &Obter referência para o valor contido no elemento
 *  ****/
 
-   void * LIS_ObterValor( LIS_tppLista pLista )
+   char * LIS_ObterValor( LIS_tppLista pLista )
    {
+	   // fe: Aqui, tem que ser (char *) no retorno da função porque a função acessa pValor de pLista que é passada como parâmetro para ela. 
+	   //		Ela vai retornar o ponteiro do pValor de pLista.
 
       #ifdef _DEBUG
          assert( pLista != NULL ) ;
@@ -342,13 +341,16 @@
         return NULL ;
       } /* if */
 
-      return pLista->pElemCorr->pValor ;
+      return & pLista->pElemCorr->pValor ;
+
+	  // fe: Aqui, em vez de retornar o conteúdo da variável pValor, a função retorna o ponteiro de pValor, 
+	  //		já que a pLista foi criada fora da função LIS-ObterValor, não vai ter problema.
 
    } /* Fim função: LIS  &Obter referência para o valor contido no elemento */
 
 /***************************************************************************
 *
-*  Função: LIS  &Ir para o elemento inicial - 03/09/2013
+*  Função: LIS  &Ir para o elemento inicial
 *  ****/
 
    void IrInicioLista( LIS_tppLista pLista )
@@ -380,7 +382,7 @@
 
 /***************************************************************************
 *
-*  Função: LIS  &Avançar elemento - 03/09/2013
+*  Função: LIS  &Avançar elemento
 *  ****/
 
    LIS_tpCondRet LIS_AvancarElementoCorrente( LIS_tppLista pLista ,
@@ -464,12 +466,14 @@
 
 /***************************************************************************
 *
-*  Função: LIS  &Procurar elemento contendo valor - 03/09/2013
+*  Função: LIS  &Procurar elemento contendo valor
 *  ****/
 
    LIS_tpCondRet LIS_ProcurarValor( LIS_tppLista pLista ,
                                     char pValor        )
    {
+   // fe: Novamente, troquei o tipo do parâmetro pValor de (void *) para (char) 
+   //	já que ele vai utilizar o conteúdo da variável e não vai alterar seu valor por referência.
 
       tpElemLista * pElem ;
 
@@ -498,12 +502,12 @@
    } /* Fim função: LIS  &Procurar elemento contendo valor */
 
 
-/*****  Código das funções encapsuladas no módulo - 03/09/2013  *****/
+/*****  Código das funções encapsuladas no módulo  *****/
 
 
 /***********************************************************************
 *
-*  $FC Função: LIS  -Liberar elemento da lista - 03/09/2013
+*  $FC Função: LIS  -Liberar elemento da lista
 *
 *  $ED Descrição da função
 *     Elimina os espaços apontados pelo valor do elemento e o
@@ -516,9 +520,14 @@
    {
 
       if ( ( pLista->ExcluirValor != NULL )
-        && ( pElem->pValor != NULL        ))
+        && ( & pElem->pValor != NULL        ))
+
+		// fe: Aqui adicionei o & // fe: POR QUê?
       {
-         pLista->ExcluirValor( pElem->pValor ) ;
+         pLista->ExcluirValor( & pElem->pValor ) ;
+
+		 // fe: Aqui adicionei um & ao parâmetro para passar o endereço de pValor (já que ExcluirValor recebe o ponteiro de pValor)
+
       } /* if */
 
       free( pElem ) ;
@@ -530,14 +539,15 @@
 
 /***********************************************************************
 *
-*  $FC Função: LIS  -Criar o elemento - 03/09/2013 
-*					Insere um elemento na lista e acrescenta no contador da quantidade de elementos
+*  $FC Função: LIS  -Criar o elemento
 *
 ***********************************************************************/
 
    tpElemLista * CriarElemento( LIS_tppLista pLista ,
-                                char      pValor  )
+                                char       pValor  )
    {
+   // fe: Novamente, troquei o tipo do parâmetro pValor de (void *) para (char) 
+   //	já que ele vai utilizar o conteúdo da variável e não vai alterar seu valor por referência.
 
       tpElemLista * pElem ;
 
@@ -557,9 +567,10 @@
 
    } /* Fim função: LIS  -Criar o elemento */
 
+
 /***********************************************************************
 *
-*  $FC Função: LIS  -Limpar a cabeça da lista - 03/09/2013
+*  $FC Função: LIS  -Limpar a cabeça da lista
 *
 ***********************************************************************/
 
@@ -574,3 +585,4 @@
    } /* Fim função: LIS  -Limpar a cabeça da lista */
 
 /********** Fim do módulo de implementação: LIS  Lista duplamente encadeada **********/
+

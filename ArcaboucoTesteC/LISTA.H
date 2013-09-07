@@ -10,15 +10,16 @@
 *  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
 *  Arquivo da base de software: D:\AUTOTEST\PROJETOS\LISTA.BSW
 *
-*  Projeto: INF 1301 Automatização dos testes de módulos C
+*  Projeto: INF 1301 / 1628 Automatização dos testes de módulos C
 *  Gestor:  LES/DI/PUC-Rio
-*  Autores: aw - Alexandre Werneck
-*           fe - Fernanda Ribeiro
-*			vi - Vinicius
+*  Autores: avs
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*       1.00   aw   29/08/2013 Início do desenvolvimento
+*     4       avs   01/fev/2006 criar linguagem script simbólica
+*     3       avs   08/dez/2004 uniformização dos exemplos
+*     2       avs   07/jul/2003 unificação de todos os módulos em um só projeto
+*     1       avs   16/abr/2003 início desenvolvimento
 *
 *  $ED Descrição do módulo
 *     Implementa listas genéricas duplamente encadeadas.
@@ -38,7 +39,7 @@
 *        desalocados os dados nela contidos.
 *
 *     A função de liberação dos valores contidos nos elementos deve
-*        assegurar a liberação de todos os espaços referenciados pelo
+*        assegurar a liberação de todos os espaços referênciados pelo
 *        valor contido em um elemento.
 *        Esta função é chamada antes de se desalocar um elemento
 *        de uma lista.
@@ -62,9 +63,10 @@
 
 typedef struct LIS_tagLista * LIS_tppLista ;
 
+
 /***********************************************************************
 *
-*  $TC Tipo de dados: LIS Condições de retorno - 03/09/2013
+*  $TC Tipo de dados: LIS Condições de retorno
 *
 *
 *  $ED Descrição do tipo
@@ -91,19 +93,22 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
    } LIS_tpCondRet ;
 
+
 /***********************************************************************
 *
-*  $FC Função: LIS  &Criar lista - 03/09/2013
+*  $FC Função: LIS  &Criar lista
 *
 *  $ED Descrição da função
 *     Cria uma lista genérica duplamente encadeada.
-*     A tipagem é char para os valores dos elementos da lista.
+*     Os possíveis tipos são desconhecidos a priori.
+*     A tipagem é implicita.
+*     Não existe identificador de tipo associado à lista.
 *
 *  $EP Parâmetros
 *     ExcluirValor  - ponteiro para a função que processa a
 *                     exclusão do valor referenciado pelo elemento
 *                     a ser excluído.
-*                     Ver descrição do módulo. Função a ser implementada pelo usuário.
+*                     Ver descrição do módulo.
 *
 *  $FV Valor retornado
 *     Se executou corretamente retorna o ponteiro para a lista.
@@ -115,13 +120,14 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 ***********************************************************************/
 
-   LIS_tppLista LIS_CriarLista(
-             void   ( * ExcluirValor ) ( char pDado ) ) ;
+   LIS_tpCondRet LIS_CriarLista(
+             void   ( * ExcluirValor ) ( char * pDado ) , LIS_tppLista * pLista) ;
+   // fe: Alterado de (void *) para (char *) para se adequar ao .C
 
 
 /***********************************************************************
 *
-*  $FC Função: LIS  &Destruir lista - 03/09/2013
+*  $FC Função: LIS  &Destruir lista
 *
 *  $ED Descrição da função
 *     Destrói a lista fornecida.
@@ -163,7 +169,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 *  $EP Parâmetros
 *     pLista - ponteiro para a lista onde deve ser inserido o elemento
-*     pValor - valor do novo elemento
+*     pValor - ponteiro para o valor do novo elemento
 *              Pode ser NULL
 *
 *  $FV Valor retornado
@@ -174,11 +180,12 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
    LIS_tpCondRet LIS_InserirElementoAntes( LIS_tppLista pLista ,
                                            char pValor        ) ;
+   // fe: Alterado de (void *) para (char) para se adequar ao .C
 
 
 /***********************************************************************
 *
-*  $FC Função: LIS  &Inserir elemento após - 03/09/2013
+*  $FC Função: LIS  &Inserir elemento após
 *
 *  $ED Descrição da função
 *     Insere novo elemento apás o elemento corrente.
@@ -187,7 +194,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *  $EP Parâmetros
 *     Parâmetros
 *        pLista - ponteiro para a lista onde deve ser inserido o elemento
-*        pValor - valor do novo elemento
+*        pValor - ponteiro para o valor do novo elemento
 *                 Pode ser NULL
 *           
 *
@@ -201,11 +208,12 @@ typedef struct LIS_tagLista * LIS_tppLista ;
    LIS_tpCondRet LIS_InserirElementoApos( LIS_tppLista pLista ,
                                           char pValor        )
        ;
+   // fe: Alterado de (void *) para (char) para se adequar ao .C
 
 
 /***********************************************************************
 *
-*  $FC Função: LIS  &Excluir elemento - 03/09/2013
+*  $FC Função: LIS  &Excluir elemento
 *
 *  $ED Descrição da função
 *     Exclui o elemento corrente da lista dada.
@@ -227,7 +235,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
 /***********************************************************************
 *
-*  $FC Função: LIS  &Obter referência para o valor contido no elemento - 03/09/2013
+*  $FC Função: LIS  &Obter referência para o valor contido no elemento
 *
 *  $ED Descrição da função
 *     Obtem a referência para o valor contido no elemento corrente da lista
@@ -242,12 +250,12 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 ***********************************************************************/
 
-   void * LIS_ObterValor( LIS_tppLista pLista ) ;
+   char * LIS_ObterValor( LIS_tppLista pLista ) ;
 
 
 /***********************************************************************
 *
-*  $FC Função: LIS  &Ir para o elemento inicial - 03/09/2013
+*  $FC Função: LIS  &Ir para o elemento inicial
 *
 *  $ED Descrição da função
 *     Torna corrente o primeiro elemento da lista.
@@ -263,7 +271,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
 /***********************************************************************
 *
-*  $FC Função: LIS  &Ir para o elemento final - 03/09/2013
+*  $FC Função: LIS  &Ir para o elemento final
 *
 *  $ED Descrição da função
 *     Torna corrente o elemento final da lista.
@@ -279,7 +287,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
 /***********************************************************************
 *
-*  $FC Função: LIS  &Avançar elemento - 03/09/2013
+*  $FC Função: LIS  &Avançar elemento
 *
 *  $ED Descrição da função
 *     Avança o elemento corrente numElem elementos na lista
@@ -307,7 +315,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
 /***********************************************************************
 *
-*  $FC Função: LIS  &Procurar elemento contendo valor - 03/09/2013
+*  $FC Função: LIS  &Procurar elemento contendo valor
 *
 *  $ED Descrição da função
 *     Procura o elemento que referencia o valor dado.
@@ -332,6 +340,8 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
    LIS_tpCondRet LIS_ProcurarValor( LIS_tppLista pLista ,
                                     char pValor        ) ;
+
+   // fe: Alterado de (void *) para (char) para se adequar ao .C
 
 #undef LISTA_EXT
 

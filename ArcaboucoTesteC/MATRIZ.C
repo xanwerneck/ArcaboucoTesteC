@@ -104,9 +104,6 @@ typedef struct tgMatriz {
 static int numElementos = 0 ;
     /* Número de linhas e colunas da matriz (n x n) */
 
-static tpMatriz * tpMat = NULL ;
-    /* Ponteiro para a cabeça da matriz */
-
 /***** Protótipos das funções encapsuladas no módulo *****/
 
 static MAT_tpCondRet PreparaEstruturaMatriz( ) ;
@@ -125,7 +122,7 @@ static tpElemMatriz * CriarNo( ) ;
 *  
 ****/
 
-MAT_tpCondRet MAT_CriarMatriz( void ){
+MAT_tpCondRet MAT_CriarMatriz( tpMatriz * tpMatrizCriada ){
 	   
 		if(tpMat != NULL){
 			DestroiMatriz( tpMat );
@@ -136,10 +133,14 @@ MAT_tpCondRet MAT_CriarMatriz( void ){
 	   if(tpMat == NULL){
 		   return MAT_CondRetFaltouMemoria ;
 	   } /* if */
-
+	   
 	   tpMat->pNoCorr      = NULL;
 	   tpMat->pNoRaiz      = NULL;
 	   tpMat->pNoIndLinha  = NULL;
+
+
+	   tpMatrizCriada      = tpMat;
+			/* Referência para a matriz criada */
 
 	   return MAT_CondRetOK;
 }
@@ -154,7 +155,7 @@ MAT_tpCondRet MAT_CriarMatriz( void ){
 *  
 ****/
 
-MAT_tpCondRet MAT_InsereListaMatriz( LIS_tppLista * lt){
+MAT_tpCondRet MAT_InsereListaMatriz( LIS_tppLista * lt, tpMatriz * tpMat){
 
 	if(tpMat == NULL){
 		return MAT_CondRetFaltouMemoria ;
@@ -426,7 +427,7 @@ MAT_tpCondRet MAT_IrNoNoroeste(tpMatriz * tpMat){
 *  Função: MAT Obter Lista corrente
 *  ****/
 
-MAT_tpCondRet MAT_ObterListaCorr( LIS_tppLista * lst_valor )
+MAT_tpCondRet MAT_ObterListaCorr( LIS_tppLista * lst_valor , tpMatriz * tpMat)
 {
 
     if ( tpMat == NULL )
@@ -449,7 +450,7 @@ MAT_tpCondRet MAT_ObterListaCorr( LIS_tppLista * lst_valor )
 *  Função: MAT Ir para nó raiz
 *  ****/
 
-MAT_tpCondRet MAT_IrRaiz( void )
+MAT_tpCondRet MAT_IrRaiz( tpMatriz * tpMat )
 {
 
     if ( tpMat == NULL )
@@ -554,7 +555,7 @@ void DestroiMatriz( tpMatriz * tpMatExc )
 *
 ***********************************************************************/
 
-MAT_tpCondRet PreparaEstruturaMatriz(){
+MAT_tpCondRet PreparaEstruturaMatriz( tpMatriz * tpMat ){
 
 	int i = 0, j = 0;
 
@@ -811,21 +812,11 @@ MAT_tpCondRet PreparaEstruturaMatriz(){
 *
 ***********************************************************************/
 
-MAT_tpCondRet CriarNoRaiz()
+MAT_tpCondRet CriarNoRaiz( tpMatriz * tpMat )
 {
 
     MAT_tpCondRet CondRet ;
     tpElemMatriz * tpElNo;
-
-	if ( tpMat == NULL )
-    {
-		CondRet = MAT_CriarMatriz( ) ;
-
-        if ( CondRet != MAT_CondRetOK )
-        {
-        return CondRet ;
-        } /* if */
-    } /* if */
 
 	if ( tpMat->pNoRaiz == NULL )
     {

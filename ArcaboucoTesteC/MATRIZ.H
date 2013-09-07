@@ -95,7 +95,24 @@ typedef enum {
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_CriarMatriz( void );
+MAT_tpCondRet MAT_CriarMatriz(MAT_tppMatriz * tpMatrizModulo);
+
+/***********************************************************************
+*
+*  $FC Função: MAT Inserir Lista na matriz corrente
+*
+*  $ED Descrição da função
+*     Insere uma lista na matriz corrente
+*
+*  $FV Valor retornado
+*     MAT_CondRetFaltouMemoria
+*     MAT_CondRetMatrizVazia
+*	  MAT_CondRetOK
+*	  MAT_CondRetMatrizCheia
+*
+***********************************************************************/
+
+MAT_tpCondRet MAT_InsereListaMatriz( LIS_tpMatLista * lt, MAT_tppMatriz * tpMatrizModulo);
 
 
 /***********************************************************************
@@ -109,7 +126,7 @@ MAT_tpCondRet MAT_CriarMatriz( void );
 *
 ***********************************************************************/
 
-void DestroiMatriz( void ) ;
+void DestroiMatriz( MAT_tppMatriz * tpMatrizModulo ) ;
 
 
 /***********************************************************************
@@ -124,7 +141,7 @@ void DestroiMatriz( void ) ;
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_IrNoNorte(MAT_tppMatriz * tpMat);
+MAT_tpCondRet MAT_IrNoNorte(MAT_tppMatriz * tpMatrizModulo);
 
 
 /***********************************************************************
@@ -139,7 +156,7 @@ MAT_tpCondRet MAT_IrNoNorte(MAT_tppMatriz * tpMat);
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_IrNoNordeste(MAT_tppMatriz * tpMat) ;
+MAT_tpCondRet MAT_IrNoNordeste(MAT_tppMatriz * tpMatrizModulo) ;
 
 
 /***********************************************************************
@@ -154,7 +171,7 @@ MAT_tpCondRet MAT_IrNoNordeste(MAT_tppMatriz * tpMat) ;
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_IrNoLeste(MAT_tppMatriz * tpMat) ;
+MAT_tpCondRet MAT_IrNoLeste(MAT_tppMatriz * tpMatrizModulo) ;
 
 /***********************************************************************
 *
@@ -168,7 +185,7 @@ MAT_tpCondRet MAT_IrNoLeste(MAT_tppMatriz * tpMat) ;
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_IrNoSudeste(MAT_tppMatriz * tpMat) ;
+MAT_tpCondRet MAT_IrNoSudeste(MAT_tppMatriz * tpMatrizModulo) ;
 
 
 /***********************************************************************
@@ -183,7 +200,7 @@ MAT_tpCondRet MAT_IrNoSudeste(MAT_tppMatriz * tpMat) ;
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_IrNoSul(MAT_tppMatriz * tpMat) ;
+MAT_tpCondRet MAT_IrNoSul(MAT_tppMatriz * tpMatrizModulo) ;
 
 /***********************************************************************
 *
@@ -197,7 +214,7 @@ MAT_tpCondRet MAT_IrNoSul(MAT_tppMatriz * tpMat) ;
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_IrNoSudoeste(MAT_tppMatriz * tpMat) ;
+MAT_tpCondRet MAT_IrNoSudoeste(MAT_tppMatriz * tpMatrizModulo) ;
 
 /***********************************************************************
 *
@@ -211,7 +228,7 @@ MAT_tpCondRet MAT_IrNoSudoeste(MAT_tppMatriz * tpMat) ;
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_IrNoOeste(MAT_tppMatriz * tpMat) ;
+MAT_tpCondRet MAT_IrNoOeste(MAT_tppMatriz * tpMatrizModulo) ;
 
 /***********************************************************************
 *
@@ -225,7 +242,7 @@ MAT_tpCondRet MAT_IrNoOeste(MAT_tppMatriz * tpMat) ;
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_IrNoNoroeste(MAT_tppMatriz * tpMat) ;
+MAT_tpCondRet MAT_IrNoNoroeste(MAT_tppMatriz * tpMatrizModulo) ;
 
 /***********************************************************************
 *
@@ -242,7 +259,7 @@ MAT_tpCondRet MAT_IrNoNoroeste(MAT_tppMatriz * tpMat) ;
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_ObterListaCorr( LIS_tpMatLista * lst_valor ) ;
+MAT_tpCondRet MAT_ObterListaCorr( LIS_tpMatLista * lst_valor , MAT_tppMatriz * tpMatrizModulo ) ;
 
 
 /***********************************************************************
@@ -258,7 +275,7 @@ MAT_tpCondRet MAT_ObterListaCorr( LIS_tpMatLista * lst_valor ) ;
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_IrRaiz( void );
+MAT_tpCondRet MAT_IrRaiz( MAT_tppMatriz * tpMatrizModulo );
 
 #undef MATRIZ_EXT
 

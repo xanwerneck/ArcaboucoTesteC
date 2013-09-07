@@ -128,8 +128,8 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
          else if ( strcmp( ComandoTeste , CRIAR_LISTA_CMD ) == 0 )
          {
 
-            numLidos = LER_LerParametros( "i" ,
-                       &inxLista ) ;
+            numLidos = LER_LerParametros( "ii" ,
+                       &inxLista , &condRetRecebido) ;
 
             if ( ( numLidos != 1 )
               || ( ! ValidarInxLista( inxLista , VAZIO )))
@@ -137,10 +137,9 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
                return TST_CondRetParm ;
             } /* if */
 
-            vtListas[ inxLista ] =
-                 LIS_CriarLista( DestruirValor ) ;
+			CondRetEsp = LIS_CriarLista( DestruirValor , &vtListas[ inxLista ] ) ;
 
-            return TST_CompararPonteiroNulo( 1 , vtListas[ inxLista ] ,
+            return TST_CompararPonteiroNulo( CondRetEsp , condRetRecebido,
                "Erro em ponteiro de nova lista."  ) ;
 
          } /* fim ativa: Testar CriarLista */

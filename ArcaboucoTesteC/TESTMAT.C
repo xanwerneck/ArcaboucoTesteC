@@ -30,7 +30,10 @@
 
 #include    "MATRIZ.H"
 
+#include    "LISTA.H"
+
 static const char CRIAR_MATRIZ_CMD			[ ] = "=criarmatriz"     ;
+static const char CRIAR_LISTA_CMD			[ ] = "=criarlista"     ;
 static const char INSERIR_LISTA_MATRIZ_CMD	[ ] = "=inserirlistamat" ;
 static const char IR_NORTE_CMD				[ ] = "=irnorte"         ;
 static const char IR_NORDESTE_CMD			[ ] = "=irnordeste"      ;	
@@ -50,9 +53,19 @@ static const char IR_INICIO_CMD				[ ] = "=irinicio"        ;
 #define NAO_VAZIO 1
 
 #define DIM_VT_MATRIZ   10
+#define DIM_VT_LISTA    10
 #define DIM_VALOR       100
 
 MAT_tppMatriz  vtMatrizes[ DIM_VT_MATRIZ ] ;
+
+LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
+
+
+/***** Protótipos das funções encapuladas no módulo *****/
+
+static void DestruirLista( void * pLista ) ; // talvez precise
+
+static int ValidarInxMatriz( int inxMatriz , int Modo ) ;
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -84,7 +97,10 @@ MAT_tppMatriz  vtMatrizes[ DIM_VT_MATRIZ ] ;
       char ValorObtido   = '!'  ;
       char ValorDado     = '\0' ;
 
-      int  NumLidos = -1 ;
+	  int inxMatriz  = -1 ,
+		  inxLista  = -1 ,
+          NumLidos   = -1 ,
+          CondRetEsp = -1  ;
 
       TST_tpCondRet Ret ;
 
@@ -93,177 +109,278 @@ MAT_tppMatriz  vtMatrizes[ DIM_VT_MATRIZ ] ;
 		if ( strcmp( ComandoTeste , CRIAR_MATRIZ_CMD ) == 0 )
          {
 
-            NumLidos = LER_LerParametros( "i" ,
-                               &CondRetEsperada ) ;
-            if ( NumLidos != 1 )
+            NumLidos = LER_LerParametros( "ii" ,
+                               &inxMatriz , &CondRetEsperada ) ;
+            if ( (NumLidos != 2) || (ValidarInxMatriz(inxMatriz, VAZIO)) )
             {
                return TST_CondRetParm ;
             } /* if */
-
-            CondRetObtido = MAT_CriarMatriz( ) ;
+			
+			CondRetObtido = MAT_CriarMatriz( &vtMatrizes[ inxMatriz ] ) ;
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao criar matriz." );
 
          } /* fim ativa: Testar MAT Criar matriz */
 
+		/* Testar MAT Criar lista */
+
+		if ( strcmp( ComandoTeste , CRIAR_LISTA_CMD ) == 0 )
+         {
+
+            NumLidos = LER_LerParametros( "ii" ,
+                               &inxLista , &CondRetEsperada ) ;
+            if ( (NumLidos != 2) || (ValidarInxMatriz(inxMatriz, VAZIO)) )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+
+			CondRetObtido = LIS_CriarLista( DestruirLista , &vtListas[ inxLista ] ) ;
+
+            return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao criar lista." );
+
+         } /* fim ativa: Testar MAT Criar lista */
+
+
 		/* Testar MAT Inserir Lista na Matriz */
 
 		if( strcmp( ComandoTeste , INSERIR_LISTA_MATRIZ_CMD ) == 0 )
 		{
 
-			NumLidos = LER_LerParametros ( "" , &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "iii" ,&inxLista, &inxMatriz, &CondRetEsperada );
+			if ( (NumLidos != 3) )
+            {
+               return TST_CondRetParm ;
+            } /* if */
 
-		}
+			CondRetObtido = MAT_InsereListaMatriz( &vtListas[ inxLista ] ,  &vtMatrizes[ inxMatriz ] );
+
+            return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao criar lista." );
+
+
+		} /* fim ativa: Testar MAT Inserir Lista na Matriz */
 
 		/* Testar MAT Ir norte do no corrente */
+
+		if(strcmp (ComandoTeste, IR_NORTE_CMD) == 0)
+		{
+			NumLidos = LER_LerParametros ( "ii" , &inxMatriz, &CondRetEsperada );
+			if(NumLidos != 2){
+				return TST_CondRetParm;
+			}
+			
+			CondRetObtido = MAT_IrNoNorte( &vtMatrizes[ inxMatriz ]);
+
+			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao ir para norte do nó corrente." );
+
+		} /* fim ativa: Testar MAT Ir norte do no corrente */
+
 		/* Testar MAT Ir nordeste do no corrente */
+
+		if(strcmp (ComandoTeste, IR_NORDESTE_CMD) == 0)
+		{
+			NumLidos = LER_LerParametros ( "ii" , &inxMatriz, &CondRetEsperada );
+			if(NumLidos != 2){
+				return TST_CondRetParm;
+			}
+			
+			CondRetObtido = MAT_IrNoNordeste( &vtMatrizes[ inxMatriz ]);
+
+			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao ir para nordeste do nó corrente." );
+
+		} /* fim ativa: Testar MAT Ir nordeste do no corrente */
+
 		/* Testar MAT Ir leste do no corrente */
+
+		if(strcmp (ComandoTeste, IR_LESTE_CMD) == 0)
+		{
+			NumLidos = LER_LerParametros ( "ii" , &inxMatriz, &CondRetEsperada );
+			if(NumLidos != 2){
+				return TST_CondRetParm;
+			}
+			
+			CondRetObtido = MAT_IrNoLeste( &vtMatrizes[ inxMatriz ]);
+
+			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao ir para leste do nó corrente." );
+
+		} /* fim ativa: Testar MAT Ir leste do no corrente */
+
+		
 		/* Testar MAT Ir sudeste do no corrente */
+
+		if(strcmp (ComandoTeste, IR_SUDESTE_CMD) == 0)
+		{
+			NumLidos = LER_LerParametros ( "ii" , &inxMatriz, &CondRetEsperada );
+			if(NumLidos != 2){
+				return TST_CondRetParm;
+			}
+			
+			CondRetObtido = MAT_IrNoSudeste( &vtMatrizes[ inxMatriz ]);
+
+			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao ir para sudeste do nó corrente." );
+
+		} /* fim ativa: Testar MAT Ir sudeste do no corrente */
+		
+		
 		/* Testar MAT Ir sul do no corrente */
+
+		if(strcmp (ComandoTeste, IR_SUL_CMD) == 0)
+		{
+			NumLidos = LER_LerParametros ( "ii" , &inxMatriz, &CondRetEsperada );
+			if(NumLidos != 2){
+				return TST_CondRetParm;
+			}
+			
+			CondRetObtido = MAT_IrNoSul( &vtMatrizes[ inxMatriz ]);
+
+			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao ir para sul do nó corrente." );
+
+		} /* fim ativa: Testar MAT Ir sul do no corrente */
+		
+		
 		/* Testar MAT Ir sudoeste do no corrente */
+
+		if(strcmp (ComandoTeste, IR_SUDOESTE_CMD) == 0)
+		{
+			NumLidos = LER_LerParametros ( "ii" , &inxMatriz, &CondRetEsperada );
+			if(NumLidos != 2){
+				return TST_CondRetParm;
+			}
+			
+			CondRetObtido = MAT_IrNoSudoeste( &vtMatrizes[ inxMatriz ]);
+
+			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao ir para sudoeste do nó corrente." );
+
+		} /* fim ativa: Testar MAT Ir sudoeste do no corrente */
+
 		/* Testar MAT Ir oeste do no corrente */
+
+		if(strcmp (ComandoTeste, IR_OESTE_CMD) == 0)
+		{
+			NumLidos = LER_LerParametros ( "ii" , &inxMatriz, &CondRetEsperada );
+			if(NumLidos != 2){
+				return TST_CondRetParm;
+			}
+			
+			CondRetObtido = MAT_IrNoOeste( &vtMatrizes[ inxMatriz ]);
+
+			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao ir para oeste do nó corrente." );
+
+		} /* fim ativa: Testar MAT Ir oeste do no corrente */
+		
+		
+		
 		/* Testar MAT Ir noroeste do no corrente */
+
+		if(strcmp (ComandoTeste, IR_NOROESTE_CMD) == 0)
+		{
+			NumLidos = LER_LerParametros ( "ii" , &inxMatriz, &CondRetEsperada );
+			if(NumLidos != 2){
+				return TST_CondRetParm;
+			}
+			
+			CondRetObtido = MAT_IrNoNoroeste( &vtMatrizes[ inxMatriz ]);
+
+			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao ir para noroeste do nó corrente." );
+
+		} /* fim ativa: Testar MAT Ir noroeste do no corrente */
+		
+		
 		/* Testar MAT Obter lista do nó corrente */
+
+		if(strcmp (ComandoTeste, OBTER_LISTA_CORR_CMD) == 0)
+		{
+			NumLidos = LER_LerParametros ( "iii" , &inxLista, &inxMatriz, &CondRetEsperada );
+			if(NumLidos != 3){
+				return TST_CondRetParm;
+			}
+			
+			CondRetObtido = MAT_ObterListaCorr( &vtListas[ inxLista ] , &vtMatrizes[ inxMatriz ]);
+
+			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao obter lista corrente." );
+
+		} /* fim ativa: Testar MAT Obter lista do nó corrente */
+		
+		
 		/* Testar MAT Ir para o início/raiz da matriz */
 
-         
-      /* Testar ARV Adicionar filho à direita */
+		if(strcmp (ComandoTeste, IR_INICIO_CMD) == 0)
+		{
+			NumLidos = LER_LerParametros ( "ii" , &inxMatriz, &CondRetEsperada );
+			if(NumLidos != 2){
+				return TST_CondRetParm;
+			}
+			
+			CondRetObtido = MAT_IrRaiz( &vtMatrizes[ inxMatriz ]);
 
-         else if ( strcmp( ComandoTeste , INS_DIR_CMD ) == 0 )
-         {
+			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao ir para razi da matriz." );
 
-            NumLidos = LER_LerParametros( "ci" ,
-                               &ValorDado , &CondRetEsperada ) ;
-            if ( NumLidos != 2 )
-            {
-               return TST_CondRetParm ;
-            } /* if */
+		} /* fim ativa: Testar MAT Ir para o início/raiz da matriz */
 
-            CondRetObtido = ARV_InserirDireita( ValorDado ) ;
-
-            return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado inserir àa direita." );
-
-         } /* fim ativa: Testar ARV Adicionar filho à direita */
-
-      /* Testar ARV Adicionar filho à esquerda */
-
-         else if ( strcmp( ComandoTeste , INS_ESQ_CMD ) == 0 )
-         {
-
-            NumLidos = LER_LerParametros( "ci" ,
-                               &ValorDado , &CondRetEsperada ) ;
-            if ( NumLidos != 2 )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-            CondRetObtido = ARV_InserirEsquerda( ValorDado ) ;
-
-            return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao inserir à esquerda." );
-
-         } /* fim ativa: Testar ARV Adicionar filho à esquerda */
-
-      /* Testar ARV Ir para nó pai */
-
-         else if ( strcmp( ComandoTeste , IR_PAI_CMD ) == 0 )
-         {
-
-            NumLidos = LER_LerParametros( "i" ,
-                               &CondRetEsperada ) ;
-            if ( NumLidos != 1 )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-            CondRetObtido = ARV_IrPai( ) ;
-
-            return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao ir para pai." );
-
-         } /* fim ativa: Testar ARV Ir para nó pai */
-
-      /* Testar ARV Ir para nó à esquerda */
-
-         else if ( strcmp( ComandoTeste , IR_ESQ_CMD ) == 0 )
-         {
-
-            NumLidos = LER_LerParametros( "i" ,
-                               &CondRetEsperada ) ;
-            if ( NumLidos != 1 )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-            CondRetObtido = ARV_IrNoEsquerda( ) ;
-
-            return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao ir para esquerda." );
-
-         } /* fim ativa: Testar ARV Ir para nó à esquerda */
-
-      /* Testar ARV Ir para nó à direita */
-
-         else if ( strcmp( ComandoTeste , IR_DIR_CMD ) == 0 )
-         {
-
-            NumLidos = LER_LerParametros( "i" ,
-                               &CondRetEsperada ) ;
-            if ( NumLidos != 1 )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-            CondRetObtido = ARV_IrNoDireita( ) ;
-
-            return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao ir para direita." );
-
-         } /* fim ativa: Testar ARV Ir para nó à direita */
-
-      /* Testar ARV Obter valor corrente */
-
-         else if ( strcmp( ComandoTeste , OBTER_VAL_CMD ) == 0 )
-         {
-
-            NumLidos = LER_LerParametros( "ci" ,
-                               &ValorEsperado , &CondRetEsperada ) ;
-            if ( NumLidos != 2 )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-            CondRetObtido = ARV_ObterValorCorr( &ValorObtido ) ;
-
-            Ret = TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                   "Retorno errado ao obter valor corrente." );
-
-            if ( Ret != TST_CondRetOK )
-            {
-               return Ret ;
-            } /* if */
-
-            return TST_CompararChar( ValorEsperado , ValorObtido ,
-                                     "Conteúdo do nó está errado." ) ;
-
-         } /* fim ativa: Testar ARV Obter valor corrente */
-
-      /* Testar ARV Destruir árvore */
-
-         else if ( strcmp( ComandoTeste , DESTROI_CMD ) == 0 )
-         {
-
-            ARV_DestruirArvore( ) ;
-
-            return TST_CondRetOK ;
-
-         } /* fim ativa: Testar ARV Destruir árvore */
 
       return TST_CondRetNaoConhec ;
 
-   } /* Fim função: TARV Efetuar operações de teste específicas para árvore */
+   } /* Fim função: TMAT Efetuar operações de teste específicas para matriz */
+
+
+/***********************************************************************
+*
+*  $FC Função: TMAT -Validar indice de matriz
+*
+***********************************************************************/
+
+   int ValidarInxMatriz( int inxMatriz , int Modo )
+   {
+
+      if ( ( inxMatriz <  0 )
+		  || ( inxMatriz >= DIM_VT_MATRIZ ))
+      {
+         return FALSE ;
+      } /* if */
+         
+      if ( Modo == VAZIO )
+      {
+         if ( vtMatrizes[ inxMatriz ] != 0 )
+         {
+            return FALSE ;
+         } /* if */
+      } else
+      {
+         if ( vtMatrizes[ inxMatriz ] == 0 )
+         {
+            return FALSE ;
+         } /* if */
+      } /* if */
+         
+      return TRUE ;
+
+   } /* Fim função: TMAT -Validar indice de matriz */
+
+
+/***********************************************************************
+*
+*  $FC Função: TLIS -Destruir valor
+*
+***********************************************************************/
+
+   void DestruirLista( void * pLista )
+   {
+
+      free( pLista ) ;
+
+   } /* Fim função: TLIS -Destruir valor */
 
 /********** Fim do módulo de implementação: Módulo de teste específico **********/
 
