@@ -101,16 +101,14 @@ typedef struct tgMatriz {
 
 /*****  Dados encapsulados no módulo  *****/
 
-static int numElementos = 0 ;
-    /* Número de linhas e colunas da matriz (n x n) */
 
 /***** Protótipos das funções encapsuladas no módulo *****/
 
-static MAT_tpCondRet PreparaEstruturaMatriz( ) ;
+static MAT_tpCondRet PreparaEstruturaMatriz( tpMatriz * tpMat , int numElementos ) ;
 
-static MAT_tpCondRet CriarNoRaiz( ) ;
+static MAT_tpCondRet CriarNoRaiz( tpMatriz * tpMat , int numElementos ) ;
 
-static void DestroiMatriz( tpElemMatriz * tpMatExc ) ;
+static void DestroiMatriz( tpMatriz * tpMatExc ) ;
 
 static tpElemMatriz * CriarNo( ) ;
 
@@ -122,8 +120,9 @@ static tpElemMatriz * CriarNo( ) ;
 *  
 ****/
 
-MAT_tpCondRet MAT_CriarMatriz( tpMatriz * tpMatrizCriada ){
+MAT_tpCondRet MAT_CriarMatriz( tpMatriz * tpMat , int numElementos){
 	   
+		MAT_tpCondRet CondRet ;
 		if(tpMat != NULL){
 			DestroiMatriz( tpMat );
 		} /* if */
@@ -138,9 +137,13 @@ MAT_tpCondRet MAT_CriarMatriz( tpMatriz * tpMatrizCriada ){
 	   tpMat->pNoRaiz      = NULL;
 	   tpMat->pNoIndLinha  = NULL;
 
+	   CondRet = CriarNoRaiz(tpMat , numElementos);
+			 /* Inicializo a estrutura da matriz setando a raiz */
 
-	   tpMatrizCriada      = tpMat;
-			/* Referência para a matriz criada */
+	   if(CondRet != MAT_CondRetOK)
+	   {
+		return CondRet;
+	   } /* if */
 
 	   return MAT_CondRetOK;
 }
@@ -555,7 +558,7 @@ void DestroiMatriz( tpMatriz * tpMatExc )
 *
 ***********************************************************************/
 
-MAT_tpCondRet PreparaEstruturaMatriz( tpMatriz * tpMat ){
+MAT_tpCondRet PreparaEstruturaMatriz( tpMatriz * tpMat , int numElementos ){
 
 	int i = 0, j = 0;
 
@@ -564,6 +567,9 @@ MAT_tpCondRet PreparaEstruturaMatriz( tpMatriz * tpMat ){
 		for(;j<numElementos;j++){	
 
 				tpElemMatriz * tpElem = CriarNo( );
+				tpElemMatriz * tpElemLesteCabeca   ;
+				tpElemMatriz * tpElemSudesteCabeca ;
+				tpElemMatriz * tpElemSulCabeca     ;
 				if(tpElem != NULL){
 					return MAT_CondRetFaltouMemoria ;
 				}
@@ -584,9 +590,9 @@ MAT_tpCondRet PreparaEstruturaMatriz( tpMatriz * tpMat ){
 						tpMat->pNoRaiz       = tpElem;
 						tpMat->pNoIndLinha   = tpElem;
 
-						tpElemMatriz * tpElemLesteCabeca   = CriarNo( );
-						tpElemMatriz * tpElemSudesteCabeca = CriarNo( );
-						tpElemMatriz * tpElemSulCabeca     = CriarNo( );
+						tpElemLesteCabeca   = CriarNo( );
+						tpElemSudesteCabeca = CriarNo( );
+						tpElemSulCabeca     = CriarNo( );
 						if(tpElemLesteCabeca==NULL || tpElemSudesteCabeca==NULL || tpElemSulCabeca==NULL){
 							return MAT_CondRetFaltouMemoria ;
 						}
@@ -812,7 +818,7 @@ MAT_tpCondRet PreparaEstruturaMatriz( tpMatriz * tpMat ){
 *
 ***********************************************************************/
 
-MAT_tpCondRet CriarNoRaiz( tpMatriz * tpMat )
+MAT_tpCondRet CriarNoRaiz( tpMatriz * tpMat , int numElementos )
 {
 
     MAT_tpCondRet CondRet ;
@@ -821,7 +827,9 @@ MAT_tpCondRet CriarNoRaiz( tpMatriz * tpMat )
 	if ( tpMat->pNoRaiz == NULL )
     {
 
-		CondRet = PreparaEstruturaMatriz();			
+		CondRet = PreparaEstruturaMatriz(tpMat, numElementos);		
+				/* Criar a estrutura da matriz de acordo com a quantidade elementos passados */
+
 		if ( CondRet != MAT_CondRetOK )
         {
         return CondRet ;

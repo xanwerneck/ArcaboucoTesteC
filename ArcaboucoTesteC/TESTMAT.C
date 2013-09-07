@@ -63,9 +63,11 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
 
 /***** Protótipos das funções encapuladas no módulo *****/
 
-static void DestruirLista( void * pLista ) ; // talvez precise
+static void DestruirLista( void * pLista ) ;
 
 static int ValidarInxMatriz( int inxMatriz , int Modo ) ;
+
+static int ValidarInxLista( int inxLista , int Modo ) ;
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -90,6 +92,7 @@ static int ValidarInxMatriz( int inxMatriz , int Modo ) ;
    {
 
       MAT_tpCondRet CondRetObtido   = MAT_CondRetOK ;
+	  LIS_tpCondRet CondRetLista    = LIS_CondRetOK ;
       MAT_tpCondRet CondRetEsperada = MAT_CondRetFaltouMemoria ;
                                       /* inicializa para qualquer coisa */
 
@@ -100,23 +103,23 @@ static int ValidarInxMatriz( int inxMatriz , int Modo ) ;
 	  int inxMatriz  = -1 ,
 		  inxLista  = -1 ,
           NumLidos   = -1 ,
+		  NumElementos   = 0 ,
           CondRetEsp = -1  ;
-
-      TST_tpCondRet Ret ;
 
 		/* Testar MAT Criar matriz */
 
 		if ( strcmp( ComandoTeste , CRIAR_MATRIZ_CMD ) == 0 )
          {
 
-            NumLidos = LER_LerParametros( "ii" ,
-                               &inxMatriz , &CondRetEsperada ) ;
-            if ( (NumLidos != 2) || (ValidarInxMatriz(inxMatriz, VAZIO)) )
+            NumLidos = LER_LerParametros( "iii" ,
+                               &inxMatriz , &NumElementos , &CondRetEsperada ) ;
+
+            if ( (NumLidos != 3) || ( ! ValidarInxMatriz(inxMatriz, VAZIO) ) )
             {
                return TST_CondRetParm ;
             } /* if */
 			
-			CondRetObtido = MAT_CriarMatriz( &vtMatrizes[ inxMatriz ] ) ;
+			CondRetObtido = MAT_CriarMatriz( vtMatrizes[ inxMatriz ] , NumElementos ) ;
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao criar matriz." );
@@ -130,12 +133,12 @@ static int ValidarInxMatriz( int inxMatriz , int Modo ) ;
 
             NumLidos = LER_LerParametros( "ii" ,
                                &inxLista , &CondRetEsperada ) ;
-            if ( (NumLidos != 2) || (ValidarInxMatriz(inxMatriz, VAZIO)) )
+            if ( (NumLidos != 2) || ( ! ValidarInxLista(inxLista, VAZIO) ) )
             {
                return TST_CondRetParm ;
             } /* if */
 
-			CondRetObtido = LIS_CriarLista( DestruirLista , &vtListas[ inxLista ] ) ;
+			CondRetLista = LIS_CriarLista( DestruirLista , vtListas[ inxLista ] ) ;
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao criar lista." );
@@ -368,6 +371,38 @@ static int ValidarInxMatriz( int inxMatriz , int Modo ) ;
 
    } /* Fim função: TMAT -Validar indice de matriz */
 
+/***********************************************************************
+*
+*  $FC Função: TMAT -Validar indice de lista
+*
+***********************************************************************/
+
+   int ValidarInxLista( int inxLista , int Modo )
+   {
+
+      if ( ( inxLista <  0 )
+		  || ( inxLista >= DIM_VT_LISTA ))
+      {
+         return FALSE ;
+      } /* if */
+         
+      if ( Modo == VAZIO )
+      {
+         if ( vtListas[ inxLista ] != 0 )
+         {
+            return FALSE ;
+         } /* if */
+      } else
+      {
+         if ( vtListas[ inxLista ] == 0 )
+         {
+            return FALSE ;
+         } /* if */
+      } /* if */
+         
+      return TRUE ;
+
+   } /* Fim função: TMAT -Validar indice de lista */
 
 /***********************************************************************
 *

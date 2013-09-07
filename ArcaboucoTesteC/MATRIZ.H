@@ -95,7 +95,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_CriarMatriz(MAT_tppMatriz * tpMatrizModulo);
+MAT_tpCondRet MAT_CriarMatriz(MAT_tppMatriz tpMatrizModulo, int numElementos);
 
 /***********************************************************************
 *

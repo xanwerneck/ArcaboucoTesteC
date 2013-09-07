@@ -8,7 +8,7 @@ MAT_CondRetNaoCriouRaiz = 1 ,
 
 MAT_CondRetErroEstrutura = 2 ,
             /* Estrutura da árvore está errada */
-			
+		
 MAT_CondRetMatrizNaoExiste = 3 ,
             /* Árvore não existe */
 
