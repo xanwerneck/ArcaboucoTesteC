@@ -110,6 +110,8 @@ static MAT_tpCondRet CriarNoRaiz( MAT_tpMatriz * tpMat , int numElementos ) ;
 
 static void DestroiMatriz( MAT_tpMatriz * tpMatExc ) ;
 
+static void DestroiNoMatriz( MAT_tpMatriz * tpMatExc );
+
 static tpElemMatriz * CriarNo( ) ;
 
 /*****  Código das funções exportadas pelo módulo  *****/
@@ -125,15 +127,18 @@ MAT_tpCondRet MAT_CriarMatriz( MAT_tppMatriz *tpMat , int numElementos){
 		MAT_tpCondRet CondRet ;
 
 		MAT_tppMatriz mMatriz ;
+
+		if((*tpMat) != NULL)
+		{
+			DestroiMatriz( (*tpMat) ); 
+		} /* if */
 		
 		mMatriz = ( MAT_tppMatriz ) malloc ( sizeof ( MAT_tpMatriz ) );
 			/* Malloc para gerar um ponteiro temporario */
 
-		if(mMatriz != NULL){
-			//DestroiMatriz( mMatriz ); // TESTAR  ESSA FUNCAO
-		} /* if */
-	   
-	   if(mMatriz == NULL){
+		   
+	   if(mMatriz == NULL)
+	   {
 		   return MAT_CondRetFaltouMemoria ;
 	   } /* if */
 	   
@@ -494,8 +499,6 @@ MAT_tpCondRet MAT_IrRaiz( MAT_tpMatriz * tpMat )
 
 /*****  Código das funções encapsuladas no módulo  *****/
 
-
-
 /***********************************************************************
 *
 *  $FC Função: MAT Destruir a estrutura da matriz
@@ -510,55 +513,91 @@ MAT_tpCondRet MAT_IrRaiz( MAT_tpMatriz * tpMat )
 void DestroiMatriz( MAT_tpMatriz * tpMatExc )
    {
 
+	   if ( tpMatExc != NULL )
+      {
+         if ( tpMatExc->pNoCorr != NULL )
+         {
+			 DestroiNoMatriz( tpMatExc ) ;
+         } /* if */
+         free( tpMatExc ) ;
+         tpMatExc = NULL ;
+      } /* if */
+
+	   
+
+   } /* Fim função: MAT Destruir a estrutura da matriz */
+
+/***********************************************************************
+*
+*  $FC Função: MAT Destruir a estrutura da matriz
+*		Chamada recursiva que percorre os elementos do nó corrente
+*		da um free quando chega no último elemento
+*
+*  $EAE Assertivas de entradas esperadas
+*     pMatriz != NULL
+*
+***********************************************************************/
+
+void DestroiNoMatriz( MAT_tpMatriz * tpMatExc )
+   {
+
 	  if ( tpMatExc->pNoCorr->pNoSudeste != NULL )
       {
 		 tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoSudeste;
-         DestroiMatriz( tpMatExc ) ;
+         free(tpMatExc->pNoCorr->pNoSudeste);
+		 DestroiNoMatriz( tpMatExc ) ;
       } /* if */
 
 	  if ( tpMatExc->pNoCorr->pNoSul != NULL )
       {
          tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoSul;
-         DestroiMatriz( tpMatExc ) ;
+         free(tpMatExc->pNoCorr->pNoSul);
+		 DestroiNoMatriz( tpMatExc ) ;
       } /* if */
 
 	  if ( tpMatExc->pNoCorr->pNoSudoeste != NULL )
       {
          tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoSudoeste;
-         DestroiMatriz( tpMatExc ) ;
+         free(tpMatExc->pNoCorr->pNoSudoeste);
+		 DestroiNoMatriz( tpMatExc ) ;
       } /* if */
 
 	  if ( tpMatExc->pNoCorr->pNoLeste != NULL )
       {
-         tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoOeste;
-         DestroiMatriz( tpMatExc ) ;
+         tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoLeste;
+		 free(tpMatExc->pNoCorr->pNoLeste);
+		 DestroiNoMatriz( tpMatExc ) ;
       } /* if */
 
 	  if ( tpMatExc->pNoCorr->pNoOeste != NULL )
       {
-         tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoNoroeste;
-         DestroiMatriz( tpMatExc ) ;
+         tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoOeste;
+         free(tpMatExc->pNoCorr->pNoOeste);
+		 DestroiNoMatriz( tpMatExc ) ;
       } /* if */
 
 	  if ( tpMatExc->pNoCorr->pNoNordeste != NULL )
       {
-         tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoSul;
-         DestroiMatriz( tpMatExc ) ;
+         tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoNordeste;
+         free(tpMatExc->pNoCorr->pNoNordeste);
+		 DestroiNoMatriz( tpMatExc ) ;
       } /* if */
 
 	  if ( tpMatExc->pNoCorr->pNoNorte != NULL )
       {
-         tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoSul;
-         DestroiMatriz( tpMatExc ) ;
+         tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoNorte;
+         free(tpMatExc->pNoCorr->pNoNorte);
+		 DestroiNoMatriz( tpMatExc ) ;
       } /* if */
 
 	  if ( tpMatExc->pNoCorr->pNoNoroeste != NULL )
       {
          tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoNoroeste;
-         DestroiMatriz( tpMatExc ) ;
+         free(tpMatExc->pNoCorr->pNoNoroeste);
+		 DestroiNoMatriz( tpMatExc ) ;
       } /* if */
 
-      free( tpMatExc ) ;
+	  free( tpMatExc->pNoCorr ) ;
 
    } /* Fim função: MAT Destruir a estrutura da matriz */
 
@@ -617,27 +656,17 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat , int numElementos ){
 						tpElemSulCabeca     = CriarNo( );
 						if(tpElemLesteCabeca==NULL || tpElemSudesteCabeca==NULL || tpElemSulCabeca==NULL){
 							return MAT_CondRetFaltouMemoria ;
-						}
-						
+						}						
 						tpElem->pNoLeste     = tpElemLesteCabeca;
 						tpElem->pNoSudeste   = tpElemSudesteCabeca;
 						tpElem->pNoSul       = tpElemSulCabeca;
-						tpElem->pNoSudoeste  = NULL;
-						tpElem->pNoOeste     = NULL;
-						tpElem->pNoNoroeste  = NULL;
-						tpElem->pNoNorte     = NULL;
-						tpElem->pNoNordeste  = NULL;
+
 					}
 					if(i==0 && j==numElementos){
 
 						tpElem->pNoSul       = tpMat->pNoCorr->pNoSudeste;
 						tpElem->pNoSudoeste  = tpMat->pNoCorr->pNoSul;
 						tpElem->pNoOeste     = tpMat->pNoCorr;
-						tpElem->pNoNoroeste  = NULL;
-						tpElem->pNoNorte     = NULL;
-						tpElem->pNoNordeste  = NULL;
-						tpElem->pNoLeste     = NULL;
-						tpElem->pNoSudoeste  = NULL;
 
 						// no final sta como corrente
 						tpMat->pNoCorr       = tpElem;
@@ -648,11 +677,6 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat , int numElementos ){
 						tpElem->pNoNorte     = tpMat->pNoIndLinha;
 						tpElem->pNoNordeste  = tpMat->pNoIndLinha->pNoLeste;
 						tpElem->pNoLeste     = tpMat->pNoIndLinha->pNoSudeste;
-						tpElem->pNoSudeste   = NULL;
-						tpElem->pNoSul       = NULL;
-						tpElem->pNoSudoeste  = NULL;
-						tpElem->pNoOeste     = NULL;
-						tpElem->pNoNoroeste  = NULL;
 
 						// no final seta como corrente
 						tpMat->pNoCorr      = tpElem;
@@ -665,11 +689,6 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat , int numElementos ){
 						tpElem->pNoNorte     = tpMat->pNoCorr->pNoNordeste;
 						tpElem->pNoNoroeste  = tpMat->pNoCorr->pNoNorte;
 						tpElem->pNoOeste     = tpMat->pNoCorr;
-						tpElem->pNoNordeste  = NULL;
-						tpElem->pNoLeste     = NULL;
-						tpElem->pNoSudeste   = NULL;
-						tpElem->pNoSul       = NULL;
-						tpElem->pNoSudoeste  = NULL;
 
 						// no final sta como corrente
 						tpMat->pNoCorr  = tpElem;
@@ -695,9 +714,6 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat , int numElementos ){
 						tpElem->pNoSul      = tpMat->pNoCorr->pNoSudeste;
 						tpElem->pNoSudoeste = tpMat->pNoCorr->pNoSul;
 						tpElem->pNoOeste    = tpMat->pNoCorr;
-						tpElem->pNoNordeste = NULL;
-						tpElem->pNoNorte    = NULL;
-						tpElem->pNoNoroeste = NULL;
 
 
 						// no final sta como corrente
@@ -717,9 +733,6 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat , int numElementos ){
 						tpElem->pNoLeste    = tpMat->pNoIndLinha->pNoSudeste;				
 						tpElem->pNoNordeste = tpMat->pNoIndLinha->pNoLeste;
 						tpElem->pNoNorte    = tpMat->pNoIndLinha;
-						tpElem->pNoNoroeste = NULL;
-						tpElem->pNoOeste    = NULL;
-						tpElem->pNoSudoeste = NULL;
 
 						// no final sta como corrente
 						tpMat->pNoCorr      = tpElem;
@@ -734,9 +747,6 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat , int numElementos ){
 						tpElem->pNoNorte    = tpMat->pNoCorr->pNoNordeste;
 						tpElem->pNoNoroeste = tpMat->pNoCorr->pNoNorte;
 						tpElem->pNoOeste    = tpMat->pNoCorr->pNoNoroeste;
-						tpElem->pNoSudoeste = NULL;
-						tpElem->pNoSul      = NULL;
-						tpElem->pNoSudeste  = NULL;
 
 						// no final sta como corrente
 						tpMat->pNoCorr  = tpElem;
@@ -749,9 +759,6 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat , int numElementos ){
 						tpElem->pNoSudoeste  = tpMat->pNoCorr->pNoSul;
 						tpElem->pNoOeste     = tpMat->pNoCorr;
 						tpElem->pNoNoroeste  = tpMat->pNoCorr->pNoNorte;
-						tpElem->pNoNordeste  = NULL;
-						tpElem->pNoLeste     = NULL;
-						tpElem->pNoSudeste   = NULL;
 
 						// no final sta como corrente
 						tpMat->pNoCorr  = tpElem;
