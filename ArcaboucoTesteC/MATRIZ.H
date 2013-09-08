@@ -70,10 +70,13 @@ typedef enum {
             /* Nó corrente é raiz */
 
 		MAT_CondRetNaoPossuiNo = 6 ,
-            /* Faltou memória ao alocar dados */
+            /* No nao encontrado */
 
 		MAT_CondRetMatrizCheia  = 7 ,
             /* Faltou espaço para inserir listas */
+
+		 MAT_CondRetListaVazia = 8 ,
+            /* Lista está vazia */		
 
         MAT_CondRetFaltouMemoria = 9
             /* Faltou memória ao alocar dados */
@@ -95,7 +98,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_CriarMatriz(MAT_tppMatriz tpMatrizModulo, int numElementos);
+MAT_tpCondRet MAT_CriarMatriz(MAT_tppMatriz* tpMatrizModulo, int numElementos);
 
 /***********************************************************************
 *
@@ -112,7 +115,7 @@ MAT_tpCondRet MAT_CriarMatriz(MAT_tppMatriz tpMatrizModulo, int numElementos);
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_InsereListaMatriz( LIS_tpMatLista * lt, MAT_tppMatriz * tpMatrizModulo);
+MAT_tpCondRet MAT_InsereListaMatriz( LIS_tpMatLista * lt, MAT_tppMatriz tpMatrizModulo);
 
 
 /***********************************************************************
@@ -126,7 +129,7 @@ MAT_tpCondRet MAT_InsereListaMatriz( LIS_tpMatLista * lt, MAT_tppMatriz * tpMatr
 *
 ***********************************************************************/
 
-void DestroiMatriz( MAT_tppMatriz * tpMatrizModulo ) ;
+void DestroiMatriz( MAT_tppMatriz tpMatrizModulo ) ;
 
 
 /***********************************************************************
@@ -141,7 +144,7 @@ void DestroiMatriz( MAT_tppMatriz * tpMatrizModulo ) ;
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_IrNoNorte(MAT_tppMatriz * tpMatrizModulo);
+MAT_tpCondRet MAT_IrNoNorte(MAT_tppMatriz tpMatrizModulo);
 
 
 /***********************************************************************
@@ -156,7 +159,7 @@ MAT_tpCondRet MAT_IrNoNorte(MAT_tppMatriz * tpMatrizModulo);
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_IrNoNordeste(MAT_tppMatriz * tpMatrizModulo) ;
+MAT_tpCondRet MAT_IrNoNordeste(MAT_tppMatriz tpMatrizModulo) ;
 
 
 /***********************************************************************
@@ -171,7 +174,7 @@ MAT_tpCondRet MAT_IrNoNordeste(MAT_tppMatriz * tpMatrizModulo) ;
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_IrNoLeste(MAT_tppMatriz * tpMatrizModulo) ;
+MAT_tpCondRet MAT_IrNoLeste(MAT_tppMatriz tpMatrizModulo) ;
 
 /***********************************************************************
 *
@@ -185,7 +188,7 @@ MAT_tpCondRet MAT_IrNoLeste(MAT_tppMatriz * tpMatrizModulo) ;
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_IrNoSudeste(MAT_tppMatriz * tpMatrizModulo) ;
+MAT_tpCondRet MAT_IrNoSudeste(MAT_tppMatriz tpMatrizModulo) ;
 
 
 /***********************************************************************
@@ -200,7 +203,7 @@ MAT_tpCondRet MAT_IrNoSudeste(MAT_tppMatriz * tpMatrizModulo) ;
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_IrNoSul(MAT_tppMatriz * tpMatrizModulo) ;
+MAT_tpCondRet MAT_IrNoSul(MAT_tppMatriz tpMatrizModulo) ;
 
 /***********************************************************************
 *
@@ -214,7 +217,7 @@ MAT_tpCondRet MAT_IrNoSul(MAT_tppMatriz * tpMatrizModulo) ;
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_IrNoSudoeste(MAT_tppMatriz * tpMatrizModulo) ;
+MAT_tpCondRet MAT_IrNoSudoeste(MAT_tppMatriz tpMatrizModulo) ;
 
 /***********************************************************************
 *
@@ -228,7 +231,7 @@ MAT_tpCondRet MAT_IrNoSudoeste(MAT_tppMatriz * tpMatrizModulo) ;
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_IrNoOeste(MAT_tppMatriz * tpMatrizModulo) ;
+MAT_tpCondRet MAT_IrNoOeste(MAT_tppMatriz tpMatrizModulo) ;
 
 /***********************************************************************
 *
@@ -242,7 +245,7 @@ MAT_tpCondRet MAT_IrNoOeste(MAT_tppMatriz * tpMatrizModulo) ;
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_IrNoNoroeste(MAT_tppMatriz * tpMatrizModulo) ;
+MAT_tpCondRet MAT_IrNoNoroeste(MAT_tppMatriz tpMatrizModulo) ;
 
 /***********************************************************************
 *
@@ -259,7 +262,7 @@ MAT_tpCondRet MAT_IrNoNoroeste(MAT_tppMatriz * tpMatrizModulo) ;
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_ObterListaCorr( LIS_tpMatLista * lst_valor , MAT_tppMatriz * tpMatrizModulo ) ;
+MAT_tpCondRet MAT_ObterListaCorr( LIS_tpMatLista lst_valor , MAT_tppMatriz tpMatrizModulo ) ;
 
 
 /***********************************************************************
@@ -275,7 +278,7 @@ MAT_tpCondRet MAT_ObterListaCorr( LIS_tpMatLista * lst_valor , MAT_tppMatriz * t
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_IrRaiz( MAT_tppMatriz * tpMatrizModulo );
+MAT_tpCondRet MAT_IrRaiz( MAT_tppMatriz tpMatrizModulo );
 
 #undef MATRIZ_EXT
 

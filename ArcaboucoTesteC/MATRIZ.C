@@ -85,7 +85,7 @@ typedef struct tpElemMatriz {
 *
 ***********************************************************************/
 
-typedef struct tgMatriz {
+typedef struct MAT_tgMatriz {
 
         tpElemMatriz * pNoRaiz ;
             /* Ponteiro para a raiz da matriz */
@@ -96,7 +96,7 @@ typedef struct tgMatriz {
         tpElemMatriz * pNoCorr ;
             /* Ponteiro para o nó corrente da matriz */
 
-} tpMatriz ;
+} MAT_tpMatriz ;
 
 
 /*****  Dados encapsulados no módulo  *****/
@@ -104,11 +104,11 @@ typedef struct tgMatriz {
 
 /***** Protótipos das funções encapsuladas no módulo *****/
 
-static MAT_tpCondRet PreparaEstruturaMatriz( tpMatriz * tpMat , int numElementos ) ;
+static MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat , int numElementos ) ;
 
-static MAT_tpCondRet CriarNoRaiz( tpMatriz * tpMat , int numElementos ) ;
+static MAT_tpCondRet CriarNoRaiz( MAT_tpMatriz * tpMat , int numElementos ) ;
 
-static void DestroiMatriz( tpMatriz * tpMatExc ) ;
+static void DestroiMatriz( MAT_tpMatriz * tpMatExc ) ;
 
 static tpElemMatriz * CriarNo( ) ;
 
@@ -120,24 +120,28 @@ static tpElemMatriz * CriarNo( ) ;
 *  
 ****/
 
-MAT_tpCondRet MAT_CriarMatriz( tpMatriz * tpMat , int numElementos){
+MAT_tpCondRet MAT_CriarMatriz( MAT_tppMatriz *tpMat , int numElementos){
 	   
 		MAT_tpCondRet CondRet ;
-		if(tpMat != NULL){
-			DestroiMatriz( tpMat );
-		} /* if */
 
-	   tpMat = (tpMatriz *) malloc(sizeof(tpMatriz));
+		MAT_tppMatriz mMatriz ;
+		
+		mMatriz = ( MAT_tppMatriz ) malloc ( sizeof ( MAT_tpMatriz ) );
+			/* Malloc para gerar um ponteiro temporario */
+
+		if(mMatriz != NULL){
+			//DestroiMatriz( mMatriz ); // TESTAR  ESSA FUNCAO
+		} /* if */
 	   
-	   if(tpMat == NULL){
+	   if(mMatriz == NULL){
 		   return MAT_CondRetFaltouMemoria ;
 	   } /* if */
 	   
-	   tpMat->pNoCorr      = NULL;
-	   tpMat->pNoRaiz      = NULL;
-	   tpMat->pNoIndLinha  = NULL;
+	   mMatriz->pNoCorr      = NULL;
+	   mMatriz->pNoRaiz      = NULL;
+	   mMatriz->pNoIndLinha  = NULL;
 
-	   CondRet = CriarNoRaiz(tpMat , numElementos);
+	   CondRet = CriarNoRaiz(mMatriz , numElementos);
 			 /* Inicializo a estrutura da matriz setando a raiz */
 
 	   if(CondRet != MAT_CondRetOK)
@@ -145,7 +149,19 @@ MAT_tpCondRet MAT_CriarMatriz( tpMatriz * tpMat , int numElementos){
 		return CondRet;
 	   } /* if */
 
-	   return MAT_CondRetOK;
+
+	   (*tpMat) = ( MAT_tpMatriz* ) malloc( sizeof( MAT_tppMatriz )) ;
+
+		if ( (*tpMat) == NULL )
+		{
+			return MAT_CondRetFaltouMemoria ;
+		} /* if */
+
+		(*tpMat) = mMatriz ;
+		
+		free(mMatriz);
+
+		return MAT_CondRetOK ;
 }
 
 
@@ -158,13 +174,13 @@ MAT_tpCondRet MAT_CriarMatriz( tpMatriz * tpMat , int numElementos){
 *  
 ****/
 
-MAT_tpCondRet MAT_InsereListaMatriz( LIS_tppLista * lt, tpMatriz * tpMat){
+MAT_tpCondRet MAT_InsereListaMatriz( LIS_tppLista * lt, MAT_tpMatriz * tpMat){
 
-	if(tpMat == NULL){
-		return MAT_CondRetFaltouMemoria ;
+	if( lt == NULL ){
+		return MAT_CondRetListaVazia ;
 	} /* if */
 
-	if ( tpMat->pNoCorr == NULL )
+	if ( tpMat == NULL )
     {
         return MAT_CondRetMatrizVazia ; // Devemos apresentar a mensagem de que a matriz deverá ser montada antes
     } /* if */
@@ -196,7 +212,7 @@ MAT_tpCondRet MAT_InsereListaMatriz( LIS_tppLista * lt, tpMatriz * tpMat){
 *  
 ****/
    
-MAT_tpCondRet MAT_IrNoNorte(tpMatriz * tpMat){
+MAT_tpCondRet MAT_IrNoNorte(MAT_tpMatriz * tpMat){
 
 	  if ( tpMat == NULL )
       {
@@ -225,7 +241,7 @@ MAT_tpCondRet MAT_IrNoNorte(tpMatriz * tpMat){
 *  
 ****/
    
-MAT_tpCondRet MAT_IrNoNordeste(tpMatriz * tpMat){
+MAT_tpCondRet MAT_IrNoNordeste(MAT_tpMatriz * tpMat){
 
 	  if ( tpMat == NULL )
       {
@@ -254,7 +270,7 @@ MAT_tpCondRet MAT_IrNoNordeste(tpMatriz * tpMat){
 *  
 ****/
    
-MAT_tpCondRet MAT_IrNoLeste(tpMatriz * tpMat){
+MAT_tpCondRet MAT_IrNoLeste(MAT_tpMatriz * tpMat){
 
 	  if ( tpMat == NULL )
       {
@@ -283,7 +299,7 @@ MAT_tpCondRet MAT_IrNoLeste(tpMatriz * tpMat){
 *  
 ****/
    
-MAT_tpCondRet MAT_IrNoSudeste(tpMatriz * tpMat){
+MAT_tpCondRet MAT_IrNoSudeste(MAT_tpMatriz * tpMat){
 
 	  if ( tpMat == NULL )
       {
@@ -312,7 +328,7 @@ MAT_tpCondRet MAT_IrNoSudeste(tpMatriz * tpMat){
 *  
 ****/
    
-MAT_tpCondRet MAT_IrNoSul(tpMatriz * tpMat){
+MAT_tpCondRet MAT_IrNoSul(MAT_tpMatriz * tpMat){
 
 	  if ( tpMat == NULL )
       {
@@ -341,7 +357,7 @@ MAT_tpCondRet MAT_IrNoSul(tpMatriz * tpMat){
 *  
 ****/
    
-MAT_tpCondRet MAT_IrNoSudoeste(tpMatriz * tpMat){
+MAT_tpCondRet MAT_IrNoSudoeste(MAT_tpMatriz * tpMat){
 
 	  if ( tpMat == NULL )
       {
@@ -370,7 +386,7 @@ MAT_tpCondRet MAT_IrNoSudoeste(tpMatriz * tpMat){
 *  
 ****/
    
-MAT_tpCondRet MAT_IrNoOeste(tpMatriz * tpMat){
+MAT_tpCondRet MAT_IrNoOeste(MAT_tpMatriz * tpMat){
 
 	  if ( tpMat == NULL )
       {
@@ -399,7 +415,7 @@ MAT_tpCondRet MAT_IrNoOeste(tpMatriz * tpMat){
 *  
 ****/
    
-MAT_tpCondRet MAT_IrNoNoroeste(tpMatriz * tpMat){
+MAT_tpCondRet MAT_IrNoNoroeste(MAT_tpMatriz * tpMat){
 
 	  if ( tpMat == NULL )
       {
@@ -430,7 +446,7 @@ MAT_tpCondRet MAT_IrNoNoroeste(tpMatriz * tpMat){
 *  Função: MAT Obter Lista corrente
 *  ****/
 
-MAT_tpCondRet MAT_ObterListaCorr( LIS_tppLista * lst_valor , tpMatriz * tpMat)
+MAT_tpCondRet MAT_ObterListaCorr( LIS_tppLista * lst_valor , MAT_tpMatriz * tpMat)
 {
 
     if ( tpMat == NULL )
@@ -453,7 +469,7 @@ MAT_tpCondRet MAT_ObterListaCorr( LIS_tppLista * lst_valor , tpMatriz * tpMat)
 *  Função: MAT Ir para nó raiz
 *  ****/
 
-MAT_tpCondRet MAT_IrRaiz( tpMatriz * tpMat )
+MAT_tpCondRet MAT_IrRaiz( MAT_tpMatriz * tpMat )
 {
 
     if ( tpMat == NULL )
@@ -491,7 +507,7 @@ MAT_tpCondRet MAT_IrRaiz( tpMatriz * tpMat )
 *
 ***********************************************************************/
 
-void DestroiMatriz( tpMatriz * tpMatExc )
+void DestroiMatriz( MAT_tpMatriz * tpMatExc )
    {
 
 	  if ( tpMatExc->pNoCorr->pNoSudeste != NULL )
@@ -558,9 +574,18 @@ void DestroiMatriz( tpMatriz * tpMatExc )
 *
 ***********************************************************************/
 
-MAT_tpCondRet PreparaEstruturaMatriz( tpMatriz * tpMat , int numElementos ){
+MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat , int numElementos ){
 
 	int i = 0, j = 0;
+
+	//checa se a matriz é um por um
+	tpElemMatriz * tpElemInt = CriarNo( );
+	if(numElementos == 1){
+		tpMat->pNoCorr       = tpElemInt;
+		tpMat->pNoRaiz       = tpElemInt;
+		tpMat->pNoIndLinha   = tpElemInt;
+		return MAT_CondRetOK;
+	}
 
 	for(;i<numElementos;i++){
 
@@ -570,20 +595,17 @@ MAT_tpCondRet PreparaEstruturaMatriz( tpMatriz * tpMat , int numElementos ){
 				tpElemMatriz * tpElemLesteCabeca   ;
 				tpElemMatriz * tpElemSudesteCabeca ;
 				tpElemMatriz * tpElemSulCabeca     ;
-				if(tpElem != NULL){
+				tpElemMatriz * tpElemLesteNo	   ;
+				tpElemMatriz * tpElemSudesteNo	   ;
+				tpElemMatriz * tpElemSulNo		   ;
+				if(tpElem == NULL)
+				{
 					return MAT_CondRetFaltouMemoria ;
 				}
 
-				//checa se a matriz é um por um
-				if(numElementos == 1){
-					tpMat->pNoCorr       = tpElem;
-					tpMat->pNoRaiz       = tpElem;
-					tpMat->pNoIndLinha   = tpElem;
-					return MAT_CondRetOK;
-				}
-
+				
 				//if que testa a condicão para 3 adjacentes
-				if((i==0 || j==0) && (i==numElementos || j==numElementos)){
+				if((i==0 || i==numElementos) && (j==0 || j==numElementos)){
 
 					if(i==0 && j==0){
 						tpMat->pNoCorr       = tpElem;
@@ -596,7 +618,7 @@ MAT_tpCondRet PreparaEstruturaMatriz( tpMatriz * tpMat , int numElementos ){
 						if(tpElemLesteCabeca==NULL || tpElemSudesteCabeca==NULL || tpElemSulCabeca==NULL){
 							return MAT_CondRetFaltouMemoria ;
 						}
-
+						
 						tpElem->pNoLeste     = tpElemLesteCabeca;
 						tpElem->pNoSudeste   = tpElemSudesteCabeca;
 						tpElem->pNoSul       = tpElemSulCabeca;
@@ -632,7 +654,7 @@ MAT_tpCondRet PreparaEstruturaMatriz( tpMatriz * tpMat , int numElementos ){
 						tpElem->pNoOeste     = NULL;
 						tpElem->pNoNoroeste  = NULL;
 
-						// no final sta como corrente
+						// no final seta como corrente
 						tpMat->pNoCorr      = tpElem;
 						// no final aponta o indice da linha para o primeiro elemento da linha
 						tpMat->pNoIndLinha  = tpElem;
@@ -662,8 +684,8 @@ MAT_tpCondRet PreparaEstruturaMatriz( tpMatriz * tpMat , int numElementos ){
 
 					if(i==0 && (j!=numElementos || j!=0)){
 			    
-						tpElemMatriz * tpElemLesteNo   = CriarNo( );
-						tpElemMatriz * tpElemSudesteNo = CriarNo( );
+						tpElemLesteNo   = CriarNo( );
+						tpElemSudesteNo = CriarNo( );
 						if(tpElemLesteNo==NULL || tpElemSudesteNo==NULL){
 							return MAT_CondRetFaltouMemoria ;
 						}
@@ -684,17 +706,17 @@ MAT_tpCondRet PreparaEstruturaMatriz( tpMatriz * tpMat , int numElementos ){
 					}
 					if(j==0 && (i!=numElementos || i!=0)){
 
-						tpElemMatriz * tpElemSulNo     = CriarNo( );
-						tpElemMatriz * tpElemSudesteNo = CriarNo( );
+						tpElemSulNo     = CriarNo( );
+						tpElemSudesteNo = CriarNo( );
 						if(tpElemSulNo==NULL || tpElemSudesteNo==NULL){
 							return MAT_CondRetFaltouMemoria ;
 						}
 
 						tpElem->pNoSudeste  = tpElemSudesteNo;
 						tpElem->pNoSul      = tpElemSulNo;
-						tpElem->pNoLeste    = tpMat->pNoCorr->pNoSudeste;				
-						tpElem->pNoNordeste = tpMat->pNoCorr->pNoLeste;
-						tpElem->pNoNorte    = tpMat->pNoCorr;
+						tpElem->pNoLeste    = tpMat->pNoIndLinha->pNoSudeste;				
+						tpElem->pNoNordeste = tpMat->pNoIndLinha->pNoLeste;
+						tpElem->pNoNorte    = tpMat->pNoIndLinha;
 						tpElem->pNoNoroeste = NULL;
 						tpElem->pNoOeste    = NULL;
 						tpElem->pNoSudoeste = NULL;
@@ -707,12 +729,7 @@ MAT_tpCondRet PreparaEstruturaMatriz( tpMatriz * tpMat , int numElementos ){
 					}
 					if(i==numElementos && (j!=numElementos || j!=0)){
 			    
-						tpElemMatriz * tpElemLesteNo   = CriarNo( );
-						if(tpElemLesteNo==NULL){
-							return MAT_CondRetFaltouMemoria ;
-						}
-
-						tpElem->pNoLeste    = tpElemLesteNo;
+						tpElem->pNoLeste    = tpMat->pNoCorr->pNoNordeste->pNoSudeste;
 						tpElem->pNoNordeste = tpMat->pNoCorr->pNoNordeste->pNoLeste;
 						tpElem->pNoNorte    = tpMat->pNoCorr->pNoNordeste;
 						tpElem->pNoNoroeste = tpMat->pNoCorr->pNoNorte;
@@ -727,7 +744,7 @@ MAT_tpCondRet PreparaEstruturaMatriz( tpMatriz * tpMat , int numElementos ){
 					}
 					if(j==numElementos && (i!=numElementos || i!=0)){
 
-						tpElem->pNoNorte     = tpMat->pNoCorr->pNoNoroeste;
+						tpElem->pNoNorte     = tpMat->pNoCorr->pNoNordeste;
 						tpElem->pNoSul       = tpMat->pNoCorr->pNoSudeste;
 						tpElem->pNoSudoeste  = tpMat->pNoCorr->pNoSul;
 						tpElem->pNoOeste     = tpMat->pNoCorr;
@@ -745,7 +762,7 @@ MAT_tpCondRet PreparaEstruturaMatriz( tpMatriz * tpMat , int numElementos ){
 				//else com 8 adjacentes
 				else{
 
-						tpElemMatriz * tpElemSudesteNo   = CriarNo( );
+						tpElemSudesteNo   = CriarNo( );
 						if(tpElemSudesteNo==NULL){
 							return MAT_CondRetFaltouMemoria ;
 						}
@@ -753,7 +770,7 @@ MAT_tpCondRet PreparaEstruturaMatriz( tpMatriz * tpMat , int numElementos ){
 
 						tpElem->pNoNorte     = tpMat->pNoCorr->pNoNoroeste;
 						tpElem->pNoNordeste  = tpMat->pNoCorr->pNoNordeste->pNoLeste;
-						tpElem->pNoLeste     = tpMat->pNoCorr->pNoNordeste->pNoLeste->pNoSul;
+						tpElem->pNoLeste     = tpMat->pNoCorr->pNoNordeste->pNoSudeste;
 						tpElem->pNoSudeste   = tpElemSudesteNo;
 						tpElem->pNoSul       = tpMat->pNoCorr->pNoSudeste;
 						tpElem->pNoSudoeste  = tpMat->pNoCorr->pNoSul;
@@ -764,6 +781,7 @@ MAT_tpCondRet PreparaEstruturaMatriz( tpMatriz * tpMat , int numElementos ){
 		}
 
 	}
+
 	 
 	return MAT_CondRetOK;
 
@@ -818,7 +836,7 @@ MAT_tpCondRet PreparaEstruturaMatriz( tpMatriz * tpMat , int numElementos ){
 *
 ***********************************************************************/
 
-MAT_tpCondRet CriarNoRaiz( tpMatriz * tpMat , int numElementos )
+MAT_tpCondRet CriarNoRaiz( MAT_tpMatriz* tpMat , int numElementos )
 {
 
     MAT_tpCondRet CondRet ;
@@ -843,6 +861,8 @@ MAT_tpCondRet CriarNoRaiz( tpMatriz * tpMat , int numElementos )
         tpMat->pNoRaiz     = tpElNo ;
         tpMat->pNoCorr     = tpElNo ;
 		tpMat->pNoIndLinha = tpElNo ;
+
+
 
         return MAT_CondRetOK  ;
     } /* if */

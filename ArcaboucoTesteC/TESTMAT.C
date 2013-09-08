@@ -58,7 +58,7 @@ static const char IR_INICIO_CMD				[ ] = "=irinicio"        ;
 
 MAT_tppMatriz  vtMatrizes[ DIM_VT_MATRIZ ] ;
 
-LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
+LIS_tpMatLista   vtListas[ DIM_VT_LISTA ] ;
 
 
 /***** Protótipos das funções encapuladas no módulo *****/
@@ -118,8 +118,11 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
             {
                return TST_CondRetParm ;
             } /* if */
-			
-			CondRetObtido = MAT_CriarMatriz( vtMatrizes[ inxMatriz ] , NumElementos ) ;
+
+			vtMatrizes[ inxMatriz ] = NULL;
+
+			CondRetObtido = MAT_CriarMatriz( &vtMatrizes[ inxMatriz ] , NumElementos ) ;
+
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao criar matriz." );
@@ -138,7 +141,9 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
                return TST_CondRetParm ;
             } /* if */
 
-			CondRetLista = LIS_CriarLista( DestruirLista , vtListas[ inxLista ] ) ;
+			vtListas[ inxLista ] = NULL;
+
+			CondRetLista = LIS_CriarLista( DestruirLista , &vtListas[ inxLista ] ) ;
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao criar lista." );
@@ -156,11 +161,12 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
             {
                return TST_CondRetParm ;
             } /* if */
+			
 
-			CondRetObtido = MAT_InsereListaMatriz( &vtListas[ inxLista ] ,  &vtMatrizes[ inxMatriz ] );
+			CondRetObtido = MAT_InsereListaMatriz( &vtListas[ inxLista ] ,  vtMatrizes[ inxMatriz ] );
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao criar lista." );
+                                    "Retorno errado ao inserir lista na matriz." );
 
 
 		} /* fim ativa: Testar MAT Inserir Lista na Matriz */
@@ -174,7 +180,7 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_IrNoNorte( &vtMatrizes[ inxMatriz ]);
+			CondRetObtido = MAT_IrNoNorte( vtMatrizes[ inxMatriz ] );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao ir para norte do nó corrente." );
@@ -190,7 +196,7 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_IrNoNordeste( &vtMatrizes[ inxMatriz ]);
+			CondRetObtido = MAT_IrNoNordeste( vtMatrizes[ inxMatriz ]);
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao ir para nordeste do nó corrente." );
@@ -206,7 +212,7 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_IrNoLeste( &vtMatrizes[ inxMatriz ]);
+			CondRetObtido = MAT_IrNoLeste( vtMatrizes[ inxMatriz ]);
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao ir para leste do nó corrente." );
@@ -223,7 +229,7 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_IrNoSudeste( &vtMatrizes[ inxMatriz ]);
+			CondRetObtido = MAT_IrNoSudeste( vtMatrizes[ inxMatriz ]);
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao ir para sudeste do nó corrente." );
@@ -240,7 +246,7 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_IrNoSul( &vtMatrizes[ inxMatriz ]);
+			CondRetObtido = MAT_IrNoSul( vtMatrizes[ inxMatriz ]);
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao ir para sul do nó corrente." );
@@ -257,7 +263,7 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_IrNoSudoeste( &vtMatrizes[ inxMatriz ]);
+			CondRetObtido = MAT_IrNoSudoeste( vtMatrizes[ inxMatriz ]);
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao ir para sudoeste do nó corrente." );
@@ -273,7 +279,7 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_IrNoOeste( &vtMatrizes[ inxMatriz ]);
+			CondRetObtido = MAT_IrNoOeste( vtMatrizes[ inxMatriz ]);
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao ir para oeste do nó corrente." );
@@ -291,7 +297,7 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_IrNoNoroeste( &vtMatrizes[ inxMatriz ]);
+			CondRetObtido = MAT_IrNoNoroeste( vtMatrizes[ inxMatriz ]);
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao ir para noroeste do nó corrente." );
@@ -308,7 +314,7 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_ObterListaCorr( &vtListas[ inxLista ] , &vtMatrizes[ inxMatriz ]);
+			CondRetObtido = MAT_ObterListaCorr( vtListas[ inxLista ] , vtMatrizes[ inxMatriz ]);
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao obter lista corrente." );
@@ -325,7 +331,7 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_IrRaiz( &vtMatrizes[ inxMatriz ]);
+			CondRetObtido = MAT_IrRaiz( vtMatrizes[ inxMatriz ] );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao ir para razi da matriz." );
