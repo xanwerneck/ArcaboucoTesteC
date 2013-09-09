@@ -78,8 +78,11 @@ typedef enum {
 		 MAT_CondRetListaVazia = 8 ,
             /* Lista está vazia */		
 
-        MAT_CondRetFaltouMemoria = 9
+        MAT_CondRetFaltouMemoria = 9 ,
             /* Faltou memória ao alocar dados */
+
+		MAT_CondRetNoMatrizSemLista = 10
+            /* No nao possui lista */
 
 } MAT_tpCondRet ;
 
