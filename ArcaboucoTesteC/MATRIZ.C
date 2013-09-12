@@ -620,6 +620,10 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat , int numElementos ){
 
 	int i = 0, j = 0;
 
+
+	//tpElemMatriz * tpElemt = (tpElemMatriz *) malloc (sizeof (tpElemMatriz) );
+
+
 	//checa se a matriz é um por um
 	tpElemMatriz * tpElemLesteCabeca   = NULL;
 	tpElemMatriz * tpElemSudesteCabeca = NULL;
@@ -644,10 +648,9 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat , int numElementos ){
 
 	
 
-	for(;i<=numElementos;i++){
+	for(i=0;i<=numElementos;i++){
 
-		for(;j<=numElementos;j++){	
-
+		for(j=0;j<=numElementos;j++){	
 
 								
 				//if que testa a condicão para 3 adjacentes
@@ -667,6 +670,7 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat , int numElementos ){
 						tpMat->pNoCorr->pNoLeste     = tpElemLesteCabeca;
 						tpMat->pNoCorr->pNoSudeste   = tpElemSudesteCabeca;
 						tpMat->pNoCorr->pNoSul       = tpElemSulCabeca;
+
 
 					}
 					if(i==0 && j==numElementos){
@@ -709,37 +713,39 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat , int numElementos ){
 
 
 					if(i==0 && (j!=numElementos || j!=0)){
-			    
+						
+						tpMat->pNoCorr->pNoLeste->pNoSul      = tpMat->pNoCorr->pNoSudeste;
+						tpMat->pNoCorr->pNoLeste->pNoSudoeste = tpMat->pNoCorr->pNoSul;
+						tpMat->pNoCorr->pNoLeste->pNoOeste    = tpMat->pNoCorr;
+
 						tpElemLesteNo   = CriarNo( );
 						tpElemSudesteNo = CriarNo( );
 						if(tpElemLesteNo==NULL || tpElemSudesteNo==NULL){
 							return MAT_CondRetFaltouMemoria ;
 						}
-
 						tpMat->pNoCorr->pNoLeste->pNoLeste    = tpElemLesteNo;
 						tpMat->pNoCorr->pNoLeste->pNoSudeste  = tpElemSudesteNo;
-						tpMat->pNoCorr->pNoLeste->pNoSul      = tpMat->pNoCorr->pNoSudeste;
-						tpMat->pNoCorr->pNoLeste->pNoSudoeste = tpMat->pNoCorr->pNoSul;
-						tpMat->pNoCorr->pNoLeste->pNoOeste    = tpMat->pNoCorr;
 
 
 						// no final sta como corrente
 						tpMat->pNoCorr  = tpMat->pNoCorr->pNoLeste;
 
 					}
+
 					if(j==0 && (i!=numElementos || i!=0)){
+
+						tpMat->pNoIndLinha->pNoSul->pNoLeste    = tpMat->pNoIndLinha->pNoSudeste;				
+						tpMat->pNoIndLinha->pNoSul->pNoNordeste = tpMat->pNoIndLinha->pNoLeste;
+						tpMat->pNoIndLinha->pNoSul->pNoNorte    = tpMat->pNoIndLinha;
 
 						tpElemSulNo     = CriarNo( );
 						tpElemSudesteNo = CriarNo( );
 						if(tpElemSulNo==NULL || tpElemSudesteNo==NULL){
 							return MAT_CondRetFaltouMemoria ;
 						}
-
 						tpMat->pNoIndLinha->pNoSul->pNoSudeste  = tpElemSudesteNo;
 						tpMat->pNoIndLinha->pNoSul->pNoSul      = tpElemSulNo;
-						tpMat->pNoIndLinha->pNoSul->pNoLeste    = tpMat->pNoIndLinha->pNoSudeste;				
-						tpMat->pNoIndLinha->pNoSul->pNoNordeste = tpMat->pNoIndLinha->pNoLeste;
-						tpMat->pNoIndLinha->pNoSul->pNoNorte    = tpMat->pNoIndLinha;
+
 
 						// no final sta como corrente
 						tpMat->pNoCorr      = tpMat->pNoIndLinha->pNoSul;
@@ -776,18 +782,19 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat , int numElementos ){
 				//else com 8 adjacentes
 				else{
 
-						tpElemSudesteNo   = CriarNo( );
-						if(tpElemSudesteNo==NULL){
-							return MAT_CondRetFaltouMemoria ;
-						}
 						tpMat->pNoCorr->pNoLeste->pNoNorte     = tpMat->pNoCorr->pNoNordeste;
 						tpMat->pNoCorr->pNoLeste->pNoNordeste  = tpMat->pNoCorr->pNoNordeste->pNoLeste;
 						tpMat->pNoCorr->pNoLeste->pNoLeste     = tpMat->pNoCorr->pNoNordeste->pNoSudeste;
-						tpMat->pNoCorr->pNoLeste->pNoSudeste   = tpElemSudesteNo;
 						tpMat->pNoCorr->pNoLeste->pNoSul       = tpMat->pNoCorr->pNoSudeste;
 						tpMat->pNoCorr->pNoLeste->pNoSudoeste  = tpMat->pNoCorr->pNoSul;
 						tpMat->pNoCorr->pNoLeste->pNoOeste     = tpMat->pNoCorr;
 						tpMat->pNoCorr->pNoLeste->pNoNoroeste  = tpMat->pNoCorr->pNoNorte;
+						tpElemSudesteNo   = CriarNo( );
+						if(tpElemSudesteNo==NULL){
+							return MAT_CondRetFaltouMemoria ;
+						}
+						tpMat->pNoCorr->pNoLeste->pNoSudeste   = tpElemSudesteNo;
+
 
 						tpMat->pNoCorr = tpMat->pNoCorr->pNoLeste;
 
