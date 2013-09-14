@@ -13,6 +13,7 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
+*     5       afv   13/set/2013 adaptação para manupulação de caracteres
 *     4       avs   01/fev/2006 criar linguagem script simbólica
 *     3       avs   08/dez/2004 uniformização dos exemplos
 *     2       avs   07/jul/2003 unificação de todos os módulos em um só projeto
@@ -39,11 +40,8 @@
 
    typedef struct tagElemLista {
 
-
          char pValor ;
-               /* Ponteiro para o valor contido no elemento */
-	   // fe: Troquei o tipo de pValor, de (void *) para (char) 
-	   //		já que o enunciado parecer querer que pValor armazene caracter e não um array de caracteres
+               /* Valor contido no elemento */
 
          struct tagElemLista * pAnt ;
                /* Ponteiro para o elemento predecessor */
@@ -74,23 +72,18 @@
          int numElem ;
                /* Número de elementos da lista */
 
-         void ( * ExcluirValor ) ( char * pValor ) ; 
-               /* Ponteiro para a função de destruição do valor contido em um elemento */
-		 // fe: Troquei o parâmetro de ExcluirValor de (void *) para (char *) porque a função deleta o pValor por referência.
 
    } LIS_tpLista ;
 
 /***** Protótipos das funções encapuladas no módulo *****/
 
-   static void LiberarElemento( LIS_tppLista   pLista ,
+   static void LiberarElemento( LIS_tpLista *   pLista ,
                                 tpElemLista  * pElem   ) ;
 
-   static tpElemLista * CriarElemento( LIS_tppLista pLista ,
-                                       char       pValor  ) ;
-   // fe: Novamente, troquei o tipo do parâmetro pValor de (void *) para (char) 
-   //	já que ele vai utilizar o conteúdo da variável e não vai alterar seu valor por referência.
+   static tpElemLista * CriarElemento( char pValor  ) ;
 
-   static void LimparCabeca( LIS_tppLista pLista ) ;
+
+   static void LimparCabeca( LIS_tpLista * pLista ) ;
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -99,26 +92,31 @@
 *  Função: LIS  &Criar lista
 *  ****/
 
-   LIS_tpCondRet LIS_CriarLista(
-             void   ( * ExcluirValor ) ( char * pDado ) , LIS_tpLista * tpListaCriada )
-			 // fe: Troquei de (void *) parar (char *) porque a função deleta por referência.
+   LIS_tpCondRet LIS_CriarLista( LIS_tppLista * pLista )
    {
 
-      LIS_tpLista * pLista = NULL ;
 
-      pLista = ( LIS_tpLista * ) malloc( sizeof( LIS_tpLista )) ;
-      if ( pLista == NULL )
+      LIS_tppLista mLista ;
+
+      mLista = ( LIS_tppLista ) malloc( sizeof( LIS_tpLista )) ;
+
+      if ( mLista == NULL )
       {
-		  return LIS_CondRetFaltouMemoria;
+         return LIS_CondRetFaltouMemoria ;
       } /* if */
 
-      LimparCabeca( pLista ) ;
+      LimparCabeca( mLista ) ;
 
-      pLista->ExcluirValor = ExcluirValor ;
-      
-	  tpListaCriada = pLista;
+	  (*pLista) = ( LIS_tpLista* ) malloc( sizeof( LIS_tppLista )) ;
 
-	  return LIS_CondRetOK ;
+		if ( (*pLista) == NULL )
+		{
+			return LIS_CondRetFaltouMemoria ;
+		} /* if */
+
+		(*pLista) = mLista ;
+
+        return LIS_CondRetOK ;
 
    } /* Fim função: LIS  &Criar lista */
 
@@ -127,16 +125,32 @@
 *  Função: LIS  &Destruir lista
 *  ****/
 
-   void LIS_DestruirLista( LIS_tppLista pLista )
+   LIS_tpCondRet LIS_DestruirLista( LIS_tpLista * pLista )
    {
+
+	   LIS_tpCondRet CondRetObtido;
 
       #ifdef _DEBUG
          assert( pLista != NULL ) ;
       #endif
 
-      LIS_EsvaziarLista( pLista ) ;
+      if(pLista->pOrigemLista->pProx == NULL)
+	  {
+		  return LIS_CondRetListaVazia;
+	  }
 
+      CondRetObtido = LIS_EsvaziarLista( pLista ) ;
+
+	  if(CondRetObtido != LIS_CondRetOK)
+	  {
+		  return CondRetObtido;
+	  }
       free( pLista ) ;
+
+	  if(pLista == NULL)
+	  {
+		  return LIS_CondRetOK;
+	  }
 
    } /* Fim função: LIS  &Destruir lista */
 
@@ -145,7 +159,7 @@
 *  Função: LIS  &Esvaziar lista
 *  ****/
 
-   void LIS_EsvaziarLista( LIS_tppLista pLista )
+ LIS_tpCondRet LIS_EsvaziarLista( LIS_tpLista * pLista )
    {
 
       tpElemLista * pElem ;
@@ -155,7 +169,13 @@
          assert( pLista != NULL ) ;
       #endif
 
-      pElem = pLista->pOrigemLista ;
+      pElem = pLista->pOrigemLista;
+
+	  if(pElem->pProx == NULL)
+	  {
+		  return LIS_CondRetListaVazia;
+	  }
+
       while ( pElem != NULL )
       {
          pProx = pElem->pProx ;
@@ -165,6 +185,8 @@
 
       LimparCabeca( pLista ) ;
 
+	  return LIS_CondRetOK;
+
    } /* Fim função: LIS  &Esvaziar lista */
 
 /***************************************************************************
@@ -172,22 +194,16 @@
 *  Função: LIS  &Inserir elemento antes
 *  ****/
 
-   LIS_tpCondRet LIS_InserirElementoAntes( LIS_tppLista pLista ,
-                                           char pValor        )
+   LIS_tpCondRet LIS_InserirElementoAntes( LIS_tpLista * pLista ,
+                                           char pValor  )
    {
-	   // fe: Novamente, troquei o tipo do parâmetro pValor de (void *) para (char) 
-	   //		já que ele vai utilizar o conteúdo da variável e não vai alterar seu valor por referência.
 
       tpElemLista * pElem ;
 
-      #ifdef _DEBUG
-         assert( pLista != NULL ) ;
-      #endif
-
       /* Criar elemento a inserir antes */
 
-         pElem = CriarElemento( pLista , pValor ) ;
-		 // fe: CriarElementos já tem pValor como tipo char
+         pElem = CriarElemento( pValor ) ;
+
          if ( pElem == NULL )
          {
             return LIS_CondRetFaltouMemoria ;
@@ -197,8 +213,14 @@
 
          if ( pLista->pElemCorr == NULL )
          {
-            pLista->pOrigemLista = pElem ;
-            pLista->pFimLista = pElem ;
+
+			pLista->pOrigemLista = pElem ;
+			if(pLista->pOrigemLista==NULL)
+			{
+				return LIS_CondRetFaltouMemoria;
+			}
+            pLista->pFimLista    = pElem ;
+
          } else
          {
             if ( pLista->pElemCorr->pAnt != NULL )
@@ -216,6 +238,11 @@
 
          pLista->pElemCorr = pElem ;
 
+		 if(pLista->pElemCorr == NULL)
+		 {
+			 return LIS_CondRetListaVazia;
+		 }
+
          return LIS_CondRetOK ;
 
    } /* Fim função: LIS  &Inserir elemento antes */
@@ -225,12 +252,10 @@
 *  Função: LIS  &Inserir elemento após
 *  ****/
 
-   LIS_tpCondRet LIS_InserirElementoApos( LIS_tppLista pLista ,
+   LIS_tpCondRet LIS_InserirElementoApos( LIS_tpLista * pLista ,
                                           char pValor        )
       
    {
-	// fe: Novamente, troquei o tipo do parâmetro pValor de (void *) para (char) 
-	//	já que ele vai utilizar o conteúdo da variável e não vai alterar seu valor por referência.
 
       tpElemLista * pElem ;
 
@@ -238,9 +263,9 @@
          assert( pLista != NULL ) ;
       #endif
 
-      /* Criar elemento a inserir após */
+      /* Criar elemento a inerir após */
 
-         pElem = CriarElemento( pLista , pValor ) ;
+         pElem = CriarElemento( pValor ) ;
          if ( pElem == NULL )
          {
             return LIS_CondRetFaltouMemoria ;
@@ -279,7 +304,7 @@
 *  Função: LIS  &Excluir elemento
 *  ****/
 
-   LIS_tpCondRet LIS_ExcluirElemento( LIS_tppLista pLista )
+   LIS_tpCondRet LIS_ExcluirElemento( LIS_tpLista * pLista )
    {
 
       tpElemLista * pElem ;
@@ -327,24 +352,14 @@
 *  Função: LIS  &Obter referência para o valor contido no elemento
 *  ****/
 
-   char * LIS_ObterValor( LIS_tppLista pLista )
+   char LIS_ObterValor( LIS_tpLista * pLista )
    {
-	   // fe: Aqui, tem que ser (char *) no retorno da função porque a função acessa pValor de pLista que é passada como parâmetro para ela. 
-	   //		Ela vai retornar o ponteiro do pValor de pLista.
 
       #ifdef _DEBUG
          assert( pLista != NULL ) ;
       #endif
 
-      if ( pLista->pElemCorr == NULL )
-      {
-        return NULL ;
-      } /* if */
-
-      return & pLista->pElemCorr->pValor ;
-
-	  // fe: Aqui, em vez de retornar o conteúdo da variável pValor, a função retorna o ponteiro de pValor, 
-	  //		já que a pLista foi criada fora da função LIS-ObterValor, não vai ter problema.
+      return pLista->pElemCorr->pValor ;
 
    } /* Fim função: LIS  &Obter referência para o valor contido no elemento */
 
@@ -353,7 +368,7 @@
 *  Função: LIS  &Ir para o elemento inicial
 *  ****/
 
-   void IrInicioLista( LIS_tppLista pLista )
+   void IrInicioLista( LIS_tpLista * pLista )
    {
 
       #ifdef _DEBUG
@@ -369,7 +384,7 @@
 *  Função: LIS  &Ir para o elemento final
 *  ****/
 
-   void IrFinalLista( LIS_tppLista pLista )
+   void IrFinalLista( LIS_tpLista * pLista )
    {
 
       #ifdef _DEBUG
@@ -385,7 +400,7 @@
 *  Função: LIS  &Avançar elemento
 *  ****/
 
-   LIS_tpCondRet LIS_AvancarElementoCorrente( LIS_tppLista pLista ,
+   LIS_tpCondRet LIS_AvancarElementoCorrente( LIS_tpLista * pLista ,
                                               int numElem )
    {
 
@@ -469,11 +484,9 @@
 *  Função: LIS  &Procurar elemento contendo valor
 *  ****/
 
-   LIS_tpCondRet LIS_ProcurarValor( LIS_tppLista pLista ,
+   LIS_tpCondRet LIS_ProcurarValor( LIS_tpLista * pLista ,
                                     char pValor        )
    {
-   // fe: Novamente, troquei o tipo do parâmetro pValor de (void *) para (char) 
-   //	já que ele vai utilizar o conteúdo da variável e não vai alterar seu valor por referência.
 
       tpElemLista * pElem ;
 
@@ -515,20 +528,13 @@
 *
 ***********************************************************************/
 
-   void LiberarElemento( LIS_tppLista   pLista ,
+   void LiberarElemento( LIS_tpLista  * pLista ,
                          tpElemLista  * pElem   )
    {
 
-      if ( ( pLista->ExcluirValor != NULL )
-        && ( & pElem->pValor != NULL        ))
+	  pElem->pAnt = NULL;
 
-		// fe: Aqui adicionei o & // fe: POR QUê?
-      {
-         pLista->ExcluirValor( & pElem->pValor ) ;
-
-		 // fe: Aqui adicionei um & ao parâmetro para passar o endereço de pValor (já que ExcluirValor recebe o ponteiro de pValor)
-
-      } /* if */
+	  pElem->pProx = NULL;
 
       free( pElem ) ;
 
@@ -543,15 +549,13 @@
 *
 ***********************************************************************/
 
-   tpElemLista * CriarElemento( LIS_tppLista pLista ,
-                                char       pValor  )
+   tpElemLista * CriarElemento( char pValor  )
    {
-   // fe: Novamente, troquei o tipo do parâmetro pValor de (void *) para (char) 
-   //	já que ele vai utilizar o conteúdo da variável e não vai alterar seu valor por referência.
 
-      tpElemLista * pElem ;
+	  tpElemLista * pElem ;
 
-      pElem = ( tpElemLista * ) malloc( sizeof( tpElemLista )) ;
+	  pElem = ( tpElemLista * ) malloc( sizeof( tpElemLista )) ;
+
       if ( pElem == NULL )
       {
          return NULL ;
@@ -560,8 +564,6 @@
       pElem->pValor = pValor ;
       pElem->pAnt   = NULL  ;
       pElem->pProx  = NULL  ;
-
-      pLista->numElem ++ ;
 
       return pElem ;
 
@@ -574,7 +576,7 @@
 *
 ***********************************************************************/
 
-   void LimparCabeca( LIS_tppLista pLista )
+   void LimparCabeca( LIS_tpLista * pLista )
    {
 
       pLista->pOrigemLista = NULL ;

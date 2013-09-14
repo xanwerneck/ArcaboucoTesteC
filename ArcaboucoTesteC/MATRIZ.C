@@ -63,7 +63,7 @@ typedef struct tpElemMatriz {
         struct tpElemMatriz * pNoSudeste ;
             /* Adjacente da quina inferior direita */
 
-        struct LIS_tppLista * Lista;
+        struct LIS_tpMatLista * Lista;
 			/* Lista para o elemento da Matriz que armazena caracteres */
 
 } tpElemMatriz ;
@@ -178,7 +178,7 @@ MAT_tpCondRet MAT_CriarMatriz( MAT_tppMatriz *tpMat , int numElementos){
 *  
 ****/
 
-MAT_tpCondRet MAT_InsereListaMatriz( LIS_tppLista * lt, MAT_tpMatriz * tpMat){
+MAT_tpCondRet MAT_InsereListaMatriz( LIS_tpMatLista * lt, MAT_tpMatriz * tpMat){
 
 	if( lt == NULL ){
 		return MAT_CondRetListaVazia ;
@@ -450,7 +450,7 @@ MAT_tpCondRet MAT_IrNoNoroeste(MAT_tpMatriz * tpMat){
 *  Função: MAT Obter Lista corrente
 *  ****/
 
-MAT_tpCondRet MAT_ObterListaCorr( LIS_tppLista * lst_valor , MAT_tpMatriz * tpMat)
+MAT_tpCondRet MAT_ObterListaCorr( LIS_tpMatLista * lst_valor , MAT_tpMatriz * tpMat)
 {
 
     if ( tpMat == NULL )
@@ -465,9 +465,13 @@ MAT_tpCondRet MAT_ObterListaCorr( LIS_tppLista * lst_valor , MAT_tpMatriz * tpMa
     {
         return MAT_CondRetNoMatrizSemLista ;
     } /* if */
-    lst_valor = tpMat->pNoCorr->Lista ;
+    //lst_valor = tpMat->pNoCorr->Lista ;
+	if(lst_valor == tpMat->pNoCorr->Lista)
+	{
+		return MAT_CondRetOK  ;
+	}
 
-    return MAT_CondRetOK  ;
+	return MAT_CondRetFaltouMemoria ;
 
 } /* Fim função: MAT Obter Lista corrente */
 

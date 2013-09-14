@@ -118,7 +118,7 @@ MAT_tpCondRet MAT_CriarMatriz(MAT_tppMatriz* tpMatrizModulo, int numElementos);
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_InsereListaMatriz( LIS_tpMatLista * lt, MAT_tppMatriz tpMatrizModulo);
+MAT_tpCondRet MAT_InsereListaMatriz( LIS_tpMatLista lt, MAT_tppMatriz tpMatrizModulo);
 
 
 /***********************************************************************

@@ -58,7 +58,7 @@ static const char IR_INICIO_CMD				[ ] = "=irinicio"        ;
 
 MAT_tppMatriz  vtMatrizes[ DIM_VT_MATRIZ ] ;
 
-LIS_tpMatLista   vtListas[ DIM_VT_LISTA ] ;
+LIS_tpMatLista  vtListas[ DIM_VT_LISTA ] ;
 
 
 /***** Protótipos das funções encapuladas no módulo *****/
@@ -143,7 +143,7 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
 
 			vtListas[ inxLista ] = NULL;
 
-			CondRetLista = LIS_CriarLista( DestruirLista , &vtListas[ inxLista ] ) ;
+			CondRetLista = LIS_CriarLista( &vtListas[ inxLista ] ) ;
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao criar lista." );
@@ -163,7 +163,7 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
             } /* if */
 			
 
-			CondRetObtido = MAT_InsereListaMatriz( &vtListas[ inxLista ] ,  vtMatrizes[ inxMatriz ] );
+			CondRetObtido = MAT_InsereListaMatriz( vtListas[ inxLista ] ,  vtMatrizes[ inxMatriz ] );
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao inserir lista na matriz." );
@@ -409,6 +409,7 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
       return TRUE ;
 
    } /* Fim função: TMAT -Validar indice de lista */
+  
 
 /***********************************************************************
 *

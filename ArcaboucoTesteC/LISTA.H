@@ -76,19 +76,22 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
    typedef enum {
 
-         LIS_CondRetOK ,
+         LIS_CondRetOK = 0 ,
                /* Concluiu corretamente */
 
-         LIS_CondRetListaVazia ,
+         LIS_CondRetListaVazia = 1 ,
                /* A lista não contém elementos */
 
-         LIS_CondRetFimLista ,
+         LIS_CondRetFimLista = 2 ,
                /* Foi atingido o fim de lista */
 
-         LIS_CondRetNaoAchou ,
+         LIS_CondRetNaoAchou = 3 ,
                /* Não encontrou o valor procurado */
 
-         LIS_CondRetFaltouMemoria
+		 LIS_CondRetNaoVazia = 4 ,
+               /* Não foi possivel esvaziar a lista */
+
+         LIS_CondRetFaltouMemoria = 9
                /* Faltou memória ao tentar criar um elemento de lista */
 
    } LIS_tpCondRet ;
@@ -120,9 +123,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 ***********************************************************************/
 
-   LIS_tpCondRet LIS_CriarLista(
-             void   ( * ExcluirValor ) ( char * pDado ) , LIS_tppLista * pLista) ;
-   // fe: Alterado de (void *) para (char *) para se adequar ao .C
+   LIS_tpCondRet LIS_CriarLista( LIS_tppLista * pLista ) ;
 
 
 /***********************************************************************
@@ -141,7 +142,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 ***********************************************************************/
 
-   void LIS_DestruirLista( LIS_tppLista pLista ) ;
+   LIS_tpCondRet LIS_DestruirLista( LIS_tppLista pLista ) ;
 
 
 /***********************************************************************
@@ -156,7 +157,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 ***********************************************************************/
 
-   void LIS_EsvaziarLista( LIS_tppLista pLista ) ;
+LIS_tpCondRet LIS_EsvaziarLista( LIS_tppLista pLista ) ;
 
 
 /***********************************************************************
@@ -180,7 +181,6 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
    LIS_tpCondRet LIS_InserirElementoAntes( LIS_tppLista pLista ,
                                            char pValor        ) ;
-   // fe: Alterado de (void *) para (char) para se adequar ao .C
 
 
 /***********************************************************************
@@ -208,7 +208,6 @@ typedef struct LIS_tagLista * LIS_tppLista ;
    LIS_tpCondRet LIS_InserirElementoApos( LIS_tppLista pLista ,
                                           char pValor        )
        ;
-   // fe: Alterado de (void *) para (char) para se adequar ao .C
 
 
 /***********************************************************************
@@ -250,7 +249,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 ***********************************************************************/
 
-   char * LIS_ObterValor( LIS_tppLista pLista ) ;
+   char LIS_ObterValor( LIS_tppLista pLista ) ;
 
 
 /***********************************************************************
@@ -340,8 +339,6 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
    LIS_tpCondRet LIS_ProcurarValor( LIS_tppLista pLista ,
                                     char pValor        ) ;
-
-   // fe: Alterado de (void *) para (char) para se adequar ao .C
 
 #undef LISTA_EXT
 
