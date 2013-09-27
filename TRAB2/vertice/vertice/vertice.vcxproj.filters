@@ -14,4 +14,32 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="LISTA.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VERTICE.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GENERICO.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LERPARM.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TST_ESPC.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="VERTICE.C">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LISTA.C">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TESTVER.C">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
 </Project>

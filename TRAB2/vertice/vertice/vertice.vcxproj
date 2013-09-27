@@ -74,6 +74,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="GENERICO.H" />
+    <ClInclude Include="LERPARM.H" />
+    <ClInclude Include="LISTA.H" />
+    <ClInclude Include="TST_ESPC.H" />
+    <ClInclude Include="VERTICE.H" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="LISTA.C" />
+    <ClCompile Include="TESTVER.C" />
+    <ClCompile Include="VERTICE.C" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
