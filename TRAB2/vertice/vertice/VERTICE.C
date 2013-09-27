@@ -23,12 +23,13 @@
 #include   <malloc.h>
 #include   <assert.h>
 
+#include "LISTA.H"
+
 // verificar quais bibliotecas iremos realmente utilizar no projeto
 
-#define LISTA_OWN
+#define VERTICE_OWN
 #include "VERTICE.H"
-#include "LISTA.H"
-#undef LISTA_OWN
+#undef VERTICE_OWN
 
 VER_tpCondRet Ret;
 
@@ -41,8 +42,8 @@ VER_tpCondRet Ret;
 
    typedef struct tagElemVertice {
 
-	   char * Nome[80];
-		/* ponteiro para o nome do vértice */
+	   char Nome[80];
+		/* Nome do vértice */
 
 	   struct LIS_tppLista * listaAntecessores;
 		/* ponteiro para lista de antecessores */
@@ -69,6 +70,10 @@ VER_tpCondRet Ret;
 
 /***** Protótipos das funções encapuladas no módulo *****/
 
+void SetarVertice( VER_tppVertice pVertice ) ;
+
+void limparNome(char Nome[]) ;
+
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -77,22 +82,22 @@ VER_tpCondRet Ret;
 *  Função: LIS  &Criar lista
 *  ****/
 
-   LIS_tpCondRet LIS_CriarLista( LIS_tpLista * pLista )
+   VER_tpCondRet VER_CriarVertice( VER_tpVertice * pVertice )
    {
 
-      LIS_tpLista * pListaM = ( LIS_tpLista * ) malloc( sizeof( LIS_tpLista )) ;
-      if ( pListaM == NULL )
+      VER_tpVertice * pVerticeM = ( VER_tpVertice * ) malloc( sizeof( VER_tpVertice )) ;
+      if ( pVerticeM == NULL )
       {
-         return LIS_CondRetFaltouMemoria ;
+		  return VER_CondRetFaltouMemoria ;
       } /* if */
 
-      LimparCabeca( pListaM ) ;
+      SetarVertice( pVerticeM ) ;
 
-	  pLista = ( LIS_tpLista * ) malloc( sizeof( LIS_tpLista )) ;
+	  pVertice = ( VER_tpVertice * ) malloc( sizeof( VER_tpVertice )) ;
 
-	  pLista = pListaM;
+	  pVertice = pVerticeM;
 
-      return LIS_CondRetOK ;
+	  return VER_CondRetOK ;
 
    } /* Fim função: LIS  &Criar lista */
 
@@ -101,28 +106,28 @@ VER_tpCondRet Ret;
 *  Função: LIS  &Destruir lista
 *  ****/
 
-   LIS_tpCondRet LIS_DestruirLista( LIS_tppLista pLista )
+   VER_tpCondRet VER_DestruirVertice( VER_tppVertice pVertice )
    {
 
       #ifdef _DEBUG
-         assert( pLista != NULL ) ;
+         assert( pVertice != NULL ) ;
       #endif
 
-      Ret = LIS_EsvaziarLista( pLista ) ;
+      Ret = VER_EsvaziarVertice( pVertice ) ;
 
-	  if(Ret != LIS_CondRetOK)
+	  if(Ret != VER_CondRetOK)
 	  {
 		  return Ret;
 	  }
 
-      free( pLista ) ;
+      free( pVertice ) ;
 
-	  if(pLista == NULL)
+	  if(pVertice == NULL)
 	  {
-		  return LIS_CondRetOK ;
+		  return VER_CondRetOK ;
 	  }
 
-	  return LIS_CondRetNaoAchou;
+	  return VER_CondRetNaoAchou ;
 
    } /* Fim função: LIS  &Destruir lista */
 
@@ -131,27 +136,54 @@ VER_tpCondRet Ret;
 *  Função: LIS  &Esvaziar lista
 *  ****/
 
-   LIS_tpCondRet LIS_EsvaziarLista( LIS_tppLista pLista )
+   VER_tpCondRet VER_EsvaziarVertice( VER_tppVertice pVertice )
    {
 
-      tpElemLista * pElem ;
-      tpElemLista * pProx ;
+	  tpElemVertice * pElem ;
 
       #ifdef _DEBUG
-         assert( pLista != NULL ) ;
+         assert( pVertice != NULL ) ;
       #endif
 
-      pElem = pLista->pOrigemLista ;
+	  pElem = pVertice->tpElemVer ;
+
       while ( pElem != NULL )
       {
-         pProx = pElem->pProx ;
-         LiberarElemento( pLista , pElem ) ;
-         pElem = pProx ;
+		  pElem->listaAntecessores = NULL;
+		  pElem->listaSucessores   = NULL;
+		  limparNome(pElem->Nome);
       } /* while */
 
-      LimparCabeca( pLista ) ;
+      SetarVertice( pVertice ) ;
 
-	  return LIS_CondRetOK;
+	  return VER_CondRetOK;
+
+   } /* Fim função: LIS  &Esvaziar lista */
+
+/***************************************************************************
+*
+*  Função: VER  &Criar elemento de Vértice
+*  ****/
+
+   VER_tpCondRet VER_CriarElementoVertice( LIS_tppLista * pLista1, LIS_tppLista * pLista2, char Nome[]  ){
+
+	   tpElemVertice * tpVert = (tpElemVertice *) malloc ( sizeof(tpElemVertice) );
+
+	   if(tpVert == NULL){
+		   return VER_CondRetFaltouMemoria ;
+	   }
+
+	   if(pLista1 == NULL || pLista2 == NULL){
+		   return VER_CondRetListaVerticeVazia ;
+	   }
+
+	   tpVert->listaAntecessores = pLista1;
+
+	   tpVert->listaSucessores   = pLista2;
+
+	   strcpy(tpVert->Nome, Nome);
+
+	   return VER_CondRetOK;
 
    } /* Fim função: LIS  &Esvaziar lista */
 
@@ -160,179 +192,108 @@ VER_tpCondRet Ret;
 *  Função: LIS  &Inserir elemento antes
 *  ****/
 
-   LIS_tpCondRet LIS_InserirElementoAntes( LIS_tppLista pLista ,
-                                           void * pValor   )
+   VER_tpCondRet VER_InserirElementoNoVertice ( VER_tppVertice tpVertice, VER_tppElemVertice pVertice   )
    {
 
-      tpElemLista * pElem ;
-
-      #ifdef _DEBUG
-         assert( pLista != NULL ) ;
+	   #ifdef _DEBUG
+         assert( tpVertice != NULL ) ;
       #endif
 
-      /* Criar elemento a inerir antes */
+	  #ifdef _DEBUG
+         assert( pVertice != NULL ) ;
+      #endif
+      	   		 
+        if (tpVertice == NULL)
+        {
+        return VER_CondRetVerticeNaoExiste ;
+        } /* if */
 
-         pElem = CriarElemento( pValor ) ;
-		 
-         if ( pElem == NULL )
-         {
-            return LIS_CondRetFaltouMemoria ;
-         } /* if */
+		if (pVertice == NULL)
+        {
+        return VER_CondRetElemVerticeNaoExiste ;
+        } /* if */
 
-		 pLista->numElem ++ ;
+		tpVertice->tpElemVer  = pVertice;
 
-      /* Encadear o elemento antes do elemento corrente */
+		tpVertice->tpElemProx = tpVertice;
 
-         if ( pLista->pElemCorr == NULL )
-         {
-            pLista->pOrigemLista = pElem ;
-            pLista->pFimLista    = pElem ;
-         } else
-         {
-            if ( pLista->pElemCorr->pAnt != NULL )
-            {
-               pElem->pAnt  = pLista->pElemCorr->pAnt ;
-               pLista->pElemCorr->pAnt->pProx = pElem ;
-            } else
-            {
-               pLista->pOrigemLista = pElem ;
-            } /* if */
-
-            pElem->pProx = pLista->pElemCorr ;
-            pLista->pElemCorr->pAnt = pElem ;
-         } /* if */
-
-         pLista->pElemCorr = pElem ;
-
-         return LIS_CondRetOK ;
+        return VER_CondRetOK ;
 
    } /* Fim função: LIS  &Inserir elemento antes */
 
-/***************************************************************************
-*
-*  Função: LIS  &Inserir elemento após
-*  ****/
-
-   LIS_tpCondRet LIS_InserirElementoApos( LIS_tppLista pLista ,
-                                          void * pValor        )
-      
-   {
-
-      tpElemLista * pElem ;
-
-      #ifdef _DEBUG
-         assert( pLista != NULL ) ;
-      #endif
-
-      /* Criar elemento a inerir após */
-
-         pElem = CriarElemento( pValor ) ;
-         if ( pElem == NULL )
-         {
-            return LIS_CondRetFaltouMemoria ;
-         } /* if */
-
-		 pLista->numElem ++ ;
-
-      /* Encadear o elemento após o elemento */
-
-         if ( pLista->pElemCorr == NULL )
-         {
-            pLista->pOrigemLista = pElem ;
-            pLista->pFimLista = pElem ;
-         } else
-         {
-            if ( pLista->pElemCorr->pProx != NULL )
-            {
-               pElem->pProx  = pLista->pElemCorr->pProx ;
-               pLista->pElemCorr->pProx->pAnt = pElem ;
-            } else
-            {
-               pLista->pFimLista = pElem ;
-            } /* if */
-
-            pElem->pAnt = pLista->pElemCorr ;
-            pLista->pElemCorr->pProx = pElem ;
-
-         } /* if */
-                  
-         pLista->pElemCorr = pElem ;
-                  
-         return LIS_CondRetOK ;
-
-   } /* Fim função: LIS  &Inserir elemento após */
 
 /***************************************************************************
 *
 *  Função: LIS  &Excluir elemento
 *  ****/
 
-   LIS_tpCondRet LIS_ExcluirElemento( LIS_tppLista pLista )
+   VER_tpCondRet VER_ExcluirVertice( VER_tppVertice tpVertice )
    {
 
-      tpElemLista * pElem ;
-
       #ifdef _DEBUG
-         assert( pLista  != NULL ) ;
+         assert( tpVertice  != NULL ) ;
       #endif
 
-      if ( pLista->pElemCorr == NULL )
+      if ( tpVertice == NULL )
       {
-         return LIS_CondRetListaVazia ;
+         return VER_CondRetVerticeNulo ;
       } /* if */
 
-      pElem = pLista->pElemCorr ;
-
-      /* Desencadeia à esquerda */
-
-         if ( pElem->pAnt != NULL )
-         {
-            pElem->pAnt->pProx   = pElem->pProx ;
-            pLista->pElemCorr    = pElem->pAnt ;
-         } else {
-            pLista->pElemCorr    = pElem->pProx ;
-            pLista->pOrigemLista = pLista->pElemCorr ;
-         } /* if */
-
-      /* Desencadeia à direita */
-
-         if ( pElem->pProx != NULL )
-         {
-            pElem->pProx->pAnt = pElem->pAnt ;
-         } else
-         {
-            pLista->pFimLista = pElem->pAnt ;
-         } /* if */
-
-      LiberarElemento( pLista , pElem ) ;
-
-	  if(pElem == NULL)
+	  if( tpVertice->tpElemVer != NULL )
 	  {
-		  return LIS_CondRetOK ;
+		  return VER_CondRetVerticeContemElemento;
 	  }
 
-	  return LIS_CondRetFaltouMemoria ;
+	  tpVertice->tpElemProx = NULL;
+
+	  free(tpVertice);
+
+      return VER_CondRetOK ;
       
    } /* Fim função: LIS  &Excluir elemento */
 
+
+   VER_tpCondRet VER_ExcluirElementoVertice( VER_tppVertice tpVertice )
+   {
+
+	   if ( tpVertice == NULL )
+      {
+         return VER_CondRetVerticeNulo ;
+      } /* if */
+
+	  if( tpVertice->tpElemVer == NULL )
+	  {
+		  return VER_CondRetVerticeVazio;
+	  }
+
+	  if(tpVertice->tpElemVer != NULL)
+	  {
+		  tpVertice->tpElemVer->listaAntecessores = NULL;
+		  tpVertice->tpElemVer->listaSucessores   = NULL;
+		  limparNome(tpVertice->tpElemVer->Nome);
+	  }
+
+	   return VER_CondRetOK;
+
+   }
 /***************************************************************************
 *
 *  Função: LIS  &Obter referência para o valor contido no elemento
 *  ****/
 
-   LIS_tpCondRet LIS_ObterValor( LIS_tppLista pLista , void * pValor )
+   VER_tpCondRet VER_ObterValorElemVertice( VER_tppVertice tpVertice , char Nome[] )
    {
 
       #ifdef _DEBUG
-         assert( pLista != NULL ) ;
+         assert( tpVertice != NULL ) ;
       #endif
 
-		if( pLista->pElemCorr->pValor == pValor )
+		 if( strcmp (tpVertice->tpElemVer->Nome , Nome) )
 		{
-			return LIS_CondRetOK;			
+			return VER_CondRetOK;			
 		}
 
-		return LIS_CondRetNaoAchou;
+		return VER_CondRetNaoAchou;
 
    } /* Fim função: LIS  &Obter referência para o valor contido no elemento */
 
@@ -341,25 +302,28 @@ VER_tpCondRet Ret;
 *  Função: LIS  &Ir para o elemento inicial
 *  ****/
 
-   LIS_tpCondRet IrInicioLista( LIS_tppLista pLista )
+   VER_tpCondRet VER_ConheceCaminho(  VER_tppVertice tpVerticeOrig ,  VER_tppVertice tpVerticeDest )
    {
+	   LIS_tppLista * listaTmp;
 
       #ifdef _DEBUG
-         assert( pLista != NULL ) ;
+         assert( tpVerticeOrig != NULL ) ;
       #endif
-		
-	  if(pLista->pElemCorr == NULL)
-	  {
-		  return LIS_CondRetListaVazia;
-	  }
-	  if(pLista->pOrigemLista == NULL)
-	  {
-		  return LIS_CondRetNaoAchou;
-	  }
 
-      pLista->pElemCorr = pLista->pOrigemLista ;
+      #ifdef _DEBUG
+         assert( tpVerticeDest != NULL ) ;
+      #endif
 
-	  return LIS_CondRetOK;
+		 listaTmp = tpVerticeOrig->tpElemVer->listaSucessores;
+	
+		 while(listaTmp != NULL)
+		 {
+			 if(listaTmp->pOrigemLista == tpVerticeDest->tpElemVer)
+			 {
+				 return VER_CondRetOK;	
+			 }
+		 }		
+	  
 
    } /* Fim função: LIS  &Ir para o elemento inicial */
 
@@ -588,15 +552,23 @@ VER_tpCondRet Ret;
 *
 ***********************************************************************/
 
-   void LimparCabeca( LIS_tppLista pLista )
+   void SetarVertice( VER_tppVertice pVertice )
    {
 
-      pLista->pOrigemLista = NULL ;
-      pLista->pFimLista = NULL ;
-      pLista->pElemCorr = NULL ;
-      pLista->numElem   = 0 ;
+	   pVertice->tpElemProx = NULL;
+	   pVertice->tpElemVer  = NULL;
 
    } /* Fim função: LIS  -Limpar a cabeça da lista */
+
+   void limparNome(char Nome[]){
+
+	   int i = 0;
+	   while( Nome != NULL ){
+		   Nome[i] = NULL;
+		   i++;
+	   }
+
+   }
 
 /********** Fim do módulo de implementação: LIS  Lista duplamente encadeada **********/
 

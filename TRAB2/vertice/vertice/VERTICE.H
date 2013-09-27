@@ -28,12 +28,15 @@
    #define VERTICE_EXT extern
 #endif
 
+#include "LISTA.H"
+
 /***** Declarações exportadas pelo módulo *****/
 
 /* Tipo referência para um vértice */
 
 typedef struct VER_tagVertice * VER_tppVertice ;
 
+typedef struct tagElemVertice * VER_tppElemVertice ;
 
 /***********************************************************************
 *
@@ -50,14 +53,26 @@ typedef struct VER_tagVertice * VER_tppVertice ;
          VER_CondRetOK = 0,
                /* Concluiu corretamente */
 
-         VER_CondRetListaVazia = 1 ,
+         VER_CondRetVerticeNaoExiste = 1 ,
                /* A lista não contém elementos */
 
-         VER_CondRetFimLista = 2,
+         VER_CondRetElemVerticeNaoExiste = 2,
                /* Foi atingido o fim de lista */
 
          VER_CondRetNaoAchou = 3,
                /* Não encontrou o valor procurado */
+
+		 VER_CondRetVerticeVazio = 4,
+		       /* Vertice vazio */
+
+		 VER_CondRetListaVerticeVazia = 5,
+		      /* Lista fornecida vazia */
+
+		 VER_CondRetVerticeContemElemento = 6,
+		      /* Vertice contém elemento, excluir elemento primeiro */
+
+	     VER_CondRetVerticeNulo = 7,
+			  /* Vertice ainda não criado ou nulo. */
 
          VER_CondRetFaltouMemoria = 9
                /* Faltou memória ao tentar criar um elemento de lista */
@@ -91,7 +106,7 @@ typedef struct VER_tagVertice * VER_tppVertice ;
 *
 ***********************************************************************/
 
-   LIS_tpCondRet LIS_CriarLista( LIS_tppLista * pLista ) ;
+   VER_tpCondRet LIS_CriarLista( LIS_tppLista * pLista ) ;
 
 
 /***********************************************************************
@@ -110,7 +125,7 @@ typedef struct VER_tagVertice * VER_tppVertice ;
 *
 ***********************************************************************/
 
-   LIS_tpCondRet LIS_DestruirLista( LIS_tppLista pLista ) ;
+   VER_tpCondRet LIS_DestruirLista( LIS_tppLista pLista ) ;
 
 
 /***********************************************************************
@@ -125,7 +140,7 @@ typedef struct VER_tagVertice * VER_tppVertice ;
 *
 ***********************************************************************/
 
-   LIS_tpCondRet LIS_EsvaziarLista( LIS_tppLista pLista ) ;
+   VER_tpCondRet LIS_EsvaziarLista( LIS_tppLista pLista ) ;
 
 
 /***********************************************************************
@@ -147,7 +162,7 @@ typedef struct VER_tagVertice * VER_tppVertice ;
 *
 ***********************************************************************/
 
-   LIS_tpCondRet LIS_InserirElementoAntes( LIS_tppLista pLista ,
+   VER_tpCondRet LIS_InserirElementoAntes( LIS_tppLista pLista ,
                                            void * pValor        ) ;
 
 
@@ -173,7 +188,7 @@ typedef struct VER_tagVertice * VER_tppVertice ;
 *
 ***********************************************************************/
 
-   LIS_tpCondRet LIS_InserirElementoApos( LIS_tppLista pLista ,
+   VER_tpCondRet LIS_InserirElementoApos( LIS_tppLista pLista ,
                                           void * pValor        );
 
 
@@ -196,7 +211,7 @@ typedef struct VER_tagVertice * VER_tppVertice ;
 *
 ***********************************************************************/
 
-   LIS_tpCondRet LIS_ExcluirElemento( LIS_tppLista pLista ) ;
+   VER_tpCondRet LIS_ExcluirElemento( LIS_tppLista pLista ) ;
 
 
 /***********************************************************************
@@ -216,7 +231,7 @@ typedef struct VER_tagVertice * VER_tppVertice ;
 *
 ***********************************************************************/
 
-   LIS_tpCondRet LIS_ObterValor( LIS_tppLista pLista, void * pValor ) ;
+   VER_tpCondRet LIS_ObterValor( LIS_tppLista pLista, void * pValor ) ;
 
 
 /***********************************************************************
@@ -232,7 +247,7 @@ typedef struct VER_tagVertice * VER_tppVertice ;
 *
 ***********************************************************************/
 
-   LIS_tpCondRet IrInicioLista( LIS_tppLista pLista ) ;
+   VER_tpCondRet IrInicioLista( LIS_tppLista pLista ) ;
 
 
 /***********************************************************************
@@ -248,7 +263,7 @@ typedef struct VER_tagVertice * VER_tppVertice ;
 *
 ***********************************************************************/
 
-   LIS_tpCondRet IrFinalLista( LIS_tppLista pLista ) ;
+   VER_tpCondRet IrFinalLista( LIS_tppLista pLista ) ;
 
 
 /***********************************************************************
@@ -275,7 +290,7 @@ typedef struct VER_tagVertice * VER_tppVertice ;
 *
 ***********************************************************************/
 
-   LIS_tpCondRet LIS_AvancarElementoCorrente( LIS_tppLista pLista ,
+   VER_tpCondRet LIS_AvancarElementoCorrente( LIS_tppLista pLista ,
                                               int numElem ) ;
 
 
@@ -304,7 +319,7 @@ typedef struct VER_tagVertice * VER_tppVertice ;
 *
 ***********************************************************************/
 
-   LIS_tpCondRet LIS_ProcurarValor( LIS_tppLista pLista ,
+   VER_tpCondRet LIS_ProcurarValor( LIS_tppLista pLista ,
                                     void * pValor        ) ;
 
 #undef LISTA_EXT
