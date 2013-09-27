@@ -76,20 +76,17 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
    typedef enum {
 
-         LIS_CondRetOK = 0 ,
+         LIS_CondRetOK = 0,
                /* Concluiu corretamente */
 
          LIS_CondRetListaVazia = 1 ,
                /* A lista não contém elementos */
 
-         LIS_CondRetFimLista = 2 ,
+         LIS_CondRetFimLista = 2,
                /* Foi atingido o fim de lista */
 
-         LIS_CondRetNaoAchou = 3 ,
+         LIS_CondRetNaoAchou = 3,
                /* Não encontrou o valor procurado */
-
-		 LIS_CondRetNaoVazia = 4 ,
-               /* Não foi possivel esvaziar a lista */
 
          LIS_CondRetFaltouMemoria = 9
                /* Faltou memória ao tentar criar um elemento de lista */
@@ -157,7 +154,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 ***********************************************************************/
 
-LIS_tpCondRet LIS_EsvaziarLista( LIS_tppLista pLista ) ;
+   LIS_tpCondRet LIS_EsvaziarLista( LIS_tppLista pLista ) ;
 
 
 /***********************************************************************
@@ -180,7 +177,7 @@ LIS_tpCondRet LIS_EsvaziarLista( LIS_tppLista pLista ) ;
 ***********************************************************************/
 
    LIS_tpCondRet LIS_InserirElementoAntes( LIS_tppLista pLista ,
-                                           char pValor        ) ;
+                                           void * pValor        ) ;
 
 
 /***********************************************************************
@@ -206,8 +203,7 @@ LIS_tpCondRet LIS_EsvaziarLista( LIS_tppLista pLista ) ;
 ***********************************************************************/
 
    LIS_tpCondRet LIS_InserirElementoApos( LIS_tppLista pLista ,
-                                          char pValor        )
-       ;
+                                          void * pValor        );
 
 
 /***********************************************************************
@@ -249,7 +245,7 @@ LIS_tpCondRet LIS_EsvaziarLista( LIS_tppLista pLista ) ;
 *
 ***********************************************************************/
 
-   char LIS_ObterValor( LIS_tppLista pLista ) ;
+   LIS_tpCondRet LIS_ObterValor( LIS_tppLista pLista, void * pValor ) ;
 
 
 /***********************************************************************
@@ -265,7 +261,7 @@ LIS_tpCondRet LIS_EsvaziarLista( LIS_tppLista pLista ) ;
 *
 ***********************************************************************/
 
-   void IrInicioLista( LIS_tppLista pLista ) ;
+   LIS_tpCondRet IrInicioLista( LIS_tppLista pLista ) ;
 
 
 /***********************************************************************
@@ -281,7 +277,7 @@ LIS_tpCondRet LIS_EsvaziarLista( LIS_tppLista pLista ) ;
 *
 ***********************************************************************/
 
-   void IrFinalLista( LIS_tppLista pLista ) ;
+   LIS_tpCondRet IrFinalLista( LIS_tppLista pLista ) ;
 
 
 /***********************************************************************
@@ -338,7 +334,7 @@ LIS_tpCondRet LIS_EsvaziarLista( LIS_tppLista pLista ) ;
 ***********************************************************************/
 
    LIS_tpCondRet LIS_ProcurarValor( LIS_tppLista pLista ,
-                                    char pValor        ) ;
+                                    void * pValor        ) ;
 
 #undef LISTA_EXT
 

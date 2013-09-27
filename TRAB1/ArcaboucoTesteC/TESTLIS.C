@@ -1,5 +1,5 @@
 /***************************************************************************
-*  $MCI Módulo de implementação: TLIS Teste lista de símbolos
+*  $MCI Módulo de implementação: TLIS Teste lista de caracteres
 *
 *  Arquivo gerado:              TestLIS.c
 *  Letras identificadoras:      TLIS
@@ -7,16 +7,16 @@
 *  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
 *  Arquivo da base de software: D:\AUTOTEST\PROJETOS\LISTA.BSW
 *
-*  Projeto: INF 1301 / 1628 Automatização dos testes de módulos C
+*  Projeto: INF 1301 Automatização dos testes de módulos C
 *  Gestor:  LES/DI/PUC-Rio
-*  Autores: avs
+*  Autores: aw - Alexandre Werneck
+*           fr - Fernanda Camelo Ribeiro
+*			vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     4       avs   01/fev/2006 criar linguagem script simbólica
-*     3       avs   08/dez/2004 uniformização dos exemplos
-*     2       avs   07/jul/2003 unificação de todos os módulos em um só projeto
-*     1       avs   16/abr/2003 início desenvolvimento
+*     1       afv   02/set/2013 Início desenvolvimento
+*     
 *
 ***************************************************************************/
 
@@ -56,11 +56,9 @@ static const char AVANCAR_ELEM_CMD        [ ] = "=avancarelem"    ;
 
 LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
 
-/***** Protótipos das funções encapuladas no módulo *****/
+/***** Protótipos das funções encapsuladas no módulo *****/
 
-   static void DestruirValor( void * pValor ) ;
-
-   static int ValidarInxLista( int inxLista , int Modo ) ;
+static int ValidarInxLista( int inxLista , int Modo ) ;
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -70,18 +68,18 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
 *  $FC Função: TLIS &Testar lista
 *
 *  $ED Descrição da função
-*     Podem ser criadas até 10 listas, identificadas pelos índices 0 a 10
+*     Podem ser criadas até 10 listas, identificadas pelos índices 0 a 9
 *
 *     Comandos disponíveis:
 *
 *     =resetteste
 *           - anula o vetor de listas. Provoca vazamento de memória
-*     =criarlista                   inxLista
-*     =destruirlista                inxLista
-*     =esvaziarlista                inxLista
-*     =inselemantes                 inxLista  string  CondRetEsp
-*     =inselemapos                  inxLista  string  CondRetEsp
-*     =obtervalorelem               inxLista  string  CondretPonteiro
+*     =criarlista                   inxLista  CondRetEsp
+*     =destruirlista                inxLista  CondRetEsp
+*     =esvaziarlista                inxLista  
+*     =inselemantes                 inxLista  char  CondRetEsp
+*     =inselemapos                  inxLista  char  CondRetEsp
+*     =obtervalorelem               inxLista  char  CondRetEsp
 *     =excluirelem                  inxLista  CondRetEsp
 *     =irinicio                     inxLista
 *     =irfinal                      inxLista
@@ -96,10 +94,11 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
           numLidos   = -1 ,
           CondRetEsp = -1  ;
 
-      TST_tpCondRet CondRet ;
+      LIS_tpCondRet CondRetObtido   = LIS_CondRetOK ;
+      LIS_tpCondRet CondRetEsperada = LIS_CondRetFaltouMemoria ;
 
-      char   StringDado[  DIM_VALOR ] ;
-      char * pDado ;
+
+      char   CharDado ;
 
       int ValEsp = -1 ;
 
@@ -107,7 +106,6 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
 
       int numElem = -1 ;
 
-      StringDado[ 0 ] = 0 ;
 
       /* Efetuar reset de teste de lista */
 
@@ -129,18 +127,20 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
          {
 
             numLidos = LER_LerParametros( "ii" ,
-                       &inxLista , &condRetRecebido) ;
+                       &inxLista , &CondRetEsperada ) ;
 
-            if ( ( numLidos != 1 )
+            if ( ( numLidos != 2 )
               || ( ! ValidarInxLista( inxLista , VAZIO )))
             {
                return TST_CondRetParm ;
             } /* if */
 
-			CondRetEsp = LIS_CriarLista( DestruirValor , &vtListas[ inxLista ] ) ;
+            vtListas[ inxLista ] = NULL;
 
-            return TST_CompararPonteiroNulo( CondRetEsp , condRetRecebido,
-               "Erro em ponteiro de nova lista."  ) ;
+			CondRetObtido = LIS_CriarLista( &vtListas[ inxLista ] ) ;
+
+            return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao criar lista." );
 
          } /* fim ativa: Testar CriarLista */
 
@@ -158,7 +158,7 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
                return TST_CondRetParm ;
             } /* if */
 
-            LIS_EsvaziarLista( vtListas[ inxLista ] ) ;
+            CondRetObtido = LIS_EsvaziarLista( vtListas[ inxLista ] ) ;
 
             return TST_CondRetOK ;
 
@@ -169,19 +169,21 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
          else if ( strcmp( ComandoTeste , DESTRUIR_LISTA_CMD ) == 0 )
          {
 
-            numLidos = LER_LerParametros( "i" ,
-                               &inxLista ) ;
+            numLidos = LER_LerParametros( "ii" ,
+                               &inxLista, &CondRetEsp ) ;
 
-            if ( ( numLidos != 1 )
+            if ( ( numLidos != 2 )
               || ( ! ValidarInxLista( inxLista , NAO_VAZIO )))
             {
                return TST_CondRetParm ;
             } /* if */
 
-            LIS_DestruirLista( vtListas[ inxLista ] ) ;
-            vtListas[ inxLista ] = NULL ;
+            CondRetObtido = LIS_DestruirLista( vtListas[ inxLista ] ) ;
+            
+			vtListas[ inxLista ] = NULL ;
 
-            return TST_CondRetOK ;
+            return TST_CompararInt( CondRetEsp , CondRetObtido ,
+                     "Condicao de retorno errada ao destruir lista!"                   ) ;
 
          } /* fim ativa: Testar Destruir lista */
 
@@ -190,32 +192,20 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
          else if ( strcmp( ComandoTeste , INS_ELEM_ANTES_CMD ) == 0 )
          {
 
-            numLidos = LER_LerParametros( "isi" ,
-                       &inxLista , StringDado , &CondRetEsp ) ;
-
+            numLidos = LER_LerParametros( "ici" ,
+                       &inxLista , &CharDado , &CondRetEsp ) ;
+			
             if ( ( numLidos != 3 )
               || ( ! ValidarInxLista( inxLista , NAO_VAZIO )) )
             {
                return TST_CondRetParm ;
             } /* if */
 
-            pDado = ( char * ) malloc( strlen( StringDado ) + 1 ) ;
-            if ( pDado == NULL )
-            {
-               return TST_CondRetMemoria ;
-            } /* if */
 
-            strcpy( pDado , StringDado ) ;
+            CondRetObtido = LIS_InserirElementoAntes( vtListas[ inxLista ] , CharDado ) ;
 
 
-            CondRet = LIS_InserirElementoAntes( vtListas[ inxLista ] , pDado ) ;
-
-            if ( CondRet != LIS_CondRetOK )
-            {
-               free( pDado ) ;
-            } /* if */
-
-            return TST_CompararInt( CondRetEsp , CondRet ,
+            return TST_CompararInt( CondRetEsp , CondRetObtido ,
                      "Condicao de retorno errada ao inserir antes."                   ) ;
 
          } /* fim ativa: Testar inserir elemento antes */
@@ -225,8 +215,8 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
          else if ( strcmp( ComandoTeste , INS_ELEM_APOS_CMD ) == 0 )
          {
 
-            numLidos = LER_LerParametros( "isi" ,
-                       &inxLista , StringDado , &CondRetEsp ) ;
+            numLidos = LER_LerParametros( "ici" ,
+                       &inxLista , &CharDado , &CondRetEsp ) ;
 
             if ( ( numLidos != 3 )
               || ( ! ValidarInxLista( inxLista , NAO_VAZIO )) )
@@ -234,23 +224,10 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
                return TST_CondRetParm ;
             } /* if */
 
-            pDado = ( char * ) malloc( strlen( StringDado ) + 1 ) ;
-            if ( pDado == NULL )
-            {
-               return TST_CondRetMemoria ;
-            } /* if */
-
-            strcpy( pDado , StringDado ) ;
+            CondRetObtido = LIS_InserirElementoApos( vtListas[ inxLista ] , CharDado ) ;
 
 
-            CondRet = LIS_InserirElementoApos( vtListas[ inxLista ] , pDado ) ;
-
-            if ( CondRet != LIS_CondRetOK )
-            {
-               free( pDado ) ;
-            } /* if */
-
-            return TST_CompararInt( CondRetEsp , CondRet ,
+            return TST_CompararInt( CondRetEsp , CondRetObtido ,
                      "Condicao de retorno errada ao inserir apos."                   ) ;
 
          } /* fim ativa: Testar inserir elemento apos */
@@ -280,8 +257,8 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
          else if ( strcmp( ComandoTeste , OBTER_VALOR_CMD ) == 0 )
          {
 
-            numLidos = LER_LerParametros( "isi" ,
-                       &inxLista , StringDado , &ValEsp ) ;
+            numLidos = LER_LerParametros( "ici" ,
+                       &inxLista , &CharDado , &CondRetEsp ) ;
 
             if ( ( numLidos != 3 )
               || ( ! ValidarInxLista( inxLista , NAO_VAZIO )) )
@@ -289,21 +266,10 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
                return TST_CondRetParm ;
             } /* if */
 
-            pDado = ( char * ) LIS_ObterValor( vtListas[ inxLista ] ) ;
-
-            if ( ValEsp == 0 )
-            {
-               return TST_CompararPonteiroNulo( 0 , pDado ,
-                         "Valor não deveria existir." ) ;
-            } /* if */
-
-            if ( pDado == NULL )
-            {
-               return TST_CompararPonteiroNulo( 1 , pDado ,
-                         "Dado tipo um deveria existir." ) ;
-            } /* if */
-
-            return TST_CompararString( StringDado , pDado ,
+            
+			CondRetObtido = LIS_ObterValor( vtListas[ inxLista ], CharDado );
+			
+			return TST_CompararInt( CondRetEsp , CondRetObtido ,
                          "Valor do elemento errado." ) ;
 
          } /* fim ativa: Testar obter valor do elemento corrente */
@@ -376,21 +342,15 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
 
 /***********************************************************************
 *
-*  $FC Função: TLIS -Destruir valor
-*
-***********************************************************************/
-
-   void DestruirValor( void * pValor )
-   {
-
-      free( pValor ) ;
-
-   } /* Fim função: TLIS -Destruir valor */
-
-
-/***********************************************************************
-*
 *  $FC Função: TLIS -Validar indice de lista
+*
+*  $ED Descrição da função
+*     Verifica se o índice passado como referência está ocupado no vetor
+*	  de lista
+*
+*  $EP Parâmetros
+*     inxLista - posicao do elemento no vetor
+*	  Modo	   - VAZIO | NAO_VAZIO
 *
 ***********************************************************************/
 

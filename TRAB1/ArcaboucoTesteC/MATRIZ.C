@@ -10,12 +10,12 @@
 *  Projeto: INF 1301 Automatização dos testes de módulos C
 *  Gestor:  LES/DI/PUC-Rio
 *  Autores: aw - Alexandre Werneck
-*           fe - Fernanda Ribeiro
-*			vi - Vinicius
+*           fr - Fernanda Camelo Ribeiro
+*			vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*       1.00   aw   29/08/2013 Início do desenvolvimento
+*       1.00   afv   29/08/2013 Início do desenvolvimento
 *
 ***************************************************************************/
 
@@ -64,12 +64,9 @@ typedef struct tpElemMatriz {
             /* Adjacente da quina inferior direita */
 
         struct LIS_tpMatLista * Lista;
-			/* Lista para o elemento da Matriz que armazena caracteres */
+			/* Lista para o elemento da Matriz do tipo LISTA que armazena caracteres */
 
 } tpElemMatriz ;
-
-   // fe: Mudei os nomes de tipos e variáveis de Arvore para Matriz
-   // fe: Mudei os elementos pNoPai, pNoEsq, pNoDir e Valor; Apaguei e criei a estrutura da Matriz.
 
 
 /***********************************************************************
@@ -97,9 +94,6 @@ typedef struct MAT_tgMatriz {
             /* Ponteiro para o nó corrente da matriz */
 
 } MAT_tpMatriz ;
-
-
-/*****  Dados encapsulados no módulo  *****/
 
 
 /***** Protótipos das funções encapsuladas no módulo *****/
@@ -134,7 +128,7 @@ MAT_tpCondRet MAT_CriarMatriz( MAT_tppMatriz *tpMat , int numElementos){
 		} /* if */
 		
 		mMatriz = ( MAT_tppMatriz ) malloc ( sizeof ( MAT_tpMatriz ) );
-			/* Malloc para gerar um ponteiro temporario */
+			/* Malloc para gerar um ponteiro de matriz */
 
 		   
 	   if(mMatriz == NULL)
@@ -178,7 +172,8 @@ MAT_tpCondRet MAT_CriarMatriz( MAT_tppMatriz *tpMat , int numElementos){
 *  
 ****/
 
-MAT_tpCondRet MAT_InsereListaMatriz( LIS_tpMatLista * lt, MAT_tpMatriz * tpMat){
+MAT_tpCondRet MAT_InsereListaMatriz( LIS_tpMatLista * lt, MAT_tppMatriz tpMat){
+
 
 	if( lt == NULL ){
 		return MAT_CondRetListaVazia ;
@@ -186,17 +181,17 @@ MAT_tpCondRet MAT_InsereListaMatriz( LIS_tpMatLista * lt, MAT_tpMatriz * tpMat){
 
 	if ( tpMat == NULL )
     {
-        return MAT_CondRetMatrizVazia ; // Devemos apresentar a mensagem de que a matriz deverá ser montada antes
+        return MAT_CondRetMatrizNaoExiste ;
     } /* if */
-
+	
 	tpMat->pNoCorr     = tpMat->pNoRaiz;
 	tpMat->pNoIndLinha = tpMat->pNoCorr;
 
-	// procura a próxima posição de memória vazia para inserir a lista
+	  /* procura a próxima posição de memória vazia para inserir a lista */
 	while(tpMat->pNoCorr != NULL){
 		if(tpMat->pNoCorr->Lista == NULL){
 				tpMat->pNoCorr->Lista = lt;
-				return MAT_CondRetOK; // Como interrompo o while
+				return MAT_CondRetOK;
 		}else{
 			if(tpMat->pNoCorr->pNoLeste == NULL){
 				tpMat->pNoCorr     = tpMat->pNoIndLinha->pNoSul;
@@ -206,7 +201,9 @@ MAT_tpCondRet MAT_InsereListaMatriz( LIS_tpMatLista * lt, MAT_tpMatriz * tpMat){
 			} /* if */
 		}/* if */
 	}
-	return MAT_CondRetMatrizCheia ; // retorno que a matriz está cheia
+
+	return MAT_CondRetMatrizCheia ;
+		/* sem lugar para inserir */
 
 }
 
@@ -465,13 +462,14 @@ MAT_tpCondRet MAT_ObterListaCorr( LIS_tpMatLista * lst_valor , MAT_tpMatriz * tp
     {
         return MAT_CondRetNoMatrizSemLista ;
     } /* if */
-    //lst_valor = tpMat->pNoCorr->Lista ;
+    
 	if(lst_valor == tpMat->pNoCorr->Lista)
 	{
 		return MAT_CondRetOK  ;
 	}
 
-	return MAT_CondRetFaltouMemoria ;
+	return MAT_CondRetNoListaDiferente ;
+		/* Lista passada diferente da corrente */
 
 } /* Fim função: MAT Obter Lista corrente */
 
@@ -624,11 +622,6 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat , int numElementos ){
 
 	int i = 0, j = 0;
 
-
-	//tpElemMatriz * tpElemt = (tpElemMatriz *) malloc (sizeof (tpElemMatriz) );
-
-
-	//checa se a matriz é um por um
 	tpElemMatriz * tpElemLesteCabeca   = NULL;
 	tpElemMatriz * tpElemSudesteCabeca = NULL;
 	tpElemMatriz * tpElemSulCabeca     = NULL;
@@ -657,7 +650,7 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat , int numElementos ){
 		for(j=0;j<=numElementos;j++){	
 
 								
-				//if que testa a condicão para 3 adjacentes
+					/* testa a condicão para 3 adjacentes */
 				if((i==0 || i==numElementos) && (j==0 || j==numElementos)){
 
 					if(i==0 && j==0){
@@ -683,8 +676,9 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat , int numElementos ){
 						tpMat->pNoCorr->pNoLeste->pNoSudoeste  = tpMat->pNoCorr->pNoSul;
 						tpMat->pNoCorr->pNoLeste->pNoOeste     = tpMat->pNoCorr;
 
-						// no final sta como corrente
+
 						tpMat->pNoCorr = tpMat->pNoCorr->pNoLeste ;
+							/* seta como corrente */
 
 					}
 					if(i==numElementos && j==0){
@@ -693,10 +687,12 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat , int numElementos ){
 						tpMat->pNoIndLinha->pNoSul->pNoNordeste  = tpMat->pNoIndLinha->pNoLeste;
 						tpMat->pNoIndLinha->pNoSul->pNoLeste     = tpMat->pNoIndLinha->pNoSudeste;
 
-						// no final seta como corrente
+
 						tpMat->pNoCorr      = tpMat->pNoIndLinha->pNoSul;
-						// no final aponta o indice da linha para o primeiro elemento da linha
+							/* seta como corrente */
+
 						tpMat->pNoIndLinha  = tpMat->pNoIndLinha->pNoSul;
+							/* seta como indice da linha */
 
 					}
 					if(i==numElementos && j==numElementos){
@@ -705,14 +701,14 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat , int numElementos ){
 						tpMat->pNoCorr->pNoLeste->pNoNoroeste  = tpMat->pNoCorr->pNoNorte;
 						tpMat->pNoCorr->pNoLeste->pNoOeste     = tpMat->pNoCorr;
 
-						// no final sta como corrente
 						tpMat->pNoCorr  = tpMat->pNoCorr->pNoLeste;
+							/* seta como corrente */
 
 					}
 
 				}
 
-				//if que testa a condição para 5 adjacentes
+					 /* testa a condição para 5 adjacentes */
 				else if(i==0 || i==numElementos || j==0 || j==numElementos){
 
 
@@ -730,9 +726,8 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat , int numElementos ){
 						tpMat->pNoCorr->pNoLeste->pNoLeste    = tpElemLesteNo;
 						tpMat->pNoCorr->pNoLeste->pNoSudeste  = tpElemSudesteNo;
 
-
-						// no final sta como corrente
 						tpMat->pNoCorr  = tpMat->pNoCorr->pNoLeste;
+							/* seta como corrente */
 
 					}
 
@@ -750,11 +745,11 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat , int numElementos ){
 						tpMat->pNoIndLinha->pNoSul->pNoSudeste  = tpElemSudesteNo;
 						tpMat->pNoIndLinha->pNoSul->pNoSul      = tpElemSulNo;
 
-
-						// no final sta como corrente
 						tpMat->pNoCorr      = tpMat->pNoIndLinha->pNoSul;
-						// no final aponta o indice da linha para o primeiro elemento da linha
+							/* seta como corrente */
+
 						tpMat->pNoIndLinha  = tpMat->pNoIndLinha->pNoSul;
+							/* seta como indice da linha */
 
 					}
 					if(i==numElementos && (j!=numElementos || j!=0)){
@@ -763,10 +758,10 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat , int numElementos ){
 						tpMat->pNoCorr->pNoLeste->pNoNordeste = tpMat->pNoCorr->pNoNordeste->pNoLeste;
 						tpMat->pNoCorr->pNoLeste->pNoNorte    = tpMat->pNoCorr->pNoNordeste;
 						tpMat->pNoCorr->pNoLeste->pNoNoroeste = tpMat->pNoCorr->pNoNorte;
-						tpMat->pNoCorr->pNoLeste->pNoOeste    = tpMat->pNoCorr->pNoNoroeste;
+						tpMat->pNoCorr->pNoLeste->pNoOeste    = tpMat->pNoCorr;
 
-						// no final sta como corrente
 						tpMat->pNoCorr  = tpMat->pNoCorr->pNoLeste;
+							/* seta como corrente */
 
 					}
 					if(j==numElementos && (i!=numElementos || i!=0)){
@@ -777,13 +772,13 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat , int numElementos ){
 						tpMat->pNoCorr->pNoLeste->pNoOeste     = tpMat->pNoCorr;
 						tpMat->pNoCorr->pNoLeste->pNoNoroeste  = tpMat->pNoCorr->pNoNorte;
 
-						// no final sta como corrente
 						tpMat->pNoCorr  = tpMat->pNoCorr->pNoLeste;
+							/* seta como corrente */
 
 					}
 
 				}
-				//else com 8 adjacentes
+					/* 8 adjacentes */
 				else{
 
 						tpMat->pNoCorr->pNoLeste->pNoNorte     = tpMat->pNoCorr->pNoNordeste;
@@ -801,6 +796,7 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat , int numElementos ){
 
 
 						tpMat->pNoCorr = tpMat->pNoCorr->pNoLeste;
+							/* seta como corrente */
 
 				}
 		}

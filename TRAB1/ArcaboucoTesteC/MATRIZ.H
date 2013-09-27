@@ -2,7 +2,7 @@
 #define MATRIZ_
 /***************************************************************************
 *
-*  $MCD Módulo de definição: Módulo árvore
+*  $MCD Módulo de definição: Módulo matriz
 *
 *  Arquivo gerado:              MATRIZ.H
 *  Letras identificadoras:      MAT
@@ -13,12 +13,12 @@
 *  Projeto: INF 1301 Automatização dos testes de módulos C
 *  Gestor:  LES/DI/PUC-Rio
 *  Autores: aw - Alexandre Werneck
-*           fe - Fernanda Ribeiro
-*			vi - Vinicius
+*           fr - Fernanda Camelo Ribeiro
+*			vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*       1.00   aw   29/08/2013 Início do desenvolvimento
+*       1.00   afv   29/08/2013 Início do desenvolvimento
 *
 *  $ED Descrição do módulo
 *     .......
@@ -44,7 +44,7 @@ typedef struct LIS_tagLista * LIS_tpMatLista ;
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: ARV Condicoes de retorno
+*  $TC Tipo de dados: MAT Condicoes de retorno
 *
 *
 ***********************************************************************/
@@ -81,8 +81,11 @@ typedef enum {
         MAT_CondRetFaltouMemoria = 9 ,
             /* Faltou memória ao alocar dados */
 
-		MAT_CondRetNoMatrizSemLista = 10
+		MAT_CondRetNoMatrizSemLista = 10 ,
             /* No nao possui lista */
+			
+		MAT_CondRetNoListaDiferente = 11
+            /* Lista nao corresponde a corrente */
 
 } MAT_tpCondRet ;
 
@@ -118,22 +121,7 @@ MAT_tpCondRet MAT_CriarMatriz(MAT_tppMatriz* tpMatrizModulo, int numElementos);
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_InsereListaMatriz( LIS_tpMatLista lt, MAT_tppMatriz tpMatrizModulo);
-
-
-/***********************************************************************
-*
-*  $FC Função: MAT Destruir matriz
-*
-*  $ED Descrição da função
-///////////////////////////////////////////////////////////
-*     Destrói o corpo e a cabeça da árvore, anulando a árvore corrente.
-*     Faz nada caso a árvore corrente não exista.
-*
-***********************************************************************/
-
-void DestroiMatriz( MAT_tppMatriz tpMatrizModulo ) ;
-
+MAT_tpCondRet MAT_InsereListaMatriz( LIS_tpMatLista * lt, MAT_tppMatriz tpMatrizModulo);
 
 /***********************************************************************
 *
@@ -265,7 +253,7 @@ MAT_tpCondRet MAT_IrNoNoroeste(MAT_tppMatriz tpMatrizModulo) ;
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_ObterListaCorr( LIS_tpMatLista lst_valor , MAT_tppMatriz tpMatrizModulo ) ;
+MAT_tpCondRet MAT_ObterListaCorr( LIS_tpMatLista * lst_valor , MAT_tppMatriz tpMatrizModulo ) ;
 
 
 /***********************************************************************
