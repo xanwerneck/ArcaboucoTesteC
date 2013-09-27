@@ -1,67 +1,38 @@
-#if ! defined( LISTA_ )
-#define LISTA_
+#if ! defined( VERTICE_ )
+#define VERTICE_
 /***************************************************************************
 *
-*  $MCD Módulo de definição: LIS  Lista duplamente encadeada
+*  $MCI Módulo de definição: VER Vertice
 *
-*  Arquivo gerado:              LISTA.h
-*  Letras identificadoras:      LIS
+*  Arquivo gerado:              VERTICE.H
+*  Letras identificadoras:      VER
 *
 *  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
 *  Arquivo da base de software: D:\AUTOTEST\PROJETOS\LISTA.BSW
 *
-*  Projeto: INF 1301 / 1628 Automatização dos testes de módulos C
+*  Projeto: INF 1301 Automatização dos testes de módulos C
 *  Gestor:  LES/DI/PUC-Rio
-*  Autores: avs
+*  Autores: afv
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     4       avs   01/fev/2006 criar linguagem script simbólica
-*     3       avs   08/dez/2004 uniformização dos exemplos
-*     2       avs   07/jul/2003 unificação de todos os módulos em um só projeto
-*     1       avs   16/abr/2003 início desenvolvimento
+*     1       afv   19/09/2013 início desenvolvimento
 *
 *  $ED Descrição do módulo
-*     Implementa listas genéricas duplamente encadeadas.
-*     Podem existir n listas em operação simultaneamente.
-*     As listas possuem uma cabeça encapsulando o seu estado.
-*
-*     Cada lista é homogênea quanto ao tipo dos dados que armazena.
-*     Cada elemento da lista referencia o valor que contém.
-*
-*     Os ponteiros para os dados são copiados para elementos da lista.
-*        Não é copiado o valor apontado por estes ponteiros.
-*
-*     O controle da destruição do valor de um elemento a ser excluído
-*        é realizado por uma função fornecida pelo usuário.
-*
-*     Cada lista referencia uma função que determina como devem ser
-*        desalocados os dados nela contidos.
-*
-*     A função de liberação dos valores contidos nos elementos deve
-*        assegurar a liberação de todos os espaços referênciados pelo
-*        valor contido em um elemento.
-*        Esta função é chamada antes de se desalocar um elemento
-*        de uma lista.
-*        Caso não seja necessário desalocar o valor referenciado pelo
-*        elemento, o ponteiro para a função de liberação poderá ser NULL .
-*        Caso o elemento da lista seja a única âncora do valor referenciado,
-*        esta função deve promover a destruição (free) desse valor e
-*        de todos os dados nele ancorados.
 *
 ***************************************************************************/
  
-#if defined( LISTA_OWN )
-   #define LISTA_EXT
+#if defined( VERTICE_OWN )
+   #define VERTICE_EXT
 #else
-   #define LISTA_EXT extern
+   #define VERTICE_EXT extern
 #endif
 
 /***** Declarações exportadas pelo módulo *****/
 
-/* Tipo referência para uma lista */
+/* Tipo referência para um vértice */
 
-typedef struct LIS_tagLista * LIS_tppLista ;
+typedef struct VER_tagVertice * VER_tppVertice ;
 
 
 /***********************************************************************
@@ -76,22 +47,22 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
    typedef enum {
 
-         LIS_CondRetOK = 0,
+         VER_CondRetOK = 0,
                /* Concluiu corretamente */
 
-         LIS_CondRetListaVazia = 1 ,
+         VER_CondRetListaVazia = 1 ,
                /* A lista não contém elementos */
 
-         LIS_CondRetFimLista = 2,
+         VER_CondRetFimLista = 2,
                /* Foi atingido o fim de lista */
 
-         LIS_CondRetNaoAchou = 3,
+         VER_CondRetNaoAchou = 3,
                /* Não encontrou o valor procurado */
 
-         LIS_CondRetFaltouMemoria = 9
+         VER_CondRetFaltouMemoria = 9
                /* Faltou memória ao tentar criar um elemento de lista */
 
-   } LIS_tpCondRet ;
+   } VER_tpCondRet ;
 
 
 /***********************************************************************

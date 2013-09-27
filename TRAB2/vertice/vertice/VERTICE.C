@@ -23,6 +23,8 @@
 #include   <malloc.h>
 #include   <assert.h>
 
+// verificar quais bibliotecas iremos realmente utilizar no projeto
+
 #define LISTA_OWN
 #include "VERTICE.H"
 #include "LISTA.H"
@@ -61,20 +63,12 @@ VER_tpCondRet Ret;
 
 	   tpElemVertice * tpElemVer;
 
-	   tpElemVertice * tpElemProx;
+	   VER_tagVertice * tpElemProx;
 
    } VER_tpVertice ;
 
 /***** Protótipos das funções encapuladas no módulo *****/
 
-   static void LiberarElemento( LIS_tppLista   pLista ,
-                                tpElemLista  * pElem   ) ;
-
-   static tpElemLista * CriarElemento( void * pValor  ) ;
-
-   static void LimparCabeca( LIS_tppLista pLista ) ;
-
-   static void ExcluirValor (tpElemLista  * pElem );
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
