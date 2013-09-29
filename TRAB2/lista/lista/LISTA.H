@@ -247,7 +247,6 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
    LIS_tpCondRet LIS_ObterValor( LIS_tppLista pLista, void * pValor ) ;
 
-
 /***********************************************************************
 *
 *  $FC Função: LIS  &Ir para o elemento inicial
@@ -335,6 +334,25 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
    LIS_tpCondRet LIS_ProcurarValor( LIS_tppLista pLista ,
                                     void * pValor        ) ;
+
+/***********************************************************************
+*
+*  $FC Função: LIS  &Buscar referência para o valor contido no elemento
+*
+*  $ED Descrição da função
+*     Busca a referência para o valor contido no elemento corrente da lista
+*
+*  $EP Parâmetros
+*     pLista - ponteiro para a lista de onde se quer o valor
+*
+*  $FV Valor retornado
+*     não NULL - se o elemento corrente existe
+*     NULL     - se a lista estiver vazia
+*                Pode retornar NULL se o valor inserido no elemento for NULL.
+*
+***********************************************************************/
+
+   LIS_tpCondRet LIS_BuscarValor ( LIS_tppLista pLista , void * pValor ) ;
 
 #undef LISTA_EXT
 
