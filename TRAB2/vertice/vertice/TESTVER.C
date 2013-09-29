@@ -28,10 +28,10 @@
 
 #include    "VERTICE.H"
 
-static const char RESET_VERTICE_CMD            [ ] = "=resetteste"       ;
-static const char CRIAR_VERTICE_CMD            [ ] = "=criavertice"      ;
-static const char DESTRUIR_VERTICE_CMD         [ ] = "=destruirvertice"  ;
-static const char MUDAR_VALOR_VERTICE_CMD      [ ] = "=mudarvalorvert"   ;
+static const char RESET_VERTICE_CMD       [ ] = "=resetteste"       ;
+static const char CRIAR_VERTICE_CMD       [ ] = "=criavertice"      ;
+static const char DESTRUIR_VERTICE_CMD    [ ] = "=destruirvertice"  ;
+static const char MUDAR_VALOR_VERTICE_CMD [ ] = "=mudarvalorvert"   ;
 
 #define TRUE  1
 #define FALSE 0

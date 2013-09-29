@@ -27,9 +27,6 @@
     <ClInclude Include="GENERICO.H">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LISTA.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VERTICE.C">
@@ -38,8 +35,8 @@
     <ClCompile Include="TESTVER.C">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LISTA.C">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="ArcaboucoTeste.lib" />
   </ItemGroup>
 </Project>

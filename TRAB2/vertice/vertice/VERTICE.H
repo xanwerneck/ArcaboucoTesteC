@@ -38,7 +38,7 @@ typedef struct VER_tagVertice * VER_tppVertice ;
 *
 *
 *  $ED Descrição do tipo
-*     Condições de retorno das funções da lista
+*     Condições de retorno das funções de vértice
 *
 ***********************************************************************/
 
@@ -54,7 +54,7 @@ typedef struct VER_tagVertice * VER_tppVertice ;
                /* Não encontrou o valor procurado */
 
          VER_CondRetFaltouMemoria = 9
-               /* Faltou memória ao tentar criar um elemento de lista */
+               /* Faltou memória ao tentar criar um elemento de vértice */
 
    } VER_tpCondRet ;
 
