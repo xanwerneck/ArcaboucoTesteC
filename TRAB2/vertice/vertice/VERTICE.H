@@ -1,42 +1,68 @@
-#if ! defined( VERTICE_ )
-#define VERTICE_
+#if ! defined( LISTA_ )
+#define LISTA_
 /***************************************************************************
 *
-*  $MCI Módulo de definição: VER Vertice
+*  $MCD Módulo de definição: LIS  Lista duplamente encadeada
 *
-*  Arquivo gerado:              VERTICE.H
-*  Letras identificadoras:      VER
+*  Arquivo gerado:              LISTA.h
+*  Letras identificadoras:      LIS
 *
 *  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
 *  Arquivo da base de software: D:\AUTOTEST\PROJETOS\LISTA.BSW
 *
-*  Projeto: INF 1301 Automatização dos testes de módulos C
+*  Projeto: INF 1301 / 1628 Automatização dos testes de módulos C
 *  Gestor:  LES/DI/PUC-Rio
-*  Autores: afv
+*  Autores: avs
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     1       afv   19/09/2013 início desenvolvimento
+*     4       avs   01/fev/2006 criar linguagem script simbólica
+*     3       avs   08/dez/2004 uniformização dos exemplos
+*     2       avs   07/jul/2003 unificação de todos os módulos em um só projeto
+*     1       avs   16/abr/2003 início desenvolvimento
 *
 *  $ED Descrição do módulo
+*     Implementa listas genéricas duplamente encadeadas.
+*     Podem existir n listas em operação simultaneamente.
+*     As listas possuem uma cabeça encapsulando o seu estado.
+*
+*     Cada lista é homogênea quanto ao tipo dos dados que armazena.
+*     Cada elemento da lista referencia o valor que contém.
+*
+*     Os ponteiros para os dados são copiados para elementos da lista.
+*        Não é copiado o valor apontado por estes ponteiros.
+*
+*     O controle da destruição do valor de um elemento a ser excluído
+*        é realizado por uma função fornecida pelo usuário.
+*
+*     Cada lista referencia uma função que determina como devem ser
+*        desalocados os dados nela contidos.
+*
+*     A função de liberação dos valores contidos nos elementos deve
+*        assegurar a liberação de todos os espaços referênciados pelo
+*        valor contido em um elemento.
+*        Esta função é chamada antes de se desalocar um elemento
+*        de uma lista.
+*        Caso não seja necessário desalocar o valor referenciado pelo
+*        elemento, o ponteiro para a função de liberação poderá ser NULL .
+*        Caso o elemento da lista seja a única âncora do valor referenciado,
+*        esta função deve promover a destruição (free) desse valor e
+*        de todos os dados nele ancorados.
 *
 ***************************************************************************/
  
-#if defined( VERTICE_OWN )
-   #define VERTICE_EXT
+#if defined( LISTA_OWN )
+   #define LISTA_EXT
 #else
-   #define VERTICE_EXT extern
+   #define LISTA_EXT extern
 #endif
-
-#include "LISTA.H"
 
 /***** Declarações exportadas pelo módulo *****/
 
-/* Tipo referência para um vértice */
+/* Tipo referência para uma lista */
 
-typedef struct VER_tagVertice * VER_tppVertice ;
+typedef struct LIS_tagLista * LIS_tppLista ;
 
-typedef struct tagElemVertice * VER_tppElemVertice ;
 
 /***********************************************************************
 *
@@ -50,34 +76,22 @@ typedef struct tagElemVertice * VER_tppElemVertice ;
 
    typedef enum {
 
-         VER_CondRetOK = 0,
+         LIS_CondRetOK = 0,
                /* Concluiu corretamente */
 
-         VER_CondRetVerticeNaoExiste = 1 ,
+         LIS_CondRetListaVazia = 1 ,
                /* A lista não contém elementos */
 
-         VER_CondRetElemVerticeNaoExiste = 2,
+         LIS_CondRetFimLista = 2,
                /* Foi atingido o fim de lista */
 
-         VER_CondRetNaoAchou = 3,
+         LIS_CondRetNaoAchou = 3,
                /* Não encontrou o valor procurado */
 
-		 VER_CondRetVerticeVazio = 4,
-		       /* Vertice vazio */
-
-		 VER_CondRetListaVerticeVazia = 5,
-		      /* Lista fornecida vazia */
-
-		 VER_CondRetVerticeContemElemento = 6,
-		      /* Vertice contém elemento, excluir elemento primeiro */
-
-	     VER_CondRetVerticeNulo = 7,
-			  /* Vertice ainda não criado ou nulo. */
-
-         VER_CondRetFaltouMemoria = 9
+         LIS_CondRetFaltouMemoria = 9
                /* Faltou memória ao tentar criar um elemento de lista */
 
-   } VER_tpCondRet ;
+   } LIS_tpCondRet ;
 
 
 /***********************************************************************
@@ -106,7 +120,7 @@ typedef struct tagElemVertice * VER_tppElemVertice ;
 *
 ***********************************************************************/
 
-   VER_tpCondRet LIS_CriarLista( LIS_tppLista * pLista ) ;
+   LIS_tpCondRet LIS_CriarLista( LIS_tppLista * pLista ) ;
 
 
 /***********************************************************************
@@ -125,7 +139,7 @@ typedef struct tagElemVertice * VER_tppElemVertice ;
 *
 ***********************************************************************/
 
-   VER_tpCondRet LIS_DestruirLista( LIS_tppLista pLista ) ;
+   LIS_tpCondRet LIS_DestruirLista( LIS_tppLista pLista ) ;
 
 
 /***********************************************************************
@@ -140,7 +154,7 @@ typedef struct tagElemVertice * VER_tppElemVertice ;
 *
 ***********************************************************************/
 
-   VER_tpCondRet LIS_EsvaziarLista( LIS_tppLista pLista ) ;
+   LIS_tpCondRet LIS_EsvaziarLista( LIS_tppLista pLista ) ;
 
 
 /***********************************************************************
@@ -162,7 +176,7 @@ typedef struct tagElemVertice * VER_tppElemVertice ;
 *
 ***********************************************************************/
 
-   VER_tpCondRet LIS_InserirElementoAntes( LIS_tppLista pLista ,
+   LIS_tpCondRet LIS_InserirElementoAntes( LIS_tppLista pLista ,
                                            void * pValor        ) ;
 
 
@@ -188,7 +202,7 @@ typedef struct tagElemVertice * VER_tppElemVertice ;
 *
 ***********************************************************************/
 
-   VER_tpCondRet LIS_InserirElementoApos( LIS_tppLista pLista ,
+   LIS_tpCondRet LIS_InserirElementoApos( LIS_tppLista pLista ,
                                           void * pValor        );
 
 
@@ -211,7 +225,7 @@ typedef struct tagElemVertice * VER_tppElemVertice ;
 *
 ***********************************************************************/
 
-   VER_tpCondRet LIS_ExcluirElemento( LIS_tppLista pLista ) ;
+   LIS_tpCondRet LIS_ExcluirElemento( LIS_tppLista pLista ) ;
 
 
 /***********************************************************************
@@ -231,7 +245,7 @@ typedef struct tagElemVertice * VER_tppElemVertice ;
 *
 ***********************************************************************/
 
-   VER_tpCondRet LIS_ObterValor( LIS_tppLista pLista, void * pValor ) ;
+   LIS_tpCondRet LIS_ObterValor( LIS_tppLista pLista, void * pValor ) ;
 
 
 /***********************************************************************
@@ -247,7 +261,7 @@ typedef struct tagElemVertice * VER_tppElemVertice ;
 *
 ***********************************************************************/
 
-   VER_tpCondRet IrInicioLista( LIS_tppLista pLista ) ;
+   LIS_tpCondRet IrInicioLista( LIS_tppLista pLista ) ;
 
 
 /***********************************************************************
@@ -263,7 +277,7 @@ typedef struct tagElemVertice * VER_tppElemVertice ;
 *
 ***********************************************************************/
 
-   VER_tpCondRet IrFinalLista( LIS_tppLista pLista ) ;
+   LIS_tpCondRet IrFinalLista( LIS_tppLista pLista ) ;
 
 
 /***********************************************************************
@@ -290,7 +304,7 @@ typedef struct tagElemVertice * VER_tppElemVertice ;
 *
 ***********************************************************************/
 
-   VER_tpCondRet LIS_AvancarElementoCorrente( LIS_tppLista pLista ,
+   LIS_tpCondRet LIS_AvancarElementoCorrente( LIS_tppLista pLista ,
                                               int numElem ) ;
 
 
@@ -319,7 +333,7 @@ typedef struct tagElemVertice * VER_tppElemVertice ;
 *
 ***********************************************************************/
 
-   VER_tpCondRet LIS_ProcurarValor( LIS_tppLista pLista ,
+   LIS_tpCondRet LIS_ProcurarValor( LIS_tppLista pLista ,
                                     void * pValor        ) ;
 
 #undef LISTA_EXT
