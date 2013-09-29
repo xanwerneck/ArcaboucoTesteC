@@ -26,12 +26,14 @@
 #include    "Generico.h"
 #include    "LerParm.h"
 
-#include    "VERTICE.H"
+#include    "Vertice.h"
+
 
 static const char RESET_VERTICE_CMD       [ ] = "=resetteste"       ;
 static const char CRIAR_VERTICE_CMD       [ ] = "=criavertice"      ;
 static const char DESTRUIR_VERTICE_CMD    [ ] = "=destruirvertice"  ;
 static const char MUDAR_VALOR_VERTICE_CMD [ ] = "=mudarvalorvert"   ;
+static const char OBTER_VALOR_VERTICE_CMD [ ] = "=obtervalorvert"   ;
 
 #define TRUE  1
 #define FALSE 0
@@ -65,6 +67,7 @@ static int ValidarInxVertice( int inxVertice , int Modo ) ;
 *     =criavertice                   inxVertice string CondRetEsp
 *     =destruirvertice               inxVertice CondRetEsp
 *     =mudarvalorvert                inxVertice string CondRetEsp
+*     =obtervalorvert                inxVertice string CondRetEsp
 *
 ***********************************************************************/
 
@@ -124,8 +127,7 @@ static int ValidarInxVertice( int inxVertice , int Modo ) ;
             numLidos = LER_LerParametros( "ii" ,
                                &inxVertice , &CondRetEsp ) ;
 
-            if ( ( numLidos != 2 )
-              || ( ! ValidarInxVertice( inxVertice , NAO_VAZIO )))
+            if ( numLidos != 2 )
             {
                return TST_CondRetParm ;
             } /* if */
@@ -147,8 +149,7 @@ static int ValidarInxVertice( int inxVertice , int Modo ) ;
             numLidos = LER_LerParametros( "isi" ,
                                &inxVertice , StringDado , &CondRetEsp ) ;
 
-            if ( ( numLidos != 3 )
-              || ( ! ValidarInxVertice( inxVertice , NAO_VAZIO )))
+            if ( numLidos != 3 )
             {
                return TST_CondRetParm ;
             } /* if */
@@ -159,6 +160,26 @@ static int ValidarInxVertice( int inxVertice , int Modo ) ;
                "Não foi possível mudar valor do vértice."  ) ;
 
          } /* fim ativa: Testar Mudar valor do vértice */
+
+		  /* Testar Obter valor do vértice */
+
+         else if ( strcmp( ComandoTeste , OBTER_VALOR_VERTICE_CMD ) == 0 )
+         {
+
+            numLidos = LER_LerParametros( "isi" ,
+                               &inxVertice , StringDado , &CondRetEsp ) ;
+
+            if ( numLidos != 3 )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+
+            CondRetObtido = VER_ObterValor( vtVertices[ inxVertice ] , StringDado ) ;
+
+            return TST_CompararInt( CondRetEsp , CondRetObtido ,
+               "Não foi possível obter valor do vértice."  ) ;
+
+         } /* fim ativa: Testar Obter valor do vértice */
 
       return TST_CondRetNaoConhec ;
 
