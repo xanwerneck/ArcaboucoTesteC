@@ -75,13 +75,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GRAFO.C" />
+    <ClCompile Include="LISTA.C" />
     <ClCompile Include="TESTGRA.C" />
+    <ClCompile Include="VERTICE.C" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GENERICO.H" />
     <ClInclude Include="GRAFO.H" />
     <ClInclude Include="LERPARM.H" />
+    <ClInclude Include="LISTA.H" />
     <ClInclude Include="TST_ESPC.H" />
+    <ClInclude Include="VERTICE.H" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
