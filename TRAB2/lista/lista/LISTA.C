@@ -26,7 +26,7 @@
 #include   <assert.h>
 
 #define LISTA_OWN
-#include "LISTA.h"
+#include "LISTA.H"
 #undef LISTA_OWN
 
 LIS_tpCondRet Ret;

@@ -29,7 +29,7 @@
 #include    "Generico.h"
 #include    "LerParm.h"
 
-#include    "Lista.h"
+#include    "LISTA.H"
 
 
 static const char RESET_LISTA_CMD         [ ] = "=resetteste"     ;

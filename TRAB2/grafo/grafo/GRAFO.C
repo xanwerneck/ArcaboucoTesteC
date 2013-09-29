@@ -1,619 +1,670 @@
 /***************************************************************************
-*  $MCI Módulo de implementação: LIS  Lista duplamente encadeada
+*  $MCI Módulo de implementação: Módulo MATRIZ
 *
-*  Arquivo gerado:              LISTA.c
-*  Letras identificadoras:      LIS
+*  Arquivo gerado:              MATRIZ.C
+*  Letras identificadoras:      MAT
 *
-*  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
-*  Arquivo da base de software: D:\AUTOTEST\PROJETOS\LISTA.BSW
+*  Nome da base de software:    Exemplo de teste automatizado
+*  Arquivo da base de software: D:\AUTOTEST\PROJETOS\SIMPLES.BSW
 *
-*  Projeto: INF 1301 / 1628 Automatização dos testes de módulos C
+*  Projeto: INF 1301 Automatização dos testes de módulos C
 *  Gestor:  LES/DI/PUC-Rio
-*  Autores: avs
+*  Autores: aw - Alexandre Werneck
+*           fr - Fernanda Camelo Ribeiro
+*			vo - Vinicius Deluiz de Oliveira
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     4       avs   01/fev/2006 criar linguagem script simbólica
-*     3       avs   08/dez/2004 uniformização dos exemplos
-*     2       avs   07/jul/2003 unificação de todos os módulos em um só projeto
-*     1       avs   16/abr/2003 início desenvolvimento
+*       1.00   afv   29/08/2013 Início do desenvolvimento
 *
 ***************************************************************************/
 
-#include   <stdio.h>
-#include   <string.h>
-#include   <memory.h>
 #include   <malloc.h>
-#include   <assert.h>
+#include   <stdio.h>
+#include "LISTA.H"
+#include "VERTICE.H"
 
-#define LISTA_OWN
-#include "LISTA.h"
-#undef LISTA_OWN
-
-LIS_tpCondRet Ret;
-
-/***********************************************************************
-*
-*  $TC Tipo de dados: LIS Elemento da lista
-*
-*
-***********************************************************************/
-
-   typedef struct tagElemLista {
-
-         void * pValor ;
-               /* Ponteiro para o valor contido no elemento */
-
-         struct tagElemLista * pAnt ;
-               /* Ponteiro para o elemento predecessor */
-
-         struct tagElemLista * pProx ;
-               /* Ponteiro para o elemento sucessor */
-
-   } tpElemLista ;
+#define GRAFO_OWN
+#include "GRAFO.H"
+#undef GRAFO_OWN
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: LIS Descritor da cabeça de lista
+*  $TC Tipo de dados: MAT Descritor do elemento da matriz - 05/09/2013
 *
+*
+*  $ED Descrição do tipo
+*     Descreve a organização do elemento
 *
 ***********************************************************************/
 
-   typedef struct LIS_tagLista {
+typedef struct tagVerticeGrafo {
 
-         tpElemLista * pOrigemLista ;
-               /* Ponteiro para a origem da lista */
+	void * pConteudo ;
+    /* Ponteiro para o valor genérico referente ao conteúdo */
 
-         tpElemLista * pFimLista ;
-               /* Ponteiro para o final da lista */
+	LIS_tppLista pVerAnt ;
+	/* Ponteiro para lista de antecessores */
+	
+	LIS_tppLista pVerSuc ;	
+	/* Ponteiro para lista de sucessores */
 
-         tpElemLista * pElemCorr ;
-               /* Ponteiro para o elemento corrente da lista */
-
-         int numElem ;
-               /* Número de elementos da lista */
+} tpVerticeGrafo ;
 
 
-   } LIS_tpLista ;
+/***********************************************************************
+*
+*  $TC Tipo de dados: MAT Descritor da raiz de uma matriz
+*
+*
+*  $ED Descrição do tipo
+*	  A raiz da matriz indica o início da matriz , refere-se ao elemento (0,0)
+*	  A estrutura matriz também armazena uma referência ao nó indíce 
+*	  de coluna para a criação da matriz.
+*	  Através do nó corrente pode-se navegar a matriz.
+*
+***********************************************************************/
 
-/***** Protótipos das funções encapuladas no módulo *****/
+typedef struct GRA_tagGrafo {
 
-   static void LiberarElemento( LIS_tppLista   pLista ,
-                                tpElemLista  * pElem   ) ;
+	LIS_tppLista pListaOrigens;
+	/* Ponteiro para lista de vértices de origens */
 
-   static tpElemLista * CriarElemento( void * pValor  ) ;
+	LIS_tppLista pListaVertices;
+	/* Ponteiro para lista com todos os vértices */
 
-   static void LimparCabeca( LIS_tppLista pLista ) ;
+} GRA_tpGrafo ;
 
-   static void ExcluirValor (tpElemLista  * pElem );
+
+/***** Protótipos das funções encapsuladas no módulo *****/
+
+static MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat , int numElementos ) ;
+
+static VER_tpCondRet CriarNoCabeca( VER_tpVertice * tpVertice ) ;
+
+static void DestroiVertice( VER_tpVertice * tpVerticeExc ) ;
+
+static void DestroiNoElem( VER_tpVertice * tpVerticeExc );
+
+static VER_tpCondRet * CriarNoElem( VER_tpVertice * tpVertice ) ;
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
 /***************************************************************************
 *
-*  Função: LIS  &Criar lista
-*  ****/
+*  Função: MAT CriarMatriz - 05/09/2013
+*  
+****/
 
-   LIS_tpCondRet LIS_CriarLista( LIS_tpLista * pLista )
-   {
+VER_tpCondRet VER_CriarVertice(VER_tppVertice* tpVertice){
 
-      LIS_tpLista * pListaM = ( LIS_tpLista * ) malloc( sizeof( LIS_tpLista )) ;
-      if ( pListaM == NULL )
-      {
-         return LIS_CondRetFaltouMemoria ;
-      } /* if */
+	VER_tpCondRet CondRet ;
 
-      LimparCabeca( pListaM ) ;
+	VER_tppVertice mVertice ;
 
-	  pLista = ( LIS_tpLista * ) malloc( sizeof( LIS_tpLista )) ;
+	if((*tpVertice) != NULL)
+	{
+		DestroiVertice( (*tpVertice) ); 
+	} /* if */
 
-	  pLista = pListaM;
+	mVertice = ( VER_tppVertice ) malloc ( sizeof ( VER_tpVertice ) );
+	/* Malloc para gerar um ponteiro de matriz */
 
-      return LIS_CondRetOK ;
 
-   } /* Fim função: LIS  &Criar lista */
+	if(mVertice == NULL)
+	{
+		return VER_CondRetFaltouMemoria ;
+	} /* if */
 
-/***************************************************************************
-*
-*  Função: LIS  &Destruir lista
-*  ****/
+	mVertice->pNoCorr      = NULL;
+	mVertice->pNoProx      = NULL;
 
-   LIS_tpCondRet LIS_DestruirLista( LIS_tppLista pLista )
-   {
+	CondRet = CriarNoCabeca( mVertice );
+	/* Inicializo a estrutura da matriz setando a raiz */
 
-      #ifdef _DEBUG
-         assert( pLista != NULL ) ;
-      #endif
+	if(CondRet != VER_CondRetOK)
+	{
+		return CondRet;
+	} /* if */
 
-      Ret = LIS_EsvaziarLista( pLista ) ;
 
-	  if(Ret != LIS_CondRetOK)
-	  {
-		  return Ret;
-	  }
+	(*tpVertice) = ( VET_tpVertice* ) malloc( sizeof( VET_tppVertice )) ;
 
-      free( pLista ) ;
+	if ( (*tpVertice) == NULL )
+	{
+		return MAT_CondRetFaltouMemoria ;
+	} /* if */
 
-	  if(pLista == NULL)
-	  {
-		  return LIS_CondRetOK ;
-	  }
+	(*tpVertice) = mVertice ;
 
-	  return LIS_CondRetNaoAchou;
 
-   } /* Fim função: LIS  &Destruir lista */
+	return VET_CondRetOK ;
+}
+
 
 /***************************************************************************
 *
-*  Função: LIS  &Esvaziar lista
-*  ****/
+*  Função: MAT InsereListaMatriz - 05/09/2013
+*
+*	Percorre a estrutura da matriz procurando espaço vazio para
+*	armazenar a lista criada.
+*  
+****/
 
-   LIS_tpCondRet LIS_EsvaziarLista( LIS_tppLista pLista )
-   {
+MAT_tpCondRet MAT_InsereListaMatriz( LIS_tpMatLista * lt, MAT_tppMatriz tpMat){
 
-      tpElemLista * pElem ;
-      tpElemLista * pProx ;
 
-      #ifdef _DEBUG
-         assert( pLista != NULL ) ;
-      #endif
+	if( lt == NULL ){
+		return MAT_CondRetListaVazia ;
+	} /* if */
 
-      pElem = pLista->pOrigemLista ;
-      while ( pElem != NULL )
-      {
-         pProx = pElem->pProx ;
-         LiberarElemento( pLista , pElem ) ;
-         pElem = pProx ;
-      } /* while */
+	if ( tpMat == NULL )
+	{
+		return MAT_CondRetMatrizNaoExiste ;
+	} /* if */
 
-      LimparCabeca( pLista ) ;
+	tpMat->pNoCorr     = tpMat->pNoRaiz;
+	tpMat->pNoIndLinha = tpMat->pNoCorr;
 
-	  return LIS_CondRetOK;
+	/* procura a próxima posição de memória vazia para inserir a lista */
+	while(tpMat->pNoCorr != NULL){
+		if(tpMat->pNoCorr->Lista == NULL){
+			tpMat->pNoCorr->Lista = lt;
+			return MAT_CondRetOK;
+		}else{
+			if(tpMat->pNoCorr->pNoLeste == NULL){
+				tpMat->pNoCorr     = tpMat->pNoIndLinha->pNoSul;
+				tpMat->pNoIndLinha = tpMat->pNoCorr;
+			}else{
+				tpMat->pNoCorr = tpMat->pNoCorr->pNoLeste;
+			} /* if */
+		}/* if */
+	}
 
-   } /* Fim função: LIS  &Esvaziar lista */
+	return MAT_CondRetMatrizCheia ;
+	/* sem lugar para inserir */
+
+}
 
 /***************************************************************************
 *
-*  Função: LIS  &Inserir elemento antes
-*  ****/
+*  Função: MAT IrNoNorte - 05/09/2013
+*  
+****/
 
-   LIS_tpCondRet LIS_InserirElementoAntes( LIS_tppLista pLista ,
-                                           void * pValor   )
-   {
+MAT_tpCondRet MAT_IrNoNorte(MAT_tpMatriz * tpMat){
 
-      tpElemLista * pElem ;
+	if ( tpMat == NULL )
+	{
+		return MAT_CondRetMatrizNaoExiste ;
+	} /* if */
 
-      #ifdef _DEBUG
-         assert( pLista != NULL ) ;
-      #endif
+	if ( tpMat->pNoCorr == NULL )
+	{
+		return MAT_CondRetMatrizVazia ;
+	} /* if */
 
-      /* Criar elemento a inerir antes */
+	if ( tpMat->pNoCorr->pNoNorte == NULL )
+	{
+		return MAT_CondRetNaoPossuiNo ;
+	} /* if */
 
-         pElem = CriarElemento( pValor ) ;
-		 
-         if ( pElem == NULL )
-         {
-            return LIS_CondRetFaltouMemoria ;
-         } /* if */
+	tpMat->pNoCorr = tpMat->pNoCorr->pNoNorte ;
 
-		 pLista->numElem ++ ;
+	return MAT_CondRetOK ;
 
-      /* Encadear o elemento antes do elemento corrente */
-
-         if ( pLista->pElemCorr == NULL )
-         {
-            pLista->pOrigemLista = pElem ;
-            pLista->pFimLista    = pElem ;
-         } else
-         {
-            if ( pLista->pElemCorr->pAnt != NULL )
-            {
-               pElem->pAnt  = pLista->pElemCorr->pAnt ;
-               pLista->pElemCorr->pAnt->pProx = pElem ;
-            } else
-            {
-               pLista->pOrigemLista = pElem ;
-            } /* if */
-
-            pElem->pProx = pLista->pElemCorr ;
-            pLista->pElemCorr->pAnt = pElem ;
-         } /* if */
-
-         pLista->pElemCorr = pElem ;
-
-         return LIS_CondRetOK ;
-
-   } /* Fim função: LIS  &Inserir elemento antes */
+} /* Fim do IrNoNorte */
 
 /***************************************************************************
 *
-*  Função: LIS  &Inserir elemento após
-*  ****/
+*  Função: MAT IrNoNordeste - 05/09/2013
+*  
+****/
 
-   LIS_tpCondRet LIS_InserirElementoApos( LIS_tppLista pLista ,
-                                          void * pValor        )
-      
-   {
+MAT_tpCondRet MAT_IrNoNordeste(MAT_tpMatriz * tpMat){
 
-      tpElemLista * pElem ;
+	if ( tpMat == NULL )
+	{
+		return MAT_CondRetMatrizNaoExiste ;
+	} /* if */
 
-      #ifdef _DEBUG
-         assert( pLista != NULL ) ;
-      #endif
+	if ( tpMat->pNoCorr == NULL )
+	{
+		return MAT_CondRetMatrizVazia ;
+	} /* if */
 
-      /* Criar elemento a inerir após */
+	if ( tpMat->pNoCorr->pNoNordeste == NULL )
+	{
+		return MAT_CondRetNaoPossuiNo ;
+	} /* if */
 
-         pElem = CriarElemento( pValor ) ;
-         if ( pElem == NULL )
-         {
-            return LIS_CondRetFaltouMemoria ;
-         } /* if */
+	tpMat->pNoCorr = tpMat->pNoCorr->pNoNordeste ;
 
-		 pLista->numElem ++ ;
+	return MAT_CondRetOK ;
 
-      /* Encadear o elemento após o elemento */
-
-         if ( pLista->pElemCorr == NULL )
-         {
-            pLista->pOrigemLista = pElem ;
-            pLista->pFimLista = pElem ;
-         } else
-         {
-            if ( pLista->pElemCorr->pProx != NULL )
-            {
-               pElem->pProx  = pLista->pElemCorr->pProx ;
-               pLista->pElemCorr->pProx->pAnt = pElem ;
-            } else
-            {
-               pLista->pFimLista = pElem ;
-            } /* if */
-
-            pElem->pAnt = pLista->pElemCorr ;
-            pLista->pElemCorr->pProx = pElem ;
-
-         } /* if */
-                  
-         pLista->pElemCorr = pElem ;
-                  
-         return LIS_CondRetOK ;
-
-   } /* Fim função: LIS  &Inserir elemento após */
+} /* Fim do IrNoNordeste */
 
 /***************************************************************************
 *
-*  Função: LIS  &Excluir elemento
-*  ****/
+*  Função: MAT IrNoLeste - 05/09/2013
+*  
+****/
 
-   LIS_tpCondRet LIS_ExcluirElemento( LIS_tppLista pLista )
-   {
+MAT_tpCondRet MAT_IrNoLeste(MAT_tpMatriz * tpMat){
 
-      tpElemLista * pElem ;
+	if ( tpMat == NULL )
+	{
+		return MAT_CondRetMatrizNaoExiste ;
+	} /* if */
 
-      #ifdef _DEBUG
-         assert( pLista  != NULL ) ;
-      #endif
+	if ( tpMat->pNoCorr == NULL )
+	{
+		return MAT_CondRetMatrizVazia ;
+	} /* if */
 
-      if ( pLista->pElemCorr == NULL )
-      {
-         return LIS_CondRetListaVazia ;
-      } /* if */
+	if ( tpMat->pNoCorr->pNoLeste == NULL )
+	{
+		return MAT_CondRetNaoPossuiNo ;
+	} /* if */
 
-      pElem = pLista->pElemCorr ;
+	tpMat->pNoCorr = tpMat->pNoCorr->pNoLeste ;
 
-      /* Desencadeia à esquerda */
+	return MAT_CondRetOK ;
 
-         if ( pElem->pAnt != NULL )
-         {
-            pElem->pAnt->pProx   = pElem->pProx ;
-            pLista->pElemCorr    = pElem->pAnt ;
-         } else {
-            pLista->pElemCorr    = pElem->pProx ;
-            pLista->pOrigemLista = pLista->pElemCorr ;
-         } /* if */
-
-      /* Desencadeia à direita */
-
-         if ( pElem->pProx != NULL )
-         {
-            pElem->pProx->pAnt = pElem->pAnt ;
-         } else
-         {
-            pLista->pFimLista = pElem->pAnt ;
-         } /* if */
-
-      LiberarElemento( pLista , pElem ) ;
-
-	  if(pElem == NULL)
-	  {
-		  return LIS_CondRetOK ;
-	  }
-
-	  return LIS_CondRetFaltouMemoria ;
-      
-   } /* Fim função: LIS  &Excluir elemento */
+} /* Fim do MAT IrNoLeste */
 
 /***************************************************************************
 *
-*  Função: LIS  &Obter referência para o valor contido no elemento
-*  ****/
+*  Função: MAT IrNoSudeste - 05/09/2013
+*  
+****/
 
-   LIS_tpCondRet LIS_ObterValor( LIS_tppLista pLista , void * pValor )
-   {
+MAT_tpCondRet MAT_IrNoSudeste(MAT_tpMatriz * tpMat){
 
-      #ifdef _DEBUG
-         assert( pLista != NULL ) ;
-      #endif
+	if ( tpMat == NULL )
+	{
+		return MAT_CondRetMatrizNaoExiste ;
+	} /* if */
 
-		if( pLista->pElemCorr->pValor == pValor )
-		{
-			return LIS_CondRetOK;			
-		}
+	if ( tpMat->pNoCorr == NULL )
+	{
+		return MAT_CondRetMatrizVazia ;
+	} /* if */
 
-		return LIS_CondRetNaoAchou;
+	if ( tpMat->pNoCorr->pNoSudeste == NULL )
+	{
+		return MAT_CondRetNaoPossuiNo ;
+	} /* if */
 
-   } /* Fim função: LIS  &Obter referência para o valor contido no elemento */
+	tpMat->pNoCorr = tpMat->pNoCorr->pNoSudeste ;
 
-/***************************************************************************
-*
-*  Função: LIS  &Ir para o elemento inicial
-*  ****/
+	return MAT_CondRetOK ;
 
-   LIS_tpCondRet IrInicioLista( LIS_tppLista pLista )
-   {
-
-      #ifdef _DEBUG
-         assert( pLista != NULL ) ;
-      #endif
-		
-	  if(pLista->pElemCorr == NULL)
-	  {
-		  return LIS_CondRetListaVazia;
-	  }
-	  if(pLista->pOrigemLista == NULL)
-	  {
-		  return LIS_CondRetNaoAchou;
-	  }
-
-      pLista->pElemCorr = pLista->pOrigemLista ;
-
-	  return LIS_CondRetOK;
-
-   } /* Fim função: LIS  &Ir para o elemento inicial */
+} /* Fim do MAT IrNoSudeste */
 
 /***************************************************************************
 *
-*  Função: LIS  &Ir para o elemento final
-*  ****/
+*  Função: MAT IrNoSul - 05/09/2013
+*  
+****/
 
-   LIS_tpCondRet IrFinalLista( LIS_tppLista pLista )
-   {
+MAT_tpCondRet MAT_IrNoSul(MAT_tpMatriz * tpMat){
 
-      #ifdef _DEBUG
-         assert( pLista != NULL ) ;
-      #endif
+	if ( tpMat == NULL )
+	{
+		return MAT_CondRetMatrizNaoExiste ;
+	} /* if */
 
-      if(pLista->pElemCorr == NULL)
-	  {
-		  return LIS_CondRetListaVazia;
-	  }
-	  if(pLista->pFimLista == NULL)
-	  {
-		  return LIS_CondRetNaoAchou;
-	  }
+	if ( tpMat->pNoCorr == NULL )
+	{
+		return MAT_CondRetMatrizVazia ;
+	} /* if */
 
-      pLista->pElemCorr = pLista->pFimLista ;
+	if ( tpMat->pNoCorr->pNoSul == NULL )
+	{
+		return MAT_CondRetNaoPossuiNo ;
+	} /* if */
 
-	  return LIS_CondRetOK;
+	tpMat->pNoCorr = tpMat->pNoCorr->pNoSul ;
 
+	return MAT_CondRetOK ;
 
-   } /* Fim função: LIS  &Ir para o elemento final */
-
-/***************************************************************************
-*
-*  Função: LIS  &Avançar elemento
-*  ****/
-
-   LIS_tpCondRet LIS_AvancarElementoCorrente( LIS_tppLista pLista ,
-                                              int numElem )
-   {
-
-      int i ;
-
-      tpElemLista * pElem ;
-
-      #ifdef _DEBUG
-         assert( pLista != NULL ) ;
-      #endif
-
-      /* Tratar lista vazia */
-
-         if ( pLista->pElemCorr == NULL )
-         {
-
-            return LIS_CondRetListaVazia ;
-
-         } /* fim ativa: Tratar lista vazia */
-
-      /* Tratar avançar para frente */
-
-         if ( numElem > 0 )
-         {
-
-            pElem = pLista->pElemCorr ;
-            for( i = numElem ; i > 0 ; i-- )
-            {
-               if ( pElem == NULL )
-               {
-                  break ;
-               } /* if */
-               pElem    = pElem->pProx ;
-            } /* for */
-
-            if ( pElem != NULL )
-            {
-               pLista->pElemCorr = pElem ;
-               return LIS_CondRetOK ;
-            } /* if */
-
-            pLista->pElemCorr = pLista->pFimLista ;
-            return LIS_CondRetFimLista ;
-
-         } /* fim ativa: Tratar avançar para frente */
-
-      /* Tratar avançar para trás */
-
-         else if ( numElem < 0 )
-         {
-
-            pElem = pLista->pElemCorr ;
-            for( i = numElem ; i < 0 ; i++ )
-            {
-               if ( pElem == NULL )
-               {
-                  break ;
-               } /* if */
-               pElem    = pElem->pAnt ;
-            } /* for */
-
-            if ( pElem != NULL )
-            {
-               pLista->pElemCorr = pElem ;
-               return LIS_CondRetOK ;
-            } /* if */
-
-            pLista->pElemCorr = pLista->pOrigemLista ;
-            return LIS_CondRetFimLista ;
-
-         } /* fim ativa: Tratar avançar para trás */
-
-      /* Tratar não avançar */
-
-         return LIS_CondRetOK ;
-
-   } /* Fim função: LIS  &Avançar elemento */
+} /* Fim do MAT IrNoSul */
 
 /***************************************************************************
 *
-*  Função: LIS  &Procurar elemento contendo valor
+*  Função: MAT IrNoSudoeste - 05/09/2013
+*  
+****/
+
+MAT_tpCondRet MAT_IrNoSudoeste(MAT_tpMatriz * tpMat){
+
+	if ( tpMat == NULL )
+	{
+		return MAT_CondRetMatrizNaoExiste ;
+	} /* if */
+
+	if ( tpMat->pNoCorr == NULL )
+	{
+		return MAT_CondRetMatrizVazia ;
+	} /* if */
+
+	if ( tpMat->pNoCorr->pNoSudoeste == NULL )
+	{
+		return MAT_CondRetNaoPossuiNo ;
+	} /* if */
+
+	tpMat->pNoCorr = tpMat->pNoCorr->pNoSudoeste ;
+
+	return MAT_CondRetOK ;
+
+} /* Fim do MAT IrNoSudoeste */
+
+/***************************************************************************
+*
+*  Função: MAT IrNoOeste - 05/09/2013
+*  
+****/
+
+MAT_tpCondRet MAT_IrNoOeste(MAT_tpMatriz * tpMat){
+
+	if ( tpMat == NULL )
+	{
+		return MAT_CondRetMatrizNaoExiste ;
+	} /* if */
+
+	if ( tpMat->pNoCorr == NULL )
+	{
+		return MAT_CondRetMatrizVazia ;
+	} /* if */
+
+	if ( tpMat->pNoCorr->pNoOeste == NULL )
+	{
+		return MAT_CondRetNaoPossuiNo ;
+	} /* if */
+
+	tpMat->pNoCorr = tpMat->pNoCorr->pNoOeste ;
+
+	return MAT_CondRetOK ;
+
+} /* Fim do MAT IrNoOeste */
+
+/***************************************************************************
+*
+*  Função: MAT IrNoNoroeste - 05/09/2013
+*  
+****/
+
+MAT_tpCondRet MAT_IrNoNoroeste(MAT_tpMatriz * tpMat){
+
+	if ( tpMat == NULL )
+	{
+		return MAT_CondRetMatrizNaoExiste ;
+	} /* if */
+
+	if ( tpMat->pNoCorr == NULL )
+	{
+		return MAT_CondRetMatrizVazia ;
+	} /* if */
+
+	if ( tpMat->pNoCorr->pNoNoroeste == NULL )
+	{
+		return MAT_CondRetNaoPossuiNo ;
+	} /* if */
+
+	tpMat->pNoCorr = tpMat->pNoCorr->pNoNoroeste ;
+
+	return MAT_CondRetOK ;
+
+} /* Fim do MAT IrNoNoroeste */
+
+
+
+
+/***************************************************************************
+*
+*  Função: MAT Obter Lista corrente
 *  ****/
 
-   LIS_tpCondRet LIS_ProcurarValor( LIS_tppLista pLista ,
-                                    void * pValor        )
-   {
+MAT_tpCondRet MAT_ObterListaCorr( LIS_tpMatLista * lst_valor , MAT_tpMatriz * tpMat)
+{
 
-      tpElemLista * pElem ;
+	if ( tpMat == NULL )
+	{
+		return MAT_CondRetMatrizNaoExiste  ;
+	} /* if */
+	if ( tpMat->pNoCorr == NULL )
+	{
+		return MAT_CondRetMatrizVazia ;
+	} /* if */
+	if ( tpMat->pNoCorr->Lista == NULL )
+	{
+		return MAT_CondRetNoMatrizSemLista ;
+	} /* if */
 
-      #ifdef _DEBUG
-         assert( pLista  != NULL ) ;
-      #endif
+	if(lst_valor == tpMat->pNoCorr->Lista)
+	{
+		return MAT_CondRetOK  ;
+	}
 
-      if ( pLista->pElemCorr == NULL )
-      {
-         return LIS_CondRetListaVazia ;
-      } /* if */
+	return MAT_CondRetNoListaDiferente ;
+	/* Lista passada diferente da corrente */
 
-      for ( pElem  = pLista->pElemCorr ;
-            pElem != NULL ;
-            pElem  = pElem->pProx )
-      {
-         if ( pElem->pValor == pValor )
-         {
-            pLista->pElemCorr = pElem ;
-            return LIS_CondRetOK ;
-         } /* if */
-      } /* for */
+} /* Fim função: MAT Obter Lista corrente */
 
-      return LIS_CondRetNaoAchou ;
 
-   } /* Fim função: LIS  &Procurar elemento contendo valor */
+/***************************************************************************
+*
+*  Função: MAT Ir para nó raiz
+*  ****/
+
+MAT_tpCondRet MAT_IrRaiz( MAT_tpMatriz * tpMat )
+{
+
+	if ( tpMat == NULL )
+	{
+		return MAT_CondRetMatrizNaoExiste  ;
+	} /* if */
+	if ( tpMat->pNoCorr == NULL )
+	{
+		return MAT_CondRetMatrizVazia ;
+	} /* if */
+
+	if ( tpMat->pNoRaiz != NULL )
+	{
+		tpMat->pNoCorr = tpMat->pNoRaiz ;
+		return MAT_CondRetOK ;
+	} else {
+		return MAT_CondRetNohEhRaiz ;
+	} /* if */
+
+} /* Fim função: MAT Ir para nó raiz */
 
 
 /*****  Código das funções encapsuladas no módulo  *****/
 
-
 /***********************************************************************
 *
-*  $FC Função: LIS  -Liberar elemento da lista
+*  $FC Função: MAT Destruir a estrutura da matriz
+*		Chamada recursiva que percorre os elementos do nó corrente
+*		da um free quando chega no último elemento
 *
-*  $ED Descrição da função
-*     Elimina os espaços apontados pelo valor do elemento e o
-*     próprio elemento.
+*  $EAE Assertivas de entradas esperadas
+*     pMatriz != NULL
 *
 ***********************************************************************/
 
-   void LiberarElemento( LIS_tppLista   pLista ,
-                         tpElemLista  * pElem   )
-   {
+void DestroiVertice( VER_tpVertice * tpVerticeExc )
+{
 
-      if ( pElem->pValor != NULL )
-      {
-         ExcluirValor( pElem ) ;
-      } /* if */
+	if ( tpVerticeExc != NULL )
+	{
+		if ( tpVerticeExc->pNoCorr != NULL )
+		{
+			if( tpVerticeExc->pNoProx != NULL){
+				DestroiVertice ( tpVerticeExc->pNoProx );
+				free ( tpVerticeExc->pNoProx );
+				tpVerticeExc = NULL;
+			}
+			DestroiNoElem( tpVerticeExc ) ;
+		} /* if */
+		free( tpVerticeExc ) ;
+		tpVerticeExc = NULL ;
+	} /* if */
 
-      free( pElem ) ;
-
-	  if(pLista->numElem >= 0)
-	  {
-		  pLista->numElem-- ;
-	  } /* if */
 
 
-   } /* Fim função: LIS  -Liberar elemento da lista */
-
-
-/***********************************************************************
-*
-*  $FC Função: LIS  -Excluir o valor do elemento
-*
-***********************************************************************/
-
-   void ExcluirValor (tpElemLista  * pElem )
-   {
-	   free (pElem->pValor);
-   }
+} /* Fim função: MAT Destruir a estrutura da matriz */
 
 
 /***********************************************************************
 *
-*  $FC Função: LIS  -Criar o elemento
+*  $FC Função: MAT Destruir a estrutura da matriz
+*		Chamada recursiva que percorre os elementos do nó corrente
+*		da um free quando chega no último elemento
+*
+*  $EAE Assertivas de entradas esperadas
+*     pMatriz != NULL
 *
 ***********************************************************************/
 
-   tpElemLista * CriarElemento( void * pValor  )
-   {
+void DestroiNoElem( VER_tpVertice * tpVerticeExc );
+{
 
-      tpElemLista * pElem ;
+	if ( tpVerticeExc->pNoCorr->pValor != NULL )
+	{
+		 tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoSudeste;
+		 free(tpMatExc->pNoCorr->pNoSudeste);
+		 DestroiNoElem( tpMatExc ) ;
+	} /* if */
 
-      pElem = ( tpElemLista * ) malloc( sizeof( tpElemLista )) ;
-      if ( pElem == NULL )
-      {
-         return NULL ;
-      } /* if */
+	if ( tpMatExc->pNoCorr->pNoSul != NULL )
+	{
+	 	tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoSul;
+		free(tpMatExc->pNoCorr->pNoSul);
+		DestroiNoElem( tpMatExc ) ;
+	} /* if */
 
-      pElem->pValor = pValor ;
-      pElem->pAnt   = NULL  ;
-      pElem->pProx  = NULL  ;
+	if ( tpMatExc->pNoCorr->pNoSudoeste != NULL )
+	{
+		tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoSudoeste;
+		free(tpMatExc->pNoCorr->pNoSudoeste);
+		DestroiNoElem( tpMatExc ) ;
+	} /* if */
 
-      return pElem ;
+	if ( tpMatExc->pNoCorr->pNoLeste != NULL )
+	{
+		 tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoLeste;
+		 free(tpMatExc->pNoCorr->pNoLeste);
+		 DestroiNoElem( tpMatExc ) ;
+	} /* if */
 
-   } /* Fim função: LIS  -Criar o elemento */
+	if ( tpMatExc->pNoCorr->pNoOeste != NULL )
+	{
+		 tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoOeste;
+		 free(tpMatExc->pNoCorr->pNoOeste);
+		 DestroiNoElem( tpMatExc ) ;
+	} /* if */
+
+	if ( tpMatExc->pNoCorr->pNoNordeste != NULL )
+	{
+		 tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoNordeste;
+		 free(tpMatExc->pNoCorr->pNoNordeste);
+		 DestroiNoElem( tpMatExc ) ;
+	} /* if */
+
+	if ( tpMatExc->pNoCorr->pNoNorte != NULL )
+	{
+		 tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoNorte;
+		 free(tpMatExc->pNoCorr->pNoNorte);
+		 DestroiNoElem( tpMatExc ) ;
+	} /* if */
+
+	if ( tpMatExc->pNoCorr->pNoNoroeste != NULL )
+	{
+		 tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoNoroeste;
+		 free(tpMatExc->pNoCorr->pNoNoroeste);
+		 DestroiNoElem( tpMatExc ) ;
+	} /* if */
+
+	free( tpMatExc->pNoCorr ) ;
+
+} /* Fim função: MAT Destruir a estrutura da matriz */
+
+
+
+
 
 
 /***********************************************************************
 *
-*  $FC Função: LIS  -Limpar a cabeça da lista
+*  $FC Função: ARV Criar nó da árvore
+*
+*  $FV Valor retornado
+*     Ponteiro para o nó criado.
+*     Será NULL caso a memória tenha se esgotado.
+*     Os ponteiros do nó criado estarão nulos e o valor é igual ao do
+*     parâmetro.
 *
 ***********************************************************************/
 
-   void LimparCabeca( LIS_tppLista pLista )
-   {
+VER_tpCondRet CriarNoElem ( VER_tpVertice * tpVertice )
+{
 
-      pLista->pOrigemLista = NULL ;
-      pLista->pFimLista = NULL ;
-      pLista->pElemCorr = NULL ;
-      pLista->numElem   = 0 ;
+	tpElemVertice * pNoVertice ;
+	pNoVertice = ( tpElemVertice * ) malloc( sizeof( tpElemVertice )) ;
+	if ( pNoVertice == NULL )
+	{
+		return VER_CondRetFaltouMemoria ;
+	} /* if */
 
-   } /* Fim função: LIS  -Limpar a cabeça da lista */
+	pNoVertice->pValor = NULL;
+	pNoVertice->Lista  = NULL;
+	pNoVertice->pAnt   = NULL;
+	pNoVertice->pProx  = NULL;
 
-/********** Fim do módulo de implementação: LIS  Lista duplamente encadeada **********/
+	(*tpVertice)->pNoCorr = pNoVertice; 
+	
+
+	return VER_CondRetOK ;
+
+} /* Fim função: ARV Criar nó da árvore */
+
+
+/***********************************************************************
+*
+*  $FC Função: MAT Criar nó raiz da matriz
+*
+*  $FV Valor retornado
+*     MAT_CondRetOK
+*     MAT_CondRetFaltouMemoria
+*     MAT_CondRetNaoCriouRaiz
+*
+***********************************************************************/
+
+VER_tpCondRet CriarNoCabeca( VER_tpVertice * tpVertice ) 
+{
+
+	VER_tpCondRet CondRet ;
+
+	if ( tpVertice->pNoCorr == NULL )
+	{
+
+		CondRet = CriarNoElem( tpVertice->pNoCorr );		
+		/* Criar a estrutura da matriz de acordo com a quantidade elementos passados */
+
+		if ( CondRet != VER_CondRetOK )
+		{
+			return CondRet ;
+		} /* if */
+
+
+		return VER_CondRetOK  ;
+	} /* if */
+
+	return VER_CondRetNaoCriouRaiz ;
+
+} /* Fim função: MAT Criar nó raiz da matriz */
+
+/********** Fim do módulo de implementação: Módulo matriz **********/
 
