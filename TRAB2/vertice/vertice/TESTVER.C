@@ -1,22 +1,19 @@
 /***************************************************************************
-*  $MCI Módulo de implementação: TLIS Teste lista de símbolos
+*  $MCI Módulo de implementação: TVER Teste vértice
 *
-*  Arquivo gerado:              TestLIS.c
-*  Letras identificadoras:      TLIS
+*  Arquivo gerado:              TESTVER.c
+*  Letras identificadoras:      TVER
 *
 *  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
 *  Arquivo da base de software: D:\AUTOTEST\PROJETOS\LISTA.BSW
 *
-*  Projeto: INF 1301 / 1628 Automatização dos testes de módulos C
+*  Projeto: INF 1301 Automatização dos testes de módulos C
 *  Gestor:  LES/DI/PUC-Rio
-*  Autores: avs
+*  Autores: afv
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     4       avs   01/fev/2006 criar linguagem script simbólica
-*     3       avs   08/dez/2004 uniformização dos exemplos
-*     2       avs   07/jul/2003 unificação de todos os módulos em um só projeto
-*     1       avs   16/abr/2003 início desenvolvimento
+*     1       afv   19/09/2013 início desenvolvimento
 *
 ***************************************************************************/
 
@@ -29,21 +26,12 @@
 #include    "Generico.h"
 #include    "LerParm.h"
 
-#include    "Lista.h"
+#include    "VERTICE.H"
 
-
-static const char RESET_LISTA_CMD         [ ] = "=resetteste"     ;
-static const char CRIAR_LISTA_CMD         [ ] = "=criarlista"     ;
-static const char DESTRUIR_LISTA_CMD      [ ] = "=destruirlista"  ;
-static const char ESVAZIAR_LISTA_CMD      [ ] = "=esvaziarlista"  ;
-static const char INS_ELEM_ANTES_CMD      [ ] = "=inselemantes"   ;
-static const char INS_ELEM_APOS_CMD       [ ] = "=inselemapos"    ;
-static const char OBTER_VALOR_CMD         [ ] = "=obtervalorelem" ;
-static const char EXC_ELEM_CMD            [ ] = "=excluirelem"    ;
-static const char IR_INICIO_CMD           [ ] = "=irinicio"       ;
-static const char IR_FIM_CMD              [ ] = "=irfinal"        ;
-static const char AVANCAR_ELEM_CMD        [ ] = "=avancarelem"    ;
-
+static const char RESET_VERTICE_CMD            [ ] = "=resetteste"       ;
+static const char CRIAR_VERTICE_CMD            [ ] = "=criavertice"      ;
+static const char DESTRUIR_VERTICE_CMD         [ ] = "=destruirvertice"  ;
+static const char MUDAR_VALOR_VERTICE_CMD      [ ] = "=mudarvalorvert"   ;
 
 #define TRUE  1
 #define FALSE 0
@@ -51,318 +39,158 @@ static const char AVANCAR_ELEM_CMD        [ ] = "=avancarelem"    ;
 #define VAZIO     0
 #define NAO_VAZIO 1
 
-#define DIM_VT_LISTA   10
-#define DIM_VALOR     100
+#define DIM_VT_VERTICE   10
+#define DIM_VT_VALOR     80
 
-LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
+VER_tppVertice   vtVertices[ DIM_VT_VERTICE ] ;
 
 /***** Protótipos das funções encapuladas no módulo *****/
 
-static int ValidarInxLista( int inxLista , int Modo ) ;
+static int ValidarInxVertice( int inxVertice , int Modo ) ;
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
 
 /***********************************************************************
 *
-*  $FC Função: TLIS &Testar lista
+*  $FC Função: TVER &Testar vértice
 *
 *  $ED Descrição da função
-*     Podem ser criadas até 10 listas, identificadas pelos índices 0 a 10
+*     Podem ser criadas até 10 vértices, identificadas pelos índices 0 a 10
 *
 *     Comandos disponíveis:
 *
 *     =resetteste
-*           - anula o vetor de listas. Provoca vazamento de memória
-*     =criarlista                   inxLista
-*     =destruirlista                inxLista
-*     =esvaziarlista                inxLista
-*     =inselemantes                 inxLista  string  CondRetEsp
-*     =inselemapos                  inxLista  string  CondRetEsp
-*     =obtervalorelem               inxLista  string  CondretPonteiro
-*     =excluirelem                  inxLista  CondRetEsp
-*     =irinicio                     inxLista
-*     =irfinal                      inxLista
-*     =avancarelem                  inxLista  numElem CondRetEsp
+*           - anula o vetor de vértices. Provoca vazamento de memória
+*     =criavertice                   inxVertice string CondRetEsp
+*     =destruirvertice               inxVertice CondRetEsp
+*     =mudarvalorvert                inxVertice string CondRetEsp
 *
 ***********************************************************************/
 
    TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
    {
 
-      int inxLista  = -1 ,
-          numLidos   = -1 ,
-          CondRetEsp = -1  ;
+      int inxVertice  = -1 ,
+          numLidos    = -1 ,
+          CondRetEsp  = -1  ;
 
-	  LIS_tpCondRet CondRetObtido ;
+	  int i = 0;
 
-      char   StringDado[  DIM_VALOR ] ;
+	  char StringDado[DIM_VT_VALOR];
 
-      int ValEsp = -1 ;
+	  VER_tpCondRet CondRetObtido ;
 
-      int i ;
+      /* Efetuar reset de teste de vértice */
 
-      int numElem = -1 ;
-
-      StringDado[ 0 ] = 0 ;
-
-      /* Efetuar reset de teste de lista */
-
-         if ( strcmp( ComandoTeste , RESET_LISTA_CMD ) == 0 )
+         if ( strcmp( ComandoTeste , RESET_VERTICE_CMD ) == 0 )
          {
 
-            for( i = 0 ; i < DIM_VT_LISTA ; i++ )
+            for( i = 0 ; i < DIM_VT_VERTICE ; i++ )
             {
-               vtListas[ i ] = NULL ;
+               vtVertices[ i ] = NULL ;
             } /* for */
 
             return TST_CondRetOK ;
 
-         } /* fim ativa: Efetuar reset de teste de lista */
+         } /* fim ativa: Efetuar reset de teste de vértice */
 
-      /* Testar CriarLista */
+      /* Testar Criarvértice */
 
-         else if ( strcmp( ComandoTeste , CRIAR_LISTA_CMD ) == 0 )
-         {
-
-            numLidos = LER_LerParametros( "ii" ,
-                       &inxLista , &CondRetEsp ) ;
-
-            if ( ( numLidos != 2 )
-              || ( ! ValidarInxLista( inxLista , VAZIO )))
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-            CondRetObtido = LIS_CriarLista( &vtListas[ inxLista ] ) ;
-
-            return TST_CompararInt( CondRetEsp , CondRetObtido ,
-               "Erro ao criar nova lista."  ) ;
-
-         } /* fim ativa: Testar CriarLista */
-
-      /* Testar Esvaziar lista lista */
-
-         else if ( strcmp( ComandoTeste , ESVAZIAR_LISTA_CMD ) == 0 )
-         {
-
-            numLidos = LER_LerParametros( "ii" ,
-                               &inxLista , &CondRetEsp  ) ;
-
-            if ( ( numLidos != 2 )
-              || ( ! ValidarInxLista( inxLista , NAO_VAZIO )))
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-            CondRetObtido = LIS_EsvaziarLista( vtListas[ inxLista ] ) ;
-
-            return TST_CompararInt( CondRetEsp , CondRetObtido ,
-               "Erro ao esvaziar lista."  ) ;
-
-         } /* fim ativa: Testar Esvaziar lista lista */
-
-      /* Testar Destruir lista */
-
-         else if ( strcmp( ComandoTeste , DESTRUIR_LISTA_CMD ) == 0 )
-         {
-
-            numLidos = LER_LerParametros( "ii" ,
-                               &inxLista , &CondRetEsp ) ;
-
-            if ( ( numLidos != 2 )
-              || ( ! ValidarInxLista( inxLista , NAO_VAZIO )))
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-            CondRetObtido = LIS_DestruirLista( vtListas[ inxLista ] ) ;
-
-            vtListas[ inxLista ] = NULL ;
-
-            return TST_CompararInt( CondRetEsp , CondRetObtido ,
-               "Não foi possível destruir lista."  ) ;
-
-         } /* fim ativa: Testar Destruir lista */
-
-      /* Testar inserir elemento antes */
-
-         else if ( strcmp( ComandoTeste , INS_ELEM_ANTES_CMD ) == 0 )
+         else if ( strcmp( ComandoTeste , CRIAR_VERTICE_CMD ) == 0 )
          {
 
             numLidos = LER_LerParametros( "isi" ,
-                       &inxLista , StringDado , &CondRetEsp ) ;
+                       &inxVertice , StringDado , &CondRetEsp ) ;
 
             if ( ( numLidos != 3 )
-              || ( ! ValidarInxLista( inxLista , NAO_VAZIO )) )
+              || ( ! ValidarInxVertice( inxVertice , VAZIO )))
             {
                return TST_CondRetParm ;
             } /* if */
-			
-           CondRetObtido = LIS_InserirElementoAntes( vtListas[ inxLista ] , StringDado ) ;
+
+			CondRetObtido = VER_CriarVertice( &vtVertices[ inxVertice ] , StringDado ) ;
 
             return TST_CompararInt( CondRetEsp , CondRetObtido ,
-                     "Condicao de retorno errada ao inserir antes."                   ) ;
+               "Erro ao criar novo vértice."  ) ;
 
-         } /* fim ativa: Testar inserir elemento antes */
+         } /* fim ativa: Testar Criarvértice */
 
-      /* Testar inserir elemento apos */
+      /* Testar Destruir vértice */
 
-         else if ( strcmp( ComandoTeste , INS_ELEM_APOS_CMD ) == 0 )
-         {
-
-            numLidos = LER_LerParametros( "isi" ,
-                       &inxLista , StringDado , &CondRetEsp ) ;
-
-            if ( ( numLidos != 3 )
-              || ( ! ValidarInxLista( inxLista , NAO_VAZIO )) )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-			
-            CondRetObtido = LIS_InserirElementoApos( vtListas[ inxLista ] , StringDado ) ;
-
-            return TST_CompararInt( CondRetEsp , CondRetObtido ,
-                     "Condicao de retorno errada ao inserir apos."                   ) ;
-
-         } /* fim ativa: Testar inserir elemento apos */
-
-      /* Testar excluir simbolo */
-
-         else if ( strcmp( ComandoTeste , EXC_ELEM_CMD ) == 0 )
+         else if ( strcmp( ComandoTeste , DESTRUIR_VERTICE_CMD ) == 0 )
          {
 
             numLidos = LER_LerParametros( "ii" ,
-                  &inxLista , &CondRetEsp ) ;
+                               &inxVertice , &CondRetEsp ) ;
 
             if ( ( numLidos != 2 )
-              || ( ! ValidarInxLista( inxLista , NAO_VAZIO )) )
+              || ( ! ValidarInxVertice( inxVertice , NAO_VAZIO )))
             {
                return TST_CondRetParm ;
             } /* if */
 
-			CondRetObtido = LIS_ExcluirElemento( vtListas[ inxLista ] );
+            CondRetObtido = VER_DestruirVertice( vtVertices[ inxVertice ] ) ;
+
+            vtVertices[ inxVertice ] = NULL ;
 
             return TST_CompararInt( CondRetEsp , CondRetObtido ,
-                     "Condição de retorno errada ao excluir."   ) ;
+               "Não foi possível destruir vértice."  ) ;
 
-         } /* fim ativa: Testar excluir simbolo */
+         } /* fim ativa: Testar Destruir vértice */
 
-      /* Testar obter valor do elemento corrente */
+		  /* Testar Mudar valor do vértice */
 
-         else if ( strcmp( ComandoTeste , OBTER_VALOR_CMD ) == 0 )
+         else if ( strcmp( ComandoTeste , MUDAR_VALOR_VERTICE_CMD ) == 0 )
          {
 
             numLidos = LER_LerParametros( "isi" ,
-                       &inxLista , StringDado , &CondRetEsp ) ;
+                               &inxVertice , StringDado , &CondRetEsp ) ;
 
             if ( ( numLidos != 3 )
-              || ( ! ValidarInxLista( inxLista , NAO_VAZIO )) )
+              || ( ! ValidarInxVertice( inxVertice , NAO_VAZIO )))
             {
                return TST_CondRetParm ;
             } /* if */
 
-			CondRetObtido = LIS_ObterValor( vtListas[ inxLista ] , StringDado );
-
-			return TST_CompararInt( CondRetEsp , CondRetObtido ,
-                     "Condição de retorno errada ao checar valor."   ) ;
-
-         } /* fim ativa: Testar obter valor do elemento corrente */
-
-      /* Testar ir para o elemento inicial */
-
-         else if ( strcmp( ComandoTeste , IR_INICIO_CMD ) == 0 )
-         {
-
-            numLidos = LER_LerParametros( "ii" , &inxLista , &CondRetEsp ) ;
-
-            if ( ( numLidos != 2 )
-              || ( ! ValidarInxLista( inxLista , NAO_VAZIO )) )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-			CondRetObtido = IrInicioLista( vtListas[ inxLista ] ) ;
-
-			return TST_CompararInt( CondRetEsp , CondRetObtido ,
-                     "Condição de retorno errada ao ir início."   ) ;
-
-
-         } /* fim ativa: Testar ir para o elemento inicial */
-
-      /* LIS  &Ir para o elemento final */
-
-         else if ( strcmp( ComandoTeste , IR_FIM_CMD ) == 0 )
-         {
-
-            numLidos = LER_LerParametros( "ii" , &inxLista , &CondRetEsp ) ;
-
-            if ( ( numLidos != 1 )
-              || ( ! ValidarInxLista( inxLista , NAO_VAZIO )) )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-            CondRetObtido = IrFinalLista( vtListas[ inxLista ] ) ;
+            CondRetObtido = VER_MudarNomeVertice( vtVertices[ inxVertice ] , StringDado ) ;
 
             return TST_CompararInt( CondRetEsp , CondRetObtido ,
-                     "Condição de retorno errada ao ir fim da lista."   ) ;
+               "Não foi possível mudar valor do vértice."  ) ;
 
-         } /* fim ativa: LIS  &Ir para o elemento final */
-
-      /* LIS  &Avançar elemento */
-
-         else if ( strcmp( ComandoTeste , AVANCAR_ELEM_CMD ) == 0 )
-         {
-
-            numLidos = LER_LerParametros( "iii" , &inxLista , &numElem ,
-                                &CondRetEsp ) ;
-
-            if ( ( numLidos != 3 )
-              || ( ! ValidarInxLista( inxLista , NAO_VAZIO )) )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-			CondRetObtido = LIS_AvancarElementoCorrente( vtListas[ inxLista ] , numElem ) ;
-
-            return TST_CompararInt( CondRetEsp ,  CondRetObtido ,
-                      "Condicao de retorno errada ao avancar elemento" ) ;
-
-         } /* fim ativa: LIS  &Avançar elemento */
+         } /* fim ativa: Testar Mudar valor do vértice */
 
       return TST_CondRetNaoConhec ;
 
-   } /* Fim função: TLIS &Testar lista */
+   } /* Fim função: TVER &Testar vértice */
 
 
 /*****  Código das funções encapsuladas no módulo  *****/
 
-
 /***********************************************************************
 *
-*  $FC Função: TLIS -Validar indice de lista
+*  $FC Função: TVER -Validar indice de vértice
 *
 ***********************************************************************/
 
-   int ValidarInxLista( int inxLista , int Modo )
+   int ValidarInxVertice( int inxVertice , int Modo )
    {
 
-      if ( ( inxLista <  0 )
-        || ( inxLista >= DIM_VT_LISTA ))
+      if ( ( inxVertice <  0 )
+        || ( inxVertice >= DIM_VT_VERTICE ))
       {
          return FALSE ;
       } /* if */
          
       if ( Modo == VAZIO )
       {
-         if ( vtListas[ inxLista ] != 0 )
+         if ( vtVertices[ inxVertice ] != 0 )
          {
             return FALSE ;
          } /* if */
       } else
       {
-         if ( vtListas[ inxLista ] == 0 )
+         if ( vtVertices[ inxVertice ] == 0 )
          {
             return FALSE ;
          } /* if */
@@ -370,7 +198,7 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
          
       return TRUE ;
 
-   } /* Fim função: TLIS -Validar indice de lista */
+   } /* Fim função: TVER -Validar indice de vértice */
 
-/********** Fim do módulo de implementação: TLIS Teste lista de símbolos **********/
+/********** Fim do módulo de implementação: TVER Teste vértices **********/
 
