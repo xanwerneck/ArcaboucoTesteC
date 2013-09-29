@@ -117,7 +117,28 @@ typedef struct VER_tagVertice * VER_tppVertice ;
 *
 ***********************************************************************/
 
-   VER_tpCondRet VER_MudarNomeVertice( VER_tppVertice pVertice , char * Nome  )
+   VER_tpCondRet VER_MudarNomeVertice( VER_tppVertice pVertice , char * Nome  ) ;
+
+/***********************************************************************
+*
+*  $FC Função: VER  &Obter valor do vértice
+*
+*  $ED Descrição da função
+*     Compara o nome passado como parametro com o valor do vertice passado
+*
+*  $EP Parâmetros
+*     pVertice  - vertice a ser comparado
+*     Nome      - string a ser comparada
+*
+*  $FV Valor retornado
+*     VER_CondRetOK       - valores iguais
+*     VER_CondRetNaoAchou - vértice nulo
+*     VER_CondRetVerVazio - vértice sem valor / parametro passado vazio
+*
+***********************************************************************/
+
+VER_tpCondRet VER_ObterValor( VER_tppVertice pVertice , char * Nome  ) ;
+
 
 #undef VERTICE_EXT
 

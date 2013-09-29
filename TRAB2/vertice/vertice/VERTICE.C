@@ -50,25 +50,25 @@ VER_tpCondRet Ret;
 *  Função: VER  &Criar vértice
 *  ****/
 
-   VER_tpCondRet VER_CriarVertice( VER_tpVertice * pVertice , char * Nome )
+   VER_tpCondRet VER_CriarVertice( VER_tppVertice * pVertice , char * Nome )
    {
 
-      VER_tpVertice * pVerticeM = ( VER_tpVertice * ) malloc( sizeof( VER_tpVertice )) ;
+      VER_tppVertice pVerticeM = ( VER_tppVertice ) malloc( sizeof( VER_tpVertice )) ;
       if ( pVerticeM == NULL )
       {
 		  return VER_CondRetFaltouMemoria ;
       } /* if */
 
-	  strcpy(pVerticeM->Nome, Nome);
+	  strcpy (pVerticeM->Nome, Nome);
 
-	  pVertice = ( VER_tpVertice * ) malloc( sizeof( VER_tpVertice )) ;
+	  (*pVertice) = ( VER_tpVertice * ) malloc( sizeof( VER_tpVertice )) ;
 	  
 	  if ( pVertice == NULL )
       {
 		  return VER_CondRetFaltouMemoria ;
       } /* if */
 
-	  pVertice = pVerticeM;
+	  (*pVertice) = pVerticeM;
 
 	  return VER_CondRetOK ;
 
@@ -86,9 +86,12 @@ VER_tpCondRet Ret;
          assert( pVertice != NULL ) ;
       #endif
 
-      strcpy (pVertice->Nome , "");
+	  if(pVertice != NULL)
+	  {
+		  free( pVertice ) ;
 
-      free( pVertice ) ;
+		  pVertice = NULL;
+	  }
 
 	  if(pVertice == NULL)
 	  {
@@ -111,25 +114,55 @@ VER_tpCondRet Ret;
          assert( pVertice != NULL ) ;
       #endif
 
-	  if(pVertice == NULL || !strcmp(Nome , ""))
+	  if(pVertice == NULL)
 	  {
 		  return VER_CondRetNaoAchou ;
 	  }
-	  if(strcmp(pVertice->Nome , ""))
+	  if(strcmp(pVertice->Nome , "")==0)
 	  {
 		  return VER_CondRetVerVazio;
 	  }
-	  
+
       strcpy (pVertice->Nome , Nome);
 
-	  if(strcmp(pVertice->Nome , Nome))
+	  if(strcmp(pVertice->Nome , Nome)==0)
 	  {
 		  return VER_CondRetOK;
 	  }
 
 	  return VER_CondRetNaoAchou ;
 
-   } /* Fim função: VER  &Destruir vértice */
+   } /* Fim função: VER  &Mudar valor do vértice */
 
+/***************************************************************************
+*
+*  Função: VER  &Obter valor do vértice
+*  ****/
+
+   VER_tpCondRet VER_ObterValor( VER_tppVertice pVertice , char * Nome  )
+   {
+
+      #ifdef _DEBUG
+         assert( pVertice != NULL ) ;
+      #endif
+
+	  if(pVertice == NULL)
+	  {
+		  return VER_CondRetNaoAchou ;
+	  }
+
+	  if(strcmp( pVertice->Nome , "") == 0)
+	  {
+		  return VER_CondRetVerVazio;
+	  }
+
+	  if(strcmp(pVertice->Nome , Nome) == 0)
+	  {
+		  return VER_CondRetOK;
+	  }
+
+	  return VER_CondRetNaoAchou ;
+
+   } /* Fim função: VER  &Obter valor do vértice */
 
 /********** Fim do módulo de implementação: VER  Vértice **********/
