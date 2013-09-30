@@ -11,7 +11,7 @@
 *  Gestor:  LES/DI/PUC-Rio
 *  Autores: aw - Alexandre Werneck
 *           fr - Fernanda Camelo Ribeiro
-*	    vo - Vinicius de Luiz de Oliveira
+*	        vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações

@@ -21,12 +21,14 @@
 
 #include   <malloc.h>
 #include   <stdio.h>
-#include "LISTA.H"
-#include "VERTICE.H"
 
 #define GRAFO_OWN
 #include "GRAFO.H"
 #undef GRAFO_OWN
+
+#include "LISTA.H"
+#include "VERTICE.H"
+
 
 /***********************************************************************
 *
@@ -41,13 +43,16 @@
 typedef struct tagVerticeGrafo {
 
 	void * pConteudo ;
-    /* Ponteiro para o valor genérico referente ao conteúdo */
+		/* Ponteiro para o nome do vértice, módulo vertice */
 
 	LIS_tppLista pVerAnt ;
-	/* Ponteiro para lista de antecessores */
+		/* Ponteiro para lista de antecessores */
 	
 	LIS_tppLista pVerSuc ;	
-	/* Ponteiro para lista de sucessores */
+		/* Ponteiro para lista de sucessores */
+
+	char pIdVertice;
+		/* Identificador do vértice */
 
 } tpVerticeGrafo ;
 
@@ -73,7 +78,75 @@ typedef struct GRA_tagGrafo {
 	LIS_tppLista pListaVertices;
 	/* Ponteiro para lista com todos os vértices */
 
+	tpVerticeGrafo * pCorrente;
+	/* Ponteiro do Elemento vértice corrente */
+
 } GRA_tpGrafo ;
+
+/*
+InserirVertice
+
+Descricao = Insere vértice na lista de vértices da estrutura grafo
+Parametros = tpVerticeGrafo
+*/
+
+/*
+CriarVerticeGrafo 
+Descricao = Cria tpVerticeGrafo
+Parametros = char + conteudoVertive (modulo vertive)
+Obs = Os dois ponteiros de listas iniciam com NULL
+
+*/
+
+/*
+InsereAntecessoresVertice
+Descricao = Insere uma lista no ponteiro de antecessores do tpVerticeGrafo
+Parametros = tpVerticeGrafo + ListaAntecessores
+Esta lista já possui os elementos referenciados
+*/
+
+/*
+InsereSucessoresVertice
+Descricao = Insere uma lista no ponteiro de sucessores do tpVerticeGrafo
+Parametros = tpVerticeGrafo + ListaSucessores
+Esta lista já possui os elementos referenciados
+*/
+
+/*
+InserirConteudoVertice
+Descricao = Insere um elemento do modulo Vertice no tpVerticeGrafo
+Parametros = tpVerticeGrafo + Vertice
+*/
+
+/*
+ExcluirVertice
+Descricao = Percorre a propria lista de antecessores do elemento a ser excluido 
+            indo em cada elemento da lista e checando se ele (elemento a ser excluido)
+			está presente na lista de antecessores ou sucessores, se sim, 
+			tira a referencia.
+			Percorre a propria lista de sucessores do elemento a ser excluido 
+            indo em cada elemento da lista e checando se ele (elemento a ser excluido)
+			está presente na lista de antecessores ou sucessores, se sim, 
+			tira a referencia.
+			Percorre a lista de origens e procura a ocorrencia do elemento a ser
+			excluído, se sim, tira a referencia da lista origens.
+			Percorre a lista de vertices e procura a ocorrencia do elemento a ser
+			excluído, se sim, tira a referencia da lista vertices.
+			free (elemento)
+
+Parametros = tpVerticeGrafo
+*/
+
+/*
+Apagare
+*/
+
+//
+//
+//
+//
+//
+//
 
 
 /***** Protótipos das funções encapsuladas no módulo *****/
