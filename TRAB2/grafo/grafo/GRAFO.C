@@ -90,6 +90,23 @@ Descricao = Insere vértice na lista de vértices da estrutura grafo
 Parametros = tpVerticeGrafo
 */
 
+VER_tpCondRet VER_InsereVertice(tpVerticeGrafo * pVertice, LIS_tppLista pListaVertices)
+{
+	LIS_tpCondRet Ret;
+
+	if(pVertice == NULL)
+		return VER_tpCondRetVerticeNulo;
+
+	else  if(pListaVertices == NULL)
+		return VER_tpCondRetListaNula;
+
+	else{
+		Ret = LIS_InserirElementoApos(pListaVertices, pVertice);
+		if(Ret == 0)
+			return VER_CondRetOK;
+	}
+}
+
 /*
 CriarVerticeGrafo 
 Descricao = Cria tpVerticeGrafo
@@ -97,6 +114,28 @@ Parametros = char + conteudoVertive (modulo vertive)
 Obs = Os dois ponteiros de listas iniciam com NULL
 
 */
+
+VER_tpCondRet VER_CriaVerticeGrafo(void * id, char conteudo)
+{
+
+	tpVerticeGrafo * vert = (tpVerticeGrafo *) malloc (sizeof(tpVerticeGrafo));
+
+	if(vert == NULL)
+		return VER_CondRetFaltouMemoria;
+	else if(id == NULL)
+		return VER_CondRetValorNulo;
+	else
+		criaElementoVertice(id, conteudo);
+
+}
+
+/// ir para o final ////////////////////////////////////////////
+void criaElementoVertice(void * id, char conteudo)
+{
+
+	id->
+
+}
 
 /*
 InsereAntecessoresVertice
@@ -169,6 +208,16 @@ static VER_tpCondRet * CriarNoElem( VER_tpVertice * tpVertice ) ;
 *  
 ****/
 
+VER_tpCondRet VER_CriarVertice(tpVerticeGrafo * tpVertice, LIS_tppLista pLista)
+{
+
+	tpVertice = (tpVerticeGrafo *) malloc (sizeof(tpVerticeGrafo));
+
+	LIS_InserirElementoAntes(pLista, NULL);
+
+
+}
+
 VER_tpCondRet VER_CriarVertice(VER_tppVertice* tpVertice){
 
 	VER_tpCondRet CondRet ;
@@ -181,6 +230,7 @@ VER_tpCondRet VER_CriarVertice(VER_tppVertice* tpVertice){
 	} /* if */
 
 	mVertice = ( VER_tppVertice ) malloc ( sizeof ( VER_tpVertice ) );
+
 	/* Malloc para gerar um ponteiro de matriz */
 
 
