@@ -2,10 +2,10 @@
 #define GRAFO_
 /***************************************************************************
 *
-*  $MCD Módulo de definição: Módulo matriz
+*  $MCD Módulo de definição: Módulo grafo
 *
-*  Arquivo gerado:              MATRIZ.H
-*  Letras identificadoras:      MAT
+*  Arquivo gerado:              GRAFO.H
+*  Letras identificadoras:      GRA
 *
 *  Nome da base de software:    Exemplo de teste automatizado
 *  Arquivo da base de software: D:\AUTOTEST\PROJETOS\SIMPLES.BSW
@@ -18,10 +18,19 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*       1.00   afv   29/08/2013 Início do desenvolvimento
+*       1.00   afv   09/out/2013 Início do desenvolvimento
 *
 *  $ED Descrição do módulo
-*     .......
+*     Este módulo implementa a criação e manipulação de grafos dirigidos.
+*	  Podem existir n grafos operando simultaneamente.
+*	  O módulo grafo possui cabeça apontando para uma lista de origens,
+*	  vértices e um ponteiro corrente que caminha pelo vértice.
+*
+*	  A lista de origens referencia a origem de cada sub-grafo, caso
+*	  exista, no módulo grafo.
+*
+*	  A lista de vértices possui referência para todos os vértices do
+*	  grafo.
 *
 ***************************************************************************/
  
@@ -44,7 +53,7 @@ typedef struct tagVerticeGrafo * GRA_tppVerGrafo ;
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: MAT Condicoes de retorno
+*  $TC Tipo de dados: GRA Condicoes de retorno
 *
 *
 ***********************************************************************/
@@ -74,15 +83,17 @@ typedef enum {
 
 /***********************************************************************
 *
-*  $FC Função: MAT Criar matriz
+*  $FC Função: GRA Criar grafo
 *
 *  $ED Descrição da função
-*     Cria uma nova matriz vazia.
-*     Caso já exista uma matriz, esta será destruída.
+*     Cria um grafo vazio, sem apontamentos.
+*
+*  $EP Parâmetros
+*     pGrafo  - Posição do vetor de grafos criado.
 *
 *  $FV Valor retornado
-*     MAT_CondRetOK
-*     MAT_CondRetFaltouMemoria
+*     GRA_CondRetOK
+*     GRA_CondRetFaltouMemoria
 *
 ***********************************************************************/
 
@@ -90,30 +101,191 @@ GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo);
 
 /***********************************************************************
 *
-*/
+*  $FC Função: GRA Criar vértice grafo
+*
+*  $ED Descrição da função
+*     Cria um elemento vértice do grafo sem listas e sem conteúdo.
+*
+*  $EP Parâmetros
+*     conteudo  - Ponteiro para elemento de conteúdo vértice (Modulo Vertice)
+*	  id        - Identificador do vértice
+*
+*  $FV Valor retornado
+*     GRA_CondRetOK
+*     GRA_CondRetFaltouMemoria
+*
+***********************************************************************/
 
 GRA_tpCondRet GRA_CriaVerticeGrafo(void * conteudo, char id);
 
+/***********************************************************************
+*
+*  $FC Função: GRA Insere Lista de antecessores no vértice
+*
+*  $ED Descrição da função
+*     Recebe uma lista de antecessores e faz o apontamento no vértice fornecido.
+*
+*  $EP Parâmetros
+*     pVertice  - Ponteiro para elemento de conteúdo vértice (Modulo Vertice)
+*	  pLista    - Ponteiro para lista de antecessores criada
+*
+*  $FV Valor retornado
+*     GRA_CondRetVerticeNulo
+*     GRA_CondRetListaNula
+*     GRA_CondRetOK
+*
+***********************************************************************/
+
 GRA_tpCondRet GRA_InsereAntecessoresVertice(GRA_tppVerGrafo pVertice, LIS_tppLista pLista);
+
+/***********************************************************************
+*
+*  $FC Função: GRA Insere Lista de sucessores no vértice
+*
+*  $ED Descrição da função
+*     Recebe uma lista de sucessores e faz o apontamento no vértice fornecido.
+*
+*  $EP Parâmetros
+*     pVertice  - Ponteiro para elemento de conteúdo vértice (Modulo Vertice)
+*	  pLista    - Ponteiro para lista de sucessores criada
+*
+*  $FV Valor retornado
+*     GRA_CondRetVerticeNulo
+*     GRA_CondRetListaNula
+*     GRA_CondRetOK
+*
+***********************************************************************/
 
 GRA_tpCondRet GRA_InsereSucessoresVertice(GRA_tppVerGrafo pVertice, LIS_tppLista pLista);
 
+/***********************************************************************
+*
+*  $FC Função: GRA Insere conteúdo vértice
+*
+*  $ED Descrição da função
+*     Insere ponteiro do tipo tpVertice no vértice do grafo
+*
+*  $EP Parâmetros
+*     pVertice  - Ponteiro para elemento de conteúdo vértice (Modulo Vertice)
+*	  pConteudo - Ponteiro para conteúdo do módulo vértice
+*
+*  $FV Valor retornado
+*     GRA_CondRetVerticeNulo
+*     GRA_CondRetConteudoNulo
+*     GRA_CondRetOK
+*
+***********************************************************************/
+
 GRA_tpCondRet GRA_InsereConteudoVertice(GRA_tppVerGrafo pVertice, VER_tppVerticeCont pConteudo);
+
+/***********************************************************************
+*
+*  $FC Função: GRA Insere vértice no final da lista de vértices
+*
+*  $ED Descrição da função
+*     Insere ponteiro do tipo tpVertice no vértice do grafo
+*
+*  $EP Parâmetros
+*     pVertice  - Ponteiro para elemento de conteúdo vértice (Modulo Vertice)
+*	  pConteudo - Ponteiro para conteúdo do módulo vértice
+*
+*  $FV Valor retornado
+*     GRA_CondRetVerticeNulo
+*     GRA_CondRetConteudoNulo
+*     GRA_CondRetOK
+*
+***********************************************************************/
 
 GRA_tpCondRet GRA_InsereVerticeFinal(GRA_tppVerGrafo pVertice, LIS_tppLista pListaVertices);
 
+/***********************************************************************
+*
+*  $FC Função: GRA Insere vértice no início da lista de vértices
+*
+*  $ED Descrição da função
+*     Insere ponteiro do tipo tpVertice no vértice do grafo
+*
+*  $EP Parâmetros
+*     pVertice  - Ponteiro para elemento de conteúdo vértice (Modulo Vertice)
+*	  pConteudo - Ponteiro para conteúdo do módulo vértice
+*
+*  $FV Valor retornado
+*     GRA_CondRetVerticeNulo
+*     GRA_CondRetConteudoNulo
+*     GRA_CondRetOK
+*
+***********************************************************************/
+
 GRA_tpCondRet GRA_InsereVerticeInicio(GRA_tppVerGrafo pVertice, LIS_tppLista pListaVertices);
+
+/***********************************************************************
+*
+*  $FC Função: GRA Excluir vértice
+*
+*  $ED Descrição da função
+*     Excluir elemento vértice do grafo. Esta função percorre a lista de antecessores
+*     e sucessores do vértice a excluir eliminando as referências. 
+*	  A função também elimina, caso exista as referências em origens e vértice
+*     do grafo.
+*
+*  $EP Parâmetros
+*     pGrafo   - Ponteiro para o grafo contendo o vértice
+*	  pVertice - Ponteiro para vértice a ser excluído
+*
+*  $FV Valor retornado
+*     GRA_CondRetConteudoNulo
+*     GRA_CondRetOK
+*
+***********************************************************************/
 
 GRA_tpCondRet GRA_ExcluirVertice(GRA_tppGrafo pGrafo ,GRA_tppVerGrafo pVertice);
 
+/***********************************************************************
+*
+*  $FC Função: GRA Excluir sucessores do vértice
+*
+*  $ED Descrição da função
+*     Esta função pode ser definida como exclusão de arestas, com este procedimento
+*     todas as referências existentes na lista de sucessores do vértice fornecido é
+*     perdida.
+*
+*  $EP Parâmetros
+*	  pVertice - Ponteiro para vértice contendo a lista a ser excluída
+*
+*  $FV Valor retornado
+*     GRA_CondRetVerticeNulo
+*     GRA_CondRetListaNula
+*     GRA_CondRetOK
+*
+***********************************************************************/
+
 GRA_tpCondRet GRA_ExcluirSucessoresVertice(GRA_tppVerGrafo pVertice);
+
+/***********************************************************************
+*
+*  $FC Função: GRA Excluir antecessores do vértice
+*
+*  $ED Descrição da função
+*     Esta função pode ser definida como exclusão de arestas, com este procedimento
+*     todas as referências existentes na lista de antecessores do vértice fornecido é
+*     perdida.
+*
+*  $EP Parâmetros
+*	  pVertice - Ponteiro para vértice contendo a lista a ser excluída
+*
+*  $FV Valor retornado
+*     GRA_CondRetVerticeNulo
+*     GRA_CondRetListaNula
+*     GRA_CondRetOK
+*
+***********************************************************************/
 
 GRA_tpCondRet GRA_ExcluirAntecessoresVertice(GRA_tppVerGrafo pVertice);
 
 
 #undef MATRIZ_EXT
 
-/********** Fim do módulo de definição: Módulo matriz **********/
+/********** Fim do módulo de definição: Módulo grafo **********/
 
 #else
 #endif

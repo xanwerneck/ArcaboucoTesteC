@@ -11,11 +11,11 @@
 *  Gestor:  LES/DI/PUC-Rio
 *  Autores: aw - Alexandre Werneck
 *           fr - Fernanda Camelo Ribeiro
-*			vo - Vinicius Deluiz de Oliveira
+*			vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*       1.00   afv   29/08/2013 Início do desenvolvimento
+*       1.00   afv   09/out/2013 Início do desenvolvimento
 *
 ***************************************************************************/
 
@@ -33,11 +33,11 @@ LIS_tpCondRet ListaRet , ListaRetCaminho;
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: GRA Descritor do elemento da matriz - 05/09/2013
+*  $TC Tipo de dados: GRA Descritor do elemento vértice do grafo
 *
 *
 *  $ED Descrição do tipo
-*     Descreve a organização do elemento
+*     Possui as referências para lista de sucessores e antecessores
 *
 ***********************************************************************/
 
@@ -60,14 +60,13 @@ typedef struct tagVerticeGrafo {
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: GRA Descritor da raiz de uma matriz
+*  $TC Tipo de dados: GRA Descritor da cabeça do grafo
 *
 *
 *  $ED Descrição do tipo
-*	  A raiz da matriz indica o início da matriz , refere-se ao elemento (0,0)
-*	  A estrutura matriz também armazena uma referência ao nó indíce 
-*	  de coluna para a criação da matriz.
-*	  Através do nó corrente pode-se navegar a matriz.
+*     A cabeça do grafo indica o início do grafo, possui referências para
+*     lista de origens e vértices do grafo, o nó corrente referenciado
+*     na cabeça, permite apontar em qual vértice está o elemento corrente.
 *
 ***********************************************************************/
 
@@ -85,7 +84,7 @@ typedef struct GRA_tagGrafo {
 
 } GRA_tpGrafo ;
 
-/************* funcoes encapsuladas no modulo *************************/
+/************* Funções encapsuladas no módulo *************************/
 
 void GRA_ExcluirdeVertices(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice);
  
@@ -93,9 +92,14 @@ void GRA_ExcluirdeOrigens(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice);
 
 void LimparCabecaGrafo( GRA_tppGrafo pGrafo );
 
-/*
-Criar Grafo
-*/
+
+/*****  Código das funções exportadas pelo módulo  *****/
+
+/***************************************************************************
+*
+*  Função: GRA  &Criar Grafo
+*  ****/
+
 GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo)
 {
 	
@@ -127,13 +131,10 @@ GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo)
 }
 
 
-/*
-CriarVerticeGrafo 
-Descricao = Cria tpVerticeGrafo
-Parametros = char + conteudoVertive (modulo vertive)
-Obs = Os dois ponteiros de listas iniciam com NULL
-
-*/
+/***************************************************************************
+*
+*  Função: GRA  &Criar Vértice Grafo
+*  ****/
 
 GRA_tpCondRet GRA_CriaVerticeGrafo(void * conteudo, char id)
 {
@@ -142,8 +143,7 @@ GRA_tpCondRet GRA_CriaVerticeGrafo(void * conteudo, char id)
 
 	if(vert == NULL){
 		return GRA_CondRetFaltouMemoria;
-	}
-	else{
+	}else{
 
 		vert->pConteudo = conteudo;
 		vert->pIdVertice= id;
@@ -155,43 +155,47 @@ GRA_tpCondRet GRA_CriaVerticeGrafo(void * conteudo, char id)
 
 }
 
-/*
-InsereAntecessoresVertice
-Descricao = Insere uma lista no ponteiro de antecessores do tpVerticeGrafo
-Parametros = tpVerticeGrafo + ListaAntecessores
-Esta lista já possui os elementos referenciados
-*/
+/***************************************************************************
+*
+*  Função: GRA  &Insere antecessores no vértice
+*  ****/
+
 GRA_tpCondRet GRA_InsereAntecessoresVertice(tpVerticeGrafo * pVertice, LIS_tppLista pLista)
 {
 
-	if(pVertice == NULL)
+	if(pVertice == NULL){
 		return GRA_CondRetVerticeNulo ;
-	else if(pLista == NULL)
+	}
+	else if(pLista == NULL){
 		return GRA_CondRetListaNula ;
+	} 
 	else{
 
 		ListaRet = LIS_InserirElementoAntes(pLista, pVertice->pVerAnt);
 
-		if(ListaRet == 0)
+		if(ListaRet == 0){
 			return GRA_CondRetOK;
+		} /* if */
 
-	}
+	} /* if */
 
 	return GRA_CondRetOK;
 }
-/*
-InsereSucessoresVertice
-Descricao = Insere uma lista no ponteiro de sucessores do tpVerticeGrafo
-Parametros = tpVerticeGrafo + ListaSucessores
-Esta lista já possui os elementos referenciados
-*/
+
+/***************************************************************************
+*
+*  Função: GRA  &Insere sucessores no vértice
+*  ****/
+
 GRA_tpCondRet GRA_InsereSucessoresVertice(tpVerticeGrafo * pVertice, LIS_tppLista pLista)
 {
 
-	if(pVertice == NULL)
+	if(pVertice == NULL){
 		return GRA_CondRetVerticeNulo ;
-	else if(pLista == NULL)
+	}
+	else if(pLista == NULL){
 		return GRA_CondRetListaNula ;
+	}
 	else{
 
 		ListaRet = LIS_InserirElementoAntes(pLista, pVertice->pVerSuc);
@@ -199,97 +203,86 @@ GRA_tpCondRet GRA_InsereSucessoresVertice(tpVerticeGrafo * pVertice, LIS_tppList
 		if(ListaRet == 0)
 			return GRA_CondRetOK;
 
-	}
+	} /* if */
+
 	return GRA_CondRetOK;
 }
-/*
-InserirConteudoVertice
-Descricao = Insere um elemento do modulo Vertice no tpVerticeGrafo
-Parametros = tpVerticeGrafo + Vertice
-*/
+
+/***************************************************************************
+*
+*  Função: GRA  &Insere conteudo no vértice
+*  ****/
 
 GRA_tpCondRet GRA_InsereConteudoVertice(tpVerticeGrafo * pVertice, VER_tppVerticeCont pConteudo)
 {
-	if(pVertice == NULL)
+	if(pVertice == NULL){
 		return GRA_CondRetVerticeNulo ;
-	else if(pConteudo == NULL)
+	}
+	else if(pConteudo == NULL){
 		return GRA_CondRetConteudoNulo ;
+	}
 	else{
 
 		pVertice->pConteudo = pConteudo;
 
-	}
+	}/* if */
 	return GRA_CondRetOK;
 }
 
-/*
-InserirVertice Final
-Generica = Tanto para origens como para vértices
-Descricao = Insere vértice na lista de vértices da estrutura grafo
-Parametros = tpVerticeGrafo
-*/
+/***************************************************************************
+*
+*  Função: GRA  &Insere vértice no final da lista de vértices do grafo
+*  ****/
 
 GRA_tpCondRet GRA_InsereVerticeFinal(tpVerticeGrafo * pVertice, LIS_tppLista pListaVertices)
 {
 
-	if(pVertice == NULL)
+	if(pVertice == NULL){
 		return GRA_CondRetVerticeNulo;
-
-	else  if(pListaVertices == NULL)
+	}
+	else  if(pListaVertices == NULL){
 		return GRA_CondRetListaNula;
-
+	}
 	else{
 		IrFinalLista(pListaVertices);
 		ListaRet = LIS_InserirElementoApos(pListaVertices, pVertice);
 		if(ListaRet == 0)
 			return GRA_CondRetOK;
-	}
+	} /* if */
+
 	return GRA_CondRetOK;
 }
 
-/*
-InserirVertice Inicio
-Generica = Tanto para origens como para vértices
-Descricao = Insere vértice na lista de vértices da estrutura grafo
-Parametros = tpVerticeGrafo
-*/
+/***************************************************************************
+*
+*  Função: GRA  &Insere vértice no início da lista de vértices do grafo
+*  ****/
 
 GRA_tpCondRet GRA_InsereVerticeInicio(tpVerticeGrafo * pVertice, LIS_tppLista pListaVertices)
 {
 
-	if(pVertice == NULL)
+	if(pVertice == NULL){
 		return GRA_CondRetVerticeNulo;
+	}
 
-	else  if(pListaVertices == NULL)
+	else  if(pListaVertices == NULL){
 		return GRA_CondRetListaNula;
+	}
 
 	else{
 		IrInicioLista(pListaVertices);
 		ListaRet = LIS_InserirElementoAntes(pListaVertices, pVertice);
 		if(ListaRet == 0)
 			return GRA_CondRetOK;
-	}
+	} /* if */
+
 	return GRA_CondRetOK;
 }
 
-/*
-ExcluirVertice
-Descricao = Percorre a propria lista de antecessores do elemento a ser excluido 
-            indo em cada elemento da lista e checando se ele (elemento a ser excluido)
-			está presente na lista de antecessores ou sucessores, se sim, 
-			tira a referencia.
-			Percorre a propria lista de sucessores do elemento a ser excluido 
-            indo em cada elemento da lista e checando se ele (elemento a ser excluido)
-			está presente na lista de antecessores ou sucessores, se sim, 
-			tira a referencia.
-			Percorre a lista de origens e procura a ocorrencia do elemento a ser
-			excluído, se sim, tira a referencia da lista origens.
-			Percorre a lista de vertices e procura a ocorrencia do elemento a ser
-			excluído, se sim, tira a referencia da lista vertices.
-			free (elemento)
-
-Parametros = tpVerticeGrafo
-*/
+/***************************************************************************
+*
+*  Função: GRA  &Excluir vértice
+*  ****/
 
 GRA_tpCondRet GRA_ExcluirVertice(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 {
@@ -367,56 +360,69 @@ GRA_tpCondRet GRA_ExcluirVertice(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice
 		return GRA_CondRetOK;
 
 	} /* if */
+
 	return GRA_CondRetConteudoNulo;
 }
 
-/**
-Excluir aresta = Lista de Sucessores
-*/
+/***************************************************************************
+*
+*  Função: GRA  &Excluir aresta, apaga a lista de sucessores do vértice
+*  ****/
+
 GRA_tpCondRet GRA_ExcluirSucessoresVertice(tpVerticeGrafo * pVertice)
 {
 	LIS_tppLista pListaVertices = pVertice->pVerSuc ;
 
-	if(pVertice == NULL)
+	if(pVertice == NULL){
 		return GRA_CondRetVerticeNulo;
-
-	else  if(pListaVertices == NULL)
+	}
+	else  if(pListaVertices == NULL){
 		return GRA_CondRetListaNula;
-
+	} /* if */
 	ListaRet = LIS_DestruirLista (pVertice->pVerSuc);
 
 	if(ListaRet == LIS_CondRetOK){
 		pVertice->pVerSuc = NULL;
 		return GRA_CondRetOK;
-	}
+	} /* if */
+
 	return GRA_CondRetOK;
 }
 
+/***************************************************************************
+*
+*  Função: GRA  &Excluir aresta, apaga a lista de antecessores do vértice
+*  ****/
 
-/**
-Excluir aresta = Lista de Antecessores
-*/
 GRA_tpCondRet GRA_ExcluirAntecessoresVertice(tpVerticeGrafo * pVertice)
 {
 
 	LIS_tppLista pListaVertices = pVertice->pVerAnt ;
 
-	if(pVertice == NULL)
+	if(pVertice == NULL){
 		return GRA_CondRetVerticeNulo;
-
-	else  if(pListaVertices == NULL)
+	}
+	else  if(pListaVertices == NULL){
 		return GRA_CondRetListaNula;
+	} /* if */
 
 	ListaRet = LIS_DestruirLista (pVertice->pVerAnt);
 
 	if(ListaRet == LIS_CondRetOK){
 		pVertice->pVerAnt = NULL;
 		return GRA_CondRetOK;
-	}
+	} /* if */
+
 	return GRA_CondRetOK;
 }
 
 /*****  Código das funções encapsuladas pelo módulo  *****/
+
+/***********************************************************************
+*
+*  $FC Função: GRA  - Limpa o conteúdo da lista de vértices do grafo 
+*
+***********************************************************************/
 
 void GRA_ExcluirdeVertices(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 {
@@ -428,13 +434,19 @@ void GRA_ExcluirdeVertices(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 	while(LIS_AvancarElementoCorrente(pListaCam, 1)!=2)
 	{
 
-		if(LIS_ProcurarValor(pListaCam , pVertice)==0)
+		if(LIS_ProcurarValor(pListaCam , pVertice)==0){
 			LIS_ExcluirElemento (pListaCam);
-
+		} /* if */
 
 	} /* while */
 
 }
+
+/***********************************************************************
+*
+*  $FC Função: GRA  - Limpa o conteúdo da lista de origens do grafo 
+*
+***********************************************************************/
 
 void GRA_ExcluirdeOrigens(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 {
@@ -446,13 +458,19 @@ void GRA_ExcluirdeOrigens(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 	while(LIS_AvancarElementoCorrente(pListaCam, 1)!=2)
 	{
 
-		if(LIS_ProcurarValor(pListaCam , pVertice)==0)
+		if(LIS_ProcurarValor(pListaCam , pVertice)==0){
 			LIS_ExcluirElemento (pListaCam);
-
+		} /* if */
 
 	} /* while */
 
 }
+
+/***********************************************************************
+*
+*  $FC Função: GRA  - Limpa a cabeça do grafo
+*
+***********************************************************************/
 
  void LimparCabecaGrafo( GRA_tppGrafo pGrafo )
 {
@@ -460,7 +478,7 @@ void GRA_ExcluirdeOrigens(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 	pGrafo->pListaOrigens = NULL;
 	pGrafo->pListaVertices = NULL;
 
-} /* Fim função: LIS  -Limpar a cabeça da lista */
+} /* Fim função: LIS  - Limpa a cabeça do grafo */
 
 
 /********** Fim do módulo de implementação: Módulo GRAFO **********/
