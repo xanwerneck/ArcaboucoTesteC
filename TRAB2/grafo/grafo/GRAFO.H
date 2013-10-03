@@ -46,43 +46,46 @@ typedef struct GRA_tagGrafo * GRA_tppGrafo ;
 
 typedef enum {
 
-        VER_CondRetOK = 0 ,
+        GRA_CondRetOK = 0 ,
             /* Executou correto */
 
-        VER_CondRetNaoCriouRaiz = 1 ,
+        GRA_CondRetNaoCriouRaiz = 1 ,
             /* Não criou nó raiz */
 
-        VER_CondRetErroEstrutura = 2 ,
+        GRA_CondRetErroEstrutura = 2 ,
             /* Estrutura da matriz está errada */
 			
-        VER_CondRetMatrizNaoExiste = 3 ,
+        GRA_CondRetMatrizNaoExiste = 3 ,
             /* Matriz não existe */
 
-        VER_CondRetMatrizVazia = 4 ,
+        GRA_CondRetMatrizVazia = 4 ,
             /* Matriz está vazia */
 
-        VER_CondRetNohEhRaiz = 5 ,
+        GRA_CondRetNohEhRaiz = 5 ,
             /* Nó corrente é raiz */
 
-		VER_CondRetNaoPossuiNo = 6 ,
+		GRA_CondRetNaoPossuiNo = 6 ,
             /* No nao encontrado */
 
-		VER_CondRetMatrizCheia  = 7 ,
+		GRA_CondRetMatrizCheia  = 7 ,
             /* Faltou espaço para inserir listas */
 
-		 VER_CondRetListaVazia = 8 ,
+		 GRA_CondRetListaVazia = 8 ,
             /* Lista está vazia */		
 
-        VER_CondRetFaltouMemoria = 9 ,
+        GRA_CondRetFaltouMemoria = 9 ,
             /* Faltou memória ao alocar dados */
 
-		VER_CondRetNoMatrizSemLista = 10 ,
+		GRA_CondRetNoMatrizSemLista = 10 ,
             /* No nao possui lista */
 			
-		VER_CondRetNoListaDiferente = 11
+		GRA_CondRetNoListaDiferente = 11 ,
             /* Lista nao corresponde a corrente */
 
-} VER_tpCondRet ;
+		GRA_CondRetValorNulo = 12
+			/* Valor do Vertice Nulo */
+
+} GRA_tpCondRet ;
 
 
 /***********************************************************************
@@ -99,7 +102,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-VER_tpCondRet VER_CriarMatriz(VER_tppVertice* tpVertice);
+GRA_tpCondRet GRA_CriarMatriz(GRA_tppVertice* tpVertice);
 
 /***********************************************************************
 *

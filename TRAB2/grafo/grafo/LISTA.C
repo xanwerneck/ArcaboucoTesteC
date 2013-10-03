@@ -355,6 +355,29 @@ LIS_tpCondRet Ret;
 
 /***************************************************************************
 *
+*  Função: LIS  &Obter ponteiro para o valor contido no elemento
+*  ****/
+
+LIS_tpCondRet LIS_RetornaConteudo( LIS_tppLista pLista , void * pRetorno )
+   {
+
+      #ifdef _DEBUG
+         assert( pLista != NULL ) ;
+      #endif
+
+		if( pLista->pElemCorr->pValor != NULL )
+		{
+			pRetorno = pLista->pElemCorr->pValor;
+
+			return LIS_CondRetOK;
+		}
+
+		return LIS_CondRetNaoAchou;
+
+   } /* Fim função: LIS  &Obter referência para o valor contido no elemento */
+
+/***************************************************************************
+*
 *  Função: LIS  &Ir para o elemento inicial
 *  ****/
 

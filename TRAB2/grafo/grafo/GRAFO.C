@@ -1,8 +1,8 @@
 /***************************************************************************
-*  $MCI Módulo de implementação: Módulo MATRIZ
+*  $MCI Módulo de implementação: Módulo GRAFO
 *
-*  Arquivo gerado:              MATRIZ.C
-*  Letras identificadoras:      MAT
+*  Arquivo gerado:              GRAFO.C
+*  Letras identificadoras:      GRA
 *
 *  Nome da base de software:    Exemplo de teste automatizado
 *  Arquivo da base de software: D:\AUTOTEST\PROJETOS\SIMPLES.BSW
@@ -29,10 +29,11 @@
 #include "LISTA.H"
 #include "VERTICE.H"
 
+LIS_tpCondRet ListaRet , ListaRetCaminho;
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: MAT Descritor do elemento da matriz - 05/09/2013
+*  $TC Tipo de dados: GRA Descritor do elemento da matriz - 05/09/2013
 *
 *
 *  $ED Descrição do tipo
@@ -59,7 +60,7 @@ typedef struct tagVerticeGrafo {
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: MAT Descritor da raiz de uma matriz
+*  $TC Tipo de dados: GRA Descritor da raiz de uma matriz
 *
 *
 *  $ED Descrição do tipo
@@ -81,31 +82,9 @@ typedef struct GRA_tagGrafo {
 	tpVerticeGrafo * pCorrente;
 	/* Ponteiro do Elemento vértice corrente */
 
+
 } GRA_tpGrafo ;
 
-/*
-InserirVertice
-
-Descricao = Insere vértice na lista de vértices da estrutura grafo
-Parametros = tpVerticeGrafo
-*/
-
-VER_tpCondRet VER_InsereVertice(tpVerticeGrafo * pVertice, LIS_tppLista pListaVertices)
-{
-	LIS_tpCondRet Ret;
-
-	if(pVertice == NULL)
-		return VER_tpCondRetVerticeNulo;
-
-	else  if(pListaVertices == NULL)
-		return VER_tpCondRetListaNula;
-
-	else{
-		Ret = LIS_InserirElementoApos(pListaVertices, pVertice);
-		if(Ret == 0)
-			return VER_CondRetOK;
-	}
-}
 
 /*
 CriarVerticeGrafo 
@@ -115,25 +94,24 @@ Obs = Os dois ponteiros de listas iniciam com NULL
 
 */
 
-VER_tpCondRet VER_CriaVerticeGrafo(void * id, char conteudo)
+GRA_tpCondRet GRA_CriaVerticeGrafo(void * conteudo, char id)
 {
 
 	tpVerticeGrafo * vert = (tpVerticeGrafo *) malloc (sizeof(tpVerticeGrafo));
 
 	if(vert == NULL)
-		return VER_CondRetFaltouMemoria;
+		return GRA_CondRetFaltouMemoria;
 	else if(id == NULL)
-		return VER_CondRetValorNulo;
-	else
-		criaElementoVertice(id, conteudo);
+		return GRA_CondRetValorNulo;
+	else{
 
-}
+		vert->pConteudo = conteudo;
+		vert->pIdVertice= id;
+		vert->pVerAnt   = NULL;
+		vert->pVerSuc   = NULL;
 
-/// ir para o final ////////////////////////////////////////////
-void criaElementoVertice(void * id, char conteudo)
-{
-
-	id->
+	}
+	return GRA_CondRetOK;
 
 }
 
@@ -143,19 +121,113 @@ Descricao = Insere uma lista no ponteiro de antecessores do tpVerticeGrafo
 Parametros = tpVerticeGrafo + ListaAntecessores
 Esta lista já possui os elementos referenciados
 */
+GRA_tpCondRet GRA_InsereAntecessoresVertice(tpVerticeGrafo * pVertice, LIS_tppLista pLista)
+{
 
+	if(pVertice == NULL)
+		return GRA_CondRetVerticeNulo ;
+	else if(pLista == NULL)
+		return GRA_CondRetListaNula ;
+	else{
+
+		ListaRet = LIS_InserirElementoAntes(pLista, pVertice->pVerAnt);
+
+		if(ListaRet == 0)
+			return GRA_CondRetOK;
+
+	}
+
+}
 /*
 InsereSucessoresVertice
 Descricao = Insere uma lista no ponteiro de sucessores do tpVerticeGrafo
 Parametros = tpVerticeGrafo + ListaSucessores
 Esta lista já possui os elementos referenciados
 */
+GRA_tpCondRet GRA_InsereSucessoresVertice(tpVerticeGrafo * pVertice, LIS_tppLista pLista)
+{
 
+	if(pVertice == NULL)
+		return GRA_CondRetVerticeNulo ;
+	else if(pLista == NULL)
+		return GRA_CondRetListaNula ;
+	else{
+
+		ListaRet = LIS_InserirElementoAntes(pLista, pVertice->pVerSuc);
+
+		if(ListaRet == 0)
+			return GRA_CondRetOK;
+
+	}
+
+}
 /*
 InserirConteudoVertice
 Descricao = Insere um elemento do modulo Vertice no tpVerticeGrafo
 Parametros = tpVerticeGrafo + Vertice
 */
+
+GRA_tpCondRet GRA_InsereConteudoVertice(tpVerticeGrafo * pVertice, VER_tppVertice pConteudo)
+{
+	if(pVertice == NULL)
+		return GRA_CondRetVerticeNulo ;
+	else if(pConteudo == NULL)
+		return GRA_CondRetConteudoNulo ;
+	else{
+
+		pVertice->pConteudo = pConteudo;
+
+	}
+	return GRA_CondRetOK;
+}
+
+/*
+InserirVertice Final
+Generica = Tanto para origens como para vértices
+Descricao = Insere vértice na lista de vértices da estrutura grafo
+Parametros = tpVerticeGrafo
+*/
+
+GRA_tpCondRet GRA_InsereVerticeFinal(tpVerticeGrafo * pVertice, LIS_tppLista pListaVertices)
+{
+
+	if(pVertice == NULL)
+		return GRA_tpCondRetVerticeNulo;
+
+	else  if(pListaVertices == NULL)
+		return GRA_tpCondRetListaNula;
+
+	else{
+		IrFinalLista(pListaVertices);
+		ListaRet = LIS_InserirElementoApos(pListaVertices, pVertice);
+		if(ListaRet == 0)
+			return GRA_CondRetOK;
+	}
+}
+
+/*
+InserirVertice Inicio
+Generica = Tanto para origens como para vértices
+Descricao = Insere vértice na lista de vértices da estrutura grafo
+Parametros = tpVerticeGrafo
+*/
+
+GRA_tpCondRet GRA_InsereVerticeFinal(tpVerticeGrafo * pVertice, LIS_tppLista pListaVertices)
+{
+
+	if(pVertice == NULL)
+		return GRA_tpCondRetVerticeNulo;
+
+	else  if(pListaVertices == NULL)
+		return GRA_tpCondRetListaNula;
+
+	else{
+		IrInicioLista(pListaVertices);
+		ListaRet = LIS_InserirElementoAntes(pListaVertices, pVertice);
+		if(ListaRet == 0)
+			return GRA_CondRetOK;
+	}
+}
 
 /*
 ExcluirVertice
@@ -176,618 +248,164 @@ Descricao = Percorre a propria lista de antecessores do elemento a ser excluido
 Parametros = tpVerticeGrafo
 */
 
-/*
-Apagare
-*/
-
-//
-//
-//
-//
-//
-//
-
-
-/***** Protótipos das funções encapsuladas no módulo *****/
-
-static MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat , int numElementos ) ;
-
-static VER_tpCondRet CriarNoCabeca( VER_tpVertice * tpVertice ) ;
-
-static void DestroiVertice( VER_tpVertice * tpVerticeExc ) ;
-
-static void DestroiNoElem( VER_tpVertice * tpVerticeExc );
-
-static VER_tpCondRet * CriarNoElem( VER_tpVertice * tpVertice ) ;
-
-/*****  Código das funções exportadas pelo módulo  *****/
-
-/***************************************************************************
-*
-*  Função: MAT CriarMatriz - 05/09/2013
-*  
-****/
-
-VER_tpCondRet VER_CriarVertice(tpVerticeGrafo * tpVertice, LIS_tppLista pLista)
+GRA_tpCondRet GRA_ExcluirVertice(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 {
+	LIS_tppLista pCaminhoListaAnt , pCaminhoListaSuc;
 
-	tpVertice = (tpVerticeGrafo *) malloc (sizeof(tpVerticeGrafo));
+	tpVerticeGrafo * pVerticeCaminho;
 
-	LIS_InserirElementoAntes(pLista, NULL);
+	pCaminhoListaAnt = pVertice->pVerAnt;
 
-
-}
-
-VER_tpCondRet VER_CriarVertice(VER_tppVertice* tpVertice){
-
-	VER_tpCondRet CondRet ;
-
-	VER_tppVertice mVertice ;
-
-	if((*tpVertice) != NULL)
-	{
-		DestroiVertice( (*tpVertice) ); 
-	} /* if */
-
-	mVertice = ( VER_tppVertice ) malloc ( sizeof ( VER_tpVertice ) );
-
-	/* Malloc para gerar um ponteiro de matriz */
-
-
-	if(mVertice == NULL)
-	{
-		return VER_CondRetFaltouMemoria ;
-	} /* if */
-
-	mVertice->pNoCorr      = NULL;
-	mVertice->pNoProx      = NULL;
-
-	CondRet = CriarNoCabeca( mVertice );
-	/* Inicializo a estrutura da matriz setando a raiz */
-
-	if(CondRet != VER_CondRetOK)
-	{
-		return CondRet;
-	} /* if */
-
-
-	(*tpVertice) = ( VET_tpVertice* ) malloc( sizeof( VET_tppVertice )) ;
-
-	if ( (*tpVertice) == NULL )
-	{
-		return MAT_CondRetFaltouMemoria ;
-	} /* if */
-
-	(*tpVertice) = mVertice ;
-
-
-	return VET_CondRetOK ;
-}
-
-
-/***************************************************************************
-*
-*  Função: MAT InsereListaMatriz - 05/09/2013
-*
-*	Percorre a estrutura da matriz procurando espaço vazio para
-*	armazenar a lista criada.
-*  
-****/
-
-MAT_tpCondRet MAT_InsereListaMatriz( LIS_tpMatLista * lt, MAT_tppMatriz tpMat){
-
-
-	if( lt == NULL ){
-		return MAT_CondRetListaVazia ;
-	} /* if */
-
-	if ( tpMat == NULL )
-	{
-		return MAT_CondRetMatrizNaoExiste ;
-	} /* if */
-
-	tpMat->pNoCorr     = tpMat->pNoRaiz;
-	tpMat->pNoIndLinha = tpMat->pNoCorr;
-
-	/* procura a próxima posição de memória vazia para inserir a lista */
-	while(tpMat->pNoCorr != NULL){
-		if(tpMat->pNoCorr->Lista == NULL){
-			tpMat->pNoCorr->Lista = lt;
-			return MAT_CondRetOK;
-		}else{
-			if(tpMat->pNoCorr->pNoLeste == NULL){
-				tpMat->pNoCorr     = tpMat->pNoIndLinha->pNoSul;
-				tpMat->pNoIndLinha = tpMat->pNoCorr;
-			}else{
-				tpMat->pNoCorr = tpMat->pNoCorr->pNoLeste;
-			} /* if */
-		}/* if */
-	}
-
-	return MAT_CondRetMatrizCheia ;
-	/* sem lugar para inserir */
-
-}
-
-/***************************************************************************
-*
-*  Função: MAT IrNoNorte - 05/09/2013
-*  
-****/
-
-MAT_tpCondRet MAT_IrNoNorte(MAT_tpMatriz * tpMat){
-
-	if ( tpMat == NULL )
-	{
-		return MAT_CondRetMatrizNaoExiste ;
-	} /* if */
-
-	if ( tpMat->pNoCorr == NULL )
-	{
-		return MAT_CondRetMatrizVazia ;
-	} /* if */
-
-	if ( tpMat->pNoCorr->pNoNorte == NULL )
-	{
-		return MAT_CondRetNaoPossuiNo ;
-	} /* if */
-
-	tpMat->pNoCorr = tpMat->pNoCorr->pNoNorte ;
-
-	return MAT_CondRetOK ;
-
-} /* Fim do IrNoNorte */
-
-/***************************************************************************
-*
-*  Função: MAT IrNoNordeste - 05/09/2013
-*  
-****/
-
-MAT_tpCondRet MAT_IrNoNordeste(MAT_tpMatriz * tpMat){
-
-	if ( tpMat == NULL )
-	{
-		return MAT_CondRetMatrizNaoExiste ;
-	} /* if */
-
-	if ( tpMat->pNoCorr == NULL )
-	{
-		return MAT_CondRetMatrizVazia ;
-	} /* if */
-
-	if ( tpMat->pNoCorr->pNoNordeste == NULL )
-	{
-		return MAT_CondRetNaoPossuiNo ;
-	} /* if */
-
-	tpMat->pNoCorr = tpMat->pNoCorr->pNoNordeste ;
-
-	return MAT_CondRetOK ;
-
-} /* Fim do IrNoNordeste */
-
-/***************************************************************************
-*
-*  Função: MAT IrNoLeste - 05/09/2013
-*  
-****/
-
-MAT_tpCondRet MAT_IrNoLeste(MAT_tpMatriz * tpMat){
-
-	if ( tpMat == NULL )
-	{
-		return MAT_CondRetMatrizNaoExiste ;
-	} /* if */
-
-	if ( tpMat->pNoCorr == NULL )
-	{
-		return MAT_CondRetMatrizVazia ;
-	} /* if */
-
-	if ( tpMat->pNoCorr->pNoLeste == NULL )
-	{
-		return MAT_CondRetNaoPossuiNo ;
-	} /* if */
-
-	tpMat->pNoCorr = tpMat->pNoCorr->pNoLeste ;
-
-	return MAT_CondRetOK ;
-
-} /* Fim do MAT IrNoLeste */
-
-/***************************************************************************
-*
-*  Função: MAT IrNoSudeste - 05/09/2013
-*  
-****/
-
-MAT_tpCondRet MAT_IrNoSudeste(MAT_tpMatriz * tpMat){
-
-	if ( tpMat == NULL )
-	{
-		return MAT_CondRetMatrizNaoExiste ;
-	} /* if */
-
-	if ( tpMat->pNoCorr == NULL )
-	{
-		return MAT_CondRetMatrizVazia ;
-	} /* if */
-
-	if ( tpMat->pNoCorr->pNoSudeste == NULL )
-	{
-		return MAT_CondRetNaoPossuiNo ;
-	} /* if */
-
-	tpMat->pNoCorr = tpMat->pNoCorr->pNoSudeste ;
-
-	return MAT_CondRetOK ;
-
-} /* Fim do MAT IrNoSudeste */
-
-/***************************************************************************
-*
-*  Função: MAT IrNoSul - 05/09/2013
-*  
-****/
-
-MAT_tpCondRet MAT_IrNoSul(MAT_tpMatriz * tpMat){
-
-	if ( tpMat == NULL )
-	{
-		return MAT_CondRetMatrizNaoExiste ;
-	} /* if */
-
-	if ( tpMat->pNoCorr == NULL )
-	{
-		return MAT_CondRetMatrizVazia ;
-	} /* if */
-
-	if ( tpMat->pNoCorr->pNoSul == NULL )
-	{
-		return MAT_CondRetNaoPossuiNo ;
-	} /* if */
-
-	tpMat->pNoCorr = tpMat->pNoCorr->pNoSul ;
-
-	return MAT_CondRetOK ;
-
-} /* Fim do MAT IrNoSul */
-
-/***************************************************************************
-*
-*  Função: MAT IrNoSudoeste - 05/09/2013
-*  
-****/
-
-MAT_tpCondRet MAT_IrNoSudoeste(MAT_tpMatriz * tpMat){
-
-	if ( tpMat == NULL )
-	{
-		return MAT_CondRetMatrizNaoExiste ;
-	} /* if */
-
-	if ( tpMat->pNoCorr == NULL )
-	{
-		return MAT_CondRetMatrizVazia ;
-	} /* if */
-
-	if ( tpMat->pNoCorr->pNoSudoeste == NULL )
-	{
-		return MAT_CondRetNaoPossuiNo ;
-	} /* if */
-
-	tpMat->pNoCorr = tpMat->pNoCorr->pNoSudoeste ;
-
-	return MAT_CondRetOK ;
-
-} /* Fim do MAT IrNoSudoeste */
-
-/***************************************************************************
-*
-*  Função: MAT IrNoOeste - 05/09/2013
-*  
-****/
-
-MAT_tpCondRet MAT_IrNoOeste(MAT_tpMatriz * tpMat){
-
-	if ( tpMat == NULL )
-	{
-		return MAT_CondRetMatrizNaoExiste ;
-	} /* if */
-
-	if ( tpMat->pNoCorr == NULL )
-	{
-		return MAT_CondRetMatrizVazia ;
-	} /* if */
-
-	if ( tpMat->pNoCorr->pNoOeste == NULL )
-	{
-		return MAT_CondRetNaoPossuiNo ;
-	} /* if */
-
-	tpMat->pNoCorr = tpMat->pNoCorr->pNoOeste ;
-
-	return MAT_CondRetOK ;
-
-} /* Fim do MAT IrNoOeste */
-
-/***************************************************************************
-*
-*  Função: MAT IrNoNoroeste - 05/09/2013
-*  
-****/
-
-MAT_tpCondRet MAT_IrNoNoroeste(MAT_tpMatriz * tpMat){
-
-	if ( tpMat == NULL )
-	{
-		return MAT_CondRetMatrizNaoExiste ;
-	} /* if */
-
-	if ( tpMat->pNoCorr == NULL )
-	{
-		return MAT_CondRetMatrizVazia ;
-	} /* if */
-
-	if ( tpMat->pNoCorr->pNoNoroeste == NULL )
-	{
-		return MAT_CondRetNaoPossuiNo ;
-	} /* if */
-
-	tpMat->pNoCorr = tpMat->pNoCorr->pNoNoroeste ;
-
-	return MAT_CondRetOK ;
-
-} /* Fim do MAT IrNoNoroeste */
-
-
-
-
-/***************************************************************************
-*
-*  Função: MAT Obter Lista corrente
-*  ****/
-
-MAT_tpCondRet MAT_ObterListaCorr( LIS_tpMatLista * lst_valor , MAT_tpMatriz * tpMat)
-{
-
-	if ( tpMat == NULL )
-	{
-		return MAT_CondRetMatrizNaoExiste  ;
-	} /* if */
-	if ( tpMat->pNoCorr == NULL )
-	{
-		return MAT_CondRetMatrizVazia ;
-	} /* if */
-	if ( tpMat->pNoCorr->Lista == NULL )
-	{
-		return MAT_CondRetNoMatrizSemLista ;
-	} /* if */
-
-	if(lst_valor == tpMat->pNoCorr->Lista)
-	{
-		return MAT_CondRetOK  ;
-	}
-
-	return MAT_CondRetNoListaDiferente ;
-	/* Lista passada diferente da corrente */
-
-} /* Fim função: MAT Obter Lista corrente */
-
-
-/***************************************************************************
-*
-*  Função: MAT Ir para nó raiz
-*  ****/
-
-MAT_tpCondRet MAT_IrRaiz( MAT_tpMatriz * tpMat )
-{
-
-	if ( tpMat == NULL )
-	{
-		return MAT_CondRetMatrizNaoExiste  ;
-	} /* if */
-	if ( tpMat->pNoCorr == NULL )
-	{
-		return MAT_CondRetMatrizVazia ;
-	} /* if */
-
-	if ( tpMat->pNoRaiz != NULL )
-	{
-		tpMat->pNoCorr = tpMat->pNoRaiz ;
-		return MAT_CondRetOK ;
-	} else {
-		return MAT_CondRetNohEhRaiz ;
-	} /* if */
-
-} /* Fim função: MAT Ir para nó raiz */
-
-
-/*****  Código das funções encapsuladas no módulo  *****/
-
-/***********************************************************************
-*
-*  $FC Função: MAT Destruir a estrutura da matriz
-*		Chamada recursiva que percorre os elementos do nó corrente
-*		da um free quando chega no último elemento
-*
-*  $EAE Assertivas de entradas esperadas
-*     pMatriz != NULL
-*
-***********************************************************************/
-
-void DestroiVertice( VER_tpVertice * tpVerticeExc )
-{
-
-	if ( tpVerticeExc != NULL )
-	{
-		if ( tpVerticeExc->pNoCorr != NULL )
-		{
-			if( tpVerticeExc->pNoProx != NULL){
-				DestroiVertice ( tpVerticeExc->pNoProx );
-				free ( tpVerticeExc->pNoProx );
-				tpVerticeExc = NULL;
-			}
-			DestroiNoElem( tpVerticeExc ) ;
-		} /* if */
-		free( tpVerticeExc ) ;
-		tpVerticeExc = NULL ;
-	} /* if */
-
-
-
-} /* Fim função: MAT Destruir a estrutura da matriz */
-
-
-/***********************************************************************
-*
-*  $FC Função: MAT Destruir a estrutura da matriz
-*		Chamada recursiva que percorre os elementos do nó corrente
-*		da um free quando chega no último elemento
-*
-*  $EAE Assertivas de entradas esperadas
-*     pMatriz != NULL
-*
-***********************************************************************/
-
-void DestroiNoElem( VER_tpVertice * tpVerticeExc );
-{
-
-	if ( tpVerticeExc->pNoCorr->pValor != NULL )
-	{
-		 tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoSudeste;
-		 free(tpMatExc->pNoCorr->pNoSudeste);
-		 DestroiNoElem( tpMatExc ) ;
-	} /* if */
-
-	if ( tpMatExc->pNoCorr->pNoSul != NULL )
-	{
-	 	tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoSul;
-		free(tpMatExc->pNoCorr->pNoSul);
-		DestroiNoElem( tpMatExc ) ;
-	} /* if */
-
-	if ( tpMatExc->pNoCorr->pNoSudoeste != NULL )
-	{
-		tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoSudoeste;
-		free(tpMatExc->pNoCorr->pNoSudoeste);
-		DestroiNoElem( tpMatExc ) ;
-	} /* if */
-
-	if ( tpMatExc->pNoCorr->pNoLeste != NULL )
-	{
-		 tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoLeste;
-		 free(tpMatExc->pNoCorr->pNoLeste);
-		 DestroiNoElem( tpMatExc ) ;
-	} /* if */
-
-	if ( tpMatExc->pNoCorr->pNoOeste != NULL )
-	{
-		 tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoOeste;
-		 free(tpMatExc->pNoCorr->pNoOeste);
-		 DestroiNoElem( tpMatExc ) ;
-	} /* if */
-
-	if ( tpMatExc->pNoCorr->pNoNordeste != NULL )
-	{
-		 tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoNordeste;
-		 free(tpMatExc->pNoCorr->pNoNordeste);
-		 DestroiNoElem( tpMatExc ) ;
-	} /* if */
-
-	if ( tpMatExc->pNoCorr->pNoNorte != NULL )
-	{
-		 tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoNorte;
-		 free(tpMatExc->pNoCorr->pNoNorte);
-		 DestroiNoElem( tpMatExc ) ;
-	} /* if */
-
-	if ( tpMatExc->pNoCorr->pNoNoroeste != NULL )
-	{
-		 tpMatExc->pNoCorr = tpMatExc->pNoCorr->pNoNoroeste;
-		 free(tpMatExc->pNoCorr->pNoNoroeste);
-		 DestroiNoElem( tpMatExc ) ;
-	} /* if */
-
-	free( tpMatExc->pNoCorr ) ;
-
-} /* Fim função: MAT Destruir a estrutura da matriz */
-
-
-
-
-
-
-/***********************************************************************
-*
-*  $FC Função: ARV Criar nó da árvore
-*
-*  $FV Valor retornado
-*     Ponteiro para o nó criado.
-*     Será NULL caso a memória tenha se esgotado.
-*     Os ponteiros do nó criado estarão nulos e o valor é igual ao do
-*     parâmetro.
-*
-***********************************************************************/
-
-VER_tpCondRet CriarNoElem ( VER_tpVertice * tpVertice )
-{
-
-	tpElemVertice * pNoVertice ;
-	pNoVertice = ( tpElemVertice * ) malloc( sizeof( tpElemVertice )) ;
-	if ( pNoVertice == NULL )
-	{
-		return VER_CondRetFaltouMemoria ;
-	} /* if */
-
-	pNoVertice->pValor = NULL;
-	pNoVertice->Lista  = NULL;
-	pNoVertice->pAnt   = NULL;
-	pNoVertice->pProx  = NULL;
-
-	(*tpVertice)->pNoCorr = pNoVertice; 
+	pCaminhoListaSuc = pVertice->pVerSuc;
 	
+	ListaRet = IrInicioLista(pCaminhoListaAnt);
 
-	return VER_CondRetOK ;
-
-} /* Fim função: ARV Criar nó da árvore */
-
-
-/***********************************************************************
-*
-*  $FC Função: MAT Criar nó raiz da matriz
-*
-*  $FV Valor retornado
-*     MAT_CondRetOK
-*     MAT_CondRetFaltouMemoria
-*     MAT_CondRetNaoCriouRaiz
-*
-***********************************************************************/
-
-VER_tpCondRet CriarNoCabeca( VER_tpVertice * tpVertice ) 
-{
-
-	VER_tpCondRet CondRet ;
-
-	if ( tpVertice->pNoCorr == NULL )
+	if(ListaRet == LIS_CondRetOK)
 	{
 
-		CondRet = CriarNoElem( tpVertice->pNoCorr );		
-		/* Criar a estrutura da matriz de acordo com a quantidade elementos passados */
-
-		if ( CondRet != VER_CondRetOK )
+		while(ListaRet!=LIS_CondRetFimLista)
 		{
-			return CondRet ;
-		} /* if */
 
+			LIS_RetornaConteudo(pCaminhoListaAnt, pVerticeCaminho);
 
-		return VER_CondRetOK  ;
+			if(LIS_ProcurarValor(pVerticeCaminho->pVerSuc , pVertice)==LIS_CondRetOK)
+			{
+				LIS_ExcluirElemento (pVerticeCaminho->pVerSuc);
+			} /* if */
+
+			ListaRet = LIS_AvancarElementoCorrente(pCaminhoListaAnt, 1);
+
+		} /* while */
+
 	} /* if */
 
-	return VER_CondRetNaoCriouRaiz ;
+	ListaRet = IrInicioLista(pCaminhoListaSuc);
 
-} /* Fim função: MAT Criar nó raiz da matriz */
+	if(ListaRet == LIS_CondRetOK)
+	{
 
-/********** Fim do módulo de implementação: Módulo matriz **********/
+		while(ListaRet!=LIS_CondRetFimLista)
+		{
+
+			LIS_RetornaConteudo(pCaminhoListaSuc, pVerticeCaminho);
+
+			if(LIS_ProcurarValor(pVerticeCaminho->pVerAnt , pVertice)==LIS_CondRetOK)
+			{
+				LIS_ExcluirElemento (pVerticeCaminho->pVerAnt);
+			} /* if */
+
+			ListaRet = LIS_AvancarElementoCorrente(pCaminhoListaSuc, 1);
+
+		} /* while */
+
+	} /* if */
+
+	LIS_DestruirLista (pCaminhoListaAnt);
+		/* Destroi a lista de antecessores após eliminar as referencias */
+
+	LIS_DestruirLista (pCaminhoListaSuc);
+		/* Destroi a lista de antecessores após eliminar as referencias */
+
+	GRA_ExcluirdeVertices(pGrafo,pVertice);
+		/* Destroi a referência da lista de vértices */
+
+	GRA_ExcluirdeOrigens(pGrafo,pVertice);
+		/* Destroi a referência da lista de origens  */
+
+	free (pVertice);
+
+	pVertice->pIdVertice = NULL;
+	pVertice->pConteudo = NULL;
+
+	if(pVertice == NULL){
+
+		return GRA_CondRetOK;
+
+	} /* if */
+	return GRA_CondRetConteudoNulo;
+}
+
+/**
+Excluir aresta = Lista de Sucessores
+*/
+GRA_tpCondRet GRA_ExcluirSucessoresVertice(tpVerticeGrafo * pVertice)
+{
+
+	if(pVertice == NULL)
+		return GRA_tpCondRetVerticeNulo;
+
+	else  if(pListaVertices == NULL)
+		return GRA_tpCondRetListaNula;
+
+	ListaRet = LIS_DestruirLista (pVertice->pVerSuc);
+
+	if(ListaRet == LIS_CondRetOK){
+		pVertice->pVerSuc = NULL;
+		return GRA_CondRetOK;
+	}
+
+}
+
+
+/**
+Excluir aresta = Lista de Antecessores
+*/
+GRA_tpCondRet GRA_ExcluirAntecessoresVertice(tpVerticeGrafo * pVertice)
+{
+
+	if(pVertice == NULL)
+		return GRA_tpCondRetVerticeNulo;
+
+	else  if(pListaVertices == NULL)
+		return GRA_tpCondRetListaNula;
+
+	ListaRet = LIS_DestruirLista (pVertice->pVerAnt);
+
+	if(ListaRet == LIS_CondRetOK){
+		pVertice->pVerAnt = NULL;
+		return GRA_CondRetOK;
+	}
+
+}
+
+/*****  Código das funções encapsuladas pelo módulo  *****/
+
+void GRA_ExcluirdeVertices(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
+{
+
+	LIS_tppLista pListaCam = pGrafo->pListaVertices;
+
+	IrInicioLista(pListaCam);
+
+	while(LIS_AvancarElementoCorrente(pListaCam, 1)!=2)
+	{
+
+		if(LIS_ProcurarValor(pListaCam , pVertice)==0)
+			LIS_ExcluirElemento (pListaCam);
+
+
+	} /* while */
+
+}
+
+void GRA_ExcluirdeOrigens(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
+{
+
+	LIS_tppLista pListaCam = pGrafo->pListaOrigens;
+
+	IrInicioLista(pListaCam);
+
+	while(LIS_AvancarElementoCorrente(pListaCam, 1)!=2)
+	{
+
+		if(LIS_ProcurarValor(pListaCam , pVertice)==0)
+			LIS_ExcluirElemento (pListaCam);
+
+
+	} /* while */
+
+}
+
+
+/********** Fim do módulo de implementação: Módulo GRAFO **********/
 
