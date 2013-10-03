@@ -85,6 +85,14 @@ typedef struct GRA_tagGrafo {
 
 } GRA_tpGrafo ;
 
+/************* funcoes encapsuladas no modulo *************************/
+
+void GRA_ExcluirdeVertices(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice);
+ 
+void GRA_ExcluirdeOrigens(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice);
+
+void LimparCabecaGrafo( GRA_tppGrafo pGrafo );
+
 /*
 Criar Grafo
 */
@@ -101,7 +109,7 @@ GRA_tpCondRet GRA_CriarGrafo (GRA_tpGrafo * pGrafo)
 
 	} /* if */
 
-	LimparCabeca( mGrafo ) ;
+	LimparCabecaGrafo( mGrafo ) ;
 
 	pGrafo = ( GRA_tpGrafo * ) malloc( sizeof( GRA_tpGrafo )) ;
 
@@ -124,10 +132,9 @@ GRA_tpCondRet GRA_CriaVerticeGrafo(void * conteudo, char id)
 
 	tpVerticeGrafo * vert = (tpVerticeGrafo *) malloc (sizeof(tpVerticeGrafo));
 
-	if(vert == NULL)
+	if(vert == NULL){
 		return GRA_CondRetFaltouMemoria;
-	else if(id == NULL)
-		return GRA_CondRetValorNulo;
+	}
 	else{
 
 		vert->pConteudo = conteudo;
@@ -135,7 +142,7 @@ GRA_tpCondRet GRA_CriaVerticeGrafo(void * conteudo, char id)
 		vert->pVerAnt   = NULL;
 		vert->pVerSuc   = NULL;
 
-	}
+	}/* if */
 	return GRA_CondRetOK;
 
 }
@@ -193,7 +200,7 @@ Descricao = Insere um elemento do modulo Vertice no tpVerticeGrafo
 Parametros = tpVerticeGrafo + Vertice
 */
 
-GRA_tpCondRet GRA_InsereConteudoVertice(tpVerticeGrafo * pVertice, VER_tppVertice pConteudo)
+GRA_tpCondRet GRA_InsereConteudoVertice(tpVerticeGrafo * pVertice, VER_tppVerticeCont pConteudo)
 {
 	if(pVertice == NULL)
 		return GRA_CondRetVerticeNulo ;
@@ -229,6 +236,7 @@ GRA_tpCondRet GRA_InsereVerticeFinal(tpVerticeGrafo * pVertice, LIS_tppLista pLi
 		if(ListaRet == 0)
 			return GRA_CondRetOK;
 	}
+	return GRA_CondRetOK;
 }
 
 /*
@@ -253,6 +261,7 @@ GRA_tpCondRet GRA_InsereVerticeInicio(tpVerticeGrafo * pVertice, LIS_tppLista pL
 		if(ListaRet == 0)
 			return GRA_CondRetOK;
 	}
+	return GRA_CondRetOK;
 }
 
 /*
@@ -370,7 +379,7 @@ GRA_tpCondRet GRA_ExcluirSucessoresVertice(tpVerticeGrafo * pVertice)
 		pVertice->pVerSuc = NULL;
 		return GRA_CondRetOK;
 	}
-
+	return GRA_CondRetOK;
 }
 
 
@@ -394,7 +403,7 @@ GRA_tpCondRet GRA_ExcluirAntecessoresVertice(tpVerticeGrafo * pVertice)
 		pVertice->pVerAnt = NULL;
 		return GRA_CondRetOK;
 	}
-
+	return GRA_CondRetOK;
 }
 
 /*****  Código das funções encapsuladas pelo módulo  *****/
@@ -435,7 +444,7 @@ void GRA_ExcluirdeOrigens(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 
 }
 
- void LimparCabeca( GRA_tppGrafo pGrafo )
+ void LimparCabecaGrafo( GRA_tppGrafo pGrafo )
 {
 	pGrafo->pCorrente = NULL;
 	pGrafo->pListaOrigens = NULL;

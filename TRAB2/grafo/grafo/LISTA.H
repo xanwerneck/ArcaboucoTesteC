@@ -357,7 +357,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
    
    
    
-   LIS_tpCondRet LIS_RetornaConteudo( LIS_tppLista pLista , void * pRetorno )
+   LIS_tpCondRet LIS_RetornaConteudo( LIS_tppLista pLista , void * pRetorno ) ;
 
 
 

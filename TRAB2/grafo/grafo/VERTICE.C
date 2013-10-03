@@ -52,10 +52,10 @@ VER_tpCondRet Ret;
 *  Função: VER  &Criar vértice
 *  ****/
 
-   VER_tpCondRet VER_CriarVertice( VER_tppVertice * pVertice , char * Nome )
+   VER_tpCondRet VER_CriarVertice( VER_tppVerticeCont * pVertice , char * Nome )
    {
 
-      VER_tppVertice pVerticeM = ( VER_tppVertice ) malloc( sizeof( VER_tpVertice )) ;
+      VER_tppVerticeCont pVerticeM = ( VER_tppVerticeCont ) malloc( sizeof( VER_tpVertice )) ;
       if ( pVerticeM == NULL )
       {
 		  return VER_CondRetFaltouMemoria ;
@@ -81,7 +81,7 @@ VER_tpCondRet Ret;
 *  Função: VER  &Destruir vértice
 *  ****/
 
-   VER_tpCondRet VER_DestruirVertice( VER_tppVertice pVertice )
+   VER_tpCondRet VER_DestruirVertice( VER_tppVerticeCont pVertice )
    {
 
       #ifdef _DEBUG
@@ -109,7 +109,7 @@ VER_tpCondRet Ret;
 *  Função: VER  &Mudar valor do vértice
 *  ****/
 
-   VER_tpCondRet VER_MudarNomeVertice( VER_tppVertice pVertice , char * Nome  )
+   VER_tpCondRet VER_MudarNomeVertice( VER_tppVerticeCont pVertice , char * Nome  )
    {
 
       #ifdef _DEBUG
@@ -141,7 +141,7 @@ VER_tpCondRet Ret;
 *  Função: VER  &Obter valor do vértice
 *  ****/
 
-   VER_tpCondRet VER_ObterValor( VER_tppVertice pVertice , char * Nome  )
+   VER_tpCondRet VER_ObterValor( VER_tppVerticeCont pVertice , char * Nome  )
    {
 
       #ifdef _DEBUG
@@ -172,7 +172,7 @@ VER_tpCondRet Ret;
 *  Função: VER  &Retorna valor do vértice
 *  ****/
 
-   VER_tpCondRet VER_RetornaValor( VER_tppVertice pVertice , char * Nome  )
+   VER_tpCondRet VER_RetornaValor( VER_tppVerticeCont pVertice , char * Nome  )
    {
 
       #ifdef _DEBUG

@@ -1,5 +1,5 @@
-#if ! defined( VERTICE_ )
-#define VERTICE_
+#if ! defined( GRAFO_ )
+#define GRAFO_
 /***************************************************************************
 *
 *  $MCD Módulo de definição: Módulo matriz
@@ -30,6 +30,9 @@
 #else
    #define GRAFO_EXT extern
 #endif
+
+#include "LISTA.H"
+#include "VERTICE.H"
 
 /***** Declarações exportadas pelo módulo *****/
 
@@ -91,21 +94,21 @@ GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo);
 
 GRA_tpCondRet GRA_CriaVerticeGrafo(void * conteudo, char id);
 
-GRA_tpCondRet GRA_InsereAntecessoresVertice(tpVerticeGrafo * pVertice, LIS_tppLista pLista);
+GRA_tpCondRet GRA_InsereAntecessoresVertice(GRA_tppVerGrafo pVertice, LIS_tppLista pLista);
 
-GRA_tpCondRet GRA_InsereSucessoresVertice(tpVerticeGrafo * pVertice, LIS_tppLista pLista);
+GRA_tpCondRet GRA_InsereSucessoresVertice(GRA_tppVerGrafo pVertice, LIS_tppLista pLista);
 
-GRA_tpCondRet GRA_InsereConteudoVertice(tpVerticeGrafo * pVertice, VER_tppVertice pConteudo);
+GRA_tpCondRet GRA_InsereConteudoVertice(GRA_tppVerGrafo pVertice, VER_tppVerticeCont pConteudo);
 
-GRA_tpCondRet GRA_InsereVerticeFinal(tpVerticeGrafo * pVertice, LIS_tppLista pListaVertices);
+GRA_tpCondRet GRA_InsereVerticeFinal(GRA_tppVerGrafo pVertice, LIS_tppLista pListaVertices);
 
-GRA_tpCondRet GRA_InsereVerticeInicio(tpVerticeGrafo * pVertice, LIS_tppLista pListaVertices);
+GRA_tpCondRet GRA_InsereVerticeInicio(GRA_tppVerGrafo pVertice, LIS_tppLista pListaVertices);
 
-GRA_tpCondRet GRA_ExcluirVertice(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice);
+GRA_tpCondRet GRA_ExcluirVertice(GRA_tppGrafo pGrafo ,GRA_tppVerGrafo pVertice);
 
-GRA_tpCondRet GRA_ExcluirSucessoresVertice(tpVerticeGrafo * pVertice);
+GRA_tpCondRet GRA_ExcluirSucessoresVertice(GRA_tppVerGrafo pVertice);
 
-GRA_tpCondRet GRA_ExcluirAntecessoresVertice(tpVerticeGrafo * pVertice);
+GRA_tpCondRet GRA_ExcluirAntecessoresVertice(GRA_tppVerGrafo pVertice);
 
 
 #undef MATRIZ_EXT

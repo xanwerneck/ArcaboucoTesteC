@@ -1,4 +1,4 @@
-#if  defined( VERTICE_ )
+#if ! defined( VERTICE_ )
 #define VERTICE_
 /***************************************************************************
 *
@@ -28,9 +28,10 @@
    #define VERTICE_EXT extern
 #endif
 
+
 /***** Declarações exportadas pelo módulo *****/
 
-typedef struct VER_tagVertice * VER_tppVertice ;
+typedef struct VER_tagVertice * VER_tppVerticeCont ;
 
 /***********************************************************************
 *
@@ -75,7 +76,7 @@ typedef struct VER_tagVertice * VER_tppVertice ;
 *
 ***********************************************************************/
 
-   VER_tpCondRet VER_CriarVertice( VER_tppVertice * pVertice , char * Nome  ) ;
+   VER_tpCondRet VER_CriarVertice( VER_tppVerticeCont * pVertice , char * Nome  ) ;
 
 
 /***********************************************************************
@@ -96,7 +97,7 @@ typedef struct VER_tagVertice * VER_tppVertice ;
 *
 ***********************************************************************/
 
-   VER_tpCondRet VER_DestruirVertice( VER_tppVertice pVertice) ;
+   VER_tpCondRet VER_DestruirVertice( VER_tppVerticeCont pVertice) ;
 
 /***********************************************************************
 *
@@ -117,7 +118,7 @@ typedef struct VER_tagVertice * VER_tppVertice ;
 *
 ***********************************************************************/
 
-   VER_tpCondRet VER_MudarNomeVertice( VER_tppVertice pVertice , char * Nome  ) ;
+   VER_tpCondRet VER_MudarNomeVertice( VER_tppVerticeCont pVertice , char * Nome  ) ;
 
 /***********************************************************************
 *
@@ -137,7 +138,7 @@ typedef struct VER_tagVertice * VER_tppVertice ;
 *
 ***********************************************************************/
 
-VER_tpCondRet VER_ObterValor( VER_tppVertice pVertice , char * Nome  ) ;
+VER_tpCondRet VER_ObterValor( VER_tppVerticeCont pVertice , char * Nome  ) ;
 
 
 /***********************************************************************
@@ -158,7 +159,7 @@ VER_tpCondRet VER_ObterValor( VER_tppVertice pVertice , char * Nome  ) ;
 *
 ***********************************************************************/
 
-VER_tpCondRet VER_RetornaValor( VER_tppVertice pVertice , char * Nome  ) ;
+VER_tpCondRet VER_RetornaValor( VER_tppVerticeCont pVertice , char * Nome  ) ;
 
 
 

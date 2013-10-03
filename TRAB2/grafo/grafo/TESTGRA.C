@@ -69,7 +69,7 @@ GRA_tppVerGrafo  vtVertice [ DIM_VT_VERTICES ] ;
 
 LIS_tppLista    vtListas[ DIM_VT_LISTA ] ;
 
-VER_tppVertice  vtVerCont[ DIM_VT_CONTEUDO ] ;
+VER_tppVerticeCont  vtVerCont[ DIM_VT_CONTEUDO ] ;
 
 
 /***** Protótipos das funções encapuladas no módulo *****/
@@ -114,7 +114,6 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
       char ValorEsperado = '?'  ;
       char ValorObtido   = '!'  ;
       char ValorDado     = '\0' ;
-	  char CharDado ;
 
 	  int inxGrafo     = -1 ,
 		  inxLista     = -1 ,
@@ -124,7 +123,6 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
 		  NumElementos = 0 ,
           CondRetEsp   = -1 ,
 		  i            = 0 ;
-
 
 		/* Testar GRA Criar grafo */
 
@@ -155,13 +153,13 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
 		else if( strcmp( ComandoTeste , CRIAR_VERTIVE_GRAFO_CMD ) == 0 )
 		{
 
-			NumLidos = LER_LerParametros ( "ici" ,&inxVertices , CharDado , &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "ici" ,&inxVertices , ValorDado , &CondRetEsperada );
 			if ( NumLidos != 3 )
             {
                return TST_CondRetParm ;
             } /* if */
 			
-			CondRetObtido = GRA_CriaVerticeGrafo( &vtVertice[ inxVertices ] ,  CharDado );
+			CondRetObtido = GRA_CriaVerticeGrafo( &vtVertice[ inxVertices ] ,  ValorDado );
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao criar vertice no grafo." );
@@ -173,13 +171,14 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
 
 		else if(strcmp (ComandoTeste, INSERE_ANT_VERT_CMD) == 0)
 		{
+
 			NumLidos = LER_LerParametros ( "iii" , &inxLista , &inxVertices , &CondRetEsperada );
 
 			if(NumLidos != 3){
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = GRA_InsereAntecessoresVertice( vtVertice[ inxVertices ] , vtGrafo[ inxGrafo ] );
+			CondRetObtido = GRA_InsereAntecessoresVertice( vtVertice[ inxVertices ] , vtListas[ inxLista ] );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao inserir lista de antecessores no vertice." );
@@ -188,14 +187,14 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
 
 		/* Testar MAT Ir nordeste do no corrente */
 
-		if(strcmp (ComandoTeste, IR_NORDESTE_CMD) == 0)
+		else if(strcmp (ComandoTeste, INSERE_SUC_VERT_CMD) == 0)
 		{
-			NumLidos = LER_LerParametros ( "ii" , &inxGrafo, &CondRetEsperada );
-			if(NumLidos != 2){
+			NumLidos = LER_LerParametros ( "iii" , &inxLista , &inxVertices , &CondRetEsperada );
+			if(NumLidos != 3){
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_IrNoNordeste( vtGrafo[ inxGrafo ]);
+			CondRetObtido = GRA_InsereSucessoresVertice( vtVertice[ inxVertices ] , vtListas[ inxLista ] );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao ir para nordeste do nó corrente." );
@@ -204,14 +203,14 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
 
 		/* Testar MAT Ir leste do no corrente */
 
-		if(strcmp (ComandoTeste, IR_LESTE_CMD) == 0)
+		else if(strcmp ( ComandoTeste, INSERE_CONT_VERT_CMD ) == 0)
 		{
-			NumLidos = LER_LerParametros ( "ii" , &inxGrafo, &CondRetEsperada );
-			if(NumLidos != 2){
+			NumLidos = LER_LerParametros ( "iii" , &inxVertices, &inxVerCont , &CondRetEsperada );
+			if(NumLidos != 3){
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_IrNoLeste( vtGrafo[ inxGrafo ]);
+			CondRetObtido = GRA_InsereConteudoVertice( vtVertice[ inxVertices ] , vtVerCont[ inxVerCont ]  );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao ir para leste do nó corrente." );
@@ -221,64 +220,64 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
 		
 		/* Testar MAT Ir sudeste do no corrente */
 
-		if(strcmp (ComandoTeste, IR_SUDESTE_CMD) == 0)
+		else if(strcmp (ComandoTeste, INSERE_VERT_FINAL_CMD ) == 0)
 		{
-			NumLidos = LER_LerParametros ( "ii" , &inxGrafo, &CondRetEsperada );
-			if(NumLidos != 2){
+			NumLidos = LER_LerParametros ( "iii" , &inxLista , &inxVertices , &CondRetEsperada );
+			if(NumLidos != 3){
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_IrNoSudeste( vtGrafo[ inxGrafo ]);
+			CondRetObtido = GRA_InsereVerticeFinal( vtVertice[ inxVertices ] , vtListas[ inxLista ]);
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao ir para sudeste do nó corrente." );
+                                    "Retorno errado ao inserir vertice no final da lista de vertices" );
 
 		} /* fim ativa: Testar MAT Ir sudeste do no corrente */
 		
 		
 		/* Testar MAT Ir sul do no corrente */
 
-		if(strcmp (ComandoTeste, IR_SUL_CMD) == 0)
+		else if(strcmp (ComandoTeste, INSERE_VERT_INIC_CMD ) == 0)
 		{
-			NumLidos = LER_LerParametros ( "ii" , &inxGrafo, &CondRetEsperada );
-			if(NumLidos != 2){
+			NumLidos = LER_LerParametros ( "iii" , &inxLista , &inxVertices , &CondRetEsperada );
+			if(NumLidos != 3){
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_IrNoSul( vtGrafo[ inxGrafo ]);
+			CondRetObtido = GRA_InsereVerticeInicio( vtVertice[ inxVertices ] , vtListas[ inxLista ]);
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao ir para sul do nó corrente." );
+                                    "Retorno errado ao inserir vertice no final da lista de vertices" );
 
-		} /* fim ativa: Testar MAT Ir sul do no corrente */
+		} /* fim ativa: Testar MAT Ir sudeste do no corrente */
 		
 		
 		/* Testar MAT Ir sudoeste do no corrente */
 
-		if(strcmp (ComandoTeste, IR_SUDOESTE_CMD) == 0)
+		else if (strcmp (ComandoTeste, EXCLUIR_VERT_CMD) == 0)
 		{
-			NumLidos = LER_LerParametros ( "ii" , &inxGrafo, &CondRetEsperada );
-			if(NumLidos != 2){
+			NumLidos = LER_LerParametros ( "iii" , &inxGrafo, &inxVertices , &CondRetEsperada );
+			if(NumLidos != 3){
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_IrNoSudoeste( vtGrafo[ inxGrafo ]);
+			CondRetObtido = GRA_ExcluirVertice( vtGrafo[ inxGrafo ] , vtVertice[inxVertices] );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao ir para sudoeste do nó corrente." );
+                                    "Retorno errado ao excluir vértice." );
 
 		} /* fim ativa: Testar MAT Ir sudoeste do no corrente */
 
 		/* Testar MAT Ir oeste do no corrente */
 
-		if(strcmp (ComandoTeste, IR_OESTE_CMD) == 0)
+		else if(strcmp (ComandoTeste, EXCLUIR_ANT_VERT_CMD) == 0)
 		{
-			NumLidos = LER_LerParametros ( "ii" , &inxGrafo, &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "ii" , &inxVertices, &CondRetEsperada );
 			if(NumLidos != 2){
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_IrNoOeste( vtGrafo[ inxGrafo ]);
+			CondRetObtido = GRA_ExcluirSucessoresVertice( vtVertice[inxVertices] );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao ir para oeste do nó corrente." );
@@ -287,55 +286,23 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
 		
 		
 		
-		/* Testar MAT Ir noroeste do no corrente */
+		/* Testar MAT Ir oeste do no corrente */
 
-		if(strcmp (ComandoTeste, IR_NOROESTE_CMD) == 0)
+		else if(strcmp (ComandoTeste, EXCLUIR_SUC_VERT_CMD) == 0)
 		{
-			NumLidos = LER_LerParametros ( "ii" , &inxGrafo, &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "ii" , &inxVertices, &CondRetEsperada );
 			if(NumLidos != 2){
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_IrNoNoroeste( vtGrafo[ inxGrafo ]);
+			CondRetObtido = GRA_ExcluirAntecessoresVertice( vtVertice[inxVertices] );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao ir para noroeste do nó corrente." );
+                                    "Retorno errado ao ir para oeste do nó corrente." );
 
-		} /* fim ativa: Testar MAT Ir noroeste do no corrente */
+		} /* fim ativa: Testar MAT Ir oeste do no corrente */
 		
 		
-		/* Testar MAT Obter lista do nó corrente */
-
-		if(strcmp (ComandoTeste, OBTER_LISTA_CORR_CMD) == 0)
-		{
-			NumLidos = LER_LerParametros ( "iii" , &inxLista, &inxGrafo, &CondRetEsperada );
-			if(NumLidos != 3){
-				return TST_CondRetParm;
-			}
-			
-			CondRetObtido = MAT_ObterListaCorr( &vtListas[ inxLista ] , vtGrafo[ inxGrafo ]);
-
-			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao obter lista corrente." );
-
-		} /* fim ativa: Testar MAT Obter lista do nó corrente */
-		
-		
-		/* Testar MAT Ir para o início/raiz da matriz */
-
-		if(strcmp (ComandoTeste, IR_INICIO_CMD) == 0)
-		{
-			NumLidos = LER_LerParametros ( "ii" , &inxGrafo, &CondRetEsperada );
-			if(NumLidos != 2){
-				return TST_CondRetParm;
-			}
-			
-			CondRetObtido = MAT_IrRaiz( vtGrafo[ inxGrafo ] );
-
-			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao ir para razi da matriz." );
-
-		} /* fim ativa: Testar MAT Ir para o início/raiz da matriz */
 
 
       return TST_CondRetNaoConhec ;
