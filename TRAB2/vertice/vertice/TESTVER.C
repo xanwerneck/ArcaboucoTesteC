@@ -5,15 +5,17 @@
 *  Letras identificadoras:      TVER
 *
 *  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
-*  Arquivo da base de software: D:\AUTOTEST\PROJETOS\LISTA.BSW
+*  Arquivo da base de software: D:\AUTOTEST\PROJETOS\TESTVER.BSW
 *
 *  Projeto: INF 1301 Automatização dos testes de módulos C
 *  Gestor:  LES/DI/PUC-Rio
-*  Autores: afv
+*  Autores: aw - Alexandre Werneck
+*           fr - Fernanda Camelo Ribeiro
+*	        vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     1       afv   19/09/2013 início desenvolvimento
+*     1       afv   01/out/2013 início desenvolvimento
 *
 ***************************************************************************/
 
@@ -29,11 +31,12 @@
 #include    "Vertice.h"
 
 
-static const char RESET_VERTICE_CMD       [ ] = "=resetteste"       ;
-static const char CRIAR_VERTICE_CMD       [ ] = "=criavertice"      ;
-static const char DESTRUIR_VERTICE_CMD    [ ] = "=destruirvertice"  ;
-static const char MUDAR_VALOR_VERTICE_CMD [ ] = "=mudarvalorvert"   ;
-static const char OBTER_VALOR_VERTICE_CMD [ ] = "=obtervalorvert"   ;
+static const char RESET_VERTICE_CMD			 [ ] = "=resetteste"       ;
+static const char CRIAR_VERTICE_CMD			 [ ] = "=criavertice"      ;
+static const char DESTRUIR_VERTICE_CMD		 [ ] = "=destruirvertice"  ;
+static const char MUDAR_VALOR_VERTICE_CMD	 [ ] = "=mudarvalorvert"   ;
+static const char OBTER_VALOR_VERTICE_CMD	 [ ] = "=obtervalorvert"   ;
+static const char RETORNAR_VALOR_VERTICE_CMD [ ] = "=retornarvalorvert"   ;
 
 #define TRUE  1
 #define FALSE 0

@@ -51,7 +51,7 @@ typedef struct VER_tagVertice * VER_tppVertice ;
                /* Não encontrou o valor procurado */
 
 		 VER_CondRetVerVazio = 2,
-               /* Não encontrou o valor procurado */
+               /* Vertice vazio procurado */
 
          VER_CondRetFaltouMemoria = 9
                /* Faltou memória ao tentar criar um elemento de vértice */
@@ -138,6 +138,28 @@ typedef struct VER_tagVertice * VER_tppVertice ;
 ***********************************************************************/
 
 VER_tpCondRet VER_ObterValor( VER_tppVertice pVertice , char * Nome  ) ;
+
+
+/***********************************************************************
+*
+*  $FC Função: VER  &Retornar valor do vértice
+*
+*  $ED Descrição da função
+*     Retorna por parâmetro o valor do vértice também passado por parâmetro
+*
+*  $EP Parâmetros
+*     pVertice  - vertice a ser analisado
+*     Nome      - string a ser atribuída o valor do vértice
+*
+*  $FV Valor retornado
+*     VER_CondRetOK       - valor do vértice válido, atribuição bem sucedida
+*     VER_CondRetNaoAchou - vértice nulo
+*     VER_CondRetVerVazio - vértice sem valor / parametro passado vazio
+*
+***********************************************************************/
+
+VER_tpCondRet VER_RetornaValor( VER_tppVertice pVertice , char * Nome  ) ;
+
 
 
 #undef VERTICE_EXT

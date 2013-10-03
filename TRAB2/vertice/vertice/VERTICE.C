@@ -5,15 +5,17 @@
 *  Letras identificadoras:      VER
 *
 *  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
-*  Arquivo da base de software: D:\AUTOTEST\PROJETOS\LISTA.BSW
+*  Arquivo da base de software: D:\AUTOTEST\PROJETOS\VERTICE.BSW
 *
 *  Projeto: INF 1301 Automatização dos testes de módulos C
 *  Gestor:  LES/DI/PUC-Rio
-*  Autores: afv
+*  Autores: aw - Alexandre Werneck
+*           fr - Fernanda Camelo Ribeiro
+*	        vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     1       afv   19/09/2013 início desenvolvimento
+*     1       afv   01/out/2013 início desenvolvimento
 *
 ***************************************************************************/
 
@@ -151,7 +153,7 @@ VER_tpCondRet Ret;
 		  return VER_CondRetNaoAchou ;
 	  }
 
-	  if(strcmp( pVertice->Nome , "") == 0)
+	  if(strcmp( pVertice->Nome , "") == 0) //provavelmente errado
 	  {
 		  return VER_CondRetVerVazio;
 	  }
@@ -164,5 +166,33 @@ VER_tpCondRet Ret;
 	  return VER_CondRetNaoAchou ;
 
    } /* Fim função: VER  &Obter valor do vértice */
+
+   /***************************************************************************
+*
+*  Função: VER  &Retorna valor do vértice
+*  ****/
+
+   VER_tpCondRet VER_RetornaValor( VER_tppVertice pVertice , char * Nome  )
+   {
+
+      #ifdef _DEBUG
+         assert( pVertice != NULL ) ;
+      #endif
+
+	  if(pVertice == NULL)
+	  {
+		  return VER_CondRetNaoAchou ;
+	  } /* if */
+
+	  if(strcmp( pVertice->Nome , "") == 0)
+	  {
+		  Nome = pVertice->Nome;
+		  return VER_CondRetVerVazio;
+	  } /* if */
+
+	  Nome = pVertice->Nome;
+	  return VER_CondRetOK;
+	
+   } /* Fim função: VER  &Retorar valor do vértice */
 
 /********** Fim do módulo de implementação: VER  Vértice **********/
