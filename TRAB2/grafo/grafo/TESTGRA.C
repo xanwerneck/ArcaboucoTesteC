@@ -59,14 +59,17 @@ static const char EXCLUIR_SUC_VERT_CMD		[ ] = "=excluirsucvertive"  ;
 
 #define DIM_VT_GRAFO       10
 #define DIM_VT_LISTA       10
+#define DIM_VT_CONTEUDO    10
 #define DIM_VT_VERTICES    10
 #define DIM_VALOR          100
 
 GRA_tppGrafo    vtGrafo[ DIM_VT_GRAFO ] ;
 
+GRA_tppVerGrafo  vtVertice [ DIM_VT_VERTICES ] ;
+
 LIS_tppLista    vtListas[ DIM_VT_LISTA ] ;
 
-VER_tppVertice  vtVerCont[ DIM_VT_VERTICES ] ;
+VER_tppVertice  vtVerCont[ DIM_VT_CONTEUDO ] ;
 
 
 /***** Protótipos das funções encapuladas no módulo *****/
@@ -78,6 +81,8 @@ static int ValidarInxGrafo( int inxGrafo , int Modo ) ;
 static int ValidarInxLista( int inxLista , int Modo ) ;
 
 static int ValidarInxVertices( int inxVertices , int Modo ) ;
+
+static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -114,6 +119,7 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 	  int inxGrafo     = -1 ,
 		  inxLista     = -1 ,
 		  inxVertices  = -1 ,
+		  inxVerCont   = -1 ,
           NumLidos     = -1 ,
 		  NumElementos = 0 ,
           CondRetEsp   = -1 ,
@@ -135,48 +141,48 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 
 			vtGrafo[ inxGrafo ] = NULL;
 
-			CondRetObtido = GRA_( &vtGrafo[ inxGrafo ] , NumElementos ) ;
+			CondRetObtido = GRA_CriarGrafo( &vtGrafo[ inxGrafo ] ) ;
 
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao criar matriz." );
+                                    "Retorno errado ao criar grafo." );
 
-         } /* fim ativa: Testar MAT Criar matriz */		
+         } /* fim ativa: Testar GRA Criar grafo */		
 
 
-		/* Testar MAT Inserir Lista na Matriz */
+		/* Testar GRA Criar vertice para grafo */
 
-		if( strcmp( ComandoTeste , INSERIR_LISTA_MATRIZ_CMD ) == 0 )
+		else if( strcmp( ComandoTeste , CRIAR_VERTIVE_GRAFO_CMD ) == 0 )
 		{
 
-			NumLidos = LER_LerParametros ( "iii" ,&inxLista, &inxGrafo, &CondRetEsperada );
-			if ( (NumLidos != 3) )
+			NumLidos = LER_LerParametros ( "ici" ,&inxVertices , CharDado , &CondRetEsperada );
+			if ( NumLidos != 3 )
             {
                return TST_CondRetParm ;
             } /* if */
 			
-
-			CondRetObtido = MAT_InsereListaMatriz( &vtListas[ inxLista ] ,  vtGrafo[ inxGrafo ] );
+			CondRetObtido = GRA_CriaVerticeGrafo( &vtVertice[ inxVertices ] ,  CharDado );
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao inserir lista na matriz." );
+                                    "Retorno errado ao criar vertice no grafo." );
 
 
-		} /* fim ativa: Testar MAT Inserir Lista na Matriz */
+		} /* fim ativa: Testar GRA Criar vertice para grafo */
 
 		/* Testar MAT Ir norte do no corrente */
 
-		if(strcmp (ComandoTeste, IR_NORTE_CMD) == 0)
+		else if(strcmp (ComandoTeste, INSERE_ANT_VERT_CMD) == 0)
 		{
-			NumLidos = LER_LerParametros ( "ii" , &inxGrafo, &CondRetEsperada );
-			if(NumLidos != 2){
+			NumLidos = LER_LerParametros ( "iii" , &inxLista , &inxVertices , &CondRetEsperada );
+
+			if(NumLidos != 3){
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_IrNoNorte( vtGrafo[ inxGrafo ] );
+			CondRetObtido = GRA_InsereAntecessoresVertice( vtVertice[ inxVertices ] , vtGrafo[ inxGrafo ] );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao ir para norte do nó corrente." );
+                                    "Retorno errado ao inserir lista de antecessores no vertice." );
 
 		} /* fim ativa: Testar MAT Ir norte do no corrente */
 
@@ -403,6 +409,39 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 
    } /* Fim função: TMAT -Validar indice de lista */
   
+/***********************************************************************
+*
+*  $FC Função: TMAT - Validar indice de conteudo do vertice
+*
+***********************************************************************/
+
+	 int ValidarInxContVertices( int inxContVertices , int Modo ) 
+	 {
+
+	  if ( ( inxContVertices <  0 )
+		  || ( inxContVertices >= DIM_VT_CONTEUDO ))
+      {
+         return FALSE ;
+      } /* if */
+         
+      if ( Modo == VAZIO )
+      {
+		  if ( vtVerCont[ inxContVertices ] != 0 )
+         {
+            return FALSE ;
+         } /* if */
+      } else
+      {
+         if ( vtVerCont[ inxContVertices ] == 0 )
+         {
+            return FALSE ;
+         } /* if */
+      } /* if */
+         
+      return TRUE ;
+
+	 }
+	/* Fim função: TMAT - Validar indice de conteudo do vertice */
 
 /***********************************************************************
 *

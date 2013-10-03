@@ -36,6 +36,8 @@
 /* Tipo referência para um grafo */
 typedef struct GRA_tagGrafo * GRA_tppGrafo ;
 
+/* Tipo referência para um vertice de grafo */
+typedef struct tagVerticeGrafo * GRA_tppVerGrafo ;
 
 /***********************************************************************
 *
@@ -49,41 +51,20 @@ typedef enum {
         GRA_CondRetOK = 0 ,
             /* Executou correto */
 
-        GRA_CondRetNaoCriouRaiz = 1 ,
-            /* Não criou nó raiz */
+		GRA_CondRetValorNulo = 1 ,
+			/* Valor fornecido nulo */
 
-        GRA_CondRetErroEstrutura = 2 ,
-            /* Estrutura da matriz está errada */
-			
-        GRA_CondRetMatrizNaoExiste = 3 ,
-            /* Matriz não existe */
+		GRA_CondRetVerticeNulo = 2 ,
+			/* Vertice de parametro nulo */
 
-        GRA_CondRetMatrizVazia = 4 ,
-            /* Matriz está vazia */
+		GRA_CondRetListaNula = 3 ,
+			/* Valor lista nula */
 
-        GRA_CondRetNohEhRaiz = 5 ,
-            /* Nó corrente é raiz */
-
-		GRA_CondRetNaoPossuiNo = 6 ,
-            /* No nao encontrado */
-
-		GRA_CondRetMatrizCheia  = 7 ,
-            /* Faltou espaço para inserir listas */
-
-		 GRA_CondRetListaVazia = 8 ,
-            /* Lista está vazia */		
+		GRA_CondRetConteudoNulo = 4 ,
+			/* Conteudo fornecido nulo */
 
         GRA_CondRetFaltouMemoria = 9 ,
             /* Faltou memória ao alocar dados */
-
-		GRA_CondRetNoMatrizSemLista = 10 ,
-            /* No nao possui lista */
-			
-		GRA_CondRetNoListaDiferente = 11 ,
-            /* Lista nao corresponde a corrente */
-
-		GRA_CondRetValorNulo = 12
-			/* Valor do Vertice Nulo */
 
 } GRA_tpCondRet ;
 
@@ -102,7 +83,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-GRA_tpCondRet GRA_CriarGrafo (GRA_tpGrafo * pGrafo);
+GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo);
 
 /***********************************************************************
 *

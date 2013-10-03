@@ -162,6 +162,7 @@ GRA_tpCondRet GRA_InsereAntecessoresVertice(tpVerticeGrafo * pVertice, LIS_tppLi
 
 	}
 
+	return GRA_CondRetOK;
 }
 /*
 InsereSucessoresVertice
@@ -184,7 +185,7 @@ GRA_tpCondRet GRA_InsereSucessoresVertice(tpVerticeGrafo * pVertice, LIS_tppList
 			return GRA_CondRetOK;
 
 	}
-
+	return GRA_CondRetOK;
 }
 /*
 InserirConteudoVertice
@@ -217,10 +218,10 @@ GRA_tpCondRet GRA_InsereVerticeFinal(tpVerticeGrafo * pVertice, LIS_tppLista pLi
 {
 
 	if(pVertice == NULL)
-		return GRA_tpCondRetVerticeNulo;
+		return GRA_CondRetVerticeNulo;
 
 	else  if(pListaVertices == NULL)
-		return GRA_tpCondRetListaNula;
+		return GRA_CondRetListaNula;
 
 	else{
 		IrFinalLista(pListaVertices);
@@ -241,10 +242,10 @@ GRA_tpCondRet GRA_InsereVerticeInicio(tpVerticeGrafo * pVertice, LIS_tppLista pL
 {
 
 	if(pVertice == NULL)
-		return GRA_tpCondRetVerticeNulo;
+		return GRA_CondRetVerticeNulo;
 
 	else  if(pListaVertices == NULL)
-		return GRA_tpCondRetListaNula;
+		return GRA_CondRetListaNula;
 
 	else{
 		IrInicioLista(pListaVertices);
@@ -355,12 +356,13 @@ Excluir aresta = Lista de Sucessores
 */
 GRA_tpCondRet GRA_ExcluirSucessoresVertice(tpVerticeGrafo * pVertice)
 {
+	LIS_tppLista pListaVertices = pVertice->pVerSuc ;
 
 	if(pVertice == NULL)
-		return GRA_tpCondRetVerticeNulo;
+		return GRA_CondRetVerticeNulo;
 
 	else  if(pListaVertices == NULL)
-		return GRA_tpCondRetListaNula;
+		return GRA_CondRetListaNula;
 
 	ListaRet = LIS_DestruirLista (pVertice->pVerSuc);
 
@@ -378,11 +380,13 @@ Excluir aresta = Lista de Antecessores
 GRA_tpCondRet GRA_ExcluirAntecessoresVertice(tpVerticeGrafo * pVertice)
 {
 
+	LIS_tppLista pListaVertices = pVertice->pVerAnt ;
+
 	if(pVertice == NULL)
-		return GRA_tpCondRetVerticeNulo;
+		return GRA_CondRetVerticeNulo;
 
 	else  if(pListaVertices == NULL)
-		return GRA_tpCondRetListaNula;
+		return GRA_CondRetListaNula;
 
 	ListaRet = LIS_DestruirLista (pVertice->pVerAnt);
 

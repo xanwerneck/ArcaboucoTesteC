@@ -1,4 +1,4 @@
-#if ! defined( VERTICE_ )
+#if  defined( VERTICE_ )
 #define VERTICE_
 /***************************************************************************
 *
