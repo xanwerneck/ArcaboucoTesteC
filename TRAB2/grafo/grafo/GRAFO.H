@@ -102,172 +102,30 @@ typedef enum {
 *
 ***********************************************************************/
 
-GRA_tpCondRet GRA_CriarMatriz(GRA_tppVertice* tpVertice);
+GRA_tpCondRet GRA_CriarGrafo (GRA_tpGrafo * pGrafo);
 
 /***********************************************************************
 *
-*  $FC Função: MAT Inserir Lista na matriz corrente
-*
-*  $ED Descrição da função
-*     Insere uma lista na matriz corrente
-*
-*  $FV Valor retornado
-*     MAT_CondRetFaltouMemoria
-*     MAT_CondRetMatrizVazia
-*	  MAT_CondRetOK
-*	  MAT_CondRetMatrizCheia
-*
-***********************************************************************/
+*/
 
-MAT_tpCondRet MAT_InsereListaMatriz( LIS_tpMatLista * lt, MAT_tppMatriz tpMatrizModulo);
+GRA_tpCondRet GRA_CriaVerticeGrafo(void * conteudo, char id);
 
-/***********************************************************************
-*
-*  $FC Função: MAT Ir para nó norte
-*
-*  $FV Valor retornado
-*     MAT_CondRetMatrizNaoExiste
-*     MAT_CondRetMatrizVazia
-*     MAT_CondRetNaoPossuiNo
-*     MAT_CondRetOK
-*
-***********************************************************************/
+GRA_tpCondRet GRA_InsereAntecessoresVertice(tpVerticeGrafo * pVertice, LIS_tppLista pLista);
 
-MAT_tpCondRet MAT_IrNoNorte(MAT_tppMatriz tpMatrizModulo);
+GRA_tpCondRet GRA_InsereSucessoresVertice(tpVerticeGrafo * pVertice, LIS_tppLista pLista);
 
+GRA_tpCondRet GRA_InsereConteudoVertice(tpVerticeGrafo * pVertice, VER_tppVertice pConteudo);
 
-/***********************************************************************
-*
-*  $FC Função: MAT Ir para nó nordeste
-*
-*  $FV Valor retornado
-*     MAT_CondRetMatrizNaoExiste
-*     MAT_CondRetMatrizVazia
-*     MAT_CondRetNaoPossuiNo
-*     MAT_CondRetOK
-*
-***********************************************************************/
+GRA_tpCondRet GRA_InsereVerticeFinal(tpVerticeGrafo * pVertice, LIS_tppLista pListaVertices);
 
-MAT_tpCondRet MAT_IrNoNordeste(MAT_tppMatriz tpMatrizModulo) ;
+GRA_tpCondRet GRA_InsereVerticeInicio(tpVerticeGrafo * pVertice, LIS_tppLista pListaVertices);
 
+GRA_tpCondRet GRA_ExcluirVertice(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice);
 
-/***********************************************************************
-*
-*  $FC Função: MAT Ir para nó leste
-*
-*  $FV Valor retornado
-*     MAT_CondRetMatrizNaoExiste
-*     MAT_CondRetMatrizVazia
-*     MAT_CondRetNaoPossuiNo
-*     MAT_CondRetOK
-*
-***********************************************************************/
+GRA_tpCondRet GRA_ExcluirSucessoresVertice(tpVerticeGrafo * pVertice);
 
-MAT_tpCondRet MAT_IrNoLeste(MAT_tppMatriz tpMatrizModulo) ;
+GRA_tpCondRet GRA_ExcluirAntecessoresVertice(tpVerticeGrafo * pVertice);
 
-/***********************************************************************
-*
-*  $FC Função: MAT Ir para nó sudeste
-*
-*  $FV Valor retornado
-*     MAT_CondRetMatrizNaoExiste
-*     MAT_CondRetMatrizVazia
-*     MAT_CondRetNaoPossuiNo
-*     MAT_CondRetOK
-*
-***********************************************************************/
-
-MAT_tpCondRet MAT_IrNoSudeste(MAT_tppMatriz tpMatrizModulo) ;
-
-
-/***********************************************************************
-*
-*  $FC Função: MAT Ir para nó sul
-*
-*  $FV Valor retornado
-*     MAT_CondRetMatrizNaoExiste
-*     MAT_CondRetMatrizVazia
-*     MAT_CondRetNaoPossuiNo
-*     MAT_CondRetOK
-*
-***********************************************************************/
-
-MAT_tpCondRet MAT_IrNoSul(MAT_tppMatriz tpMatrizModulo) ;
-
-/***********************************************************************
-*
-*  $FC Função: MAT Ir para nó sudoeste
-*
-*  $FV Valor retornado
-*     MAT_CondRetMatrizNaoExiste
-*     MAT_CondRetMatrizVazia
-*     MAT_CondRetNaoPossuiNo
-*     MAT_CondRetOK
-*
-***********************************************************************/
-
-MAT_tpCondRet MAT_IrNoSudoeste(MAT_tppMatriz tpMatrizModulo) ;
-
-/***********************************************************************
-*
-*  $FC Função: MAT Ir para nó oeste
-*
-*  $FV Valor retornado
-*     MAT_CondRetMatrizNaoExiste
-*     MAT_CondRetMatrizVazia
-*     MAT_CondRetNaoPossuiNo
-*     MAT_CondRetOK
-*
-***********************************************************************/
-
-MAT_tpCondRet MAT_IrNoOeste(MAT_tppMatriz tpMatrizModulo) ;
-
-/***********************************************************************
-*
-*  $FC Função: MAT Ir para nó noroeste
-*
-*  $FV Valor retornado
-*     MAT_CondRetMatrizNaoExiste
-*     MAT_CondRetMatrizVazia
-*     MAT_CondRetNaoPossuiNo
-*     MAT_CondRetOK
-*
-***********************************************************************/
-
-MAT_tpCondRet MAT_IrNoNoroeste(MAT_tppMatriz tpMatrizModulo) ;
-
-/***********************************************************************
-*
-*  $FC Função: MAT Obter valor corrente
-*
-*  $EP Parâmetros
-*     $P ValorParm - é o parâmetro que receberá o valor contido 
-* 	 				 no ponteiro da lista
-*
-*  $FV Valor retornado
-*     MAT_CondRetMatrizNaoExiste
-*     MAT_CondRetMatrizVazia
-*     MAT_CondRetOK
-*
-***********************************************************************/
-
-MAT_tpCondRet MAT_ObterListaCorr( LIS_tpMatLista * lst_valor , MAT_tppMatriz tpMatrizModulo ) ;
-
-
-/***********************************************************************
-*
-*  $FC Função: MAT Ir raiz
-*
-*
-*  $FV Valor retornado
-*     MAT_CondRetMatrizNaoExiste
-*     MAT_CondRetMatrizVazia
-*	  MAT_CondRetOK
-*     MAT_CondRetNohEhRaiz
-*
-***********************************************************************/
-
-MAT_tpCondRet MAT_IrRaiz( MAT_tppMatriz tpMatrizModulo );
 
 #undef MATRIZ_EXT
 

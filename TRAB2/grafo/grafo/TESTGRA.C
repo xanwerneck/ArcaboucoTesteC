@@ -1,8 +1,8 @@
 /***************************************************************************
-*  $MCI Módulo de implementação: TMAT Teste matriz de listas
+*  $MCI Módulo de implementação: TGRAF Testa módulo grafo de vértices
 *
-*  Arquivo gerado:              TESTMAT.C
-*  Letras identificadoras:      TMAT
+*  Arquivo gerado:              TESTGRA.C
+*  Letras identificadoras:      TGRA
 *
 *  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
 *  Arquivo da base de software: D:\AUTOTEST\PROJETOS\LISTA.BSW
@@ -15,7 +15,7 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*       1.00   afv   04/09/2013 Início do desenvolvimento
+*       1.00   afv   03/out/2013 Início do desenvolvimento
 *
 ***************************************************************************/
 
@@ -36,37 +36,20 @@
 
 
 /***********************************************************************
-* Operações em Lista Encadeada
+* Operações em Grafo
 *
 ***********************************************************************/
-static const char RESET_LISTA_CMD           [ ] = "=resetteste"     ;
-static const char CRIAR_LISTA_CMD           [ ] = "=criarlista"     ;
-static const char DESTRUIR_LISTA_CMD        [ ] = "=destruirlista"  ;
-static const char ESVAZIAR_LISTA_CMD        [ ] = "=esvaziarlista"  ;
-static const char INS_ELEM_ANTES_CMD        [ ] = "=inselemantes"   ;
-static const char INS_ELEM_APOS_CMD         [ ] = "=inselemapos"    ;
-static const char OBTER_VALOR_CMD           [ ] = "=obtervalorelem" ;
-static const char EXC_ELEM_CMD              [ ] = "=excluirelem"    ;
-static const char IR_INICIO_LISTA_CMD       [ ] = "=iriniciolista"  ;
-static const char IR_FIM_CMD                [ ] = "=irfinal"        ;
-static const char AVANCAR_ELEM_CMD          [ ] = "=avancarelem"    ;
+static const char CRIAR_GRAFO_CMD			[ ] = "=criargrafo"         ;
+static const char CRIAR_VERTIVE_GRAFO_CMD	[ ] = "=criarverticegrafo"  ;
+static const char INSERE_ANT_VERT_CMD		[ ] = "=insereantvertive"   ;
+static const char INSERE_SUC_VERT_CMD		[ ] = "=inseresucvertive"   ;
+static const char INSERE_CONT_VERT_CMD		[ ] = "=inserecontvertive"  ;
+static const char INSERE_VERT_FINAL_CMD		[ ] = "=inserevertivefinal" ;
+static const char INSERE_VERT_INIC_CMD		[ ] = "=inserevertiveinic"  ;
+static const char EXCLUIR_VERT_CMD   		[ ] = "=excluirvertice"     ;
+static const char EXCLUIR_ANT_VERT_CMD		[ ] = "=excluirantvertive"  ;
+static const char EXCLUIR_SUC_VERT_CMD		[ ] = "=excluirsucvertive"  ;
 
-/***********************************************************************
-* Operações em Matriz
-*
-***********************************************************************/
-static const char CRIAR_MATRIZ_CMD			[ ] = "=criarmatriz"     ;
-static const char INSERIR_LISTA_MATRIZ_CMD	[ ] = "=inserirlistamat" ;
-static const char IR_NORTE_CMD				[ ] = "=irnorte"         ;
-static const char IR_NORDESTE_CMD			[ ] = "=irnordeste"      ;	
-static const char IR_LESTE_CMD				[ ] = "=irleste"         ;
-static const char IR_SUDESTE_CMD			[ ] = "=irsudeste"       ;
-static const char IR_SUL_CMD				[ ] = "=irsul"           ;
-static const char IR_SUDOESTE_CMD			[ ] = "=irsudoeste"      ;
-static const char IR_OESTE_CMD				[ ] = "=iroeste"         ;
-static const char IR_NOROESTE_CMD			[ ] = "=irnoroeste"      ;
-static const char OBTER_LISTA_CORR_CMD		[ ] = "=obterlistacorr"  ;
-static const char IR_INICIO_CMD				[ ] = "=irinicio"        ;
 
 #define TRUE  1
 #define FALSE 0
@@ -74,29 +57,34 @@ static const char IR_INICIO_CMD				[ ] = "=irinicio"        ;
 #define VAZIO     0
 #define NAO_VAZIO 1
 
-#define DIM_VT_MATRIZ   10
-#define DIM_VT_LISTA    10
-#define DIM_VALOR       100
+#define DIM_VT_GRAFO       10
+#define DIM_VT_LISTA       10
+#define DIM_VT_VERTICES    10
+#define DIM_VALOR          100
 
-MAT_tppMatriz  vtMatrizes[ DIM_VT_MATRIZ ] ;
+GRA_tppGrafo    vtGrafo[ DIM_VT_GRAFO ] ;
 
-LIS_tpMatLista  vtListas[ DIM_VT_LISTA ] ;
+LIS_tppLista    vtListas[ DIM_VT_LISTA ] ;
+
+VER_tppVertice  vtVerCont[ DIM_VT_VERTICES ] ;
 
 
 /***** Protótipos das funções encapuladas no módulo *****/
 
 static void DestruirLista( void * pLista ) ;
 
-static int ValidarInxMatriz( int inxMatriz , int Modo ) ;
+static int ValidarInxGrafo( int inxGrafo , int Modo ) ;
 
 static int ValidarInxLista( int inxLista , int Modo ) ;
+
+static int ValidarInxVertices( int inxVertices , int Modo ) ;
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
 
 /***********************************************************************
 *
-*  $FC Função: TMAT Efetuar operações de teste específicas para matriz
+*  $FC Função: TGRA Efetuar operações de teste específicas para grafo
 *
 *  $ED Descrição da função
 *     Efetua os diversos comandos de teste específicos para o módulo
@@ -113,9 +101,9 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
    TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
    {
 
-      MAT_tpCondRet CondRetObtido   = MAT_CondRetOK ;
+	  GRA_tpCondRet CondRetObtido   = GRA_CondRetOK ;
 	  LIS_tpCondRet CondRetLista    = LIS_CondRetOK ;
-      MAT_tpCondRet CondRetEsperada = MAT_CondRetFaltouMemoria ;
+      GRA_tpCondRet CondRetEsperada = GRA_CondRetFaltouMemoria ;
                                       /* inicializa para qualquer coisa */
 
       char ValorEsperado = '?'  ;
@@ -123,267 +111,31 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
       char ValorDado     = '\0' ;
 	  char CharDado ;
 
-	  int inxMatriz  = -1 ,
-		  inxLista  = -1 ,
-          NumLidos   = -1 ,
-		  NumElementos   = 0 ,
-          CondRetEsp = -1 ,
-		  i          = 0 ;
+	  int inxGrafo     = -1 ,
+		  inxLista     = -1 ,
+		  inxVertices  = -1 ,
+          NumLidos     = -1 ,
+		  NumElementos = 0 ,
+          CondRetEsp   = -1 ,
+		  i            = 0 ;
 
 
-		/* Efetuar reset de teste de lista */
+		/* Testar GRA Criar grafo */
 
-         if ( strcmp( ComandoTeste , RESET_LISTA_CMD ) == 0 )
-         {
-
-            for( i = 0 ; i < DIM_VT_LISTA ; i++ )
-            {
-               vtListas[ i ] = NULL ;
-            } /* for */
-
-            return TST_CondRetOK ;
-
-         } /* fim ativa: Efetuar reset de teste de lista */
-
-
-		/* Testar MAT Criar lista */
-
-		if ( strcmp( ComandoTeste , CRIAR_LISTA_CMD ) == 0 )
+		if ( strcmp( ComandoTeste , CRIAR_GRAFO_CMD ) == 0 )
          {
 
             NumLidos = LER_LerParametros( "ii" ,
-                               &inxLista , &CondRetEsperada ) ;
-            if ( (NumLidos != 2) || ( ! ValidarInxLista(inxLista, VAZIO) ) )
+                               &inxGrafo , &CondRetEsperada ) ;
+
+            if ( (NumLidos != 3) || ( ! ValidarInxGrafo(inxGrafo, VAZIO) ) )
             {
                return TST_CondRetParm ;
             } /* if */
 
-			vtListas[ inxLista ] = NULL;
+			vtGrafo[ inxGrafo ] = NULL;
 
-			CondRetLista = LIS_CriarLista( &vtListas[ inxLista ] ) ;
-
-            return TST_CompararInt( CondRetEsperada , CondRetLista ,
-                                    "Retorno errado ao criar lista." );
-
-         } /* fim ativa: Testar MAT Criar lista */
-
-		
-		/* Testar Esvaziar lista lista */
-
-         else if ( strcmp( ComandoTeste , ESVAZIAR_LISTA_CMD ) == 0 )
-         {
-
-            NumLidos = LER_LerParametros( "i" ,
-                               &inxLista ) ;
-
-            if ( ( NumLidos != 1 )
-              || ( ! ValidarInxLista( inxLista , NAO_VAZIO )))
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-            CondRetLista = LIS_EsvaziarLista( vtListas[ inxLista ] ) ;
-
-            return TST_CondRetOK ;
-
-         } /* fim ativa: Testar Esvaziar lista lista */
-
-
-		/* Testar Destruir lista */
-
-         else if ( strcmp( ComandoTeste , DESTRUIR_LISTA_CMD ) == 0 )
-         {
-
-            NumLidos = LER_LerParametros( "ii" ,
-                               &inxLista, &CondRetEsp ) ;
-
-            if ( ( NumLidos != 2 )
-              || ( ! ValidarInxLista( inxLista , NAO_VAZIO )))
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-            CondRetLista = LIS_DestruirLista( vtListas[ inxLista ] ) ;
-            
-			vtListas[ inxLista ] = NULL ;
-
-            return TST_CompararInt( CondRetEsp , CondRetLista ,
-                     "Condicao de retorno errada ao destruir lista!"                   ) ;
-
-         } /* fim ativa: Testar Destruir lista */
-
-
-		 /* Testar inserir elemento antes */
-
-         else if ( strcmp( ComandoTeste , INS_ELEM_ANTES_CMD ) == 0 )
-         {
-
-            NumLidos = LER_LerParametros( "ici" ,
-                       &inxLista , &CharDado , &CondRetEsp ) ;
-			
-            if ( ( NumLidos != 3 )
-              || ( ! ValidarInxLista( inxLista , NAO_VAZIO )) )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-
-            CondRetLista = LIS_InserirElementoAntes( vtListas[ inxLista ] , CharDado ) ;
-
-
-            return TST_CompararInt( CondRetEsp , CondRetLista ,
-                     "Condicao de retorno errada ao inserir antes."                   ) ;
-
-         } /* fim ativa: Testar inserir elemento antes */
-
-		/* Testar inserir elemento apos */
-
-         else if ( strcmp( ComandoTeste , INS_ELEM_APOS_CMD ) == 0 )
-         {
-
-            NumLidos = LER_LerParametros( "ici" ,
-                       &inxLista , &CharDado , &CondRetEsp ) ;
-
-            if ( ( NumLidos != 3 )
-              || ( ! ValidarInxLista( inxLista , NAO_VAZIO )) )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-            CondRetLista = LIS_InserirElementoApos( vtListas[ inxLista ] , CharDado ) ;
-
-
-            return TST_CompararInt( CondRetEsp , CondRetLista ,
-                     "Condicao de retorno errada ao inserir apos."                   ) ;
-
-         } /* fim ativa: Testar inserir elemento apos */
-
-		 /* Testar excluir simbolo */
-
-         else if ( strcmp( ComandoTeste , EXC_ELEM_CMD ) == 0 )
-         {
-
-            NumLidos = LER_LerParametros( "ii" ,
-                  &inxLista , &CondRetEsp ) ;
-
-            if ( ( NumLidos != 2 )
-              || ( ! ValidarInxLista( inxLista , NAO_VAZIO )) )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-			CondRetLista = LIS_ExcluirElemento( vtListas[ inxLista ] ); 
-
-            return TST_CompararInt( CondRetEsp ,
-                       CondRetLista ,
-                     "Condição de retorno errada ao excluir."   ) ;
-
-         } /* fim ativa: Testar excluir simbolo */
-
-		 /* Testar obter valor do elemento corrente */
-
-         else if ( strcmp( ComandoTeste , OBTER_VALOR_CMD ) == 0 )
-         {
-
-
-            NumLidos = LER_LerParametros( "ici" ,
-                       &inxLista , &CharDado , &CondRetEsp ) ;
-
-            if ( ( NumLidos != 3 )
-              || ( ! ValidarInxLista( inxLista , NAO_VAZIO )) )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-            
-			CondRetLista = LIS_ObterValor( vtListas[ inxLista ] , CharDado );
-
-            return TST_CompararInt( CondRetEsp , CondRetLista ,
-                         "Valor do elemento errado." ) ;
-
-         } /* fim ativa: Testar obter valor do elemento corrente */
-
-
-		 /* Testar ir para o elemento inicial */
-
-         else if ( strcmp( ComandoTeste , IR_INICIO_LISTA_CMD ) == 0 )
-         {
-
-            NumLidos = LER_LerParametros( "i" , &inxLista ) ;
-
-            if ( ( NumLidos != 1 )
-              || ( ! ValidarInxLista( inxLista , NAO_VAZIO )) )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-            IrInicioLista( vtListas[ inxLista ] ) ;
-
-            return TST_CondRetOK ;
-
-         } /* fim ativa: Testar ir para o elemento inicial */
-
-		 /* LIS  &Ir para o elemento final */
-
-         else if ( strcmp( ComandoTeste , IR_FIM_CMD ) == 0 )
-         {
-
-            NumLidos = LER_LerParametros( "i" , &inxLista ) ;
-
-            if ( ( NumLidos != 1 )
-              || ( ! ValidarInxLista( inxLista , NAO_VAZIO )) )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-            IrFinalLista( vtListas[ inxLista ] ) ;
-
-            return TST_CondRetOK ;
-
-         } /* fim ativa: LIS  &Ir para o elemento final */
-
-		 /* LIS  &Avançar elemento */
-
-         else if ( strcmp( ComandoTeste , AVANCAR_ELEM_CMD ) == 0 )
-         {
-
-            NumLidos = LER_LerParametros( "iii" , &inxLista , &NumElementos ,
-                                &CondRetEsp ) ;
-
-            if ( ( NumLidos != 3 )
-              || ( ! ValidarInxLista( inxLista , NAO_VAZIO )) )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-            return TST_CompararInt( CondRetEsp ,
-                      LIS_AvancarElementoCorrente( vtListas[ inxLista ] , NumElementos ) ,
-                      "Condicao de retorno errada ao avancar" ) ;
-
-         } /* fim ativa: LIS  &Avançar elemento */
-
-		/**
-
-		TESTES EM MATRIZ
-
-
-		*/
-
-		/* Testar MAT Criar matriz */
-
-		if ( strcmp( ComandoTeste , CRIAR_MATRIZ_CMD ) == 0 )
-         {
-
-            NumLidos = LER_LerParametros( "iii" ,
-                               &inxMatriz , &NumElementos , &CondRetEsperada ) ;
-
-            if ( (NumLidos != 3) || ( ! ValidarInxMatriz(inxMatriz, VAZIO) ) )
-            {
-               return TST_CondRetParm ;
-            } /* if */
-
-			vtMatrizes[ inxMatriz ] = NULL;
-
-			CondRetObtido = MAT_CriarMatriz( &vtMatrizes[ inxMatriz ] , NumElementos ) ;
+			CondRetObtido = GRA_( &vtGrafo[ inxGrafo ] , NumElementos ) ;
 
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
@@ -397,14 +149,14 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
 		if( strcmp( ComandoTeste , INSERIR_LISTA_MATRIZ_CMD ) == 0 )
 		{
 
-			NumLidos = LER_LerParametros ( "iii" ,&inxLista, &inxMatriz, &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "iii" ,&inxLista, &inxGrafo, &CondRetEsperada );
 			if ( (NumLidos != 3) )
             {
                return TST_CondRetParm ;
             } /* if */
 			
 
-			CondRetObtido = MAT_InsereListaMatriz( &vtListas[ inxLista ] ,  vtMatrizes[ inxMatriz ] );
+			CondRetObtido = MAT_InsereListaMatriz( &vtListas[ inxLista ] ,  vtGrafo[ inxGrafo ] );
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao inserir lista na matriz." );
@@ -416,12 +168,12 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
 
 		if(strcmp (ComandoTeste, IR_NORTE_CMD) == 0)
 		{
-			NumLidos = LER_LerParametros ( "ii" , &inxMatriz, &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "ii" , &inxGrafo, &CondRetEsperada );
 			if(NumLidos != 2){
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_IrNoNorte( vtMatrizes[ inxMatriz ] );
+			CondRetObtido = MAT_IrNoNorte( vtGrafo[ inxGrafo ] );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao ir para norte do nó corrente." );
@@ -432,12 +184,12 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
 
 		if(strcmp (ComandoTeste, IR_NORDESTE_CMD) == 0)
 		{
-			NumLidos = LER_LerParametros ( "ii" , &inxMatriz, &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "ii" , &inxGrafo, &CondRetEsperada );
 			if(NumLidos != 2){
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_IrNoNordeste( vtMatrizes[ inxMatriz ]);
+			CondRetObtido = MAT_IrNoNordeste( vtGrafo[ inxGrafo ]);
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao ir para nordeste do nó corrente." );
@@ -448,12 +200,12 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
 
 		if(strcmp (ComandoTeste, IR_LESTE_CMD) == 0)
 		{
-			NumLidos = LER_LerParametros ( "ii" , &inxMatriz, &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "ii" , &inxGrafo, &CondRetEsperada );
 			if(NumLidos != 2){
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_IrNoLeste( vtMatrizes[ inxMatriz ]);
+			CondRetObtido = MAT_IrNoLeste( vtGrafo[ inxGrafo ]);
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao ir para leste do nó corrente." );
@@ -465,12 +217,12 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
 
 		if(strcmp (ComandoTeste, IR_SUDESTE_CMD) == 0)
 		{
-			NumLidos = LER_LerParametros ( "ii" , &inxMatriz, &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "ii" , &inxGrafo, &CondRetEsperada );
 			if(NumLidos != 2){
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_IrNoSudeste( vtMatrizes[ inxMatriz ]);
+			CondRetObtido = MAT_IrNoSudeste( vtGrafo[ inxGrafo ]);
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao ir para sudeste do nó corrente." );
@@ -482,12 +234,12 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
 
 		if(strcmp (ComandoTeste, IR_SUL_CMD) == 0)
 		{
-			NumLidos = LER_LerParametros ( "ii" , &inxMatriz, &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "ii" , &inxGrafo, &CondRetEsperada );
 			if(NumLidos != 2){
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_IrNoSul( vtMatrizes[ inxMatriz ]);
+			CondRetObtido = MAT_IrNoSul( vtGrafo[ inxGrafo ]);
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao ir para sul do nó corrente." );
@@ -499,12 +251,12 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
 
 		if(strcmp (ComandoTeste, IR_SUDOESTE_CMD) == 0)
 		{
-			NumLidos = LER_LerParametros ( "ii" , &inxMatriz, &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "ii" , &inxGrafo, &CondRetEsperada );
 			if(NumLidos != 2){
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_IrNoSudoeste( vtMatrizes[ inxMatriz ]);
+			CondRetObtido = MAT_IrNoSudoeste( vtGrafo[ inxGrafo ]);
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao ir para sudoeste do nó corrente." );
@@ -515,12 +267,12 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
 
 		if(strcmp (ComandoTeste, IR_OESTE_CMD) == 0)
 		{
-			NumLidos = LER_LerParametros ( "ii" , &inxMatriz, &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "ii" , &inxGrafo, &CondRetEsperada );
 			if(NumLidos != 2){
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_IrNoOeste( vtMatrizes[ inxMatriz ]);
+			CondRetObtido = MAT_IrNoOeste( vtGrafo[ inxGrafo ]);
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao ir para oeste do nó corrente." );
@@ -533,12 +285,12 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
 
 		if(strcmp (ComandoTeste, IR_NOROESTE_CMD) == 0)
 		{
-			NumLidos = LER_LerParametros ( "ii" , &inxMatriz, &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "ii" , &inxGrafo, &CondRetEsperada );
 			if(NumLidos != 2){
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_IrNoNoroeste( vtMatrizes[ inxMatriz ]);
+			CondRetObtido = MAT_IrNoNoroeste( vtGrafo[ inxGrafo ]);
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao ir para noroeste do nó corrente." );
@@ -550,12 +302,12 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
 
 		if(strcmp (ComandoTeste, OBTER_LISTA_CORR_CMD) == 0)
 		{
-			NumLidos = LER_LerParametros ( "iii" , &inxLista, &inxMatriz, &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "iii" , &inxLista, &inxGrafo, &CondRetEsperada );
 			if(NumLidos != 3){
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_ObterListaCorr( &vtListas[ inxLista ] , vtMatrizes[ inxMatriz ]);
+			CondRetObtido = MAT_ObterListaCorr( &vtListas[ inxLista ] , vtGrafo[ inxGrafo ]);
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao obter lista corrente." );
@@ -567,12 +319,12 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
 
 		if(strcmp (ComandoTeste, IR_INICIO_CMD) == 0)
 		{
-			NumLidos = LER_LerParametros ( "ii" , &inxMatriz, &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "ii" , &inxGrafo, &CondRetEsperada );
 			if(NumLidos != 2){
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = MAT_IrRaiz( vtMatrizes[ inxMatriz ] );
+			CondRetObtido = MAT_IrRaiz( vtGrafo[ inxGrafo ] );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao ir para razi da matriz." );
@@ -591,24 +343,24 @@ static int ValidarInxLista( int inxLista , int Modo ) ;
 *
 ***********************************************************************/
 
-   int ValidarInxMatriz( int inxMatriz , int Modo )
+   int ValidarInxGrafo( int inxGrafo , int Modo )
    {
 
-      if ( ( inxMatriz <  0 )
-		  || ( inxMatriz >= DIM_VT_MATRIZ ))
+      if ( ( inxGrafo <  0 )
+		  || ( inxGrafo >= DIM_VT_GRAFO ))
       {
          return FALSE ;
       } /* if */
          
       if ( Modo == VAZIO )
       {
-         if ( vtMatrizes[ inxMatriz ] != 0 )
+         if ( vtGrafo[ inxGrafo ] != 0 )
          {
             return FALSE ;
          } /* if */
       } else
       {
-         if ( vtMatrizes[ inxMatriz ] == 0 )
+         if ( vtGrafo[ inxGrafo ] == 0 )
          {
             return FALSE ;
          } /* if */

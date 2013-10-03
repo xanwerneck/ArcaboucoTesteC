@@ -85,6 +85,31 @@ typedef struct GRA_tagGrafo {
 
 } GRA_tpGrafo ;
 
+/*
+Criar Grafo
+*/
+GRA_tpCondRet GRA_CriarGrafo (GRA_tpGrafo * pGrafo)
+{
+	
+	GRA_tpGrafo * mGrafo ;
+
+	mGrafo = (GRA_tpGrafo *) malloc ( sizeof( GRA_tpGrafo ));
+
+	if(mGrafo == NULL){
+
+		return GRA_CondRetFaltouMemoria;
+
+	} /* if */
+
+	LimparCabeca( mGrafo ) ;
+
+	pGrafo = ( GRA_tpGrafo * ) malloc( sizeof( GRA_tpGrafo )) ;
+
+	pGrafo = mGrafo;
+
+	return GRA_CondRetOK;
+}
+
 
 /*
 CriarVerticeGrafo 
@@ -212,7 +237,7 @@ Descricao = Insere vértice na lista de vértices da estrutura grafo
 Parametros = tpVerticeGrafo
 */
 
-GRA_tpCondRet GRA_InsereVerticeFinal(tpVerticeGrafo * pVertice, LIS_tppLista pListaVertices)
+GRA_tpCondRet GRA_InsereVerticeInicio(tpVerticeGrafo * pVertice, LIS_tppLista pListaVertices)
 {
 
 	if(pVertice == NULL)
@@ -405,6 +430,14 @@ void GRA_ExcluirdeOrigens(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 	} /* while */
 
 }
+
+ void LimparCabeca( GRA_tppGrafo pGrafo )
+{
+	pGrafo->pCorrente = NULL;
+	pGrafo->pListaOrigens = NULL;
+	pGrafo->pListaVertices = NULL;
+
+} /* Fim função: LIS  -Limpar a cabeça da lista */
 
 
 /********** Fim do módulo de implementação: Módulo GRAFO **********/
