@@ -96,12 +96,13 @@ void LimparCabecaGrafo( GRA_tppGrafo pGrafo );
 /*
 Criar Grafo
 */
-GRA_tpCondRet GRA_CriarGrafo (GRA_tpGrafo * pGrafo)
+GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo)
 {
 	
-	GRA_tpGrafo * mGrafo ;
+	GRA_tppGrafo mGrafo ;
 
-	mGrafo = (GRA_tpGrafo *) malloc ( sizeof( GRA_tpGrafo ));
+	mGrafo = (GRA_tppGrafo) malloc ( sizeof( GRA_tpGrafo ));
+
 
 	if(mGrafo == NULL){
 
@@ -111,9 +112,16 @@ GRA_tpCondRet GRA_CriarGrafo (GRA_tpGrafo * pGrafo)
 
 	LimparCabecaGrafo( mGrafo ) ;
 
-	pGrafo = ( GRA_tpGrafo * ) malloc( sizeof( GRA_tpGrafo )) ;
+	(*pGrafo) = ( GRA_tpGrafo * ) malloc( sizeof( GRA_tppGrafo )) ;
 
-	pGrafo = mGrafo;
+	if(pGrafo == NULL){
+
+		return GRA_CondRetFaltouMemoria;
+
+	} /* if */
+
+	(*pGrafo) = mGrafo;
+
 
 	return GRA_CondRetOK;
 }
@@ -292,6 +300,8 @@ GRA_tpCondRet GRA_ExcluirVertice(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice
 	pCaminhoListaAnt = pVertice->pVerAnt;
 
 	pCaminhoListaSuc = pVertice->pVerSuc;
+
+	pVerticeCaminho = pVertice;
 	
 	ListaRet = IrInicioLista(pCaminhoListaAnt);
 
@@ -349,7 +359,7 @@ GRA_tpCondRet GRA_ExcluirVertice(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice
 
 	free (pVertice);
 
-	pVertice->pIdVertice = NULL;
+	pVertice->pIdVertice = '\0';
 	pVertice->pConteudo = NULL;
 
 	if(pVertice == NULL){

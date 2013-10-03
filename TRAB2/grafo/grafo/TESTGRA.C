@@ -132,7 +132,7 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
             NumLidos = LER_LerParametros( "ii" ,
                                &inxGrafo , &CondRetEsperada ) ;
 
-            if ( (NumLidos != 3) || ( ! ValidarInxGrafo(inxGrafo, VAZIO) ) )
+            if ( (NumLidos != 2) || ( ! ValidarInxGrafo(inxGrafo, VAZIO) ) )
             {
                return TST_CondRetParm ;
             } /* if */
@@ -159,7 +159,7 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
                return TST_CondRetParm ;
             } /* if */
 			
-			CondRetObtido = GRA_CriaVerticeGrafo( &vtVertice[ inxVertices ] ,  ValorDado );
+			CondRetObtido = GRA_CriaVerticeGrafo( &vtVerCont[ inxVerCont ] ,  ValorDado );
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao criar vertice no grafo." );

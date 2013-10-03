@@ -96,6 +96,7 @@ LIS_tpCondRet Ret;
    {
 
       LIS_tpLista * pListaM = ( LIS_tpLista * ) malloc( sizeof( LIS_tpLista )) ;
+
       if ( pListaM == NULL )
       {
          return LIS_CondRetFaltouMemoria ;
