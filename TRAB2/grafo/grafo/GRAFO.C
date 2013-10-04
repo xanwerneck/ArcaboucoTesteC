@@ -152,7 +152,7 @@ GRA_tpCondRet GRA_CriaVerticeGrafo(void * conteudo, char id)
 
 	}/* if */
 	return GRA_CondRetOK;
-
+	
 }
 
 /***************************************************************************
@@ -362,6 +362,50 @@ GRA_tpCondRet GRA_ExcluirVertice(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice
 	} /* if */
 
 	return GRA_CondRetConteudoNulo;
+}
+
+/***************************************************************************
+*
+*  Função: GRA  &Obter valor do vértice corrente
+*  ****/
+
+
+
+GRA_tpCondRet GRA_ObterValorVerticeCorrente(tpVerticeGrafo * pVertice , char * nomeForn)
+{
+	VER_tppVerticeCont valorElem ;
+
+	valorElem = (VER_tppVerticeCont)pVertice->pConteudo ;
+
+	if(pVertice == NULL){
+		return GRA_CondRetVerticeNulo;
+	}
+	if(VER_ObterValor(valorElem , nomeForn)==0){
+		GRA_CondRetOK ;
+	}
+	return GRA_CondRetOK;
+}
+
+/***************************************************************************
+*
+*  Função: GRA  &Mudar valor do vértice corrente
+*  ****/
+
+
+
+GRA_tpCondRet GRA_MudarValorVerticeCorrente(tpVerticeGrafo * pVertice , char * nomeForn)
+{
+	VER_tppVerticeCont valorElem ;
+
+	valorElem = (VER_tppVerticeCont)pVertice->pConteudo ;
+
+	if(pVertice == NULL){
+		return GRA_CondRetVerticeNulo;
+	}
+	if(VER_MudarNomeVertice(valorElem , nomeForn)==0){
+		GRA_CondRetOK ;
+	}
+	return GRA_CondRetOK;
 }
 
 /***************************************************************************

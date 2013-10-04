@@ -95,6 +95,14 @@ typedef enum {
 *     GRA_CondRetOK
 *     GRA_CondRetFaltouMemoria
 *
+*  $AE CondRet deve ter sido instanciado
+*
+*  $AS Se CondRet = GRA_CondRetOK
+*	   Grafo criado em posição do vetor
+*
+*	   Se CondRet = GRA_CondRetFaltouMemoria
+*	   Grafo não criado por falta de memória
+*
 ***********************************************************************/
 
 GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo);
@@ -113,6 +121,20 @@ GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo);
 *  $FV Valor retornado
 *     GRA_CondRetOK
 *     GRA_CondRetFaltouMemoria
+*
+*  $AE Variável conteudo ponteiro não nulo
+*      Variável id do tipo char não vazio
+*      CondRet deve ter sido instanciado
+*
+*  $AS Se CondRet = GRA_CondRetOK
+*	   Vértice criado com conteúdo e id
+*      Os ponteiros de lista voltam vazio
+*      ponteiro ListaAnt volta null
+*      ponteiro ListaSuc volta null
+*
+*	   Se CondRet = GRA_CondRetFaltouMemoria
+*	   Vértice não criado por falta de memória
+
 *
 ***********************************************************************/
 
@@ -134,6 +156,21 @@ GRA_tpCondRet GRA_CriaVerticeGrafo(void * conteudo, char id);
 *     GRA_CondRetListaNula
 *     GRA_CondRetOK
 *
+*
+*  $AE Variável pVertice deve ter sido iniciada
+*      Variável pLista deve ter sido iniciada
+*      CondRet deve ter sido instanciado
+*
+*  $AS Se CondRet = GRA_CondRetVerticeNulo
+*	   Vértice fornecido não iniciado ou nulo
+*      Se CondRet = GRA_CondRetListaNula
+*      Lista fornecida não iniciada ou nula
+*
+*	   Se CondRet = GRA_CondRetOK
+*      Vértice fornecido recebe lista de antecessores
+*      
+*
+*
 ***********************************************************************/
 
 GRA_tpCondRet GRA_InsereAntecessoresVertice(GRA_tppVerGrafo pVertice, LIS_tppLista pLista);
@@ -153,6 +190,18 @@ GRA_tpCondRet GRA_InsereAntecessoresVertice(GRA_tppVerGrafo pVertice, LIS_tppLis
 *     GRA_CondRetVerticeNulo
 *     GRA_CondRetListaNula
 *     GRA_CondRetOK
+*
+*  $AE Variável pVertice deve ter sido iniciada
+*      Variável pLista deve ter sido iniciada
+*      CondRet deve ter sido instanciado
+*
+*  $AS Se CondRet = GRA_CondRetVerticeNulo
+*	   Vértice fornecido não iniciado ou nulo
+*      Se CondRet = GRA_CondRetListaNula
+*      Lista fornecida não iniciada ou nula
+*
+*	   Se CondRet = GRA_CondRetOK
+*      Vértice fornecido recebe lista de antecessores
 *
 ***********************************************************************/
 
@@ -174,6 +223,20 @@ GRA_tpCondRet GRA_InsereSucessoresVertice(GRA_tppVerGrafo pVertice, LIS_tppLista
 *     GRA_CondRetConteudoNulo
 *     GRA_CondRetOK
 *
+*
+*  $AE Variável pVertice deve ter sido iniciada
+*      Variável pConteudo deve ter sido iniciada
+*      CondRet deve ter sido instanciado
+*
+*  $AS Se CondRet = GRA_CondRetVerticeNulo
+*	   Vértice fornecido não iniciado ou nulo
+*      Se CondRet = GRA_CondRetConteudoNulo
+*      Conteudo fornecido deve ter sido iniciado no modulo vértice
+*
+*	   Se CondRet = GRA_CondRetOK
+*      Vértice fornecido recebe conteúdo
+*      
+*
 ***********************************************************************/
 
 GRA_tpCondRet GRA_InsereConteudoVertice(GRA_tppVerGrafo pVertice, VER_tppVerticeCont pConteudo);
@@ -191,8 +254,23 @@ GRA_tpCondRet GRA_InsereConteudoVertice(GRA_tppVerGrafo pVertice, VER_tppVertice
 *
 *  $FV Valor retornado
 *     GRA_CondRetVerticeNulo
-*     GRA_CondRetConteudoNulo
+*     GRA_CondRetListaNula
 *     GRA_CondRetOK
+*
+*
+*  $AE Variável pVertice deve ter sido iniciada
+*      Variável pListaVertices deve ter sido iniciada
+*      Variável pListaVertices não pode estar vazia
+*      CondRet deve ter sido instanciado
+*
+*  $AS Se CondRet = GRA_CondRetVerticeNulo
+*	   Vértice fornecido não iniciado ou nulo
+*      Se CondRet = GRA_CondRetListaNula
+*      Lista fornecida está vazia ou não foi iniciada
+*
+*	   Se CondRet = GRA_CondRetOK
+*      Vértice fornecido entra no final da lista de Vértices
+*      pVertice se torna corrente da lista de Vértices
 *
 ***********************************************************************/
 
@@ -211,8 +289,24 @@ GRA_tpCondRet GRA_InsereVerticeFinal(GRA_tppVerGrafo pVertice, LIS_tppLista pLis
 *
 *  $FV Valor retornado
 *     GRA_CondRetVerticeNulo
-*     GRA_CondRetConteudoNulo
+*     GRA_CondRetListaNula
 *     GRA_CondRetOK
+*
+*
+*  $AE Variável pVertice deve ter sido iniciada
+*      Variável pListaVertices deve ter sido iniciada
+*      Variável pListaVertices não pode estar vazia
+*	   CondRet deve ter sido instanciado
+*
+*  $AS Se CondRet = GRA_CondRetVerticeNulo
+*	   Vértice fornecido não iniciado ou nulo
+*      Se CondRet = GRA_CondRetListaNula
+*      Lista fornecida está vazia ou não foi iniciada
+*
+*	   Se CondRet = GRA_CondRetOK
+*      Vértice fornecido entra no início da lista de Vértices
+*      pVertice se torna corrente da lista de Vértices
+*
 *
 ***********************************************************************/
 
@@ -233,8 +327,16 @@ GRA_tpCondRet GRA_InsereVerticeInicio(GRA_tppVerGrafo pVertice, LIS_tppLista pLi
 *	  pVertice - Ponteiro para vértice a ser excluído
 *
 *  $FV Valor retornado
-*     GRA_CondRetConteudoNulo
 *     GRA_CondRetOK
+*
+*  $AE Variável pGrafo deve ter sido iniciado ou não nulo
+*      Variável pVertice deve ter sido iniciado ou não nulo
+*      CondRet deve ter sido instanciado
+*
+*  $AS Se CondRet = GRA_CondRetOK
+*      pVertice é excluído da lista de vértices do grafo
+*      pVertice perde as referências nas listas de antecessores e sucessores
+*      pVertice é excluído da lista de origens caso esteja na lista
 *
 ***********************************************************************/
 
@@ -257,6 +359,13 @@ GRA_tpCondRet GRA_ExcluirVertice(GRA_tppGrafo pGrafo ,GRA_tppVerGrafo pVertice);
 *     GRA_CondRetListaNula
 *     GRA_CondRetOK
 *
+*
+*  $AE Variável pVertice deve ter sido iniciado ou não nulo
+*      CondRet deve ter sido instanciado
+*
+*  $AS Se CondRet = GRA_CondRetOK
+*      pVertice perde a lista de sucessores 
+*
 ***********************************************************************/
 
 GRA_tpCondRet GRA_ExcluirSucessoresVertice(GRA_tppVerGrafo pVertice);
@@ -277,6 +386,18 @@ GRA_tpCondRet GRA_ExcluirSucessoresVertice(GRA_tppVerGrafo pVertice);
 *     GRA_CondRetVerticeNulo
 *     GRA_CondRetListaNula
 *     GRA_CondRetOK
+*
+*
+*  $AE Variável pVertice deve ter sido iniciado ou não nulo
+*      CondRet deve ter sido instanciado
+*
+*  $AS Se CondRet = GRA_CondRetVerticeNulo
+*      Vértice fornecida está nulo
+*      Se CondRet = GRA_CondRetListaNula
+*      Lista Nula ou não iniciada
+*
+*	   Se CondRet = GRA_CondRetOK
+*      pVertice perde a lista de antecessores 
 *
 ***********************************************************************/
 

@@ -107,6 +107,7 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
 	  GRA_tpCondRet CondRetObtido   = GRA_CondRetOK ;
 	  LIS_tpCondRet CondRetLista    = LIS_CondRetOK ;
       GRA_tpCondRet CondRetEsperada = GRA_CondRetFaltouMemoria ;
+	  VER_tpCondRet CondRetVert     = VER_CondRetOK ;
                                       /* inicializa para qualquer coisa */
 
       char ValorEsperado = '?'  ;
