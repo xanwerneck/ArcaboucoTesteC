@@ -74,8 +74,6 @@ VER_tppVerticeCont  vtVerCont[ DIM_VT_CONTEUDO ] ;
 
 /***** Protótipos das funções encapuladas no módulo *****/
 
-static void DestruirLista( void * pLista ) ;
-
 static int ValidarInxGrafo( int inxGrafo , int Modo ) ;
 
 static int ValidarInxLista( int inxLista , int Modo ) ;
@@ -167,7 +165,7 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
 
 		} /* fim ativa: Testar GRA Criar vertice para grafo */
 
-		/* Testar MAT Ir norte do no corrente */
+		/* Testar GRA Inserir lista de antecessores no vértice  */
 
 		else if(strcmp (ComandoTeste, INSERE_ANT_VERT_CMD) == 0)
 		{
@@ -183,9 +181,9 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao inserir lista de antecessores no vertice." );
 
-		} /* fim ativa: Testar MAT Ir norte do no corrente */
+		} /* fim ativa: Testar GRA Inserir lista de antecessores no vértice */
 
-		/* Testar MAT Ir nordeste do no corrente */
+		/* Testar GRA Inserir lista de sucessores no vértice */
 
 		else if(strcmp (ComandoTeste, INSERE_SUC_VERT_CMD) == 0)
 		{
@@ -199,9 +197,9 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao ir para nordeste do nó corrente." );
 
-		} /* fim ativa: Testar MAT Ir nordeste do no corrente */
+		} /* fim ativa: Testar GRA Inserir lista de sucessores no vértice */
 
-		/* Testar MAT Ir leste do no corrente */
+		/* Testar GRA Inserir conteúdo no vértice */
 
 		else if(strcmp ( ComandoTeste, INSERE_CONT_VERT_CMD ) == 0)
 		{
@@ -215,10 +213,10 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao ir para leste do nó corrente." );
 
-		} /* fim ativa: Testar MAT Ir leste do no corrente */
+		} /* fim ativa: Testar GRA Inserir conteúdo no vértice */
 
 		
-		/* Testar MAT Ir sudeste do no corrente */
+		/* Testar GRA Inserir vértice no final da lista de vértices */
 
 		else if(strcmp (ComandoTeste, INSERE_VERT_FINAL_CMD ) == 0)
 		{
@@ -232,10 +230,10 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao inserir vertice no final da lista de vertices" );
 
-		} /* fim ativa: Testar MAT Ir sudeste do no corrente */
+		} /* fim ativa: Testar GRA Inserir vértice no final da lista de vértices */
 		
 		
-		/* Testar MAT Ir sul do no corrente */
+		/* Testar GRA Inserir vértice no início da lista de vértices */
 
 		else if(strcmp (ComandoTeste, INSERE_VERT_INIC_CMD ) == 0)
 		{
@@ -249,10 +247,10 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao inserir vertice no final da lista de vertices" );
 
-		} /* fim ativa: Testar MAT Ir sudeste do no corrente */
+		} /* fim ativa: Testar GRA Inserir vértice no início da lista de vértices */
 		
 		
-		/* Testar MAT Ir sudoeste do no corrente */
+		/* Testar GRA Excluir vértice */
 
 		else if (strcmp (ComandoTeste, EXCLUIR_VERT_CMD) == 0)
 		{
@@ -266,29 +264,11 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao excluir vértice." );
 
-		} /* fim ativa: Testar MAT Ir sudoeste do no corrente */
+		} /* fim ativa: Testar GRA Excluir vértice */
 
-		/* Testar MAT Ir oeste do no corrente */
+		/* Testar GRA Excluir aresta de antecessores */
 
 		else if(strcmp (ComandoTeste, EXCLUIR_ANT_VERT_CMD) == 0)
-		{
-			NumLidos = LER_LerParametros ( "ii" , &inxVertices, &CondRetEsperada );
-			if(NumLidos != 2){
-				return TST_CondRetParm;
-			}
-			
-			CondRetObtido = GRA_ExcluirSucessoresVertice( vtVertice[inxVertices] );
-
-			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao ir para oeste do nó corrente." );
-
-		} /* fim ativa: Testar MAT Ir oeste do no corrente */
-		
-		
-		
-		/* Testar MAT Ir oeste do no corrente */
-
-		else if(strcmp (ComandoTeste, EXCLUIR_SUC_VERT_CMD) == 0)
 		{
 			NumLidos = LER_LerParametros ( "ii" , &inxVertices, &CondRetEsperada );
 			if(NumLidos != 2){
@@ -300,19 +280,37 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao ir para oeste do nó corrente." );
 
-		} /* fim ativa: Testar MAT Ir oeste do no corrente */
+		} /* fim ativa: Testar GRA Excluir aresta de antecessores */
+		
+		
+		
+		/* Testar GRA Excluir aresta de sucessores */
+
+		else if(strcmp (ComandoTeste, EXCLUIR_SUC_VERT_CMD) == 0)
+		{
+			NumLidos = LER_LerParametros ( "ii" , &inxVertices, &CondRetEsperada );
+			if(NumLidos != 2){
+				return TST_CondRetParm;
+			}
+			
+			CondRetObtido = GRA_ExcluirSucessoresVertice( vtVertice[inxVertices] );
+
+			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao ir para oeste do nó corrente." );
+
+		} /* fim ativa: Testar GRA Excluir aresta de sucessores */
 		
 		
 
 
       return TST_CondRetNaoConhec ;
 
-   } /* Fim função: TMAT Efetuar operações de teste específicas para matriz */
+   } /* Fim função: TGRA Efetuar operações de teste específicas para grafo */
 
 
 /***********************************************************************
 *
-*  $FC Função: TMAT -Validar indice de matriz
+*  $FC Função: TGRA -Validar indice de grafo
 *
 ***********************************************************************/
 
@@ -341,11 +339,11 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
          
       return TRUE ;
 
-   } /* Fim função: TMAT -Validar indice de matriz */
+   } /* Fim função: TGRA -Validar indice de grafo */
 
 /***********************************************************************
 *
-*  $FC Função: TMAT -Validar indice de lista
+*  $FC Função: TGRA -Validar indice de lista
 *
 ***********************************************************************/
 
@@ -374,11 +372,11 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
          
       return TRUE ;
 
-   } /* Fim função: TMAT -Validar indice de lista */
+   } /* Fim função: TGRA -Validar indice de lista */
   
 /***********************************************************************
 *
-*  $FC Função: TMAT - Validar indice de conteudo do vertice
+*  $FC Função: TGRA - Validar indice de conteudo do vertice
 *
 ***********************************************************************/
 
@@ -408,20 +406,8 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
       return TRUE ;
 
 	 }
-	/* Fim função: TMAT - Validar indice de conteudo do vertice */
+	/* Fim função: TGRA - Validar indice de conteudo do vertice */
 
-/***********************************************************************
-*
-*  $FC Função: TLIS -Destruir valor
-*
-***********************************************************************/
-
-   void DestruirLista( void * pLista )
-   {
-
-      free( pLista ) ;
-
-   } /* Fim função: TLIS -Destruir valor */
 
 /********** Fim do módulo de implementação: Módulo de teste específico **********/
 
