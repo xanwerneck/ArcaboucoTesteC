@@ -30,6 +30,8 @@
 #include "VERTICE.H"
 
 LIS_tpCondRet ListaRet , ListaRetCaminho;
+VER_tpCondRet ContVertRet;
+
 
 /***********************************************************************
 *
@@ -136,16 +138,16 @@ GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo)
 *  Função: GRA  &Criar Vértice Grafo
 *  ****/
 
-GRA_tpCondRet GRA_CriaVerticeGrafo(void * conteudo, char id)
+GRA_tpCondRet GRA_CriaVerticeGrafo(tpVerticeGrafo * vert, char * String , char id)
 {
 
-	tpVerticeGrafo * vert = (tpVerticeGrafo *) malloc (sizeof(tpVerticeGrafo));
+	vert = (tpVerticeGrafo *) malloc (sizeof(tpVerticeGrafo));
 
 	if(vert == NULL){
 		return GRA_CondRetFaltouMemoria;
 	}else{
 
-		vert->pConteudo = conteudo;
+		GRA_CriaContVertice ((VER_tppVerticeCont *)vert->pConteudo , String) ; 
 		vert->pIdVertice= id;
 		vert->pVerAnt   = NULL;
 		vert->pVerSuc   = NULL;
@@ -519,10 +521,67 @@ void GRA_ExcluirdeOrigens(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
  void LimparCabecaGrafo( GRA_tppGrafo pGrafo )
 {
 	pGrafo->pCorrente = NULL;
-	pGrafo->pListaOrigens = NULL;
-	pGrafo->pListaVertices = NULL;
+	GRA_CriaListaOrigens (pGrafo);
+	GRA_CriaListaVertices (pGrafo);
 
-} /* Fim função: LIS  - Limpa a cabeça do grafo */
+} /* Fim função: GRA  - Limpa a cabeça do grafo */
+
+
+ /***************************************************************************
+*
+*  Função: GRA  &Criar conteúdo do vértice do Grafo
+*  
+************************************************************************/
+
+void GRA_CriaContVertice(VER_tppVerticeCont * pVerticeCont, char * Conteudo )
+{
+	
+	ContVertRet = VER_CriarVertice(pVerticeCont , Conteudo);
+
+} /* Fim função: GRA  &Criar conteúdo do vértice do Grafo */
+
+
+/***************************************************************************
+*
+*  Função: GRA  &Criar Lista de origens Grafo
+*
+*************************************************************************/
+
+void GRA_CriaListaOrigens( GRA_tppGrafo pGrafo )
+{
+
+	LIS_tppLista * pListaOrig ;
+
+	ListaRet = LIS_CriarLista (pListaOrig);
+
+	if(ListaRet == 0){
+
+		pGrafo->pListaOrigens = (*pListaOrig) ;
+
+	}
+
+}
+
+/***************************************************************************
+*
+*  Função: GRA  &Criar Lista de vértices Grafo
+*
+*************************************************************************/
+
+void GRA_CriaListaVertices( GRA_tppGrafo pGrafo )
+{
+
+	LIS_tppLista * pListaOrig ;
+
+	ListaRet = LIS_CriarLista (pListaOrig);
+
+	if(ListaRet == 0){
+
+		pGrafo->pListaVertices = (*pListaOrig) ;
+
+	}
+
+}
 
 
 /********** Fim do módulo de implementação: Módulo GRAFO **********/

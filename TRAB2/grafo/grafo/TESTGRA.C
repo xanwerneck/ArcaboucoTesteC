@@ -58,29 +58,19 @@ static const char EXCLUIR_SUC_VERT_CMD		[ ] = "=excluirsucvertive"  ;
 #define NAO_VAZIO 1
 
 #define DIM_VT_GRAFO       10
-#define DIM_VT_LISTA       10
-#define DIM_VT_CONTEUDO    10
-#define DIM_VT_VERTICES    10
+#define DIM_VT_VERTICES    100
 #define DIM_VALOR          100
 
 GRA_tppGrafo    vtGrafo[ DIM_VT_GRAFO ] ;
 
 GRA_tppVerGrafo  vtVertice [ DIM_VT_VERTICES ] ;
 
-LIS_tppLista    vtListas[ DIM_VT_LISTA ] ;
-
-VER_tppVerticeCont  vtVerCont[ DIM_VT_CONTEUDO ] ;
-
 
 /***** Protótipos das funções encapuladas no módulo *****/
 
 static int ValidarInxGrafo( int inxGrafo , int Modo ) ;
 
-static int ValidarInxLista( int inxLista , int Modo ) ;
-
 static int ValidarInxVertices( int inxVertices , int Modo ) ;
-
-static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -113,6 +103,7 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
       char ValorEsperado = '?'  ;
       char ValorObtido   = '!'  ;
       char ValorDado     = '\0' ;
+	  char * StringDado ;
 
 	  int inxGrafo     = -1 ,
 		  inxLista     = -1 ,
@@ -152,13 +143,13 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
 		else if( strcmp( ComandoTeste , CRIAR_VERTIVE_GRAFO_CMD ) == 0 )
 		{
 
-			NumLidos = LER_LerParametros ( "ici" ,&inxVertices , ValorDado , &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "isci" , &inxVertices , StringDado , ValorDado , &CondRetEsperada );
 			if ( NumLidos != 3 )
             {
                return TST_CondRetParm ;
             } /* if */
 			
-			CondRetObtido = GRA_CriaVerticeGrafo( &vtVerCont[ inxVerCont ] ,  ValorDado );
+			CondRetObtido = GRA_CriaVerticeGrafo( &vtVertice[ inxVertices ] ,  ValorDado );
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao criar vertice no grafo." );
@@ -342,72 +333,6 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
 
    } /* Fim função: TGRA -Validar indice de grafo */
 
-/***********************************************************************
-*
-*  $FC Função: TGRA -Validar indice de lista
-*
-***********************************************************************/
-
-   int ValidarInxLista( int inxLista , int Modo )
-   {
-
-      if ( ( inxLista <  0 )
-		  || ( inxLista >= DIM_VT_LISTA ))
-      {
-         return FALSE ;
-      } /* if */
-         
-      if ( Modo == VAZIO )
-      {
-         if ( vtListas[ inxLista ] != 0 )
-         {
-            return FALSE ;
-         } /* if */
-      } else
-      {
-         if ( vtListas[ inxLista ] == 0 )
-         {
-            return FALSE ;
-         } /* if */
-      } /* if */
-         
-      return TRUE ;
-
-   } /* Fim função: TGRA -Validar indice de lista */
-  
-/***********************************************************************
-*
-*  $FC Função: TGRA - Validar indice de conteudo do vertice
-*
-***********************************************************************/
-
-	 int ValidarInxContVertices( int inxContVertices , int Modo ) 
-	 {
-
-	  if ( ( inxContVertices <  0 )
-		  || ( inxContVertices >= DIM_VT_CONTEUDO ))
-      {
-         return FALSE ;
-      } /* if */
-         
-      if ( Modo == VAZIO )
-      {
-		  if ( vtVerCont[ inxContVertices ] != 0 )
-         {
-            return FALSE ;
-         } /* if */
-      } else
-      {
-         if ( vtVerCont[ inxContVertices ] == 0 )
-         {
-            return FALSE ;
-         } /* if */
-      } /* if */
-         
-      return TRUE ;
-
-	 }
-	/* Fim função: TGRA - Validar indice de conteudo do vertice */
 
 /***********************************************************************
 *
@@ -426,13 +351,13 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
          
       if ( Modo == VAZIO )
       {
-		  if ( vtVerCont[ inxVertices ] != 0 )
+		  if ( vtVertice[ inxVertices ] != 0 )
          {
             return FALSE ;
          } /* if */
       } else
       {
-         if ( vtVerCont[ inxVertices ] == 0 )
+         if ( vtVertice[ inxVertices ] == 0 )
          {
             return FALSE ;
          } /* if */
