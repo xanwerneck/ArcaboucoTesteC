@@ -408,6 +408,39 @@ static int ValidarInxContVertices( int inxContVertices , int Modo ) ;
 	 }
 	/* Fim função: TGRA - Validar indice de conteudo do vertice */
 
+/***********************************************************************
+*
+*  $FC Função: TGRA - Validar indice de vertice
+*
+***********************************************************************/
+
+	 int ValidarInxVertices( int inxVertices , int Modo ) 
+	 {
+
+	  if ( ( inxVertices <  0 )
+		  || ( inxVertices >= DIM_VT_VERTICES ))
+      {
+         return FALSE ;
+      } /* if */
+         
+      if ( Modo == VAZIO )
+      {
+		  if ( vtVerCont[ inxVertices ] != 0 )
+         {
+            return FALSE ;
+         } /* if */
+      } else
+      {
+         if ( vtVerCont[ inxVertices ] == 0 )
+         {
+            return FALSE ;
+         } /* if */
+      } /* if */
+         
+      return TRUE ;
+
+	 }
+	/* Fim função: TGRA - Validar indice do vertice */
 
 /********** Fim do módulo de implementação: Módulo de teste específico **********/
 
