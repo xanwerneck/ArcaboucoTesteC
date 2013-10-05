@@ -162,10 +162,10 @@ GRA_tpCondRet GRA_CriaVerticeGrafo(tpVerticeGrafo * vert, char * String , char i
 *  Função: GRA  &Insere antecessores no vértice
 *  ****/
 
-GRA_tpCondRet GRA_InsereAntecessoresVertice(tpVerticeGrafo * pVertice, LIS_tppLista pLista)
+GRA_tpCondRet GRA_InsereAntecessoresVertice(tpVerticeGrafo * pVertice)
 {
 
-	LIS_tppLista * pLista;
+	LIS_tppLista pLista;
 
 	LIS_CriarLista (&pLista);
 
@@ -192,7 +192,7 @@ GRA_tpCondRet GRA_InsereAntecessoresVertice(tpVerticeGrafo * pVertice, LIS_tppLi
 GRA_tpCondRet GRA_InsereSucessoresVertice(tpVerticeGrafo * pVertice)
 {
 
-    LIS_tppLista * pLista;
+    LIS_tppLista pLista;
 
 	LIS_CriarLista (&pLista);
 
@@ -216,8 +216,12 @@ GRA_tpCondRet GRA_InsereSucessoresVertice(tpVerticeGrafo * pVertice)
 *  Função: GRA  &Insere conteudo no vértice
 *  ****/
 
-GRA_tpCondRet GRA_InsereConteudoVertice(tpVerticeGrafo * pVertice, VER_tppVerticeCont pConteudo)
+GRA_tpCondRet GRA_InsereConteudoVertice(tpVerticeGrafo * pVertice , char * dado)
 {
+	VER_tppVerticeCont pConteudo ;
+
+	VER_CriarVertice( &pConteudo , dado );
+
 	if(pVertice == NULL){
 		return GRA_CondRetVerticeNulo ;
 	}
@@ -237,8 +241,10 @@ GRA_tpCondRet GRA_InsereConteudoVertice(tpVerticeGrafo * pVertice, VER_tppVertic
 *  Função: GRA  &Insere vértice no final da lista de vértices do grafo
 *  ****/
 
-GRA_tpCondRet GRA_InsereVerticeFinal(tpVerticeGrafo * pVertice, LIS_tppLista pListaVertices)
+GRA_tpCondRet GRA_InsereVerticeFinal(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 {
+
+	LIS_tppLista pListaVertices = pGrafo->pListaVertices ; 
 
 	if(pVertice == NULL){
 		return GRA_CondRetVerticeNulo;
@@ -247,10 +253,10 @@ GRA_tpCondRet GRA_InsereVerticeFinal(tpVerticeGrafo * pVertice, LIS_tppLista pLi
 		return GRA_CondRetListaNula;
 	}
 	else{
+
 		IrFinalLista(pListaVertices);
 		ListaRet = LIS_InserirElementoApos(pListaVertices, pVertice);
-		if(ListaRet == 0)
-			return GRA_CondRetOK;
+
 	} /* if */
 
 	return GRA_CondRetOK;
@@ -261,8 +267,10 @@ GRA_tpCondRet GRA_InsereVerticeFinal(tpVerticeGrafo * pVertice, LIS_tppLista pLi
 *  Função: GRA  &Insere vértice no início da lista de vértices do grafo
 *  ****/
 
-GRA_tpCondRet GRA_InsereVerticeInicio(tpVerticeGrafo * pVertice, LIS_tppLista pListaVertices)
+GRA_tpCondRet GRA_InsereVerticeInicio(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 {
+
+	LIS_tppLista pListaVertices = pGrafo->pListaVertices ; 
 
 	if(pVertice == NULL){
 		return GRA_CondRetVerticeNulo;
@@ -273,10 +281,10 @@ GRA_tpCondRet GRA_InsereVerticeInicio(tpVerticeGrafo * pVertice, LIS_tppLista pL
 	}
 
 	else{
+	
 		IrInicioLista(pListaVertices);
 		ListaRet = LIS_InserirElementoAntes(pListaVertices, pVertice);
-		if(ListaRet == 0)
-			return GRA_CondRetOK;
+	
 	} /* if */
 
 	return GRA_CondRetOK;
@@ -551,13 +559,13 @@ void GRA_CriaContVertice(VER_tppVerticeCont * pVerticeCont, char * Conteudo )
 void GRA_CriaListaOrigens( GRA_tppGrafo pGrafo )
 {
 
-	LIS_tppLista * pListaOrig ;
+	LIS_tppLista pListaOrig ;
 
-	ListaRet = LIS_CriarLista (pListaOrig);
+	ListaRet = LIS_CriarLista (&pListaOrig);
 
 	if(ListaRet == 0){
 
-		pGrafo->pListaOrigens = (*pListaOrig) ;
+		pGrafo->pListaOrigens = pListaOrig ;
 
 	}
 
@@ -572,13 +580,13 @@ void GRA_CriaListaOrigens( GRA_tppGrafo pGrafo )
 void GRA_CriaListaVertices( GRA_tppGrafo pGrafo )
 {
 
-	LIS_tppLista * pListaOrig ;
+	LIS_tppLista pListaOrig ;
 
-	ListaRet = LIS_CriarLista (pListaOrig);
+	ListaRet = LIS_CriarLista (&pListaOrig);
 
 	if(ListaRet == 0){
 
-		pGrafo->pListaVertices = (*pListaOrig) ;
+		pGrafo->pListaVertices = pListaOrig ;
 
 	}
 

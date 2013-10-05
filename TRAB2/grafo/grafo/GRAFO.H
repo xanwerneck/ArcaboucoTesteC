@@ -138,7 +138,7 @@ GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo);
 *
 ***********************************************************************/
 
-GRA_tpCondRet GRA_CriaVerticeGrafo(void * conteudo, char id);
+GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppVerGrafo pVertice, char * String , char id);
 
 /***********************************************************************
 *
@@ -173,7 +173,7 @@ GRA_tpCondRet GRA_CriaVerticeGrafo(void * conteudo, char id);
 *
 ***********************************************************************/
 
-GRA_tpCondRet GRA_InsereAntecessoresVertice(GRA_tppVerGrafo pVertice, LIS_tppLista pLista);
+GRA_tpCondRet GRA_InsereAntecessoresVertice(GRA_tppVerGrafo pVertice);
 
 /***********************************************************************
 *
@@ -205,7 +205,7 @@ GRA_tpCondRet GRA_InsereAntecessoresVertice(GRA_tppVerGrafo pVertice, LIS_tppLis
 *
 ***********************************************************************/
 
-GRA_tpCondRet GRA_InsereSucessoresVertice(GRA_tppVerGrafo pVertice, LIS_tppLista pLista);
+GRA_tpCondRet GRA_InsereSucessoresVertice(GRA_tppVerGrafo pVertice);
 
 /***********************************************************************
 *
@@ -239,7 +239,7 @@ GRA_tpCondRet GRA_InsereSucessoresVertice(GRA_tppVerGrafo pVertice, LIS_tppLista
 *
 ***********************************************************************/
 
-GRA_tpCondRet GRA_InsereConteudoVertice(GRA_tppVerGrafo pVertice, VER_tppVerticeCont pConteudo);
+GRA_tpCondRet GRA_InsereConteudoVertice(GRA_tppVerGrafo pVertice, char * dado);
 
 /***********************************************************************
 *
@@ -274,7 +274,7 @@ GRA_tpCondRet GRA_InsereConteudoVertice(GRA_tppVerGrafo pVertice, VER_tppVertice
 *
 ***********************************************************************/
 
-GRA_tpCondRet GRA_InsereVerticeFinal(GRA_tppVerGrafo pVertice, LIS_tppLista pListaVertices);
+GRA_tpCondRet GRA_InsereVerticeFinal(GRA_tppGrafo pGrafo , GRA_tppVerGrafo pVertice);
 
 /***********************************************************************
 *
@@ -310,7 +310,7 @@ GRA_tpCondRet GRA_InsereVerticeFinal(GRA_tppVerGrafo pVertice, LIS_tppLista pLis
 *
 ***********************************************************************/
 
-GRA_tpCondRet GRA_InsereVerticeInicio(GRA_tppVerGrafo pVertice, LIS_tppLista pListaVertices);
+GRA_tpCondRet GRA_InsereVerticeInicio(GRA_tppGrafo pGrafo , GRA_tppVerGrafo pVertice);
 
 /***********************************************************************
 *

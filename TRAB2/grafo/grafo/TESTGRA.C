@@ -149,7 +149,7 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
                return TST_CondRetParm ;
             } /* if */
 			
-			CondRetObtido = GRA_CriaVerticeGrafo( &vtVertice[ inxVertices ] ,  ValorDado );
+			CondRetObtido = GRA_CriaVerticeGrafo( vtVertice[ inxVertices ] , StringDado ,  ValorDado );
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao criar vertice no grafo." );
@@ -162,9 +162,9 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 		else if(strcmp (ComandoTeste, INSERE_ANT_VERT_CMD) == 0)
 		{
 
-			NumLidos = LER_LerParametros ( "iii" , &inxLista , &inxVertices , &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "ii" , &inxVertices , &CondRetEsperada );
 
-			if(NumLidos != 3){
+			if(NumLidos != 2){
 				return TST_CondRetParm;
 			}
 			
@@ -179,8 +179,8 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 
 		else if(strcmp (ComandoTeste, INSERE_SUC_VERT_CMD) == 0)
 		{
-			NumLidos = LER_LerParametros ( "iii" , &inxLista , &inxVertices , &CondRetEsperada );
-			if(NumLidos != 3){
+			NumLidos = LER_LerParametros ( "ii"  , &inxVertices , &CondRetEsperada );
+			if(NumLidos != 2){
 				return TST_CondRetParm;
 			}
 			
@@ -195,12 +195,12 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 
 		else if(strcmp ( ComandoTeste, INSERE_CONT_VERT_CMD ) == 0)
 		{
-			NumLidos = LER_LerParametros ( "iii" , &inxVertices, &inxVerCont , &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "isi" , &inxVertices, &StringDado , &CondRetEsperada );
 			if(NumLidos != 3){
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = GRA_InsereConteudoVertice( vtVertice[ inxVertices ] , vtVerCont[ inxVerCont ]  );
+			CondRetObtido = GRA_InsereConteudoVertice( vtVertice[ inxVertices ] , StringDado  );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao ir para leste do nó corrente." );
@@ -212,12 +212,12 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 
 		else if(strcmp (ComandoTeste, INSERE_VERT_FINAL_CMD ) == 0)
 		{
-			NumLidos = LER_LerParametros ( "iii" , &inxLista , &inxVertices , &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "iii" , &inxGrafo , &inxVertices , &CondRetEsperada );
 			if(NumLidos != 3){
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = GRA_InsereVerticeFinal( vtVertice[ inxVertices ] , vtListas[ inxLista ]);
+			CondRetObtido = GRA_InsereVerticeFinal(vtGrafo[ inxGrafo ] , vtVertice[ inxVertices ]);
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao inserir vertice no final da lista de vertices" );
@@ -229,12 +229,12 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 
 		else if(strcmp (ComandoTeste, INSERE_VERT_INIC_CMD ) == 0)
 		{
-			NumLidos = LER_LerParametros ( "iii" , &inxLista , &inxVertices , &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "iii" , &inxGrafo , &inxVertices , &CondRetEsperada );
 			if(NumLidos != 3){
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = GRA_InsereVerticeInicio( vtVertice[ inxVertices ] , vtListas[ inxLista ]);
+			CondRetObtido = GRA_InsereVerticeInicio(vtGrafo[ inxGrafo ] , vtVertice[ inxVertices ]);
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao inserir vertice no final da lista de vertices" );
