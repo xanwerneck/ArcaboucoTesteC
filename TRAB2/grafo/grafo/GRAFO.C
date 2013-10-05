@@ -356,41 +356,36 @@ GRA_tpCondRet GRA_InsereVerticeemAntecessores(tpVerticeGrafo * pVerticeOrig , tp
 GRA_tpCondRet GRA_ExcluirVertice(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 {
 
-	tpVerticeGrafo * pVerticeCaminho;
+	GRA_tppVerGrafo * pVerticeCaminho;
 	
 	LIS_tppLista camant , camsuc;
-	
+		
 	camant = pVertice->pVerAnt ;
 
 	camsuc = pVertice->pVerSuc ;
 
-	pVerticeCaminho = pVertice;
+	(*pVerticeCaminho) = pVertice;
 
 	ListaRet = IrInicioLista(camant);
 
 	if(ListaRet == LIS_CondRetOK)
 	{
 
-		while(ListaRet!=LIS_CondRetFimLista)
+		while(ListaRet!=2)
 		{
 
-			LIS_RetornaConteudo(camant, pVerticeCaminho);
+			LIS_RetornaConteudo(pVertice->pVerAnt, pVerticeCaminho);
 
-			if(pVertice != NULL){
-				printf("Caminho nulo .");
-			}
-			
-			retTmp = LIS_ProcurarValor(pVerticeCaminho->pVerSuc , pVertice) ;
-
-			return GRA_CondRetOK;
+			retTmp = LIS_ProcurarValor((*pVerticeCaminho)->pVerSuc , pVertice) ;
 
 			if(retTmp==LIS_CondRetOK)
 			{
-				LIS_ExcluirElemento (pVerticeCaminho->pVerSuc);
+				LIS_ExcluirElemento ((*pVerticeCaminho)->pVerSuc);
 			} /* if */
 			
-			ListaRet = LIS_AvancarElementoCorrente(camant, 1);
-
+			ListaRet = LIS_AvancarElementoCorrente(pVertice->pVerAnt, 15);
+			printf("Resultado %d" , ListaRet);
+			return GRA_CondRetOK;
 		} /* while */
 
 	} /* if */
@@ -406,9 +401,9 @@ GRA_tpCondRet GRA_ExcluirVertice(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice
 
 			LIS_RetornaConteudo(camsuc, pVerticeCaminho);
 
-			if(LIS_ProcurarValor(pVerticeCaminho->pVerAnt , pVertice)==LIS_CondRetOK)
+			if(LIS_ProcurarValor((*pVerticeCaminho)->pVerAnt , pVertice)==LIS_CondRetOK)
 			{
-				LIS_ExcluirElemento (pVerticeCaminho->pVerAnt);
+				LIS_ExcluirElemento ((*pVerticeCaminho)->pVerAnt);
 			} /* if */
 
 			ListaRet = LIS_AvancarElementoCorrente(camsuc, 1);

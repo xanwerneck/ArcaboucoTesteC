@@ -204,6 +204,7 @@ LIS_tpCondRet Ret;
 
          if ( pLista->pElemCorr == NULL )
          {
+			 printf("Corrente ta NULL");
             pLista->pOrigemLista = pElem ;
             pLista->pFimLista    = pElem ;
          } else
@@ -243,7 +244,7 @@ LIS_tpCondRet Ret;
          assert( pLista != NULL ) ;
       #endif
 
-      /* Criar elemento a inerir após */
+      /* Criar elemento a inserir após */
 
          pElem = CriarElemento( pValor ) ;
 
@@ -258,6 +259,7 @@ LIS_tpCondRet Ret;
 
          if ( pLista->pElemCorr == NULL )
          {
+			printf("Corrente ta NULL 2");
             pLista->pOrigemLista = pElem ;
             pLista->pFimLista = pElem ;
          } else
@@ -528,6 +530,11 @@ LIS_tpCondRet LIS_RetornaConteudo( LIS_tppLista pLista , void * pRetorno )
    {
 
       tpElemLista * pElem ;
+
+	  if( pLista->pElemCorr != NULL){
+		printf("nuloooooooooooooooo");  
+	  }
+	  return LIS_CondRetFimLista;
 
       #ifdef _DEBUG
          assert( pLista  != NULL ) ;
