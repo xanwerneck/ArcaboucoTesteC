@@ -168,7 +168,7 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = GRA_InsereAntecessoresVertice( vtVertice[ inxVertices ] , vtListas[ inxLista ] );
+			CondRetObtido = GRA_InsereAntecessoresVertice( vtVertice[ inxVertices ] );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao inserir lista de antecessores no vertice." );
@@ -184,7 +184,7 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = GRA_InsereSucessoresVertice( vtVertice[ inxVertices ] , vtListas[ inxLista ] );
+			CondRetObtido = GRA_InsereSucessoresVertice( vtVertice[ inxVertices ]  );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao ir para nordeste do nó corrente." );

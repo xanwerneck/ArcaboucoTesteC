@@ -165,6 +165,10 @@ GRA_tpCondRet GRA_CriaVerticeGrafo(tpVerticeGrafo * vert, char * String , char i
 GRA_tpCondRet GRA_InsereAntecessoresVertice(tpVerticeGrafo * pVertice, LIS_tppLista pLista)
 {
 
+	LIS_tppLista * pLista;
+
+	LIS_CriarLista (&pLista);
+
 	if(pVertice == NULL){
 		return GRA_CondRetVerticeNulo ;
 	}
@@ -173,11 +177,7 @@ GRA_tpCondRet GRA_InsereAntecessoresVertice(tpVerticeGrafo * pVertice, LIS_tppLi
 	} 
 	else{
 
-		ListaRet = LIS_InserirElementoAntes(pLista, pVertice->pVerAnt);
-
-		if(ListaRet == 0){
-			return GRA_CondRetOK;
-		} /* if */
+		pVertice->pVerAnt = pLista ;
 
 	} /* if */
 
@@ -189,8 +189,12 @@ GRA_tpCondRet GRA_InsereAntecessoresVertice(tpVerticeGrafo * pVertice, LIS_tppLi
 *  Função: GRA  &Insere sucessores no vértice
 *  ****/
 
-GRA_tpCondRet GRA_InsereSucessoresVertice(tpVerticeGrafo * pVertice, LIS_tppLista pLista)
+GRA_tpCondRet GRA_InsereSucessoresVertice(tpVerticeGrafo * pVertice)
 {
+
+    LIS_tppLista * pLista;
+
+	LIS_CriarLista (&pLista);
 
 	if(pVertice == NULL){
 		return GRA_CondRetVerticeNulo ;
@@ -200,10 +204,7 @@ GRA_tpCondRet GRA_InsereSucessoresVertice(tpVerticeGrafo * pVertice, LIS_tppList
 	}
 	else{
 
-		ListaRet = LIS_InserirElementoAntes(pLista, pVertice->pVerSuc);
-
-		if(ListaRet == 0)
-			return GRA_CondRetOK;
+		pVertice->pVerSuc = pLista ;
 
 	} /* if */
 
