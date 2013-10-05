@@ -95,9 +95,7 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
    {
 
 	  GRA_tpCondRet CondRetObtido   = GRA_CondRetOK ;
-	  LIS_tpCondRet CondRetLista    = LIS_CondRetOK ;
       GRA_tpCondRet CondRetEsperada = GRA_CondRetFaltouMemoria ;
-	  VER_tpCondRet CondRetVert     = VER_CondRetOK ;
                                       /* inicializa para qualquer coisa */
 
       char ValorEsperado = '?'  ;
@@ -143,7 +141,7 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 		else if( strcmp( ComandoTeste , CRIAR_VERTIVE_GRAFO_CMD ) == 0 )
 		{
 
-			NumLidos = LER_LerParametros ( "isci" , &inxVertices , StringDado , ValorDado , &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "isci" , &inxVertices , &StringDado , ValorDado , &CondRetEsperada );
 			if ( NumLidos != 3 )
             {
                return TST_CondRetParm ;

@@ -94,6 +94,11 @@ void GRA_ExcluirdeOrigens(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice);
 
 void LimparCabecaGrafo( GRA_tppGrafo pGrafo );
 
+void GRA_CriaListaVertices( GRA_tppGrafo pGrafo ) ;
+
+void GRA_CriaListaOrigens( GRA_tppGrafo pGrafo ) ;
+
+void GRA_CriaContVertice(VER_tppVerticeCont * pVerticeCont, char * Conteudo );
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
