@@ -39,16 +39,18 @@
 * Operações em Grafo
 *
 ***********************************************************************/
-static const char CRIAR_GRAFO_CMD			[ ] = "=criargrafo"         ;
-static const char CRIAR_VERTIVE_GRAFO_CMD	[ ] = "=criarverticegrafo"  ;
-static const char INSERE_ANT_VERT_CMD		[ ] = "=insereantvertive"   ;
-static const char INSERE_SUC_VERT_CMD		[ ] = "=inseresucvertive"   ;
-static const char INSERE_CONT_VERT_CMD		[ ] = "=inserecontvertive"  ;
-static const char INSERE_VERT_FINAL_CMD		[ ] = "=inserevertivefinal" ;
-static const char INSERE_VERT_INIC_CMD		[ ] = "=inserevertiveinic"  ;
-static const char EXCLUIR_VERT_CMD   		[ ] = "=excluirvertice"     ;
-static const char EXCLUIR_ANT_VERT_CMD		[ ] = "=excluirantvertive"  ;
-static const char EXCLUIR_SUC_VERT_CMD		[ ] = "=excluirsucvertive"  ;
+static const char CRIAR_GRAFO_CMD			[ ] = "=criargrafo"           ;
+static const char CRIAR_VERTIVE_GRAFO_CMD	[ ] = "=criarverticegrafo"    ;
+static const char INSERE_ANT_VERT_CMD		[ ] = "=insereantvertive"     ;
+static const char INSERE_SUC_VERT_CMD		[ ] = "=inseresucvertive"     ;
+static const char INSERE_CONT_VERT_CMD		[ ] = "=inserecontvertive"    ;
+static const char INSERE_VERT_FINAL_CMD		[ ] = "=inserevertivefinal"   ;
+static const char INSERE_VERT_INIC_CMD		[ ] = "=inserevertiveinic"    ;
+static const char INSERIR_VERT_SUC_VERT_CMD	[ ] = "=inserevertivesucvert" ;
+static const char INSERIR_VERT_ANT_VERT_CMD	[ ] = "=inserevertiveantvert" ;
+static const char EXCLUIR_VERT_CMD   		[ ] = "=excluirvertice"       ;
+static const char EXCLUIR_ANT_VERT_CMD		[ ] = "=excluirantvertive"    ;
+static const char EXCLUIR_SUC_VERT_CMD		[ ] = "=excluirsucvertive"    ;
 
 
 #define TRUE  1
@@ -240,6 +242,39 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 
 		} /* fim ativa: Testar GRA Inserir vértice no início da lista de vértices */
 		
+		/* Testar GRA Inserir sucessores na lista de sucessores no vértice */
+
+		else if (strcmp (ComandoTeste, INSERIR_VERT_SUC_VERT_CMD) == 0)
+		{
+			NumLidos = LER_LerParametros ( "iii" , &inxVertices, &inxVertices , &CondRetEsperada );
+			if(NumLidos != 3){
+				return TST_CondRetParm;
+			}
+			
+			CondRetObtido = GRA_InsereVerticeemSucessores( vtVertice[inxVertices] , vtVertice[inxVertices] );
+
+			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao inserir sucessores na lista de sucessores no vértice." );
+
+		} /* fim ativa: Testar GRA Inserir sucessores na lista de sucessores no vértice */
+
+
+		/* Testar GRA Inserir sucessores na lista de sucessores no vértice */
+
+		else if (strcmp (ComandoTeste, INSERIR_VERT_ANT_VERT_CMD) == 0)
+		{
+			NumLidos = LER_LerParametros ( "iii" , &inxVertices, &inxVertices , &CondRetEsperada );
+			if(NumLidos != 3){
+				return TST_CondRetParm;
+			}
+			
+			CondRetObtido = GRA_InsereVerticeemAntecessores( vtVertice[inxVertices] , vtVertice[inxVertices] );
+
+			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao inserir sucessores na lista de sucessores no vértice." );
+
+		} /* fim ativa: Testar GRA Inserir sucessores na lista de sucessores no vértice */
+
 		
 		/* Testar GRA Excluir vértice */
 

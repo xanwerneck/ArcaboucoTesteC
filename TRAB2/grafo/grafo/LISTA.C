@@ -1,23 +1,24 @@
-/***************************************************************************
-*  $MCI Módulo de implementação: LIS  Lista de caracteres duplamente encadeada
+/*******************************************************************************
+*  $MCI Módulo de implementação: LIS  Lista de caracteres duplamente encadeada.
 *
-*  Arquivo gerado:              LISTA.c
+*  Arquivo gerado:              LISTA.C
 *  Letras identificadoras:      LIS
 *
-*  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
+*  Nome da base de software:    Arcabouço para a automação de testes de 
+*  				programas redigidos em C.
 *  Arquivo da base de software: D:\AUTOTEST\PROJETOS\LISTA.BSW
 *
 *  Projeto: INF 1301 Automatização dos testes de módulos C
 *  Gestor:  LES/DI/PUC-Rio
 *  Autores: aw - Alexandre Werneck
 *           fr - Fernanda Camelo Ribeiro
-*	        vo - Vinicius de Luiz de Oliveira
+*	    vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
 *     1       afv   01/out/2013 início desenvolvimento
 *
-***************************************************************************/
+*******************************************************************************/
 
 #include   <stdio.h>
 #include   <string.h>
@@ -92,7 +93,7 @@ LIS_tpCondRet Ret;
 *  Função: LIS  &Criar lista
 *  ****/
 
-   LIS_tpCondRet LIS_CriarLista( LIS_tpLista * pLista )
+   LIS_tpCondRet LIS_CriarLista( LIS_tppLista * pLista )
    {
 
       LIS_tpLista * pListaM = ( LIS_tpLista * ) malloc( sizeof( LIS_tpLista )) ;
@@ -104,11 +105,12 @@ LIS_tpCondRet Ret;
 
       LimparCabeca( pListaM ) ;
 
-	  pLista = ( LIS_tpLista * ) malloc( sizeof( LIS_tpLista )) ;
+	  pLista = ( LIS_tppLista * ) malloc( sizeof( LIS_tpLista )) ;
 
-	  pLista = pListaM;
+	  (*pLista) = pListaM;
 
       return LIS_CondRetOK ;
+
 
    } /* Fim função: LIS  &Criar lista */
 

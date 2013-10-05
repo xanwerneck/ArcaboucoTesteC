@@ -332,6 +332,7 @@ GRA_tpCondRet GRA_InsereVerticeInicio(GRA_tppGrafo pGrafo , GRA_tppVerGrafo pVer
 *  $AE Variável pGrafo deve ter sido iniciado ou não nulo
 *      Variável pVertice deve ter sido iniciado ou não nulo
 *      CondRet deve ter sido instanciado
+*      pVertice precisa conter elementos
 *
 *  $AS Se CondRet = GRA_CondRetOK
 *      pVertice é excluído da lista de vértices do grafo
@@ -402,6 +403,11 @@ GRA_tpCondRet GRA_ExcluirSucessoresVertice(GRA_tppVerGrafo pVertice);
 ***********************************************************************/
 
 GRA_tpCondRet GRA_ExcluirAntecessoresVertice(GRA_tppVerGrafo pVertice);
+
+
+GRA_tpCondRet GRA_InsereVerticeemSucessores(GRA_tppVerGrafo pVerticeOrig , GRA_tppVerGrafo pVerticeDest) ;
+
+GRA_tpCondRet GRA_InsereVerticeemAntecessores(GRA_tppVerGrafo pVerticeOrig , GRA_tppVerGrafo pVerticeDest) ;
 
 
 #undef MATRIZ_EXT
