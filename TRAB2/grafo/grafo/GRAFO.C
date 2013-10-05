@@ -143,22 +143,24 @@ GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo)
 *  Função: GRA  &Criar Vértice Grafo
 *  ****/
 
-GRA_tpCondRet GRA_CriaVerticeGrafo(tpVerticeGrafo * vert, char * String , char id)
+GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppVerGrafo * vert, char * String , char id)
 {
 
-	vert = (tpVerticeGrafo *) malloc (sizeof(tpVerticeGrafo));
+	tpVerticeGrafo * pVert;
 
-	if(vert == NULL){
-		return GRA_CondRetFaltouMemoria;
-	}else{
+	pVert = (tpVerticeGrafo *) malloc (sizeof (tpVerticeGrafo));
+	if(pVert == NULL){
+		return GRA_CondRetFaltouMemoria ;
+	}
+	pVert->pIdVertice = id ;
+	pVert->pVerAnt    = NULL;
+	pVert->pVerSuc    = NULL;
+	GRA_CriaContVertice ((VER_tppVerticeCont)pVert->pConteudo , String) ; 
 
-		GRA_CriaContVertice ((VER_tppVerticeCont *)vert->pConteudo , String) ; 
-		vert->pIdVertice= id;
-		vert->pVerAnt   = NULL;
-		vert->pVerSuc   = NULL;
+	(*vert) = pVert ;
 
-	}/* if */
-	return GRA_CondRetOK;
+	return GRA_CondRetOK ;
+
 	
 }
 
@@ -167,13 +169,13 @@ GRA_tpCondRet GRA_CriaVerticeGrafo(tpVerticeGrafo * vert, char * String , char i
 *  Função: GRA  &Insere antecessores no vértice
 *  ****/
 
-GRA_tpCondRet GRA_InsereAntecessoresVertice(tpVerticeGrafo * pVertice)
+GRA_tpCondRet GRA_InsereAntecessoresVertice(GRA_tppVerGrafo pVertice)
 {
 
 	LIS_tppLista pLista;
 
 	LIS_CriarLista (&pLista);
-
+	
 	if(pVertice == NULL){
 		return GRA_CondRetVerticeNulo ;
 	}
@@ -302,6 +304,13 @@ GRA_tpCondRet GRA_InsereVerticeInicio(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVe
 
 GRA_tpCondRet GRA_ExcluirVertice(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 {
+
+	//if(pGrafo->pCorrente == pVertice){
+
+
+
+	//}
+
 	LIS_tppLista pCaminhoListaAnt , pCaminhoListaSuc;
 
 	tpVerticeGrafo * pVerticeCaminho;
@@ -547,10 +556,10 @@ void GRA_ExcluirdeOrigens(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 *  
 ************************************************************************/
 
-void GRA_CriaContVertice(VER_tppVerticeCont * pVerticeCont, char * Conteudo )
+void GRA_CriaContVertice(VER_tppVerticeCont pVerticeCont, char * Conteudo )
 {
 	
-	ContVertRet = VER_CriarVertice(pVerticeCont , Conteudo);
+	ContVertRet = VER_CriarVertice(&pVerticeCont , Conteudo);
 
 } /* Fim função: GRA  &Criar conteúdo do vértice do Grafo */
 

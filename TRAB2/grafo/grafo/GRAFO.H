@@ -138,7 +138,7 @@ GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo);
 *
 ***********************************************************************/
 
-GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppVerGrafo pVertice, char * String , char id);
+GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppVerGrafo * pVertice, char * String , char id);
 
 /***********************************************************************
 *

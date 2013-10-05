@@ -58,12 +58,12 @@ static const char EXCLUIR_SUC_VERT_CMD		[ ] = "=excluirsucvertive"  ;
 #define NAO_VAZIO 1
 
 #define DIM_VT_GRAFO       10
-#define DIM_VT_VERTICES    100
+#define DIM_VT_VERTICES    10
 #define DIM_VALOR          100
 
 GRA_tppGrafo    vtGrafo[ DIM_VT_GRAFO ] ;
 
-GRA_tppVerGrafo  vtVertice [ DIM_VT_VERTICES ] ;
+GRA_tppVerGrafo  vtVertice[ DIM_VT_VERTICES ] ;
 
 
 /***** Protótipos das funções encapuladas no módulo *****/
@@ -100,8 +100,8 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 
       char ValorEsperado = '?'  ;
       char ValorObtido   = '!'  ;
-      char ValorDado     = '\0' ;
-	  char * StringDado ;
+      char ValorDado ;
+	  char StringDado[DIM_VALOR];
 
 	  int inxGrafo     = -1 ,
 		  inxLista     = -1 ,
@@ -141,13 +141,14 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 		else if( strcmp( ComandoTeste , CRIAR_VERTIVE_GRAFO_CMD ) == 0 )
 		{
 
-			NumLidos = LER_LerParametros ( "isci" , &inxVertices , &StringDado , ValorDado , &CondRetEsperada );
-			if ( NumLidos != 3 )
+			NumLidos = LER_LerParametros ( "isci" , &inxVertices , &StringDado , &ValorDado , &CondRetEsperada );
+
+			if ( NumLidos != 4 )
             {
                return TST_CondRetParm ;
             } /* if */
 			
-			CondRetObtido = GRA_CriaVerticeGrafo( vtVertice[ inxVertices ] , StringDado ,  ValorDado );
+			CondRetObtido = GRA_CriaVerticeGrafo( &vtVertice[ inxVertices ] , StringDado , ValorDado );
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao criar vertice no grafo." );
@@ -185,7 +186,7 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 			CondRetObtido = GRA_InsereSucessoresVertice( vtVertice[ inxVertices ]  );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao ir para nordeste do nó corrente." );
+                                    "Retorno errado ao inserir lista de sucessores no vertice." );
 
 		} /* fim ativa: Testar GRA Inserir lista de sucessores no vértice */
 
@@ -201,7 +202,7 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 			CondRetObtido = GRA_InsereConteudoVertice( vtVertice[ inxVertices ] , StringDado  );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao ir para leste do nó corrente." );
+                                    "Retorno errado ao inserir conteúdo no vértice." );
 
 		} /* fim ativa: Testar GRA Inserir conteúdo no vértice */
 
