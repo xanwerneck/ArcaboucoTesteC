@@ -255,20 +255,24 @@ GRA_tpCondRet GRA_InsereConteudoVertice(tpVerticeGrafo * pVertice , char * dado)
 GRA_tpCondRet GRA_InsereVerticeFinal(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 {
 
-	LIS_tppLista pListaVertices = pGrafo->pListaVertices ; 
+	LIS_tppLista caminho ; 
+
+	caminho = pGrafo->pListaVertices ;
 
 	if(pVertice == NULL){
 		return GRA_CondRetVerticeNulo;
 	}
-	else  if(pListaVertices == NULL){
+	else  if(pGrafo->pListaVertices == NULL){
 		return GRA_CondRetListaNula;
 	}
 	else{
 
-		IrFinalLista(pListaVertices);
-		ListaRet = LIS_InserirElementoApos(pListaVertices, pVertice);
+		IrFinalLista(caminho);
+		ListaRet = LIS_InserirElementoApos(caminho, pVertice);
 
 	} /* if */
+
+	pGrafo->pListaVertices = caminho;
 
 	return GRA_CondRetOK;
 }
@@ -281,22 +285,26 @@ GRA_tpCondRet GRA_InsereVerticeFinal(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVer
 GRA_tpCondRet GRA_InsereVerticeInicio(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 {
 
-	LIS_tppLista pListaVertices = pGrafo->pListaVertices ; 
+	LIS_tppLista caminho ; 
+	
+	caminho = pGrafo->pListaVertices ;
 
 	if(pVertice == NULL){
 		return GRA_CondRetVerticeNulo;
 	}
 
-	else  if(pListaVertices == NULL){
+	else  if(pGrafo->pListaVertices == NULL){
 		return GRA_CondRetListaNula;
 	}
 
 	else{
 	
-		IrInicioLista(pListaVertices);
-		ListaRet = LIS_InserirElementoAntes(pListaVertices, pVertice);
+		IrInicioLista(caminho);
+		ListaRet = LIS_InserirElementoAntes(caminho, pVertice);
 	
 	} /* if */
+
+	pGrafo->pListaVertices = caminho;
 
 	return GRA_CondRetOK;
 }
@@ -383,7 +391,7 @@ GRA_tpCondRet GRA_ExcluirVertice(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice
 				LIS_ExcluirElemento ((*pVerticeCaminho)->pVerSuc);
 			} /* if */
 			
-			ListaRet = LIS_AvancarElementoCorrente(pVertice->pVerAnt, 15);
+			ListaRet = LIS_AvancarElementoCorrente(camant, 15);
 			printf("Resultado %d" , ListaRet);
 			return GRA_CondRetOK;
 		} /* while */

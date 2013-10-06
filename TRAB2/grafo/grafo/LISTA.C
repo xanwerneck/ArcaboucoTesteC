@@ -204,7 +204,6 @@ LIS_tpCondRet Ret;
 
          if ( pLista->pElemCorr == NULL )
          {
-			 printf("Corrente ta NULL");
             pLista->pOrigemLista = pElem ;
             pLista->pFimLista    = pElem ;
          } else
@@ -259,7 +258,6 @@ LIS_tpCondRet Ret;
 
          if ( pLista->pElemCorr == NULL )
          {
-			printf("Corrente ta NULL 2");
             pLista->pOrigemLista = pElem ;
             pLista->pFimLista = pElem ;
          } else
@@ -279,6 +277,7 @@ LIS_tpCondRet Ret;
          } /* if */
 
          pLista->pElemCorr = pElem ;
+
 
          return LIS_CondRetOK ;
 
