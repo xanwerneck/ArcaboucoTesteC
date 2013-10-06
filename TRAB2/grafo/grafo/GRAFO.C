@@ -90,8 +90,7 @@ typedef struct GRA_tagGrafo {
 
 } GRA_tpGrafo ;
 
-
-/************ Funções encapsuladas no módulo *************************/
+/************* Funções encapsuladas no módulo *************************/
 
 void GRA_ExcluirdeVertices(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice);
  
