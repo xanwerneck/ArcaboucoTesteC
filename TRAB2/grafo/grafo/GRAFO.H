@@ -405,7 +405,7 @@ GRA_tpCondRet GRA_ExcluirSucessoresVertice(GRA_tppVerGrafo pVertice);
 GRA_tpCondRet GRA_ExcluirAntecessoresVertice(GRA_tppVerGrafo pVertice);
 
 
-GRA_tpCondRet GRA_InsereVerticeemSucessores(GRA_tppVerGrafo pVerticeOrig , GRA_tppVerGrafo pVerticeDest) ;
+GRA_tpCondRet GRA_InsereVerticeemSucessores(GRA_tppVerGrafo pVerticeOrig , GRA_tppVerGrafo  pVerticeDest) ;
 
 GRA_tpCondRet GRA_InsereVerticeemAntecessores(GRA_tppVerGrafo pVerticeOrig , GRA_tppVerGrafo pVerticeDest) ;
 

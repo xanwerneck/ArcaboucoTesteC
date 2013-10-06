@@ -60,7 +60,7 @@ static const char EXCLUIR_SUC_VERT_CMD		[ ] = "=excluirsucvertive"    ;
 #define NAO_VAZIO 1
 
 #define DIM_VT_GRAFO       10
-#define DIM_VT_VERTICES    10
+#define DIM_VT_VERTICES    100
 #define DIM_VALOR          100
 
 GRA_tppGrafo    vtGrafo[ DIM_VT_GRAFO ] ;
@@ -108,6 +108,7 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 	  int inxGrafo     = -1 ,
 		  inxLista     = -1 ,
 		  inxVertices  = -1 ,
+		  inxVerticesOr= -1 ,
 		  inxVerCont   = -1 ,
           NumLidos     = -1 ,
 		  NumElementos = 0 ,
@@ -149,7 +150,7 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
             {
                return TST_CondRetParm ;
             } /* if */
-			
+
 			CondRetObtido = GRA_CriaVerticeGrafo( &vtVertice[ inxVertices ] , StringDado , ValorDado );
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
@@ -246,12 +247,12 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 
 		else if (strcmp (ComandoTeste, INSERIR_VERT_SUC_VERT_CMD) == 0)
 		{
-			NumLidos = LER_LerParametros ( "iii" , &inxVertices, &inxVertices , &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "iii" , &inxVerticesOr, &inxVertices , &CondRetEsperada );
 			if(NumLidos != 3){
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = GRA_InsereVerticeemSucessores( vtVertice[inxVertices] , vtVertice[inxVertices] );
+			CondRetObtido = GRA_InsereVerticeemSucessores( vtVertice[inxVerticesOr] , vtVertice[inxVertices] );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao inserir sucessores na lista de sucessores no vértice." );
@@ -263,12 +264,12 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 
 		else if (strcmp (ComandoTeste, INSERIR_VERT_ANT_VERT_CMD) == 0)
 		{
-			NumLidos = LER_LerParametros ( "iii" , &inxVertices, &inxVertices , &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "iii" , &inxVerticesOr, &inxVertices , &CondRetEsperada );
 			if(NumLidos != 3){
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = GRA_InsereVerticeemAntecessores( vtVertice[inxVertices] , vtVertice[inxVertices] );
+			CondRetObtido = GRA_InsereVerticeemAntecessores( vtVertice[inxVerticesOr] , vtVertice[inxVertices] );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao inserir sucessores na lista de sucessores no vértice." );
@@ -284,7 +285,7 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 			if(NumLidos != 3){
 				return TST_CondRetParm;
 			}
-			
+
 			CondRetObtido = GRA_ExcluirVertice( vtGrafo[ inxGrafo ] , vtVertice[inxVertices] );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
