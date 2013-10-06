@@ -330,6 +330,8 @@ GRA_tpCondRet GRA_InsereVerticeemSucessores(tpVerticeGrafo * pVerticeOrig , tpVe
 	
 	} /* if */
 
+	pVerticeOrig->pVerSuc = pVerticeO ;
+
 	return GRA_CondRetOK;
 }
 
@@ -353,6 +355,8 @@ GRA_tpCondRet GRA_InsereVerticeemAntecessores(tpVerticeGrafo * pVerticeOrig , tp
 	
 	} /* if */
 
+	pVerticeOrig->pVerAnt = pVerticeO ;
+
 	return GRA_CondRetOK;
 }
 
@@ -361,10 +365,11 @@ GRA_tpCondRet GRA_InsereVerticeemAntecessores(tpVerticeGrafo * pVerticeOrig , tp
 *  Função: GRA  &Excluir vértice
 *  ****/
 
+
 GRA_tpCondRet GRA_ExcluirVertice(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 {
 
-	GRA_tppVerGrafo * pVerticeCaminho;
+	tpVerticeGrafo * pVerticeCaminho;
 	
 	LIS_tppLista camant , camsuc;
 		
@@ -372,7 +377,7 @@ GRA_tpCondRet GRA_ExcluirVertice(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice
 
 	camsuc = pVertice->pVerSuc ;
 
-	(*pVerticeCaminho) = pVertice;
+	pVerticeCaminho = pVertice;
 
 	ListaRet = IrInicioLista(camant);
 
@@ -384,20 +389,23 @@ GRA_tpCondRet GRA_ExcluirVertice(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice
 
 			LIS_RetornaConteudo(pVertice->pVerAnt, pVerticeCaminho);
 
-			retTmp = LIS_ProcurarValor((*pVerticeCaminho)->pVerSuc , pVertice) ;
+			retTmp = LIS_ProcurarValor(pVerticeCaminho->pVerSuc , pVertice) ;
+			printf("Resultado da procurar valor %d" , retTmp);
 
 			if(retTmp==LIS_CondRetOK)
 			{
-				LIS_ExcluirElemento ((*pVerticeCaminho)->pVerSuc);
+				ListaRet = LIS_ExcluirElemento (pVerticeCaminho->pVerSuc);
+				printf("Resultado da exclusao %d" , ListaRet);
 			} /* if */
 			
-			ListaRet = LIS_AvancarElementoCorrente(camant, 15);
+			ListaRet = LIS_AvancarElementoCorrente(pVertice->pVerAnt, 50);
+
 			printf("Resultado %d" , ListaRet);
 			return GRA_CondRetOK;
 		} /* while */
 
 	} /* if */
-
+	
 	ListaRet = IrInicioLista(camsuc);
 	
 
@@ -409,9 +417,9 @@ GRA_tpCondRet GRA_ExcluirVertice(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice
 
 			LIS_RetornaConteudo(camsuc, pVerticeCaminho);
 
-			if(LIS_ProcurarValor((*pVerticeCaminho)->pVerAnt , pVertice)==LIS_CondRetOK)
+			if(LIS_ProcurarValor(pVerticeCaminho->pVerAnt , pVertice)==LIS_CondRetOK)
 			{
-				LIS_ExcluirElemento ((*pVerticeCaminho)->pVerAnt);
+				LIS_ExcluirElemento (pVerticeCaminho->pVerAnt);
 			} /* if */
 
 			ListaRet = LIS_AvancarElementoCorrente(camsuc, 1);
@@ -444,6 +452,7 @@ GRA_tpCondRet GRA_ExcluirVertice(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice
 	} /* if */
 
 	return GRA_CondRetConteudoNulo;
+	
 }
 
 /***************************************************************************
