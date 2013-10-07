@@ -403,5 +403,6 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 	 }
 	/* Fim função: TGRA - Validar indice do vertice */
 
+
 /********** Fim do módulo de implementação: Módulo de teste específico **********/
 

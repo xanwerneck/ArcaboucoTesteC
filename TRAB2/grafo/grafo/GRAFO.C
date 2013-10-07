@@ -21,6 +21,7 @@
 
 #include   <malloc.h>
 #include   <stdio.h>
+#include   <string.h>
 
 #define GRAFO_OWN
 #include "GRAFO.H"
@@ -57,10 +58,7 @@ typedef struct tagVerticeGrafo {
 
 	char pIdVertice;
 		/* Identificador do vértice */
-
-	int ( * ComparaValor ) ( void * pValorCorr , void * pValorBuscado ) ;
-               /* Ponteiro comparacao de valores entre vértices */
-
+	
 } tpVerticeGrafo ;
 
 
@@ -110,9 +108,11 @@ void GRA_CriaListaAntecessoresVertice(tpVerticeGrafo * pVertice) ;
 
 void LimparVerticeGrafo( GRA_tppVerGrafo pVertGrafo ,  char * String , char id );
 
-void GRA_excluirLista ( void * pValor ) ;
+void GRA_excluirValorLista ( void * pValor ) ;
 
-static int GRA_comparaVerticeConteudo( void * pVerticeParm , void * pValorParm ) ;
+static int GRA_comparaVerticeConteudo( void * pVerticeO , void * pValorO ) ;
+
+static int ComparaValor (void * Corr, void * Busca) ;
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -197,7 +197,7 @@ GRA_tpCondRet GRA_InsereAntecessoresVertice(tpVerticeGrafo * pVertice)
 
 	LIS_tppLista pLista;
 
-	pLista = LIS_CriarLista (GRA_excluirLista);
+	pLista = LIS_CriarLista (GRA_excluirValorLista);
 	
 	if(pVertice == NULL){
 		return GRA_CondRetVerticeNulo ;
@@ -224,7 +224,7 @@ GRA_tpCondRet GRA_InsereSucessoresVertice(tpVerticeGrafo * pVertice)
 
     LIS_tppLista pLista;
 
-	pLista = LIS_CriarLista (GRA_excluirLista);
+	pLista = LIS_CriarLista (GRA_excluirValorLista);
 
 	if(pVertice == NULL){
 		return GRA_CondRetVerticeNulo ;
@@ -470,26 +470,22 @@ GRA_tpCondRet GRA_ExcluirVertice(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice
 	LIS_DestruirLista (pVertice->pVerSuc);
 		/* Destroi a lista de antecessores após eliminar as referencias */
 
-	return GRA_CondRetOK; // até aqui certo
 
 	GRA_ExcluirdeVertices(pGrafo,pVertice);
 		/* Destroi a referência da lista de origens  */
-	
+
 	GRA_ExcluirdeOrigens(pGrafo,pVertice);
 		/* Destroi a referência da lista de vértices */
+	
 
 	free (pVertice);
 
 	pVertice->pIdVertice = '\0';
 	pVertice->pConteudo = NULL;
 
-	if(pVertice == NULL){
+	pVertice = NULL;
 
-		return GRA_CondRetOK;
-
-	} /* if */
-
-	return GRA_CondRetConteudoNulo;
+	return GRA_CondRetOK;
 	
 }
 
@@ -599,32 +595,16 @@ void GRA_ExcluirdeVertices(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 
 	ListaRet = LIS_CondRetOK ;
 
-	while(ListaRet!=LIS_CondRetFimLista)
-	{
-
-		if(ListaRet == LIS_CondRetListaVazia){
-
-			ListaRet=LIS_CondRetFimLista ;
-
-		}else{
+	retTmp = LIS_ProcurarValor(pGrafo->pListaVertices , pVertice , GRA_comparaVerticeConteudo) ;
 
 
-			retTmp = LIS_ProcurarValor(pGrafo->pListaVertices , pVertice , GRA_comparaVerticeConteudo) ;
+	if(retTmp==0){
 
-			if(retTmp==0){
+		LIS_ExcluirElemento (pGrafo->pListaVertices);
 
-				LIS_ExcluirElemento (pGrafo->pListaVertices);
-
-			} /* if */
-		
-			ListaRet = LIS_AvancarElementoCorrente(pGrafo->pListaVertices, 1);
-
-			printf ("Resultado %d" , ListaRet);
-
-
-		}
-
-	} /* while */
+	}
+	return ;
+	
 
 }
 
@@ -642,27 +622,15 @@ void GRA_ExcluirdeOrigens(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 
 	ListaRet = LIS_CondRetOK ;
 
-	while(ListaRet!=LIS_CondRetFimLista)
-	{
-		if(ListaRet == LIS_CondRetListaVazia){
+	retTmp = LIS_ProcurarValor(pGrafo->pListaOrigens , pVertice , GRA_comparaVerticeConteudo) ;
 
-			ListaRet=LIS_CondRetFimLista ;
 
-		}else{
+	if(retTmp==0){
 
-			retTmp = LIS_ProcurarValor(pGrafo->pListaOrigens , pVertice , GRA_comparaVerticeConteudo) ;
+		LIS_ExcluirElemento (pGrafo->pListaOrigens);
 
-			if(retTmp==0){
-
-				LIS_ExcluirElemento (pGrafo->pListaOrigens);
-
-			} /* if */
-		
-			ListaRet = LIS_AvancarElementoCorrente(pGrafo->pListaOrigens, 1);
-
-		}
-
-	} /* while */
+	}
+	return ;
 
 
 
@@ -725,7 +693,7 @@ void GRA_CriaListaOrigens( GRA_tppGrafo pGrafo )
 
 	LIS_tppLista pListaOrig ;
 
-	pListaOrig = LIS_CriarLista (GRA_excluirLista);
+	pListaOrig = LIS_CriarLista (GRA_excluirValorLista);
 
 	pGrafo->pListaOrigens = pListaOrig ;
 
@@ -743,7 +711,7 @@ void GRA_CriaListaVertices( GRA_tppGrafo pGrafo )
 	
 	LIS_tppLista pListaVert ;
 
-	pListaVert = LIS_CriarLista (GRA_excluirLista);
+	pListaVert = LIS_CriarLista (GRA_excluirValorLista);
 
 	pGrafo->pListaVertices= pListaVert ;
 
@@ -754,7 +722,7 @@ void GRA_CriaListaSucessoresVertice(tpVerticeGrafo * pVertice)
 
 	LIS_tppLista pListaSuc ;
 
-	pListaSuc = LIS_CriarLista (GRA_excluirLista);
+	pListaSuc = LIS_CriarLista (GRA_excluirValorLista);
 
 	pVertice->pVerSuc = pListaSuc ;
 
@@ -765,7 +733,7 @@ void GRA_CriaListaAntecessoresVertice(tpVerticeGrafo * pVertice)
 
 	LIS_tppLista pListaAnt ;
 
-	pListaAnt = LIS_CriarLista (GRA_excluirLista);
+	pListaAnt = LIS_CriarLista (GRA_excluirValorLista);
 
 	pVertice->pVerAnt = pListaAnt ;
 
@@ -777,25 +745,38 @@ void GRA_CriaListaAntecessoresVertice(tpVerticeGrafo * pVertice)
 *
 ****************************************************************************/
 
-void GRA_excluirLista ( void * pValor )
+void GRA_excluirValorLista ( void * pValor )
 {
 
-    LIS_DestruirLista( ( LIS_tppLista ) pValor ) ;
+    VER_DestruirVertice ((VER_tppVerticeCont) pValor) ;
 
 } /* Fim função: GRF  &Excluir nada */
 
 
-
-int GRA_comparaVerticeConteudo( void * pVerticeParm , void * pValorParm )
+int GRA_comparaVerticeConteudo( void * pVerticeO , void * pValorO )
 {
-	tpVerticeGrafo * pValorVert ;
-    LIS_tppLista pVertice ;
-	
-	pVertice = ( LIS_tppLista ) pVerticeParm ;
-    
-	pValorVert = ( tpVerticeGrafo * ) LIS_ObterValor( pVertice ) ;
+	int ret = 0;
+	char * Corrente ;
+	char * Buscado ;
 
-	return pValorVert->ComparaValor( pValorVert->pConteudo , pValorParm ) ;
+	tpVerticeGrafo * pValorVert ;
+    LIS_tppLista pVerticeLista ;
+	
+	pVerticeLista = ( LIS_tppLista ) pVerticeO ;
+    
+	pValorVert = ( tpVerticeGrafo * ) LIS_ObterValor( pVerticeLista ) ;
+
+
+	VER_RetornaValor ((VER_tppVerticeCont)pValorVert->pConteudo , Corrente) ;
+
+	VER_RetornaValor ((VER_tppVerticeCont)pValorO , Buscado) ;
+
+	if(strcmp(Corrente , Buscado) == 0){
+
+		return 0;
+	}
+
+	return 1;
 
 } /* Fim função: GRF  &Compara valores simples */
 

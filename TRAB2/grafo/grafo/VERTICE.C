@@ -88,19 +88,9 @@ VER_tpCondRet Ret;
          assert( pVertice != NULL ) ;
       #endif
 
-	  if(pVertice != NULL)
-	  {
-		  free( pVertice ) ;
+      strcpy (pVertice->Nome , "");
 
-		  pVertice = NULL;
-	  }
-
-	  if(pVertice == NULL)
-	  {
-		  return VER_CondRetOK ;
-	  }
-
-	  return VER_CondRetNaoAchou ;
+	  return VER_CondRetOK ;
 
    } /* Fim função: VER  &Destruir vértice */
 
