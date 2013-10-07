@@ -33,7 +33,7 @@
 
 LIS_tpCondRet ListaRet , ListaRetCaminho, retTmp;
 VER_tpCondRet ContVertRet;
-
+GRA_tpCondRet GrafoRet ;
 
 /***********************************************************************
 *
@@ -100,7 +100,7 @@ void GRA_CriaListaVertices( GRA_tppGrafo pGrafo ) ;
 
 void GRA_CriaListaOrigens( GRA_tppGrafo pGrafo ) ;
 
-void GRA_CriaContVertice(VER_tppVerticeCont pVerticeCont, char * Conteudo );
+void * GRA_CriaContVertice( char * Conteudo );
 
 void GRA_CriaListaSucessoresVertice(tpVerticeGrafo * pVertice) ;
 
@@ -136,6 +136,7 @@ GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo)
 	} /* if */
 
 	LimparCabecaGrafo( mGrafo ) ;
+
 
 	(*pGrafo) = ( GRA_tpGrafo * ) malloc( sizeof( GRA_tppGrafo )) ;
 
@@ -181,6 +182,7 @@ GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppVerGrafo * vert, char * String , char 
 	}
 
 	(*vert) = pVert ;
+
 
 	return GRA_CondRetOK ;
 
@@ -301,6 +303,7 @@ GRA_tpCondRet GRA_InsereVerticeFinal(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVer
 GRA_tpCondRet GRA_InsereVerticeInicio(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 {
 
+
 	if(pVertice == NULL){
 		return GRA_CondRetVerticeNulo;
 	}
@@ -321,6 +324,41 @@ GRA_tpCondRet GRA_InsereVerticeInicio(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVe
 	return GRA_CondRetOK;
 }
 
+/***************************************************************************
+*
+*  Função: GRA  &Insere vértice no início da lista de origens do grafo
+*  ****/
+
+GRA_tpCondRet GRA_InsereVerticeOrigens(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
+{
+
+	GrafoRet = GRA_BuscarOcorrenciaOrigens (pGrafo , pVertice) ;
+
+	if(GrafoRet == GRA_CondRetOK){
+
+		return GRA_CondRetMaisdeUmaOrigem;
+
+	} /* Se achou a ocorrencia na lista origens retorna alerta */
+
+
+	if(pVertice == NULL){
+		return GRA_CondRetVerticeNulo;
+	}
+
+	else  if(pGrafo->pListaOrigens == NULL){
+		return GRA_CondRetListaNula;
+	}
+
+	else{
+	
+		IrInicioLista(pGrafo->pListaOrigens);
+		ListaRet = LIS_InserirElementoAntes(pGrafo->pListaOrigens, pVertice);
+	
+	} /* if */
+
+
+	return GRA_CondRetOK;
+}
 
 /***************************************************************************
 *
@@ -368,10 +406,13 @@ GRA_tpCondRet GRA_InsereVerticeemAntecessores(tpVerticeGrafo * pVerticeOrig , tp
 
 	}else{
 	
+		IrInicioLista(caminho);
 		ListaRet = LIS_InserirElementoAntes(caminho,pVerticeDest);
 	
 	} /* if */
 	
+	pVerticeOrig->pVerAnt = caminho ;
+
 	return GRA_CondRetOK;
 }
 
@@ -383,36 +424,33 @@ GRA_tpCondRet GRA_InsereVerticeemAntecessores(tpVerticeGrafo * pVerticeOrig , tp
 
 GRA_tpCondRet GRA_ExcluirVertice(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 {
-	/*
-	if(pVertice == NULL){
-		return GRA_CondRetConteudoNulo ;
-	}
-	
-	if(pGrafo == NULL){
-		return GRA_CondRetConteudoNulo ;
-	}
-	
-	ListaRet = LIS_AvancarElementoCorrente (pGrafo->pListaOrigens , 2);
-
-	printf("Resultado de avanco V: %d" , ListaRet);
-
-	
-	return GRA_CondRetOK;
-	*/
+	int retAv ;
 
 	tpVerticeGrafo * pVerticeCaminho;
-
-	LIS_tppLista camant , camsuc;
-
-	camant = pVertice->pVerAnt ;
-
-	camsuc = pVertice->pVerSuc ;
 
 	pVerticeCaminho = pVertice;
 
 	IrInicioLista(pVertice->pVerAnt);
 
 	ListaRet = LIS_CondRetOK ;
+
+	/* Checa se corrente */
+	GrafoRet = GRA_CondRetOK ;
+	
+	while(GrafoRet != GRA_CondRetOK) {
+
+		GrafoRet = GRA_ChecaSeCorrente (pGrafo , pVertice) ;
+
+		retAv = AvancarVerticeCorrente (pGrafo , 1) ;
+		printf ("retAV %d" , retAv) ;
+		if(retAv == NULL){
+
+			return GRA_CondRetGrafoNulo ;
+
+		}
+
+	}
+	/* FIM Checa se corrente */
 
 	if(ListaRet == LIS_CondRetOK)
 	{
@@ -496,19 +534,27 @@ GRA_tpCondRet GRA_ExcluirVertice(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice
 
 
 
-GRA_tpCondRet GRA_ObterValorVerticeCorrente(tpVerticeGrafo * pVertice , char * nomeForn)
+GRA_tpCondRet GRA_ObterValorVerticeCorrente(GRA_tppGrafo pGrafo , char * nomeForn)
 {
+
 	VER_tppVerticeCont valorElem ;
 
-	valorElem = (VER_tppVerticeCont)pVertice->pConteudo ;
+	valorElem = (VER_tppVerticeCont)pGrafo->pCorrente->pConteudo ;
 
-	if(pVertice == NULL){
-		return GRA_CondRetVerticeNulo;
+	if(pGrafo == NULL){
+
+		return GRA_CondRetGrafoNulo;
+
 	}
-	if(VER_ObterValor(valorElem , nomeForn)==0){
-		GRA_CondRetOK ;
+
+	ContVertRet = VER_ObterValor((VER_tppVerticeCont)pGrafo->pCorrente->pConteudo , nomeForn) ;
+
+	if(ContVertRet == VER_CondRetOK){
+
+		return GRA_CondRetOK ;
+
 	}
-	return GRA_CondRetOK;
+	return GRA_CondRetConteudoNulo ;
 }
 
 /***************************************************************************
@@ -518,17 +564,19 @@ GRA_tpCondRet GRA_ObterValorVerticeCorrente(tpVerticeGrafo * pVertice , char * n
 
 
 
-GRA_tpCondRet GRA_MudarValorVerticeCorrente(tpVerticeGrafo * pVertice , char * nomeForn)
+GRA_tpCondRet GRA_MudarValorVerticeCorrente(GRA_tppGrafo pGrafo , char * nomeForn)
 {
-	VER_tppVerticeCont valorElem ;
 
-	valorElem = (VER_tppVerticeCont)pVertice->pConteudo ;
 
-	if(pVertice == NULL){
+	if(pGrafo == NULL){
+
 		return GRA_CondRetVerticeNulo;
+
 	}
-	if(VER_MudarNomeVertice(valorElem , nomeForn)==0){
-		GRA_CondRetOK ;
+	if(VER_MudarNomeVertice((VER_tppVerticeCont)pGrafo->pCorrente->pConteudo , nomeForn)==0){
+
+		return GRA_CondRetOK ;
+
 	}
 	return GRA_CondRetOK;
 }
@@ -543,10 +591,14 @@ GRA_tpCondRet GRA_ExcluirSucessoresVertice(tpVerticeGrafo * pVertice)
 	LIS_tppLista pListaVertices = pVertice->pVerSuc ;
 
 	if(pVertice == NULL){
+
 		return GRA_CondRetVerticeNulo;
+
 	}
 	else  if(pListaVertices == NULL){
+
 		return GRA_CondRetListaNula;
+
 	} /* if */
 	LIS_DestruirLista (pVertice->pVerSuc);
 
@@ -566,10 +618,14 @@ GRA_tpCondRet GRA_ExcluirAntecessoresVertice(tpVerticeGrafo * pVertice)
 	LIS_tppLista pListaVertices = pVertice->pVerAnt ;
 
 	if(pVertice == NULL){
+
 		return GRA_CondRetVerticeNulo;
+
 	}
 	else  if(pListaVertices == NULL){
+
 		return GRA_CondRetListaNula;
+
 	} /* if */
 
 	LIS_DestruirLista (pVertice->pVerAnt);
@@ -661,7 +717,10 @@ void GRA_ExcluirdeOrigens(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 {
 
 	pVertGrafo->pIdVertice = id ;
-	GRA_CriaContVertice ((VER_tppVerticeCont)pVertGrafo->pConteudo , String) ; 
+
+
+	pVertGrafo->pConteudo = GRA_CriaContVertice (String) ;
+
 	GRA_CriaListaSucessoresVertice (pVertGrafo);
 	GRA_CriaListaAntecessoresVertice (pVertGrafo);
 
@@ -673,10 +732,19 @@ void GRA_ExcluirdeOrigens(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 *  
 ************************************************************************/
 
-void GRA_CriaContVertice(VER_tppVerticeCont pVerticeCont, char * Conteudo )
+void * GRA_CriaContVertice(char * Conteudo )
 {
 	
+	VER_tppVerticeCont pVerticeCont ;
+
 	ContVertRet = VER_CriarVertice(&pVerticeCont , Conteudo);
+
+	if(ContVertRet == VER_CondRetOK){
+
+		return pVerticeCont ;
+
+	} 
+	return NULL;
 
 } /* Fim função: GRA  &Criar conteúdo do vértice do Grafo */
 
@@ -779,6 +847,104 @@ int GRA_comparaVerticeConteudo( void * pVerticeO , void * pValorO )
 	return 1;
 
 } /* Fim função: GRF  &Compara valores simples */
+
+
+void IrInicioVertices (GRA_tppGrafo pGrafo)
+{
+
+	GRA_tppVerGrafo pValorVert ;
+
+	IrInicioLista (pGrafo->pListaVertices) ;
+
+	pValorVert = ( tpVerticeGrafo * ) LIS_ObterValor( pGrafo->pListaVertices ) ;
+
+	pGrafo->pCorrente = pValorVert ;
+
+}
+
+int AvancarVerticeCorrente (GRA_tppGrafo pGrafo , int numElem)
+{
+
+	GRA_tppVerGrafo pValorVert ;
+
+	ListaRet = LIS_AvancarElementoCorrente (pGrafo->pListaVertices , 1);
+
+	if(ListaRet == LIS_CondRetOK){
+
+		pValorVert = ( tpVerticeGrafo * ) LIS_ObterValor( pGrafo->pListaVertices ) ;
+
+	    pGrafo->pCorrente = pValorVert ;
+
+	}
+
+	return NULL ;
+}
+
+GRA_tpCondRet GRA_ChecaSeCorrente (GRA_tppGrafo pGrafo , tpVerticeGrafo * pVerticeA)
+{
+	int Res ;
+
+	Res = GRA_comparaVerticeConteudo (pGrafo->pCorrente, pVerticeA) ;
+
+	if(Res == 0){
+		return GRA_CondRetOK ;
+	} /* if */
+	return GRA_CondRetNaoAchou ;
+}
+
+GRA_tpCondRet GRA_BuscarOcorrenciaOrigens (GRA_tppGrafo pGrafo , tpVerticeGrafo * pVerticeA)
+{
+
+	tpVerticeGrafo * pVerticeB ;
+
+	int cond ;
+
+	IrInicioVertices (pGrafo);
+
+	while (cond != NULL) {
+
+		pVerticeA = pGrafo->pCorrente ;
+
+		IrInicioLista (pVerticeA->pVerAnt);
+
+		while (ListaRet == LIS_CondRetOK){
+
+			pVerticeB = (tpVerticeGrafo *)LIS_ObterValor (pVerticeA->pVerAnt);
+
+			ListaRetCaminho = LIS_ProcurarValor (pGrafo->pListaOrigens , pVerticeB , GRA_comparaVerticeConteudo) ;
+
+			if(ListaRetCaminho == LIS_CondRetOK){
+
+				return GRA_CondRetOK;
+
+			}
+
+			ListaRet = LIS_AvancarElementoCorrente(pVerticeA->pVerAnt, 1);
+		}
+
+		IrInicioLista (pVerticeA->pVerSuc);
+
+		while (ListaRet == LIS_CondRetOK){
+
+			pVerticeB = (tpVerticeGrafo *)LIS_ObterValor (pVerticeA->pVerSuc);
+
+			ListaRetCaminho = LIS_ProcurarValor (pGrafo->pListaOrigens , pVerticeB , GRA_comparaVerticeConteudo) ;
+
+			if(ListaRetCaminho == LIS_CondRetOK){
+
+				return GRA_CondRetOK;
+
+			}
+
+			ListaRet = LIS_AvancarElementoCorrente(pVerticeA->pVerSuc, 1);
+		}
+
+	   cond = AvancarVerticeCorrente (pGrafo , 1) ;
+
+	}
+	return GRA_CondRetNaoAchou ;
+
+}
 
 
 /********** Fim do módulo de implementação: Módulo GRAFO **********/

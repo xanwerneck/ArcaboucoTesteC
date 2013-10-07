@@ -72,6 +72,7 @@ VER_tpCondRet Ret;
 
 	  (*pVertice) = pVerticeM;
 
+
 	  return VER_CondRetOK ;
 
    } /* Fim função: VER  &Criar vértice */
@@ -138,12 +139,7 @@ VER_tpCondRet Ret;
          assert( pVertice != NULL ) ;
       #endif
 
-	  if(pVertice == NULL)
-	  {
-		  return VER_CondRetNaoAchou ;
-	  }
-
-	  if(strcmp( pVertice->Nome , "") == 0) //provavelmente errado
+	  if(strcmp( pVertice->Nome , "") == 0)
 	  {
 		  return VER_CondRetVerVazio;
 	  }

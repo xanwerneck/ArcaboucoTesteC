@@ -75,6 +75,15 @@ typedef enum {
 		GRA_CondRetConteudoNulo = 4 ,
 			/* Conteudo fornecido nulo */
 
+	   GRA_CondRetGrafoNulo   = 5 ,
+		    /* Grafo nulo */
+
+       GRA_CondRetNaoAchou   = 6 ,
+	       /* Condicao não encontrou */
+
+       GRA_CondRetMaisdeUmaOrigem = 7 ,
+	       /* Não foi possível inserir em origem */
+
         GRA_CondRetFaltouMemoria = 9 ,
             /* Faltou memória ao alocar dados */
 
@@ -409,6 +418,11 @@ GRA_tpCondRet GRA_InsereVerticeemSucessores(GRA_tppVerGrafo pVerticeOrig , GRA_t
 
 GRA_tpCondRet GRA_InsereVerticeemAntecessores(GRA_tppVerGrafo pVerticeOrig , GRA_tppVerGrafo pVerticeDest) ;
 
+GRA_tpCondRet GRA_ObterValorVerticeCorrente (GRA_tppGrafo pGrafo , char * nomeForn) ;
+
+GRA_tpCondRet GRA_MudarValorVerticeCorrente (GRA_tppGrafo pGrafo , char * nomeForn) ;
+
+GRA_tpCondRet GRA_InsereVerticeOrigens(GRA_tppGrafo pGrafo , GRA_tppVerGrafo pVertice) ;
 
 #undef MATRIZ_EXT
 

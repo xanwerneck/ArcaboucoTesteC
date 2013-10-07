@@ -51,7 +51,9 @@ static const char INSERIR_VERT_ANT_VERT_CMD	[ ] = "=inserevertiveantvert" ;
 static const char EXCLUIR_VERT_CMD   		[ ] = "=excluirvertice"       ;
 static const char EXCLUIR_ANT_VERT_CMD		[ ] = "=excluirantvertive"    ;
 static const char EXCLUIR_SUC_VERT_CMD		[ ] = "=excluirsucvertive"    ;
-
+static const char OBTER_VALOR_VERT_CMD		[ ] = "=obtervalorvertcorr"   ;
+static const char MUDAR_VALOR_VERT_CMD      [ ] = "=mudarvalorvertcorr"  ;
+static const char INSERE_VERT_ORIG_CMD      [ ] = "=inserirvertorigens"  ;
 
 #define TRUE  1
 #define FALSE 0
@@ -305,7 +307,7 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 			CondRetObtido = GRA_ExcluirAntecessoresVertice( vtVertice[inxVertices] );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao ir para oeste do nó corrente." );
+                                    "Retorno errado ao excluir antecessores do vértice." );
 
 		} /* fim ativa: Testar GRA Excluir aresta de antecessores */
 		
@@ -323,11 +325,58 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 			CondRetObtido = GRA_ExcluirSucessoresVertice( vtVertice[inxVertices] );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao ir para oeste do nó corrente." );
+                                    "Retorno errado ao excluir sucessores do vértice." );
 
 		} /* fim ativa: Testar GRA Excluir aresta de sucessores */
 		
-		
+		/* Testar GRA Obter valor do vértice corrente */
+
+		else if(strcmp (ComandoTeste, OBTER_VALOR_VERT_CMD) == 0)
+		{
+			NumLidos = LER_LerParametros ( "isi" , &inxGrafo , StringDado , &CondRetEsperada );
+			if(NumLidos != 3){
+				return TST_CondRetParm;
+			}
+			
+			CondRetObtido = GRA_ObterValorVerticeCorrente( vtGrafo[inxGrafo] , StringDado );
+
+			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao obter valor do vértice corrente." );
+
+		} /* fim ativa: Testar GRA Obter valor do vértice corrente */
+
+		/* Testar GRA Mudar valor do vértice corrente */
+
+		else if(strcmp (ComandoTeste, MUDAR_VALOR_VERT_CMD) == 0)
+		{
+			NumLidos = LER_LerParametros ( "isi" , &inxGrafo , StringDado , &CondRetEsperada );
+			if(NumLidos != 3){
+				return TST_CondRetParm;
+			}
+			
+			CondRetObtido = GRA_MudarValorVerticeCorrente( vtGrafo[inxGrafo] , StringDado );
+
+			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao obter valor do vértice corrente." );
+
+		} /* fim ativa: Testar GRA Mudar valor do vértice corrente */
+
+
+		/* Testar GRA Inserir vértice no início da lista de origens */
+
+		else if(strcmp (ComandoTeste, INSERE_VERT_ORIG_CMD ) == 0)
+		{
+			NumLidos = LER_LerParametros ( "iii" , &inxGrafo , &inxVertices , &CondRetEsperada );
+			if(NumLidos != 3){
+				return TST_CondRetParm;
+			}
+			
+			CondRetObtido = GRA_InsereVerticeOrigens(vtGrafo[ inxGrafo ] , vtVertice[ inxVertices ]);
+
+			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao inserir vertice na lista de origens" );
+
+		} /* fim ativa: Testar GRA Inserir vértice no início da lista de origens */
 
 
       return TST_CondRetNaoConhec ;
