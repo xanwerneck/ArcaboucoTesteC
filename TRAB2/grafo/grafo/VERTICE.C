@@ -158,7 +158,7 @@ VER_tpCondRet Ret;
 *  Função: VER  &Retorna valor do vértice
 *  ****/
 
-   VER_tpCondRet VER_RetornaValor( VER_tppVerticeCont pVertice , char * Nome  )
+   VER_tpCondRet VER_RetornaValor( VER_tppVerticeCont pVertice , char * Nome )
    {
 
       #ifdef _DEBUG

@@ -35,6 +35,30 @@ LIS_tpCondRet ListaRet , ListaRetCaminho, retTmp;
 VER_tpCondRet ContVertRet;
 GRA_tpCondRet GrafoRet ;
 
+
+
+/***********************************************************************
+*
+*  $TC Tipo de dados: GRA Descritor da aresta do vértice do grafo
+*
+*
+*  $ED Descrição do tipo
+*     Possui as referências para rótulo string e vertice destino
+*
+***********************************************************************/
+
+typedef struct tagArestaGrafo {
+
+	char Nome[80];
+		/* Rotulo da aresta */
+
+	tpVerticeGrafo * pVerticeDest;
+		/* Ponteiro do Elemento vértice destino */
+
+	
+} tpArestaGrafo ;
+
+
 /***********************************************************************
 *
 *  $TC Tipo de dados: GRA Descritor do elemento vértice do grafo
@@ -112,7 +136,11 @@ void GRA_excluirValorLista ( void * pValor ) ;
 
 static int GRA_comparaVerticeConteudo( void * pVerticeO , void * pValorO ) ;
 
+static int GRA_comparaVerticeCorrConteudo( GRA_tppGrafo pGrafo, void * pValorO ) ;
+
 static int ComparaValor (void * Corr, void * Busca) ;
+
+void IrInicioVertices (GRA_tppGrafo pGrafo) ;
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -187,6 +215,33 @@ GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppVerGrafo * vert, char * String , char 
 	return GRA_CondRetOK ;
 
 	
+}
+
+GRA_tpCondRet criarAresta (tpVerticeGrafo * pVertOrig , tpVerticeGrafo * pVertDest , GRA_tppArestaGrafo * pArestaGrafo , GRA_tppGrafo pGrafo){
+
+	GRA_tppArestaGrafo pAres;
+
+	pAres = (GRA_tppArestaGrafo) malloc (sizeof (tpArestaGrafo));
+
+
+	if(pAres == NULL){
+		return GRA_CondRetFaltouMemoria ;
+	}
+
+	LimparArestaGrafo (pAres ,  String , id);
+
+
+	(*pArestaGrafo) = ( tpArestaGrafo * ) malloc( sizeof( GRA_tppVerGrafo )) ;
+
+
+	if(pArestaGrafo == NULL){
+		return GRA_CondRetFaltouMemoria ;
+	}
+
+	(*pArestaGrafo) = pAres ;
+
+
+	return GRA_CondRetOK ;
 }
 
 /***************************************************************************
@@ -435,21 +490,26 @@ GRA_tpCondRet GRA_ExcluirVertice(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice
 	ListaRet = LIS_CondRetOK ;
 
 	/* Checa se corrente */
-	GrafoRet = GRA_CondRetOK ;
-	
-	while(GrafoRet != GRA_CondRetOK) {
+	GrafoRet = GRA_ChecaSeCorrente (pGrafo , pVertice) ;
 
-		GrafoRet = GRA_ChecaSeCorrente (pGrafo , pVertice) ;
+	while(GrafoRet == GRA_CondRetOK) {
 
-		retAv = AvancarVerticeCorrente (pGrafo , 1) ;
-		printf ("retAV %d" , retAv) ;
-		if(retAv == NULL){
+		ListaRet = LIS_AvancarElementoCorrente(pGrafo->pListaVertices, 1);
 
-			return GRA_CondRetGrafoNulo ;
+		if(ListaRet == LIS_CondRetOK){
+
+			GrafoRet = GRA_ChecaSeCorrente (pGrafo , pVertice) ;
+
+		}else{
+
+			GrafoRet = (GRA_tpCondRet)ListaRet;
 
 		}
-
+		
+		
 	}
+
+	
 	/* FIM Checa se corrente */
 
 	if(ListaRet == LIS_CondRetOK)
@@ -820,9 +880,24 @@ void GRA_excluirValorLista ( void * pValor )
 
 } /* Fim função: GRF  &Excluir nada */
 
+int GRA_comparaVerticeCorrConteudo (GRA_tppGrafo pGrafo , void * pValor)
+{
+	
+	if((VER_tppVerticeCont)pGrafo->pCorrente == (VER_tppVerticeCont)pValor){
+
+		return 0;
+
+	}else{
+
+		return 1;
+	}
+	
+
+}
 
 int GRA_comparaVerticeConteudo( void * pVerticeO , void * pValorO )
 {
+
 	int ret = 0;
 	char * Corrente ;
 	char * Buscado ;
@@ -838,7 +913,7 @@ int GRA_comparaVerticeConteudo( void * pVerticeO , void * pValorO )
 	VER_RetornaValor ((VER_tppVerticeCont)pValorVert->pConteudo , Corrente) ;
 
 	VER_RetornaValor ((VER_tppVerticeCont)pValorO , Buscado) ;
-
+	
 	if(strcmp(Corrente , Buscado) == 0){
 
 		return 0;
@@ -846,7 +921,26 @@ int GRA_comparaVerticeConteudo( void * pVerticeO , void * pValorO )
 
 	return 1;
 
-} /* Fim função: GRF  &Compara valores simples */
+
+	/*
+	tpVerticeGrafo * pValorVert ;
+    LIS_tppLista pVerticeLista ;
+
+	pVerticeLista = ( LIS_tppLista ) pVerticeO ;
+    
+	pValorVert = ( tpVerticeGrafo * ) LIS_ObterValor( pVerticeLista ) ;
+
+	if((VER_tppVerticeCont)pValorVert->pConteudo == (VER_tppVerticeCont)pValorO){
+
+		return 0;
+
+	}else{
+
+		return 1;
+	}
+	*/
+
+} /* Fim função: GRF  &Compara valores */
 
 
 void IrInicioVertices (GRA_tppGrafo pGrafo)
@@ -868,12 +962,14 @@ int AvancarVerticeCorrente (GRA_tppGrafo pGrafo , int numElem)
 	GRA_tppVerGrafo pValorVert ;
 
 	ListaRet = LIS_AvancarElementoCorrente (pGrafo->pListaVertices , 1);
-
+	
 	if(ListaRet == LIS_CondRetOK){
 
 		pValorVert = ( tpVerticeGrafo * ) LIS_ObterValor( pGrafo->pListaVertices ) ;
 
 	    pGrafo->pCorrente = pValorVert ;
+
+		return 1 ;
 
 	}
 
@@ -884,7 +980,7 @@ GRA_tpCondRet GRA_ChecaSeCorrente (GRA_tppGrafo pGrafo , tpVerticeGrafo * pVerti
 {
 	int Res ;
 
-	Res = GRA_comparaVerticeConteudo (pGrafo->pCorrente, pVerticeA) ;
+	Res = GRA_comparaVerticeCorrConteudo (pGrafo, pVerticeA) ;
 
 	if(Res == 0){
 		return GRA_CondRetOK ;

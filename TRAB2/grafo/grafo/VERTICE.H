@@ -159,7 +159,7 @@ VER_tpCondRet VER_ObterValor( VER_tppVerticeCont pVertice , char * Nome  ) ;
 *
 ***********************************************************************/
 
-VER_tpCondRet VER_RetornaValor( VER_tppVerticeCont pVertice , char * Nome  ) ;
+VER_tpCondRet VER_RetornaValor( VER_tppVerticeCont pVertice , char * nome  ) ;
 
 
 

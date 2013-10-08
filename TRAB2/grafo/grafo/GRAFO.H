@@ -51,6 +51,9 @@ typedef struct GRA_tagGrafo * GRA_tppGrafo ;
 /* Tipo referência para um vertice de grafo */
 typedef struct tagVerticeGrafo * GRA_tppVerGrafo ;
 
+/* Tipo referência para uma aresta do vertice de grafo */
+typedef struct tagArestaGrafo * GRA_tppArestaGrafo ;
+
 /***********************************************************************
 *
 *  $TC Tipo de dados: GRA Condicoes de retorno
