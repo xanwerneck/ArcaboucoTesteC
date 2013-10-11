@@ -41,8 +41,10 @@
 ***********************************************************************/
 static const char CRIAR_GRAFO_CMD			[ ] = "=criargrafo"           ;
 static const char CRIAR_VERTIVE_GRAFO_CMD	[ ] = "=criarverticegrafo"    ;
-static const char INSERE_ANT_VERT_CMD		[ ] = "=insereantvertive"     ;
-static const char INSERE_SUC_VERT_CMD		[ ] = "=inseresucvertive"     ;
+static const char CRIA_ARESTA_CMD       	[ ] = "=criararesta"          ;
+
+
+
 static const char INSERE_CONT_VERT_CMD		[ ] = "=inserecontvertive"    ;
 static const char INSERE_VERT_FINAL_CMD		[ ] = "=inserevertivefinal"   ;
 static const char INSERE_VERT_INIC_CMD		[ ] = "=inserevertiveinic"    ;
@@ -104,7 +106,10 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 
       char ValorEsperado = '?'  ;
       char ValorObtido   = '!'  ;
-      char ValorDado ;
+      char ValorDado     = '\0' ;
+	  char ValorOrig     = '\0' ;
+	  char ValorDest     = '\0' ;
+
 	  char StringDado[DIM_VALOR];
 
 	  int inxGrafo     = -1 ,
@@ -146,14 +151,14 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 		else if( strcmp( ComandoTeste , CRIAR_VERTIVE_GRAFO_CMD ) == 0 )
 		{
 
-			NumLidos = LER_LerParametros ( "isci" , &inxVertices , &StringDado , &ValorDado , &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "isci" , &inxGrafo , &StringDado , &ValorDado , &CondRetEsperada );
 
 			if ( NumLidos != 4 )
             {
                return TST_CondRetParm ;
             } /* if */
 
-			CondRetObtido = GRA_CriaVerticeGrafo( &vtVertice[ inxVertices ] , StringDado , ValorDado );
+			CondRetObtido = GRA_CriaVerticeGrafo( vtGrafo[ inxGrafo ] , StringDado , ValorDado );
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao criar vertice no grafo." );
@@ -161,40 +166,25 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 
 		} /* fim ativa: Testar GRA Criar vertice para grafo */
 
-		/* Testar GRA Inserir lista de antecessores no vértice  */
 
-		else if(strcmp (ComandoTeste, INSERE_ANT_VERT_CMD) == 0)
+		/* Testar GRA Inserir aresta */
+
+		else if(strcmp ( ComandoTeste, CRIA_ARESTA_CMD ) == 0)
 		{
-
-			NumLidos = LER_LerParametros ( "ii" , &inxVertices , &CondRetEsperada );
-
-			if(NumLidos != 2){
+			NumLidos = LER_LerParametros ( "ccisi" , &ValorOrig, &ValorDest , &inxGrafo, &StringDado , &CondRetEsperada );
+			if(NumLidos != 5){
 				return TST_CondRetParm;
 			}
-			
-			CondRetObtido = GRA_InsereAntecessoresVertice( vtVertice[ inxVertices ] );
+
+			CondRetObtido = GRA_CriarAresta( ValorOrig, ValorDest , vtGrafo[ inxGrafo ] , StringDado  );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao inserir lista de antecessores no vertice." );
+                                    "Retorno errado ao inserir conteúdo no vértice." );
 
-		} /* fim ativa: Testar GRA Inserir lista de antecessores no vértice */
+		} /* fim ativa: Testar GRA Inserir aresta */
 
-		/* Testar GRA Inserir lista de sucessores no vértice */
 
-		else if(strcmp (ComandoTeste, INSERE_SUC_VERT_CMD) == 0)
-		{
-			NumLidos = LER_LerParametros ( "ii"  , &inxVertices , &CondRetEsperada );
-			if(NumLidos != 2){
-				return TST_CondRetParm;
-			}
-			
-			CondRetObtido = GRA_InsereSucessoresVertice( vtVertice[ inxVertices ]  );
-
-			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao inserir lista de sucessores no vertice." );
-
-		} /* fim ativa: Testar GRA Inserir lista de sucessores no vértice */
-
+		// verificar se pode excluir
 		/* Testar GRA Inserir conteúdo no vértice */
 
 		else if(strcmp ( ComandoTeste, INSERE_CONT_VERT_CMD ) == 0)
@@ -211,72 +201,6 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 
 		} /* fim ativa: Testar GRA Inserir conteúdo no vértice */
 
-		
-		/* Testar GRA Inserir vértice no final da lista de vértices */
-
-		else if(strcmp (ComandoTeste, INSERE_VERT_FINAL_CMD ) == 0)
-		{
-			NumLidos = LER_LerParametros ( "iii" , &inxGrafo , &inxVertices , &CondRetEsperada );
-			if(NumLidos != 3){
-				return TST_CondRetParm;
-			}
-			
-			CondRetObtido = GRA_InsereVerticeFinal(vtGrafo[ inxGrafo ] , vtVertice[ inxVertices ]);
-
-			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao inserir vertice no final da lista de vertices" );
-
-		} /* fim ativa: Testar GRA Inserir vértice no final da lista de vértices */
-		
-		
-		/* Testar GRA Inserir vértice no início da lista de vértices */
-
-		else if(strcmp (ComandoTeste, INSERE_VERT_INIC_CMD ) == 0)
-		{
-			NumLidos = LER_LerParametros ( "iii" , &inxGrafo , &inxVertices , &CondRetEsperada );
-			if(NumLidos != 3){
-				return TST_CondRetParm;
-			}
-			
-			CondRetObtido = GRA_InsereVerticeInicio(vtGrafo[ inxGrafo ] , vtVertice[ inxVertices ]);
-
-			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao inserir vertice no final da lista de vertices" );
-
-		} /* fim ativa: Testar GRA Inserir vértice no início da lista de vértices */
-		
-		/* Testar GRA Inserir sucessores na lista de sucessores no vértice */
-
-		else if (strcmp (ComandoTeste, INSERIR_VERT_SUC_VERT_CMD) == 0)
-		{
-			NumLidos = LER_LerParametros ( "iii" , &inxVerticesOr, &inxVertices , &CondRetEsperada );
-			if(NumLidos != 3){
-				return TST_CondRetParm;
-			}
-			
-			CondRetObtido = GRA_InsereVerticeemSucessores( vtVertice[inxVerticesOr] , vtVertice[inxVertices] );
-
-			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao inserir sucessores na lista de sucessores no vértice." );
-
-		} /* fim ativa: Testar GRA Inserir sucessores na lista de sucessores no vértice */
-
-
-		/* Testar GRA Inserir sucessores na lista de sucessores no vértice */
-
-		else if (strcmp (ComandoTeste, INSERIR_VERT_ANT_VERT_CMD) == 0)
-		{
-			NumLidos = LER_LerParametros ( "iii" , &inxVerticesOr, &inxVertices , &CondRetEsperada );
-			if(NumLidos != 3){
-				return TST_CondRetParm;
-			}
-			
-			CondRetObtido = GRA_InsereVerticeemAntecessores( vtVertice[inxVerticesOr] , vtVertice[inxVertices] );
-
-			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao inserir sucessores na lista de sucessores no vértice." );
-
-		} /* fim ativa: Testar GRA Inserir sucessores na lista de sucessores no vértice */
 
 		
 		/* Testar GRA Excluir vértice */
@@ -366,12 +290,13 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 
 		else if(strcmp (ComandoTeste, INSERE_VERT_ORIG_CMD ) == 0)
 		{
-			NumLidos = LER_LerParametros ( "iii" , &inxGrafo , &inxVertices , &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "iii" , &inxGrafo , ValorDado , &CondRetEsperada );
+
 			if(NumLidos != 3){
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = GRA_InsereVerticeOrigens(vtGrafo[ inxGrafo ] , vtVertice[ inxVertices ]);
+			CondRetObtido = GRA_InsereOrigem(vtGrafo[ inxGrafo ] , ValorDado);
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao inserir vertice na lista de origens" );

@@ -31,9 +31,6 @@
 #include "LISTA.h"
 #undef LISTA_OWN
 
-#ifdef _DEBUG
-   #include "CESPDIN.H"
-#endif
 
 /***********************************************************************
 *

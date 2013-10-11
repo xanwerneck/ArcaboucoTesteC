@@ -150,7 +150,7 @@ GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo);
 *
 ***********************************************************************/
 
-GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppVerGrafo * pVertice, char * String , char id);
+GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppGrafo pGrafo, char * String , char id);
 
 /***********************************************************************
 *
@@ -426,6 +426,10 @@ GRA_tpCondRet GRA_ObterValorVerticeCorrente (GRA_tppGrafo pGrafo , char * nomeFo
 GRA_tpCondRet GRA_MudarValorVerticeCorrente (GRA_tppGrafo pGrafo , char * nomeForn) ;
 
 GRA_tpCondRet GRA_InsereVerticeOrigens(GRA_tppGrafo pGrafo , GRA_tppVerGrafo pVertice) ;
+
+GRA_tpCondRet GRA_InsereOrigem(GRA_tppGrafo pGrafo, char IdVert);
+
+GRA_tpCondRet GRA_CriarAresta (char pVertOrig , char pVertDest , GRA_tppGrafo pGrafo, char * String);
 
 #undef MATRIZ_EXT
 
