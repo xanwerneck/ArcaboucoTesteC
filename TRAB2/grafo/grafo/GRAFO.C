@@ -389,43 +389,40 @@ GRA_tpCondRet GRA_InsereConteudoVertice(tpVerticeGrafo * pVertice , char * dado)
 *  ****/
 
 
-GRA_tpCondRet GRA_ExcluirVertice(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
+GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo)
 {
 
+	//Ir em cada elemento da lista de sucessores e excluir a Aresta
+    //Ir na lista de antecessores e excluir Aresta do vértice de antecessores
+	
+	tpVerticeGrafo * pVertOrigem;
 	tpVerticeGrafo * pVerticeCaminho;
 
-	pVerticeCaminho = pVertice;
+	pVertOrigem = pGrafo->pCorrente;
 
-	IrInicioLista(pVertice->pVerAnt);
+	IrInicioLista(pVertOrigem->pVerAnt);
 
 	ListaRet = LIS_CondRetOK ;
 
-	/* Checa se corrente */
-	
-	/* FIM Checa se corrente */
-
-	if(ListaRet == LIS_CondRetOK)
+	while(ListaRet!=LIS_CondRetFimLista)
 	{
 
-		while(ListaRet!=LIS_CondRetFimLista)
+		pVerticeCaminho = (tpVerticeGrafo *)LIS_ObterValor (pVertice->pVerAnt);
+
+		GRA_ExcluirAresta
+		
+		retTmp = LIS_ProcurarValor( pVerticeCaminho->pVerSuc , 
+                                     pVertOrigem->pConteudo , 
+                                     GRA_comparaVerticeConteudo ) ;
+
+		if(retTmp==LIS_CondRetOK)
 		{
+			ListaRet = LIS_ExcluirElemento (pVerticeCaminho->pVerSuc);
+		} /* if */
 
-			pVerticeCaminho = (tpVerticeGrafo *)LIS_ObterValor (pVertice->pVerAnt);
-			
-			retTmp = LIS_ProcurarValor( pVerticeCaminho->pVerSuc , 
-                                         pVertice , 
-                                         GRA_comparaVerticeConteudo ) ;
+		ListaRet = LIS_AvancarElementoCorrente(pVertice->pVerAnt, 1);
 
-			if(retTmp==LIS_CondRetOK)
-			{
-				ListaRet = LIS_ExcluirElemento (pVerticeCaminho->pVerSuc);
-			} /* if */
-
-			ListaRet = LIS_AvancarElementoCorrente(pVertice->pVerAnt, 1);
-
-		} /* while */
-
-	} /* if */
+	} /* while */
 
 	IrInicioLista(pVertice->pVerSuc);
 
