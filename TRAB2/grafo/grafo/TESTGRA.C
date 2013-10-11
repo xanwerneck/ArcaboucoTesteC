@@ -42,7 +42,7 @@
 static const char CRIAR_GRAFO_CMD			[ ] = "=criargrafo"           ;
 static const char CRIAR_VERTIVE_GRAFO_CMD	[ ] = "=criarverticegrafo"    ;
 static const char CRIA_ARESTA_CMD       	[ ] = "=criararesta"          ;
-
+static const char EXCLUIR_VERT_CMD   		[ ] = "=excluirvertice"       ;
 
 
 static const char INSERE_CONT_VERT_CMD		[ ] = "=inserecontvertive"    ;
@@ -50,7 +50,6 @@ static const char INSERE_VERT_FINAL_CMD		[ ] = "=inserevertivefinal"   ;
 static const char INSERE_VERT_INIC_CMD		[ ] = "=inserevertiveinic"    ;
 static const char INSERIR_VERT_SUC_VERT_CMD	[ ] = "=inserevertivesucvert" ;
 static const char INSERIR_VERT_ANT_VERT_CMD	[ ] = "=inserevertiveantvert" ;
-static const char EXCLUIR_VERT_CMD   		[ ] = "=excluirvertice"       ;
 static const char EXCLUIR_ANT_VERT_CMD		[ ] = "=excluirantvertive"    ;
 static const char EXCLUIR_SUC_VERT_CMD		[ ] = "=excluirsucvertive"    ;
 static const char OBTER_VALOR_VERT_CMD		[ ] = "=obtervalorvertcorr"   ;
@@ -64,19 +63,14 @@ static const char INSERE_VERT_ORIG_CMD      [ ] = "=inserirvertorigens"  ;
 #define NAO_VAZIO 1
 
 #define DIM_VT_GRAFO       10
-#define DIM_VT_VERTICES    100
 #define DIM_VALOR          100
 
 GRA_tppGrafo    vtGrafo[ DIM_VT_GRAFO ] ;
-
-GRA_tppVerGrafo  vtVertice[ DIM_VT_VERTICES ] ;
 
 
 /***** Protótipos das funções encapuladas no módulo *****/
 
 static int ValidarInxGrafo( int inxGrafo , int Modo ) ;
-
-static int ValidarInxVertices( int inxVertices , int Modo ) ;
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -207,12 +201,14 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 
 		else if (strcmp (ComandoTeste, EXCLUIR_VERT_CMD) == 0)
 		{
-			NumLidos = LER_LerParametros ( "iii" , &inxGrafo, &inxVertices , &CondRetEsperada );
-			if(NumLidos != 3){
+			NumLidos = LER_LerParametros ( "ii" , &inxGrafo , &CondRetEsperada );
+			if(NumLidos != 2){
+
 				return TST_CondRetParm;
+
 			}
 
-			CondRetObtido = GRA_ExcluirVertice( vtGrafo[ inxGrafo ] , vtVertice[inxVertices] );
+			CondRetObtido = GRA_ExcluirVerticeCorrente( vtGrafo[ inxGrafo ] );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao excluir vértice." );
@@ -343,39 +339,6 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
    } /* Fim função: TGRA -Validar indice de grafo */
 
 
-/***********************************************************************
-*
-*  $FC Função: TGRA - Validar indice de vertice
-*
-***********************************************************************/
-
-	 int ValidarInxVertices( int inxVertices , int Modo ) 
-	 {
-
-	  if ( ( inxVertices <  0 )
-		  || ( inxVertices >= DIM_VT_VERTICES ))
-      {
-         return FALSE ;
-      } /* if */
-         
-      if ( Modo == VAZIO )
-      {
-		  if ( vtVertice[ inxVertices ] != 0 )
-         {
-            return FALSE ;
-         } /* if */
-      } else
-      {
-         if ( vtVertice[ inxVertices ] == 0 )
-         {
-            return FALSE ;
-         } /* if */
-      } /* if */
-         
-      return TRUE ;
-
-	 }
-	/* Fim função: TGRA - Validar indice do vertice */
 
 
 /********** Fim do módulo de implementação: Módulo de teste específico **********/
