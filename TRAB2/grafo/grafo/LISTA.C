@@ -578,5 +578,9 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 
    } /* Fim função: LIS  -Limpar a cabeça da lista */
 
+LIS_tpCondRet LIS_NumElem(LIS_tppLista pLista){
+	return pLista->numElem;
+}
+
 /********** Fim do módulo de implementação: LIS  Lista duplamente encadeada **********/
 
