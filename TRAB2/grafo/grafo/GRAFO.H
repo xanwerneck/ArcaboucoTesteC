@@ -98,10 +98,11 @@ typedef enum {
 *  $FC Função: GRA Criar grafo
 *
 *  $ED Descrição da função
-*     Cria um grafo vazio, sem apontamentos.
+*     Inicia um grafo vazio, sem vértices.
 *
 *  $EP Parâmetros
 *     pGrafo  - Posição do vetor de grafos criado.
+*     ExcluirValor - Função de exclusão do grafo genérico
 *
 *  $FV Valor retornado
 *     GRA_CondRetOK
@@ -110,7 +111,7 @@ typedef enum {
 *  $AE CondRet deve ter sido instanciado
 *
 *  $AS Se CondRet = GRA_CondRetOK
-*	   Grafo criado em posição do vetor
+*	   Grafo criado em posição do vetor  de grafos
 *
 *	   Se CondRet = GRA_CondRetFaltouMemoria
 *	   Grafo não criado por falta de memória
@@ -124,285 +125,271 @@ GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo, void   ( * ExcluirValor ) (
 *  $FC Função: GRA Criar vértice grafo
 *
 *  $ED Descrição da função
-*     Cria um elemento vértice do grafo sem listas e sem conteúdo.
+*     Cria um elemento vértice do grafo e insere
+*     este na lista de vértices do grafo, sentando
+*     como corrente.
 *
 *  $EP Parâmetros
-*     conteudo  - Ponteiro para elemento de conteúdo vértice (Modulo Vertice)
+*     pGrafo    - Grafo que receberá o vertice criado
+*     conteudo  - Ponteiro para elemento de conteúdo vértice
 *	  id        - Identificador do vértice
 *
 *  $FV Valor retornado
 *     GRA_CondRetOK
 *     GRA_CondRetFaltouMemoria
 *
-*  $AE Variável conteudo ponteiro não nulo
-*      Variável id do tipo char não vazio
+*  $AE Grafo criado
 *      CondRet deve ter sido instanciado
 *
 *  $AS Se CondRet = GRA_CondRetOK
 *	   Vértice criado com conteúdo e id
-*      Os ponteiros de lista voltam vazio
-*      ponteiro ListaAnt volta null
-*      ponteiro ListaSuc volta null
+*      ponteiro ListaAnt é apontado para lista vazia criada
+*      ponteiro ListaSuc é apontado para lista vazia criada
+*      Vértice inserido na lista de vértices do grafo
 *
 *	   Se CondRet = GRA_CondRetFaltouMemoria
 *	   Vértice não criado por falta de memória
-
+*
 *
 ***********************************************************************/
 
 GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppGrafo pGrafo, char * String , char id);
 
-/***********************************************************************
-*
-*  $FC Função: GRA Insere Lista de antecessores no vértice
-*
-*  $ED Descrição da função
-*     Recebe uma lista de antecessores e faz o apontamento no vértice fornecido.
-*
-*  $EP Parâmetros
-*     pVertice  - Ponteiro para elemento de conteúdo vértice (Modulo Vertice)
-*	  pLista    - Ponteiro para lista de antecessores criada
-*
-*  $FV Valor retornado
-*     GRA_CondRetVerticeNulo
-*     GRA_CondRetListaNula
-*     GRA_CondRetOK
-*
-*
-*  $AE Variável pVertice deve ter sido iniciada
-*      Variável pLista deve ter sido iniciada
-*      CondRet deve ter sido instanciado
-*
-*  $AS Se CondRet = GRA_CondRetVerticeNulo
-*	   Vértice fornecido não iniciado ou nulo
-*      Se CondRet = GRA_CondRetListaNula
-*      Lista fornecida não iniciada ou nula
-*
-*	   Se CondRet = GRA_CondRetOK
-*      Vértice fornecido recebe lista de antecessores
-*      
-*
-*
-***********************************************************************/
-
-GRA_tpCondRet GRA_InsereAntecessoresVertice(GRA_tppVerGrafo pVertice);
-
-/***********************************************************************
-*
-*  $FC Função: GRA Insere Lista de sucessores no vértice
-*
-*  $ED Descrição da função
-*     Recebe uma lista de sucessores e faz o apontamento no vértice fornecido.
-*
-*  $EP Parâmetros
-*     pVertice  - Ponteiro para elemento de conteúdo vértice (Modulo Vertice)
-*	  pLista    - Ponteiro para lista de sucessores criada
-*
-*  $FV Valor retornado
-*     GRA_CondRetVerticeNulo
-*     GRA_CondRetListaNula
-*     GRA_CondRetOK
-*
-*  $AE Variável pVertice deve ter sido iniciada
-*      Variável pLista deve ter sido iniciada
-*      CondRet deve ter sido instanciado
-*
-*  $AS Se CondRet = GRA_CondRetVerticeNulo
-*	   Vértice fornecido não iniciado ou nulo
-*      Se CondRet = GRA_CondRetListaNula
-*      Lista fornecida não iniciada ou nula
-*
-*	   Se CondRet = GRA_CondRetOK
-*      Vértice fornecido recebe lista de antecessores
-*
-***********************************************************************/
-
-GRA_tpCondRet GRA_InsereSucessoresVertice(GRA_tppVerGrafo pVertice);
-
-
-/***********************************************************************
-*
-*  $FC Função: GRA Insere vértice no final da lista de vértices
-*
-*  $ED Descrição da função
-*     Insere ponteiro do tipo tpVertice no vértice do grafo
-*
-*  $EP Parâmetros
-*     pVertice  - Ponteiro para elemento de conteúdo vértice (Modulo Vertice)
-*	  pConteudo - Ponteiro para conteúdo do módulo vértice
-*
-*  $FV Valor retornado
-*     GRA_CondRetVerticeNulo
-*     GRA_CondRetListaNula
-*     GRA_CondRetOK
-*
-*
-*  $AE Variável pVertice deve ter sido iniciada
-*      Variável pListaVertices deve ter sido iniciada
-*      Variável pListaVertices não pode estar vazia
-*      CondRet deve ter sido instanciado
-*
-*  $AS Se CondRet = GRA_CondRetVerticeNulo
-*	   Vértice fornecido não iniciado ou nulo
-*      Se CondRet = GRA_CondRetListaNula
-*      Lista fornecida está vazia ou não foi iniciada
-*
-*	   Se CondRet = GRA_CondRetOK
-*      Vértice fornecido entra no final da lista de Vértices
-*      pVertice se torna corrente da lista de Vértices
-*
-***********************************************************************/
-
-GRA_tpCondRet GRA_InsereVerticeFinal(GRA_tppGrafo pGrafo , GRA_tppVerGrafo pVertice);
-
-/***********************************************************************
-*
-*  $FC Função: GRA Insere vértice no início da lista de vértices
-*
-*  $ED Descrição da função
-*     Insere ponteiro do tipo tpVertice no vértice do grafo
-*
-*  $EP Parâmetros
-*     pVertice  - Ponteiro para elemento de conteúdo vértice (Modulo Vertice)
-*	  pConteudo - Ponteiro para conteúdo do módulo vértice
-*
-*  $FV Valor retornado
-*     GRA_CondRetVerticeNulo
-*     GRA_CondRetListaNula
-*     GRA_CondRetOK
-*
-*
-*  $AE Variável pVertice deve ter sido iniciada
-*      Variável pListaVertices deve ter sido iniciada
-*      Variável pListaVertices não pode estar vazia
-*	   CondRet deve ter sido instanciado
-*
-*  $AS Se CondRet = GRA_CondRetVerticeNulo
-*	   Vértice fornecido não iniciado ou nulo
-*      Se CondRet = GRA_CondRetListaNula
-*      Lista fornecida está vazia ou não foi iniciada
-*
-*	   Se CondRet = GRA_CondRetOK
-*      Vértice fornecido entra no início da lista de Vértices
-*      pVertice se torna corrente da lista de Vértices
-*
-*
-***********************************************************************/
-
-GRA_tpCondRet GRA_InsereVerticeInicio(GRA_tppGrafo pGrafo , GRA_tppVerGrafo pVertice);
 
 /***********************************************************************
 *
 *  $FC Função: GRA Excluir vértice
 *
 *  $ED Descrição da função
-*     Excluir elemento vértice do grafo. Esta função percorre a lista de antecessores
-*     e sucessores do vértice a excluir eliminando as referências. 
-*	  A função também elimina, caso exista as referências em origens e vértice
-*     do grafo.
+*     Excluir elemento vértice corrente do grafo. Esta função percorre 
+*	  a lista de antecessores e sucessores do vértice a excluir 
+*     eliminando as referências e as arestas da lista de sucessores. 
+*     A função também elimina, caso exista as referências em origens.
+*     Elimina da lista de vértices do grafo.
 *
 *  $EP Parâmetros
-*     pGrafo   - Ponteiro para o grafo contendo o vértice
-*	  pVertice - Ponteiro para vértice a ser excluído
+*     pGrafo   - Ponteiro para o grafo contendo o vértice corrente
 *
 *  $FV Valor retornado
-*     GRA_CondRetOK
+*      GRA_CondRetOK
 *
-*  $AE Variável pGrafo deve ter sido iniciado ou não nulo
-*      Variável pVertice deve ter sido iniciado ou não nulo
-*      CondRet deve ter sido instanciado
-*      pVertice precisa conter elementos
+*  $AE Grafo já deve ter sido criado
+*      Corrente do grafo não pode estar nulo
+*      Grafo deverá conter vértices na lista de vértices
 *
 *  $AS Se CondRet = GRA_CondRetOK
 *      pVertice é excluído da lista de vértices do grafo
+*      Caso exista, pVertice é excluído da lista de origens
 *      pVertice perde as referências nas listas de antecessores e sucessores
-*      pVertice é excluído da lista de origens caso esteja na lista
+*      As listas do vértice são excluídas
+*      pVértice é excluído
 *
 ***********************************************************************/
-
-GRA_tpCondRet GRA_ExcluirVertice(GRA_tppGrafo pGrafo ,GRA_tppVerGrafo pVertice);
-
-/***********************************************************************
-*
-*  $FC Função: GRA Excluir sucessores do vértice
-*
-*  $ED Descrição da função
-*     Esta função pode ser definida como exclusão de arestas, com este procedimento
-*     todas as referências existentes na lista de sucessores do vértice fornecido é
-*     perdida.
-*
-*  $EP Parâmetros
-*	  pVertice - Ponteiro para vértice contendo a lista a ser excluída
-*
-*  $FV Valor retornado
-*     GRA_CondRetVerticeNulo
-*     GRA_CondRetListaNula
-*     GRA_CondRetOK
-*
-*
-*  $AE Variável pVertice deve ter sido iniciado ou não nulo
-*      CondRet deve ter sido instanciado
-*
-*  $AS Se CondRet = GRA_CondRetOK
-*      pVertice perde a lista de sucessores 
-*
-***********************************************************************/
-
-GRA_tpCondRet GRA_ExcluirSucessoresVertice(GRA_tppVerGrafo pVertice);
-
-/***********************************************************************
-*
-*  $FC Função: GRA Excluir antecessores do vértice
-*
-*  $ED Descrição da função
-*     Esta função pode ser definida como exclusão de arestas, com este procedimento
-*     todas as referências existentes na lista de antecessores do vértice fornecido é
-*     perdida.
-*
-*  $EP Parâmetros
-*	  pVertice - Ponteiro para vértice contendo a lista a ser excluída
-*
-*  $FV Valor retornado
-*     GRA_CondRetVerticeNulo
-*     GRA_CondRetListaNula
-*     GRA_CondRetOK
-*
-*
-*  $AE Variável pVertice deve ter sido iniciado ou não nulo
-*      CondRet deve ter sido instanciado
-*
-*  $AS Se CondRet = GRA_CondRetVerticeNulo
-*      Vértice fornecida está nulo
-*      Se CondRet = GRA_CondRetListaNula
-*      Lista Nula ou não iniciada
-*
-*	   Se CondRet = GRA_CondRetOK
-*      pVertice perde a lista de antecessores 
-*
-***********************************************************************/
-
-GRA_tpCondRet GRA_ExcluirAntecessoresVertice(GRA_tppVerGrafo pVertice);
-
-
-GRA_tpCondRet GRA_InsereVerticeemSucessores(GRA_tppVerGrafo pVerticeOrig , GRA_tppVerGrafo  pVerticeDest) ;
-
-GRA_tpCondRet GRA_InsereVerticeemAntecessores(GRA_tppVerGrafo pVerticeOrig , GRA_tppVerGrafo pVerticeDest) ;
-
-GRA_tpCondRet GRA_ObterValorVerticeCorrente (GRA_tppGrafo pGrafo , char * nomeForn) ;
-
-GRA_tpCondRet GRA_MudarValorVerticeCorrente (GRA_tppGrafo pGrafo , char * nomeForn) ;
-
-GRA_tpCondRet GRA_InsereVerticeOrigens(GRA_tppGrafo pGrafo , GRA_tppVerGrafo pVertice) ;
-
-GRA_tpCondRet GRA_InsereOrigem(GRA_tppGrafo pGrafo, char IdVert);
-
-GRA_tpCondRet GRA_CriarAresta (char pVertOrig , char pVertDest , GRA_tppGrafo pGrafo, char * String);
 
 GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo);
 
+
+/***********************************************************************
+*
+*  $FC Função: GRA Obter valor do vértice corrente
+*
+*  $ED Descrição da função
+*      Checa se a string fornecida é igual a do elemento
+*      vértice corrente no grafo.     
+*
+*  $EP Parâmetros
+*      pGrafo - Ponteiro para o grafo que contém o corrente
+*      nomeForn - String de comparação     
+*
+*  $FV Valor retornado
+*      GRA_CondRetGrafoNulo
+*      GRA_CondRetConteudoNulo
+*      GRA_CondRetOK
+*
+*  $AE Grafo deve estar iniciado
+*      Corrente não pode estar apontando para NULL
+*      String fornecida não vazia
+*      Grafo não vazio, ou seja, sem vértices
+*
+*  $AS Se CondRet = GRA_CondRetGrafoNulo 
+*      Grafo fornecido não criado
+*
+*	   Se CondRet = GRA_CondRetConteudoNulo
+*      Valor não encontrado ou string fornecida vazia
+*
+*	   Se CondRet = GRA_CondRetOK
+*      Valor fornecido igual ao do vértice corrente
+*
+***********************************************************************/
+
+GRA_tpCondRet GRA_ObterValorVerticeCorrente (GRA_tppGrafo pGrafo , char * nomeForn) ;
+
+/***********************************************************************
+*
+*  $FC Função: GRA Mudar valor do vértice corrente
+*
+*  $ED Descrição da função
+*     Recebe uma string como segundo parâmetro e altera o valor
+*     do conteúdo do vértice corrente do grafo.
+*
+*  $EP Parâmetros
+*     pGrafo - Ponteiro para o grafo
+*     nomeForn - String a ser usada como novo valor para o conteudo do vértice
+*
+*  $FV Valor retornado
+*      GRA_CondRetVerticeNulo
+*      GRA_CondRetConteudoNulo
+*      GRA_CondRetOK
+*
+*  $AE Grafo deve estar iniciado
+*      Corrente não pode estar apontando para NULL
+*      String fornecida não vazia
+*      Grafo não vazio, ou seja, sem vértices
+*
+*  $AS Se CondRet = GRA_CondRetGrafoNulo 
+*      Grafo fornecido não criado
+*
+*	   Se CondRet = GRA_CondRetConteudoNulo
+*	   String fornecida vazia
+*
+*	   Se CondRet = GRA_CondRetOK
+*      Valor do conteúdo do vértice corrente do grafo alterado
+*
+***********************************************************************/
+
+GRA_tpCondRet GRA_MudarValorVerticeCorrente (GRA_tppGrafo pGrafo , char * nomeForn) ;
+
+/***********************************************************************
+*
+*  $FC Função: GRA Inserir vértice na lista de origens
+*
+*  $ED Descrição da função
+*      Insere o vértice corrente na lista de origens
+*      do grafo fornecido.
+*     
+*
+*  $EP Parâmetros
+*      pGrafo - Ponteiro para o grafo contendo o vértice corrente
+*      IdVert - Char contendo o conteudo de ID do vértice corrente     
+*
+*  $FV Valor retornado
+*      GRA_CondRetNaoAchou
+*      GRA_CondRetOK
+*
+*  $AE O grafo deve possuir vértice com id igual ao fornecido
+*      Grafo deve estar iniciado
+*
+*  $AS Se CondRet = GRA_CondRetNaoAchou
+*	   Nenhum vértice com este id foi encontrado
+*
+*	   Se CondRet = GRA_CondRetOK
+*      Vértice inserido na lista de origens do grafo
+*
+***********************************************************************/
+
+GRA_tpCondRet GRA_InsereOrigem(GRA_tppGrafo pGrafo, char IdVert);
+
+
+/***********************************************************************
+*
+*  $FC Função: GRA Criar Aresta
+*
+*  $ED Descrição da função
+*      Ao receber dois char, a função procura os vértices correspondentes.
+*      O primeiro representa a origem e portanto a aresta será criada e inserida
+*      na lista de sucessores deste vértice. A aresta apontará para o vértice
+*      do segundo parâmetro, o destino, que também insere o vértice origem 
+*      em sua respectiva lista de antecessores.
+*     
+*
+*  $EP Parâmetros
+*      pVertOrig - Id do vértice de origem
+*      pvertDest - id do vértice de destino
+*      pGrafo    - Grafo que contém estes vértices
+*      String    - Nome que será inserido em aresta     
+*
+*  $FV Valor retornado
+*      GRA_CondRetFaltouMemoria
+*      GRA_CondRetNaoAchou
+*      GRA_CondRetOK
+*
+*  $AE Grafo já deve ter sido iniciado
+*      Os vértices fornecidos devem fazer parte do grafo passado
+*
+*  $AS Se CondRet = GRA_CondRetFaltouMemoria
+*	   Aresta não criada por falta de memória
+*
+*      Se CondRet = GRA_CondRetNaoAchou
+*      Um dos vértices fornecidos não foi encontrado
+*
+*	   Se CondRet = GRA_CondRetOK
+*      Aresta criada com sucesso fazendo a ligação entre vértices
+*
+***********************************************************************/
+
+GRA_tpCondRet GRA_CriarAresta (char pVertOrig , char pVertDest , GRA_tppGrafo pGrafo, char * String);
+
+/***********************************************************************
+*
+*  $FC Função: GRA Excluir Aresta
+*
+*  $ED Descrição da função
+*      Excluir a aresta que faz a ligação entre os vértices fornecidos.
+*      Excluir também a relação da lista de antecessores da lista do vértice destino.
+*     
+*
+*  $EP Parâmetros
+*      pVertOrig - Id do vértice de origem
+*      pvertDest - id do vértice de destino
+*      pGrafo    - Grafo que contém estes vértices    
+*
+*  $FV Valor retornado
+*      GRA_CondRetNaoAchou
+*      GRA_CondRetOK
+*
+*  $AE Grafo já deve ter sido iniciado
+*      Os vértices fornecidos devem fazer parte do grafo passado
+*
+*  $AS Se CondRet = GRA_CondRetNaoAchou
+*      Um dos vértices fornecidos não foi encontrado
+*
+*	   Se CondRet = GRA_CondRetOK
+*      Aresta excluída com sucesso
+*
+***********************************************************************/
+
 GRA_tpCondRet GRA_ExcluirAresta (char pVertOrig , char pVertDest , GRA_tppGrafo pGrafo);
 
+/***********************************************************************
+*
+*  $FC Função: GRA Definir vértice corrente
+*
+*  $ED Descrição da função
+*      Procura o vértice com base no id fornecido e seta este como corrente
+*      do grafo.
+*     
+*
+*  $EP Parâmetros
+*      pGrafo    - Grafo que contém o vértice  
+*      IdVert    - id do vértice a ser usado
+*
+*  $FV Valor retornado
+*      GRA_CondRetNaoAchou
+*      GRA_CondRetOK
+*
+*  $AE Grafo já deve ter sido iniciado
+*      O vértices fornecido deve fazer parte do grafo passado
+*
+*  $AS Se CondRet = GRA_CondRetNaoAchou
+*      O vértice fornecido não foi encontrado
+*
+*	   Se CondRet = GRA_CondRetOK
+*      Vértice setado como corrente
+*
+***********************************************************************/
+
 GRA_tpCondRet GRA_DefinirCorrente( GRA_tppGrafo pGrafo , char IdVert);
+
 
 #undef MATRIZ_EXT
 
