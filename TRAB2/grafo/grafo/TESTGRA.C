@@ -41,20 +41,8 @@ static const char CRIAR_GRAFO_CMD			[ ] = "=criargrafo"           ;
 static const char CRIAR_VERTIVE_GRAFO_CMD	[ ] = "=criarverticegrafo"    ;
 static const char CRIA_ARESTA_CMD       	[ ] = "=criararesta"          ;
 static const char EXCLUIR_VERT_CMD   		[ ] = "=excluirvertice"       ;
-<<<<<<< HEAD
 static const char EXCLUIR_ARES_CMD   		[ ] = "=excluiraresta"        ;
 static const char INSERE_VERT_ORIG_CMD      [ ] = "=inserirvertorigens"   ;
-=======
-
-
-static const char INSERE_CONT_VERT_CMD		[ ] = "=inserecontvertive"    ;
-static const char INSERE_VERT_FINAL_CMD		[ ] = "=inserevertivefinal"   ;
-static const char INSERE_VERT_INIC_CMD		[ ] = "=inserevertiveinic"    ;
-static const char INSERIR_VERT_SUC_VERT_CMD	[ ] = "=inserevertivesucvert" ;
-static const char INSERIR_VERT_ANT_VERT_CMD	[ ] = "=inserevertiveantvert" ;
-static const char EXCLUIR_ANT_VERT_CMD		[ ] = "=excluirantvertive"    ;
-static const char EXCLUIR_SUC_VERT_CMD		[ ] = "=excluirsucvertive"    ;
->>>>>>> c22b730f55fc5bb0dcd245c525ac939caf36ee97
 static const char OBTER_VALOR_VERT_CMD		[ ] = "=obtervalorvertcorr"   ;
 static const char MUDAR_VALOR_VERT_CMD      [ ] = "=mudarvalorvertcorr"   ;
 static const char DEFINIR_CORR_GRA_CMD      [ ] = "=definircorrentegra"   ;
