@@ -334,7 +334,7 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 *  Função: LIS  &Obter referência para o valor contido no elemento
 *  ****/
 
-   void * LIS_ObterValor( LIS_tppLista pLista )
+   LIS_tpCondRet LIS_ObterValor( LIS_tppLista pLista , void **ppContLista )
    {
 
       #ifdef _DEBUG
@@ -343,10 +343,12 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 
       if ( pLista->pElemCorr == NULL )
       {
-        return NULL ;
+		  return LIS_CondRetListaVazia ;
       } /* if */
 
-      return pLista->pElemCorr->pValor ;
+      *ppContLista = pLista->pElemCorr->pValor ;
+
+	  return LIS_CondRetOK ;
 
    } /* Fim função: LIS  &Obter referência para o valor contido no elemento */
 

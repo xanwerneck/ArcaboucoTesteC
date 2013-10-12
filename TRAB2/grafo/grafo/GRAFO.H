@@ -117,7 +117,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo);
+GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo, void   ( * ExcluirValor ) ( void * pDado ) );
 
 /***********************************************************************
 *

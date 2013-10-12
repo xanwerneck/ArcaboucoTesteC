@@ -65,7 +65,27 @@ GRA_tppGrafo    vtGrafo[ DIM_VT_GRAFO ] ;
 
 static int ValidarInxGrafo( int inxGrafo , int Modo ) ;
 
+static void TES_excluirInfo (void * pValor);
+
 /*****  Código das funções exportadas pelo módulo  *****/
+
+/***********************************************************************
+*
+* Função: TGRA Testar grafo
+*
+*    Comandos disponíveis:
+*
+*    =criargrafo                   inxGrafo  DestruirVal CondRetEsp
+*    =criarverticegrafo            inxGrafo  nome        casa       CondRetEsp
+*    =criararesta                  casa      casa        inxGrafo   nome         CondRetEsp
+*    =excluirvertice               inxGrafo  CondRetEsp
+*    =excluiraresta                casa      casa        inxGrafo   CondRetEsp
+*    =inserirvertorigens           inxGrafo  casa        CondRetEsp
+*    =obtervalorvertcorr           inxGrafo  nome        CondRetEsp
+*    =mudarvalorvertcorr           inxGrafo  nome        CondRetEsp
+*    =definircorrentegra           inxGrafo  casa      CondRetEsp
+*
+***********************************************************************/
 
 
 /***********************************************************************
@@ -124,7 +144,7 @@ static int ValidarInxGrafo( int inxGrafo , int Modo ) ;
 
 			vtGrafo[ inxGrafo ] = NULL;
 
-			CondRetObtido = GRA_CriarGrafo( &vtGrafo[ inxGrafo ] ) ;
+			CondRetObtido = GRA_CriarGrafo( &vtGrafo[ inxGrafo ] , TES_excluirInfo );
 
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
@@ -313,7 +333,19 @@ static int ValidarInxGrafo( int inxGrafo , int Modo ) ;
 
    } /* Fim função: TGRA -Validar indice de grafo */
 
+/***********************************************************************
+*
+*  $FC Função: TES -Excluir conteudo alocado em grafo
+*
+***********************************************************************/
 
+
+   void TES_excluirInfo ( void * pValor )
+   {
+
+      free( ( void * ) pValor ) ;
+
+   } /* Fim função: TST -Excluir informacao */
 
 
 /********** Fim do módulo de implementação: Módulo de teste específico **********/
