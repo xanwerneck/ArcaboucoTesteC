@@ -341,6 +341,9 @@ typedef struct LIS_tagLista * LIS_tppLista ;
                                     void * pValor ,
                                     int ( * ComparaValor ) ( void * pValorCorr , void * pValorBuscado ) ) ;
 
+LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista);
+
+
 #undef LISTA_EXT
 
 /********** Fim do módulo de definição: LIS  Lista duplamente encadeada **********/

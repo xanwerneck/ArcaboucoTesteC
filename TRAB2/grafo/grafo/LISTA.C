@@ -262,6 +262,25 @@
 
    } /* Fim função: LIS  &Inserir elemento após */
 
+/*
+LIS &ChecaOrigemNulo
+*/
+LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
+{
+
+	#ifdef _DEBUG
+         assert( pLista  != NULL ) ;
+    #endif
+
+	if(pLista->pOrigemLista == NULL){
+		return LIS_CondRetListaVazia;
+	}
+	return LIS_CondRetOK;
+
+}
+
+
+
 /***************************************************************************
 *
 *  Função: LIS  &Excluir elemento

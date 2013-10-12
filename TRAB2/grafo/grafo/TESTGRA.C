@@ -29,9 +29,7 @@
 #include    "LerParm.h"
 
 #include	"GRAFO.H"
-
 #include    "VERTICE.H"
-
 #include    "LISTA.H"
 
 
@@ -42,20 +40,14 @@
 static const char CRIAR_GRAFO_CMD			[ ] = "=criargrafo"           ;
 static const char CRIAR_VERTIVE_GRAFO_CMD	[ ] = "=criarverticegrafo"    ;
 static const char CRIA_ARESTA_CMD       	[ ] = "=criararesta"          ;
-
-
-
-static const char INSERE_CONT_VERT_CMD		[ ] = "=inserecontvertive"    ;
-static const char INSERE_VERT_FINAL_CMD		[ ] = "=inserevertivefinal"   ;
-static const char INSERE_VERT_INIC_CMD		[ ] = "=inserevertiveinic"    ;
-static const char INSERIR_VERT_SUC_VERT_CMD	[ ] = "=inserevertivesucvert" ;
-static const char INSERIR_VERT_ANT_VERT_CMD	[ ] = "=inserevertiveantvert" ;
 static const char EXCLUIR_VERT_CMD   		[ ] = "=excluirvertice"       ;
-static const char EXCLUIR_ANT_VERT_CMD		[ ] = "=excluirantvertive"    ;
-static const char EXCLUIR_SUC_VERT_CMD		[ ] = "=excluirsucvertive"    ;
+static const char EXCLUIR_ARES_CMD   		[ ] = "=excluiraresta"        ;
+static const char INSERE_VERT_ORIG_CMD      [ ] = "=inserirvertorigens"   ;
 static const char OBTER_VALOR_VERT_CMD		[ ] = "=obtervalorvertcorr"   ;
-static const char MUDAR_VALOR_VERT_CMD      [ ] = "=mudarvalorvertcorr"  ;
-static const char INSERE_VERT_ORIG_CMD      [ ] = "=inserirvertorigens"  ;
+static const char MUDAR_VALOR_VERT_CMD      [ ] = "=mudarvalorvertcorr"   ;
+static const char DEFINIR_CORR_GRA_CMD      [ ] = "=definircorrentegra"   ;
+
+
 
 #define TRUE  1
 #define FALSE 0
@@ -64,19 +56,14 @@ static const char INSERE_VERT_ORIG_CMD      [ ] = "=inserirvertorigens"  ;
 #define NAO_VAZIO 1
 
 #define DIM_VT_GRAFO       10
-#define DIM_VT_VERTICES    100
 #define DIM_VALOR          100
 
 GRA_tppGrafo    vtGrafo[ DIM_VT_GRAFO ] ;
-
-GRA_tppVerGrafo  vtVertice[ DIM_VT_VERTICES ] ;
 
 
 /***** Protótipos das funções encapuladas no módulo *****/
 
 static int ValidarInxGrafo( int inxGrafo , int Modo ) ;
-
-static int ValidarInxVertices( int inxVertices , int Modo ) ;
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -183,81 +170,32 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 
 		} /* fim ativa: Testar GRA Inserir aresta */
 
-
-		// verificar se pode excluir
-		/* Testar GRA Inserir conteúdo no vértice */
-
-		else if(strcmp ( ComandoTeste, INSERE_CONT_VERT_CMD ) == 0)
-		{
-			NumLidos = LER_LerParametros ( "isi" , &inxVertices, &StringDado , &CondRetEsperada );
-			if(NumLidos != 3){
-				return TST_CondRetParm;
-			}
-			
-			CondRetObtido = GRA_InsereConteudoVertice( vtVertice[ inxVertices ] , StringDado  );
-
-			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao inserir conteúdo no vértice." );
-
-		} /* fim ativa: Testar GRA Inserir conteúdo no vértice */
-
-
-		
+				
 		/* Testar GRA Excluir vértice */
 
 		else if (strcmp (ComandoTeste, EXCLUIR_VERT_CMD) == 0)
 		{
-			NumLidos = LER_LerParametros ( "iii" , &inxGrafo, &inxVertices , &CondRetEsperada );
-			if(NumLidos != 3){
+			NumLidos = LER_LerParametros ( "ii" , &inxGrafo , &CondRetEsperada );
+			if(NumLidos != 2){
+
 				return TST_CondRetParm;
+
 			}
 
-			CondRetObtido = GRA_ExcluirVertice( vtGrafo[ inxGrafo ] , vtVertice[inxVertices] );
+			CondRetObtido = GRA_ExcluirVerticeCorrente( vtGrafo[ inxGrafo ] );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao excluir vértice." );
 
 		} /* fim ativa: Testar GRA Excluir vértice */
 
-		/* Testar GRA Excluir aresta de antecessores */
-
-		else if(strcmp (ComandoTeste, EXCLUIR_ANT_VERT_CMD) == 0)
-		{
-			NumLidos = LER_LerParametros ( "ii" , &inxVertices, &CondRetEsperada );
-			if(NumLidos != 2){
-				return TST_CondRetParm;
-			}
-			
-			CondRetObtido = GRA_ExcluirAntecessoresVertice( vtVertice[inxVertices] );
-
-			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao excluir antecessores do vértice." );
-
-		} /* fim ativa: Testar GRA Excluir aresta de antecessores */
 		
-		
-		
-		/* Testar GRA Excluir aresta de sucessores */
-
-		else if(strcmp (ComandoTeste, EXCLUIR_SUC_VERT_CMD) == 0)
-		{
-			NumLidos = LER_LerParametros ( "ii" , &inxVertices, &CondRetEsperada );
-			if(NumLidos != 2){
-				return TST_CondRetParm;
-			}
-			
-			CondRetObtido = GRA_ExcluirSucessoresVertice( vtVertice[inxVertices] );
-
-			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao excluir sucessores do vértice." );
-
-		} /* fim ativa: Testar GRA Excluir aresta de sucessores */
 		
 		/* Testar GRA Obter valor do vértice corrente */
 
 		else if(strcmp (ComandoTeste, OBTER_VALOR_VERT_CMD) == 0)
 		{
-			NumLidos = LER_LerParametros ( "isi" , &inxGrafo , StringDado , &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "isi" , &inxGrafo , &StringDado , &CondRetEsperada );
 			if(NumLidos != 3){
 				return TST_CondRetParm;
 			}
@@ -273,7 +211,7 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 
 		else if(strcmp (ComandoTeste, MUDAR_VALOR_VERT_CMD) == 0)
 		{
-			NumLidos = LER_LerParametros ( "isi" , &inxGrafo , StringDado , &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "isi" , &inxGrafo , &StringDado , &CondRetEsperada );
 			if(NumLidos != 3){
 				return TST_CondRetParm;
 			}
@@ -290,13 +228,46 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
 
 		else if(strcmp (ComandoTeste, INSERE_VERT_ORIG_CMD ) == 0)
 		{
-			NumLidos = LER_LerParametros ( "iii" , &inxGrafo , ValorDado , &CondRetEsperada );
+			NumLidos = LER_LerParametros ( "ici" , &inxGrafo , &ValorDado , &CondRetEsperada );
 
 			if(NumLidos != 3){
 				return TST_CondRetParm;
 			}
 			
 			CondRetObtido = GRA_InsereOrigem(vtGrafo[ inxGrafo ] , ValorDado);
+
+			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao inserir vertice na lista de origens" );
+
+		} /* fim ativa: Testar GRA Inserir vértice no início da lista de origens */
+
+		/* Testar GRA Inserir vértice no início da lista de origens */
+
+		else if(strcmp (ComandoTeste, EXCLUIR_ARES_CMD ) == 0)
+		{
+			NumLidos = LER_LerParametros ( "ccii" , &ValorDado , &ValorDest ,  &inxGrafo , &CondRetEsperada );
+
+			if(NumLidos != 4){
+				return TST_CondRetParm;
+			}
+			
+			CondRetObtido = GRA_ExcluirAresta( ValorDado , ValorDest , vtGrafo[ inxGrafo ]);
+
+			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao inserir vertice na lista de origens" );
+
+		} /* fim ativa: Testar GRA Inserir vértice no início da lista de origens */
+
+		else if(strcmp (ComandoTeste, DEFINIR_CORR_GRA_CMD ) == 0)
+		{
+
+			NumLidos = LER_LerParametros ( "ici" , &inxGrafo , &ValorDado , &CondRetEsperada );
+
+			if(NumLidos != 3){
+				return TST_CondRetParm;
+			}
+
+			CondRetObtido = GRA_DefinirCorrente( vtGrafo[ inxGrafo ] , ValorDado);
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao inserir vertice na lista de origens" );
@@ -343,39 +314,6 @@ static int ValidarInxVertices( int inxVertices , int Modo ) ;
    } /* Fim função: TGRA -Validar indice de grafo */
 
 
-/***********************************************************************
-*
-*  $FC Função: TGRA - Validar indice de vertice
-*
-***********************************************************************/
-
-	 int ValidarInxVertices( int inxVertices , int Modo ) 
-	 {
-
-	  if ( ( inxVertices <  0 )
-		  || ( inxVertices >= DIM_VT_VERTICES ))
-      {
-         return FALSE ;
-      } /* if */
-         
-      if ( Modo == VAZIO )
-      {
-		  if ( vtVertice[ inxVertices ] != 0 )
-         {
-            return FALSE ;
-         } /* if */
-      } else
-      {
-         if ( vtVertice[ inxVertices ] == 0 )
-         {
-            return FALSE ;
-         } /* if */
-      } /* if */
-         
-      return TRUE ;
-
-	 }
-	/* Fim função: TGRA - Validar indice do vertice */
 
 
 /********** Fim do módulo de implementação: Módulo de teste específico **********/

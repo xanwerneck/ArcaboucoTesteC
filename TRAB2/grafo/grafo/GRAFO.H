@@ -431,6 +431,12 @@ GRA_tpCondRet GRA_InsereOrigem(GRA_tppGrafo pGrafo, char IdVert);
 
 GRA_tpCondRet GRA_CriarAresta (char pVertOrig , char pVertDest , GRA_tppGrafo pGrafo, char * String);
 
+GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo);
+
+GRA_tpCondRet GRA_ExcluirAresta (char pVertOrig , char pVertDest , GRA_tppGrafo pGrafo);
+
+GRA_tpCondRet GRA_DefinirCorrente( GRA_tppGrafo pGrafo , char IdVert);
+
 #undef MATRIZ_EXT
 
 /********** Fim do módulo de definição: Módulo grafo **********/
