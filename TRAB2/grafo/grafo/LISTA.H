@@ -4,7 +4,7 @@
 *
 *  $MCD Módulo de definição: LIS  Lista duplamente encadeada
 *
-*  Arquivo gerado:              LISTA.h
+*  Arquivo gerado:              LISTA.H
 *  Letras identificadoras:      LIS
 *
 *  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
@@ -12,14 +12,13 @@
 *
 *  Projeto: INF 1301 / 1628 Automatização dos testes de módulos C
 *  Gestor:  LES/DI/PUC-Rio
-*  Autores: avs
+*  Autores: aw - Alexandre Werneck
+*           fr - Fernanda Camelo Ribeiro
+*           vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     4       avs   01/fev/2006 criar linguagem script simbólica
-*     3       avs   08/dez/2004 uniformização dos exemplos
-*     2       avs   07/jul/2003 unificação de todos os módulos em um só projeto
-*     1       avs   16/abr/2003 início desenvolvimento
+*     1       afv   01/out/2013 início desenvolvimento
 *
 *  $ED Descrição do módulo
 *     Implementa listas genéricas duplamente encadeadas.
@@ -337,7 +336,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 ***********************************************************************/
 
-   LIS_tpCondRet LIS_ProcurarValor( LIS_tppLista pLista ,
+LIS_tpCondRet LIS_ProcurarValor( LIS_tppLista pLista ,
                                     void * pValor ,
                                     int ( * ComparaValor ) ( void * pValorCorr , void * pValorBuscado ) ) ;
 
