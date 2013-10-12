@@ -343,7 +343,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
 LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista);
 
-LIS_tpCondRet LIS_NumElem(LIS_tppLista pLista);
+int LIS_NumElem(LIS_tppLista pLista);
 
 
 #undef LISTA_EXT

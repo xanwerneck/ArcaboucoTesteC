@@ -219,39 +219,6 @@ GRA_tpCondRet GRA_InsereAntecessoresVertice(GRA_tppVerGrafo pVertice);
 
 GRA_tpCondRet GRA_InsereSucessoresVertice(GRA_tppVerGrafo pVertice);
 
-/***********************************************************************
-*
-*  $FC Função: GRA Insere conteúdo vértice
-*
-*  $ED Descrição da função
-*     Insere ponteiro do tipo tpVertice no vértice do grafo
-*
-*  $EP Parâmetros
-*     pVertice  - Ponteiro para elemento de conteúdo vértice (Modulo Vertice)
-*	  pConteudo - Ponteiro para conteúdo do módulo vértice
-*
-*  $FV Valor retornado
-*     GRA_CondRetVerticeNulo
-*     GRA_CondRetConteudoNulo
-*     GRA_CondRetOK
-*
-*
-*  $AE Variável pVertice deve ter sido iniciada
-*      Variável pConteudo deve ter sido iniciada
-*      CondRet deve ter sido instanciado
-*
-*  $AS Se CondRet = GRA_CondRetVerticeNulo
-*	   Vértice fornecido não iniciado ou nulo
-*      Se CondRet = GRA_CondRetConteudoNulo
-*      Conteudo fornecido deve ter sido iniciado no modulo vértice
-*
-*	   Se CondRet = GRA_CondRetOK
-*      Vértice fornecido recebe conteúdo
-*      
-*
-***********************************************************************/
-
-GRA_tpCondRet GRA_InsereConteudoVertice(GRA_tppVerGrafo pVertice, char * dado);
 
 /***********************************************************************
 *
