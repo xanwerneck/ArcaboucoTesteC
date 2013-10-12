@@ -399,6 +399,7 @@ GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo)
 	pVertOrigem = pGrafo->pCorrente;
 
 	IrInicioLista(pVertOrigem->pVerAnt);
+<<<<<<< HEAD
 
 	ListaRet        = LIS_CondRetOK ;
 	ListaRetCaminho = LIS_CondRetOK;
@@ -433,10 +434,36 @@ GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo)
 
 	} /* while */
 
+=======
+
+	ListaRet = LIS_CondRetOK ;
+
+	while(ListaRet!=LIS_CondRetFimLista)
+	{
+
+		pVerticeCaminho = (tpVerticeGrafo *)LIS_ObterValor (pVertOrigem->pVerAnt);
+
+		pAres = (tpArestaGrafo *)GRA_BuscarAresta(pVertOrigem->pIdVertice);
+		
+		retTmp = LIS_ProcurarValor( pVerticeCaminho->pVerSuc , 
+                                     pAres , 
+                                     GRA_comparaVerticeConteudo ) ;
+
+		if(retTmp==LIS_CondRetOK)
+		{
+			ListaRet = LIS_ExcluirElemento (pVerticeCaminho->pVerSuc);
+		} /* if */
+
+		ListaRet = LIS_AvancarElementoCorrente(pVertOrigem->pVerAnt, 1);
+
+	} /* while */
+
+>>>>>>> c22b730f55fc5bb0dcd245c525ac939caf36ee97
 	IrInicioLista(pVertOrigem->pVerSuc);
 
 	ListaRet = LIS_CondRetOK ;
 
+<<<<<<< HEAD
 	while(ListaRet!=LIS_CondRetListaVazia)
 	{
 
@@ -467,6 +494,24 @@ GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo)
 
 		ListaRet = LIS_ChecaOrigemNulo(pVertOrigem->pVerAnt);
 
+=======
+	while(ListaRet!=LIS_CondRetFimLista)
+	{
+
+		pVerticeCaminho = (tpVerticeGrafo *)LIS_ObterValor (pVertOrigem->pVerSuc);
+
+		retTmp = LIS_ProcurarValor( pVerticeCaminho->pVerAnt , 
+                                     pVertOrigem , 
+                                     GRA_comparaVerticeConteudo ) ;
+
+		if(retTmp==LIS_CondRetOK)
+		{
+			LIS_ExcluirElemento (pVerticeCaminho->pVerAnt);
+		} /* if */
+
+		ListaRet = LIS_AvancarElementoCorrente(pVertOrigem->pVerSuc, 1);
+
+>>>>>>> c22b730f55fc5bb0dcd245c525ac939caf36ee97
 	} /* while */
 	
 	LIS_DestruirLista (pVertOrigem->pVerAnt);
