@@ -91,6 +91,8 @@ VER_tpCondRet Ret;
 
       strcpy (pVertice->Nome , "");
 
+	  pVertice       = NULL;
+
 	  return VER_CondRetOK ;
 
    } /* Fim função: VER  &Destruir vértice */

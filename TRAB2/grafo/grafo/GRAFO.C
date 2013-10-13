@@ -130,11 +130,15 @@ static void GRA_CriaListaAntecessoresVertice(tpVerticeGrafo * pVertice) ;
 
 static void GRA_excluirValorLista ( void * pValor ) ;
 
+static void GRA_excluirValorListaAresta ( void * pValor );
+
 static int GRA_comparaVerticeConteudo( void * pVerticeO , void * pValorO ) ;
 
 tpVerticeGrafo * GRA_BuscarVertice(GRA_tppGrafo pGrafo , char Id) ;
 
 static void LiberarAresta(GRA_tppArestaGrafo pAres);
+
+void GRA_excluirValorListaNada ( void * pValor ) ;
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -296,13 +300,16 @@ GRA_tpCondRet GRA_ExcluirAresta(char pVertOrig , char pVertDest , GRA_tppGrafo p
 	} /* if */
 
 	pGrafo->pCorrente = pVertO;
-
 	LIS_ObterValor (pGrafo->pCorrente->pVerSuc , (void**)&pAres);
-	LiberarAresta(pAres);
 	LIS_ExcluirElemento(pGrafo->pCorrente->pVerSuc);
 
+	GRA_excluirValorListaAresta(pAres);
+
 	pGrafo->pCorrente = pVertD;
+	LIS_ObterValor (pGrafo->pCorrente->pVerAnt , (void**)&pVertO);
 	LIS_ExcluirElemento(pGrafo->pCorrente->pVerAnt);
+
+	GRA_excluirValorLista(pVertO->pConteudo);
 
 	return GRA_CondRetOK;
 }
@@ -631,7 +638,7 @@ void GRA_CriaListaSucessoresVertice(tpVerticeGrafo * pVertice)
 
 	LIS_tppLista pListaSuc ;
 
-	pListaSuc = LIS_CriarLista (GRA_excluirValorLista);
+	pListaSuc = LIS_CriarLista (GRA_excluirValorListaNada);
 
 	pVertice->pVerSuc = pListaSuc ;
 
@@ -649,12 +656,16 @@ void GRA_CriaListaAntecessoresVertice(tpVerticeGrafo * pVertice)
 
 	LIS_tppLista pListaAnt ;
 
-	pListaAnt = LIS_CriarLista (GRA_excluirValorLista);
+	pListaAnt = LIS_CriarLista (GRA_excluirValorListaNada);
 
 	pVertice->pVerAnt = pListaAnt ;
 
 } /* Fim função: GRA  &Criar Lista de antecessores do vertice do Grafo */
 
+
+void GRA_excluirValorListaNada ( void * pValor ){
+	
+}
 
 /***************************************************************************
 *
@@ -662,10 +673,25 @@ void GRA_CriaListaAntecessoresVertice(tpVerticeGrafo * pVertice)
 *
 ****************************************************************************/
 
-void GRA_excluirValorLista ( void * pValor )
+void GRA_excluirValorLista ( VER_tppVerticeCont pValor )
 {
 
-    VER_DestruirVertice ((VER_tppVerticeCont) pValor) ;
+    VER_DestruirVertice (pValor) ;
+
+
+} /* Fim função: GRA  &Excluir valor lista */
+
+
+/***************************************************************************
+*
+*  Função: GRA  &Excluir valor lista do tipo Aresta
+*
+****************************************************************************/
+
+void GRA_excluirValorListaAresta ( tpArestaGrafo * pAresta )
+{
+
+	free(pAresta);
 
 } /* Fim função: GRA  &Excluir valor lista */
 
