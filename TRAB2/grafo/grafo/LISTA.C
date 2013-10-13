@@ -1,7 +1,8 @@
 /***************************************************************************
-*  $MCI Módulo de implementação: LIS  Lista duplamente encadeada
 *
-*  Arquivo gerado:              LISTA.c
+*  $MCD Módulo de definição: LIS  Lista duplamente encadeada
+*
+*  Arquivo gerado:              LISTA.H
 *  Letras identificadoras:      LIS
 *
 *  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
@@ -9,14 +10,13 @@
 *
 *  Projeto: INF 1301 / 1628 Automatização dos testes de módulos C
 *  Gestor:  LES/DI/PUC-Rio
-*  Autores: avs
+*  Autores: aw - Alexandre Werneck
+*           fr - Fernanda Camelo Ribeiro
+*           vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     4       avs   01/fev/2006 criar linguagem script simbólica
-*     3       avs   08/dez/2004 uniformização dos exemplos
-*     2       avs   07/jul/2003 unificação de todos os módulos em um só projeto
-*     1       avs   16/abr/2003 início desenvolvimento
+*     1       afv   01/out/2013 início desenvolvimento
 *
 ***************************************************************************/
 
@@ -28,7 +28,7 @@
 
 
 #define LISTA_OWN
-#include "LISTA.h"
+#include "LISTA.H"
 #undef LISTA_OWN
 
 
@@ -120,7 +120,7 @@
 *  Função: LIS  &Destruir lista
 *  ****/
 
-   void LIS_DestruirLista( LIS_tppLista pLista )
+   LIS_tpCondRet LIS_DestruirLista( LIS_tppLista pLista )
    {
 
       #ifdef _DEBUG
@@ -131,6 +131,8 @@
 
       free( pLista ) ;
 
+	  return LIS_CondRetOK ;
+
    } /* Fim função: LIS  &Destruir lista */
 
 /***************************************************************************
@@ -138,7 +140,7 @@
 *  Função: LIS  &Esvaziar lista
 *  ****/
 
-   void LIS_EsvaziarLista( LIS_tppLista pLista )
+   LIS_tpCondRet LIS_EsvaziarLista( LIS_tppLista pLista )
    {
 
       tpElemLista * pElem ;
@@ -157,6 +159,8 @@
       } /* while */
 
       LimparCabeca( pLista ) ;
+	  
+	  return LIS_CondRetOK ;
 
    } /* Fim função: LIS  &Esvaziar lista */
 
@@ -262,9 +266,10 @@
 
    } /* Fim função: LIS  &Inserir elemento após */
 
-/*
-LIS &ChecaOrigemNulo
-*/
+/***************************************************************************
+*
+*  Função: LIS  &Checa se a origem é nula
+*  ****/
 LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 {
 
@@ -274,10 +279,11 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 
 	if(pLista->pOrigemLista == NULL){
 		return LIS_CondRetListaVazia;
-	}
+	} /* if */
+
 	return LIS_CondRetOK;
 
-}
+}  /* Fim função: LIS  &Checa se a origem é nula */
 
 
 
@@ -357,7 +363,7 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 *  Função: LIS  &Ir para o elemento inicial
 *  ****/
 
-   void IrInicioLista( LIS_tppLista pLista )
+   LIS_tpCondRet LIS_IrInicioLista( LIS_tppLista pLista )
    {
 
       #ifdef _DEBUG
@@ -366,6 +372,7 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 
       pLista->pElemCorr = pLista->pOrigemLista ;
 
+	  return LIS_CondRetOK ;
    } /* Fim função: LIS  &Ir para o elemento inicial */
 
 /***************************************************************************
@@ -373,7 +380,7 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 *  Função: LIS  &Ir para o elemento final
 *  ****/
 
-   void IrFinalLista( LIS_tppLista pLista )
+   LIS_tpCondRet LIS_IrFinalLista( LIS_tppLista pLista )
    {
 
       #ifdef _DEBUG
@@ -381,6 +388,8 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
       #endif
 
       pLista->pElemCorr = pLista->pFimLista ;
+
+	  return LIS_CondRetOK ;
 
    } /* Fim função: LIS  &Ir para o elemento final */
 
@@ -579,10 +588,6 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
       pLista->numElem   = 0 ;
 
    } /* Fim função: LIS  -Limpar a cabeça da lista */
-
-int LIS_NumElem(LIS_tppLista pLista){
-	return pLista->numElem;
-}
 
 /********** Fim do módulo de implementação: LIS  Lista duplamente encadeada **********/
 
