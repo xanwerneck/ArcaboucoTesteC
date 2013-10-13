@@ -120,7 +120,7 @@
 *  Função: LIS  &Destruir lista
 *  ****/
 
-   void LIS_DestruirLista( LIS_tppLista pLista )
+   LIS_tpCondRet LIS_DestruirLista( LIS_tppLista pLista )
    {
 
       #ifdef _DEBUG
@@ -131,6 +131,8 @@
 
       free( pLista ) ;
 
+	  return LIS_CondRetOK ;
+
    } /* Fim função: LIS  &Destruir lista */
 
 /***************************************************************************
@@ -138,7 +140,7 @@
 *  Função: LIS  &Esvaziar lista
 *  ****/
 
-   void LIS_EsvaziarLista( LIS_tppLista pLista )
+   LIS_tpCondRet LIS_EsvaziarLista( LIS_tppLista pLista )
    {
 
       tpElemLista * pElem ;
@@ -157,6 +159,8 @@
       } /* while */
 
       LimparCabeca( pLista ) ;
+	  
+	  return LIS_CondRetOK ;
 
    } /* Fim função: LIS  &Esvaziar lista */
 
@@ -357,7 +361,7 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 *  Função: LIS  &Ir para o elemento inicial
 *  ****/
 
-   void IrInicioLista( LIS_tppLista pLista )
+   LIS_tpCondRet LIS_IrInicioLista( LIS_tppLista pLista )
    {
 
       #ifdef _DEBUG
@@ -366,6 +370,7 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 
       pLista->pElemCorr = pLista->pOrigemLista ;
 
+	  return LIS_CondRetOK ;
    } /* Fim função: LIS  &Ir para o elemento inicial */
 
 /***************************************************************************
@@ -373,7 +378,7 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 *  Função: LIS  &Ir para o elemento final
 *  ****/
 
-   void IrFinalLista( LIS_tppLista pLista )
+   LIS_tpCondRet LIS_IrFinalLista( LIS_tppLista pLista )
    {
 
       #ifdef _DEBUG
@@ -381,6 +386,8 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
       #endif
 
       pLista->pElemCorr = pLista->pFimLista ;
+
+	  return LIS_CondRetOK ;
 
    } /* Fim função: LIS  &Ir para o elemento final */
 
