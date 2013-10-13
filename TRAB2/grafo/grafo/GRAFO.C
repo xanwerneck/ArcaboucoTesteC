@@ -316,7 +316,7 @@ GRA_tpCondRet GRA_DefinirCorrente(GRA_tppGrafo pGrafo, char IdVert)
 {
 	
 	tpVerticeGrafo * pVerticeBusca ;
-	IrInicioLista(pGrafo->pListaVertices);
+	LIS_IrInicioLista(pGrafo->pListaVertices);
 
 	while(ListaRet != LIS_CondRetFimLista){
 
@@ -350,7 +350,7 @@ GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo)
 
 	pVertOrigem = pGrafo->pCorrente;
 
-	IrInicioLista(pVertOrigem->pVerAnt);
+	LIS_IrInicioLista(pVertOrigem->pVerAnt);
 
 	ListaRet        = LIS_CondRetOK ;
 	ListaRetCaminho = LIS_CondRetOK;
@@ -360,7 +360,7 @@ GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo)
 
 		LIS_ObterValor (pVertOrigem->pVerAnt , (void**)&pVerticeCaminho);
 		
-		IrInicioLista(pVerticeCaminho->pVerSuc);
+		LIS_IrInicioLista(pVerticeCaminho->pVerSuc);
 		
 		while(ListaRetCaminho==LIS_CondRetOK || ListaRetCaminho==LIS_CondRetFimLista){
 			
@@ -385,7 +385,7 @@ GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo)
 
 	} /* while */
 
-	IrInicioLista(pVertOrigem->pVerSuc);
+	LIS_IrInicioLista(pVertOrigem->pVerSuc);
 
 	ListaRet = LIS_CondRetOK ;
 
@@ -394,7 +394,7 @@ GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo)
 
 		LIS_ObterValor (pVertOrigem->pVerSuc , (void**)&pAres);
 
-		IrInicioLista((LIS_tppLista)pAres->pVerticeDest->pVerAnt);
+		LIS_IrInicioLista((LIS_tppLista)pAres->pVerticeDest->pVerAnt);
 
 
 		while(ListaRetCaminho==LIS_CondRetOK || ListaRetCaminho==LIS_CondRetFimLista){
@@ -513,7 +513,7 @@ void GRA_ExcluirdeVertices(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 {
 
 
-	IrInicioLista(pGrafo->pListaVertices);
+	LIS_IrInicioLista(pGrafo->pListaVertices);
 
 	ListaRet = LIS_CondRetOK ;
 
@@ -541,7 +541,7 @@ void GRA_ExcluirdeOrigens(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 {
 
 
-	IrInicioLista(pGrafo->pListaOrigens);
+	LIS_IrInicioLista(pGrafo->pListaOrigens);
 
 	ListaRet = LIS_CondRetOK ;
 
@@ -771,7 +771,7 @@ tpVerticeGrafo * GRA_BuscarVertice(GRA_tppGrafo pGrafo , char Id)
 {
 	tpVerticeGrafo * pVerticeRes;
 
-	IrInicioLista(pGrafo->pListaVertices);
+	LIS_IrInicioLista(pGrafo->pListaVertices);
 
 	ListaRet = LIS_CondRetOK;
 
