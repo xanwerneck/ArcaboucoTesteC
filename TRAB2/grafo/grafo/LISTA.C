@@ -95,23 +95,27 @@
 *  Função: LIS  &Criar lista
 *  ****/
 
-   LIS_tppLista LIS_CriarLista(
-             void   ( * ExcluirValor ) ( void * pDado ) )
+   LIS_tpCondRet LIS_CriarLista(
+             void   ( * ExcluirValor ) ( void * pDado ) , LIS_tppLista * pLista)
    {
 
-      LIS_tpLista * pLista = NULL ;
+      LIS_tpLista * pListaM = NULL ;
 
-      pLista = ( LIS_tpLista * ) malloc( sizeof( LIS_tpLista )) ;
-      if ( pLista == NULL )
+      pListaM = ( LIS_tpLista * ) malloc( sizeof( LIS_tpLista )) ;
+      if ( pListaM == NULL )
       {
-         return NULL ;
+		  return LIS_CondRetFaltouMemoria ;
       } /* if */
 
-      LimparCabeca( pLista ) ;
+      LimparCabeca( pListaM ) ;
 
-      pLista->ExcluirValor = ExcluirValor ;
+      pListaM->ExcluirValor = ExcluirValor ;
 
-      return pLista ;
+	  (*pLista) = ( LIS_tppLista ) malloc( sizeof( LIS_tpLista )) ;
+
+	  (*pLista) = pListaM ;
+
+	  return LIS_CondRetOK ;
 
    } /* Fim função: LIS  &Criar lista */
 

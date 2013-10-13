@@ -601,7 +601,7 @@ void GRA_CriaListaOrigens( GRA_tppGrafo pGrafo )
 
 	LIS_tppLista pListaOrig ;
 
-	pListaOrig = LIS_CriarLista (GRA_excluirValorLista);
+	LIS_CriarLista (GRA_excluirValorLista , &pListaOrig);
 
 	pGrafo->pListaOrigens = pListaOrig ;
 
@@ -620,7 +620,7 @@ void GRA_CriaListaVertices( GRA_tppGrafo pGrafo )
 	
 	LIS_tppLista pListaVert ;
 
-	pListaVert = LIS_CriarLista (GRA_excluirValorLista);
+	LIS_CriarLista (GRA_excluirValorLista, &pListaVert);
 
 	pGrafo->pListaVertices= pListaVert ;
 
@@ -638,7 +638,7 @@ void GRA_CriaListaSucessoresVertice(tpVerticeGrafo * pVertice)
 
 	LIS_tppLista pListaSuc ;
 
-	pListaSuc = LIS_CriarLista (GRA_excluirValorListaNada);
+	LIS_CriarLista (GRA_excluirValorListaNada, &pListaSuc);
 
 	pVertice->pVerSuc = pListaSuc ;
 
@@ -656,7 +656,7 @@ void GRA_CriaListaAntecessoresVertice(tpVerticeGrafo * pVertice)
 
 	LIS_tppLista pListaAnt ;
 
-	pListaAnt = LIS_CriarLista (GRA_excluirValorListaNada);
+	LIS_CriarLista (GRA_excluirValorListaNada , &pListaAnt);
 
 	pVertice->pVerAnt = pListaAnt ;
 

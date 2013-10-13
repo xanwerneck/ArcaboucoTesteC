@@ -18,7 +18,7 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     1       afv   01/out/2013 início desenvolvimento
+*     1       afv   16/out/2013 início desenvolvimento
 *
 *  $ED Descrição do módulo
 *     Implementa listas genéricas duplamente encadeadas.
@@ -29,24 +29,24 @@
 *     Cada elemento da lista referencia o valor que contém.
 *
 *     Os ponteiros para os dados são copiados para elementos da lista.
-*        Não é copiado o valor apontado por estes ponteiros.
+*     Não é copiado o valor apontado por estes ponteiros.
 *
 *     O controle da destruição do valor de um elemento a ser excluído
-*        é realizado por uma função fornecida pelo usuário.
+*     é realizado por uma função fornecida pelo usuário do módulo.
 *
 *     Cada lista referencia uma função que determina como devem ser
-*        desalocados os dados nela contidos.
+*     desalocados os dados nela contidos.
 *
 *     A função de liberação dos valores contidos nos elementos deve
-*        assegurar a liberação de todos os espaços referênciados pelo
-*        valor contido em um elemento.
-*        Esta função é chamada antes de se desalocar um elemento
-*        de uma lista.
-*        Caso não seja necessário desalocar o valor referenciado pelo
-*        elemento, o ponteiro para a função de liberação poderá ser NULL .
-*        Caso o elemento da lista seja a única âncora do valor referenciado,
-*        esta função deve promover a destruição (free) desse valor e
-*        de todos os dados nele ancorados.
+*     assegurar a liberação de todos os espaços referenciados pelo
+*     valor contido em um elemento.
+*     Esta função é chamada antes de se desalocar um elemento
+*     de uma lista.
+*     Caso não seja necessário desalocar o valor referenciado pelo
+*     elemento, o ponteiro para a função de liberação poderá ser NULL .
+*     Caso o elemento da lista seja a única âncora do valor referenciado,
+*     esta função deve promover a destruição (free) desse valor e
+*     de todos os dados nele ancorados.
 *
 ***************************************************************************/
  
@@ -88,7 +88,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
                /* Não encontrou o valor procurado */
 
          LIS_CondRetFaltouMemoria = 9
-               /* Faltou memória ao tentar criar um elemento de lista */
+               /* Faltou memória ao tentar criar um elemento de lista ou uma lista */
 
    } LIS_tpCondRet ;
 
@@ -109,6 +109,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *                     exclusão do valor referenciado pelo elemento
 *                     a ser excluído.
 *                     Ver descrição do módulo.
+*                     Esta função é criada no módulo que utiliza a lista.
 *
 *  $FV Valor retornado
 *     LIS_CondRetFaltouMemoria - Não conseguiu criar a lista.
@@ -116,12 +117,8 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 ***********************************************************************/
 
-   LIS_tppLista LIS_CriarLista(
-             void   ( * ExcluirValor ) ( void * pDado ) ) ;
-
-   // PRECISAR SER MODIFICADA COM LIS_tpCondRet !!!!
-   //	 LIS_CondRetFaltouMemoria - Não conseguiu criar a lista.
-   //	 LIS_CondRetOK - Conseguiu criar a lista com sucesso.
+   LIS_tpCondRet LIS_CriarLista(
+             void   ( * ExcluirValor ) ( void * pDado ) , LIS_tppLista * pLista ) ;
 
 /***********************************************************************
 *
@@ -355,6 +352,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 *  $ED Descrição da função
 *     Faz uma verificação se o ponteiro para origem da lista é NULL.
+*     Com isso a lista está vazia.
 *
 *  $EP Parâmetros
 *     pLista       - Ponteiro para a lista.
