@@ -908,6 +908,12 @@ GRA_tpCondRet destruirValor(GRA_tppGrafo pGrafo)
 
 } /* Fim função: GRA  &Destruir valor do grafo */
 
+GRA_tpCondRet GRA_LimparMemoria(GRA_tppGrafo pGrafo){
+
+	LIS_DestruirLista(pGrafo->pListaOrigens);
+	LIS_DestruirLista(pGrafo->pListaVertices);
+	return GRA_CondRetOK;
+}
 
 /***************************************************************************
 *

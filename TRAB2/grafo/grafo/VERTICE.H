@@ -12,13 +12,16 @@
 *
 *  Projeto: INF 1301 Automatização dos testes de módulos C
 *  Gestor:  LES/DI/PUC-Rio
-*  Autores: afv
+*  Autores: aw - Alexandre Werneck
+*           fr - Fernanda Camelo Ribeiro
+*			vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     1       afv   19/09/2013 início desenvolvimento
+*     1       afv   19/out/2013 início desenvolvimento
 *
 *  $ED Descrição do módulo
+*       Implementa vértices com contéudo string.
 *
 ***************************************************************************/
  
@@ -66,13 +69,15 @@ typedef struct VER_tagVertice * VER_tppVerticeCont ;
 *
 *  $ED Descrição da função
 *     Cria um vértice e recebe uma string a ser atribuída como valor
+*     do elemento único da estrutura vértice.
 *
 *  $EP Parâmetros
-*     pVertice  - ponteiro para o vertice a ser inserido
-*	  Nome      - ponteiro para a string a ser inserida
+*     pVertice  - ponteiro para o vertice a ser criado
+*	  Nome      - String a ser inserida
 *
 *  $FV Valor retornado
 *     VER_CondRetOK  - vértice criado com sucesso
+*     VER_CondRetFaltouMemoria - vértice não foi criado.
 *
 ***********************************************************************/
 
@@ -86,14 +91,13 @@ typedef struct VER_tagVertice * VER_tppVerticeCont ;
 *  $ED Descrição da função
 *     Destrói o vértice fornecido.
 *     Elimina primeiro o valor do elemento, setando nome como vazio.
-*     Da um free no elemento pVertice fornecido.
+*     Aponta o elemento vertice para null
 *
 *  $EP Parâmetros
 *     pVertice  - vertice a ser excluído
 *
 *  $FV Valor retornado
-*     VER_CondRetOK       - destruiu sem problemas
-*     VER_CondRetNaoAchou - vértice nulo           //////////////////////////////////// ANALISAR ESSE RETORNO //////////////////////////////////////
+*     VER_CondRetOK       - destruiu o vértice
 *
 ***********************************************************************/
 
@@ -112,9 +116,9 @@ typedef struct VER_tagVertice * VER_tppVerticeCont ;
 *     Nome      - nova string que irá substituir o valor anterior
 *
 *  $FV Valor retornado
-*     VER_CondRetOK       - modificou sem problemas
+*     VER_CondRetOK       - modificou sem erros
 *     VER_CondRetNaoAchou - vértice nulo
-*     VER_CondRetVerVazio - vértice sem valor / parametro passado vazio
+*     VER_CondRetVerVazio - vértice sem valor ou parametro Nome fornecido vazio
 *
 ***********************************************************************/
 
@@ -134,7 +138,7 @@ typedef struct VER_tagVertice * VER_tppVerticeCont ;
 *  $FV Valor retornado
 *     VER_CondRetOK       - valores iguais
 *     VER_CondRetNaoAchou - vértice nulo
-*     VER_CondRetVerVazio - vértice sem valor / parametro passado vazio
+*     VER_CondRetVerVazio - vértice sem valor ou parametro Nome fornecido vazio
 *
 ***********************************************************************/
 
@@ -155,7 +159,7 @@ VER_tpCondRet VER_ObterValor( VER_tppVerticeCont pVertice , char * Nome  ) ;
 *  $FV Valor retornado
 *     VER_CondRetOK       - valor do vértice válido, atribuição bem sucedida
 *     VER_CondRetNaoAchou - vértice nulo
-*     VER_CondRetVerVazio - vértice sem valor / parametro passado vazio
+*     VER_CondRetVerVazio - vértice sem valor ou parametro Nome fornecido vazio
 *
 ***********************************************************************/
 

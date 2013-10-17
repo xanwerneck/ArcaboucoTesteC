@@ -11,11 +11,11 @@
 *  Gestor:  LES/DI/PUC-Rio
 *  Autores: aw - Alexandre Werneck
 *           fr - Fernanda Camelo Ribeiro
-*	        vo - Vinicius de Luiz de Oliveira
+*			vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     1       afv   01/out/2013 início desenvolvimento
+*     1       afv   19/out/2013 início desenvolvimento
 *
 ***************************************************************************/
 
@@ -40,7 +40,7 @@ VER_tpCondRet Ret;
 
    typedef struct VER_tagVertice {
 
-	   char Nome[80];
+	   char Nome[20];
 
    } VER_tpVertice ;
 
@@ -112,18 +112,18 @@ VER_tpCondRet Ret;
 	  if(pVertice == NULL)
 	  {
 		  return VER_CondRetNaoAchou ;
-	  }
+	  } /* if */
 	  if(strcmp(pVertice->Nome , "")==0)
 	  {
 		  return VER_CondRetVerVazio;
-	  }
+	  } /* if */
 
       strcpy (pVertice->Nome , Nome);
 
 	  if(strcmp(pVertice->Nome , Nome)==0)
 	  {
 		  return VER_CondRetOK;
-	  }
+	  } /* if */
 
 	  return VER_CondRetNaoAchou ;
 
@@ -144,12 +144,12 @@ VER_tpCondRet Ret;
 	  if(strcmp( pVertice->Nome , "") == 0)
 	  {
 		  return VER_CondRetVerVazio;
-	  }
+	  } /* if */
 
 	  if(strcmp(pVertice->Nome , Nome) == 0)
 	  {
 		  return VER_CondRetOK;
-	  }
+	  } /* if */
 
 	  return VER_CondRetNaoAchou ;
 
@@ -181,6 +181,6 @@ VER_tpCondRet Ret;
 	  Nome = pVertice->Nome;
 	  return VER_CondRetOK;
 	
-   } /* Fim função: VER  &Retorar valor do vértice */
+   } /* Fim função: VER  &Retorna valor do vértice */
 
 /********** Fim do módulo de implementação: VER  Vértice **********/

@@ -5,7 +5,7 @@
 *  Arquivo gerado:              LISTA.C
 *  Letras identificadoras:      LIS
 *
-*  Nome da base de software:    Exemplo de teste automatizado
+*  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
 *  Arquivo da base de software: D:\AUTOTEST\PROJETOS\SIMPLES.BSW
 *
 *  Projeto: INF 1301 Automatização dos testes de módulos C

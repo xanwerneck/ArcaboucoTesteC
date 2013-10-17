@@ -7,7 +7,7 @@
 *  Arquivo gerado:              LISTA.H
 *  Letras identificadoras:      LIS
 *
-*  Nome da base de software:    Exemplo de teste automatizado
+*  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
 *  Arquivo da base de software: D:\AUTOTEST\PROJETOS\SIMPLES.BSW
 *
 *  Projeto: INF 1301 Automatização dos testes de módulos C
@@ -18,7 +18,7 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     1       afv   16/out/2013 início desenvolvimento
+*     1       afv   19/out/2013 início desenvolvimento
 *
 *  $ED Descrição do módulo
 *     Implementa listas genéricas duplamente encadeadas.

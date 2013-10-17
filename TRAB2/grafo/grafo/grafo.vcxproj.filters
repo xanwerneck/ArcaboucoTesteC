@@ -47,6 +47,9 @@
     <ClInclude Include="VERTICE.H">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CESPDIN.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="ArcaboucoTeste.lib" />

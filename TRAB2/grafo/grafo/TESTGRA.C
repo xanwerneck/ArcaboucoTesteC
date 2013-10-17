@@ -32,6 +32,7 @@
 #include    "VERTICE.H"
 #include    "LISTA.H"
 
+#include    "CESPDIN.H"
 
 /***********************************************************************
 * Operações em Grafo
@@ -48,6 +49,7 @@ static const char MUDAR_VALOR_VERT_CMD      [ ] = "=mudarvalorvertcorr"   ;
 static const char DEFINIR_CORR_GRA_CMD      [ ] = "=definircorrentegra"   ;
 static const char DESTRUIR_GRA_CMD          [ ] = "=destruirgrafo"        ;
 
+static const char GRF_VER_MEMORIA_CMD       [ ] = "=checaespaco"        ;
 
 
 #define TRUE  1
@@ -314,6 +316,24 @@ static void TES_excluirInfo (void * pValor);
 
 		} /* fim ativa: Testar GRA Destruir Grafo */
 
+
+		else if ( strcmp( ComandoTeste , GRF_VER_MEMORIA_CMD ) == 0 )
+         {
+            CED_ExibirTodosEspacos( CED_ExibirInativos ) ;        
+            return TST_CondRetOK ;
+
+         } /* fim ativa: VerificarMemoria */
+
+		else
+		{
+			printf("Limpeza de memória");
+			for(i=0; i < DIM_VT_GRAFO ; i++ ){
+				if(!ValidarInxGrafo(i , VAZIO)){
+					GRA_LimparMemoria(vtGrafo[i]);
+				} /* if */
+				printf("Limpeza de memória");
+			} /* for */
+		}
 
       return TST_CondRetNaoConhec ;
 

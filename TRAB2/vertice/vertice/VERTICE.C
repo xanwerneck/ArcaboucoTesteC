@@ -11,11 +11,11 @@
 *  Gestor:  LES/DI/PUC-Rio
 *  Autores: aw - Alexandre Werneck
 *           fr - Fernanda Camelo Ribeiro
-*	        vo - Vinicius de Luiz de Oliveira
+*			vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     1       afv   01/out/2013 início desenvolvimento
+*     1       afv   19/out/2013 início desenvolvimento
 *
 ***************************************************************************/
 
@@ -40,7 +40,7 @@ VER_tpCondRet Ret;
 
    typedef struct VER_tagVertice {
 
-	   char Nome[80];
+	   char Nome[20];
 
    } VER_tpVertice ;
 
@@ -52,10 +52,10 @@ VER_tpCondRet Ret;
 *  Função: VER  &Criar vértice
 *  ****/
 
-   VER_tpCondRet VER_CriarVertice( VER_tppVertice * pVertice , char * Nome )
+   VER_tpCondRet VER_CriarVertice( VER_tppVerticeCont * pVertice , char * Nome )
    {
 
-      VER_tppVertice pVerticeM = ( VER_tppVertice ) malloc( sizeof( VER_tpVertice )) ;
+      VER_tppVerticeCont pVerticeM = ( VER_tppVerticeCont ) malloc( sizeof( VER_tpVertice )) ;
       if ( pVerticeM == NULL )
       {
 		  return VER_CondRetFaltouMemoria ;
@@ -72,6 +72,7 @@ VER_tpCondRet Ret;
 
 	  (*pVertice) = pVerticeM;
 
+
 	  return VER_CondRetOK ;
 
    } /* Fim função: VER  &Criar vértice */
@@ -81,26 +82,18 @@ VER_tpCondRet Ret;
 *  Função: VER  &Destruir vértice
 *  ****/
 
-   VER_tpCondRet VER_DestruirVertice( VER_tppVertice pVertice )
+   VER_tpCondRet VER_DestruirVertice( VER_tppVerticeCont pVertice )
    {
 
       #ifdef _DEBUG
          assert( pVertice != NULL ) ;
       #endif
 
-	  if(pVertice != NULL)
-	  {
-		  free( pVertice ) ;
+      strcpy (pVertice->Nome , "");
 
-		  pVertice = NULL;
-	  }
+	  pVertice       = NULL;
 
-	  if(pVertice == NULL)
-	  {
-		  return VER_CondRetOK ;
-	  }
-
-	  return VER_CondRetNaoAchou ;
+	  return VER_CondRetOK ;
 
    } /* Fim função: VER  &Destruir vértice */
 
@@ -109,7 +102,7 @@ VER_tpCondRet Ret;
 *  Função: VER  &Mudar valor do vértice
 *  ****/
 
-   VER_tpCondRet VER_MudarNomeVertice( VER_tppVertice pVertice , char * Nome  )
+   VER_tpCondRet VER_MudarNomeVertice( VER_tppVerticeCont pVertice , char * Nome  )
    {
 
       #ifdef _DEBUG
@@ -119,18 +112,18 @@ VER_tpCondRet Ret;
 	  if(pVertice == NULL)
 	  {
 		  return VER_CondRetNaoAchou ;
-	  }
+	  } /* if */
 	  if(strcmp(pVertice->Nome , "")==0)
 	  {
 		  return VER_CondRetVerVazio;
-	  }
+	  } /* if */
 
       strcpy (pVertice->Nome , Nome);
 
 	  if(strcmp(pVertice->Nome , Nome)==0)
 	  {
 		  return VER_CondRetOK;
-	  }
+	  } /* if */
 
 	  return VER_CondRetNaoAchou ;
 
@@ -141,27 +134,22 @@ VER_tpCondRet Ret;
 *  Função: VER  &Obter valor do vértice
 *  ****/
 
-   VER_tpCondRet VER_ObterValor( VER_tppVertice pVertice , char * Nome  )
+   VER_tpCondRet VER_ObterValor( VER_tppVerticeCont pVertice , char * Nome  )
    {
 
       #ifdef _DEBUG
          assert( pVertice != NULL ) ;
       #endif
 
-	  if(pVertice == NULL)
-	  {
-		  return VER_CondRetNaoAchou ;
-	  }
-
-	  if(strcmp( pVertice->Nome , "") == 0) //provavelmente errado
+	  if(strcmp( pVertice->Nome , "") == 0)
 	  {
 		  return VER_CondRetVerVazio;
-	  }
+	  } /* if */
 
 	  if(strcmp(pVertice->Nome , Nome) == 0)
 	  {
 		  return VER_CondRetOK;
-	  }
+	  } /* if */
 
 	  return VER_CondRetNaoAchou ;
 
@@ -172,7 +160,7 @@ VER_tpCondRet Ret;
 *  Função: VER  &Retorna valor do vértice
 *  ****/
 
-   VER_tpCondRet VER_RetornaValor( VER_tppVertice pVertice , char * Nome  )
+   VER_tpCondRet VER_RetornaValor( VER_tppVerticeCont pVertice , char * Nome )
    {
 
       #ifdef _DEBUG
@@ -193,6 +181,6 @@ VER_tpCondRet Ret;
 	  Nome = pVertice->Nome;
 	  return VER_CondRetOK;
 	
-   } /* Fim função: VER  &Retorar valor do vértice */
+   } /* Fim função: VER  &Retorna valor do vértice */
 
 /********** Fim do módulo de implementação: VER  Vértice **********/

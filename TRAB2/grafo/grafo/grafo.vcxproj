@@ -80,6 +80,7 @@
     <ClCompile Include="VERTICE.C" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CESPDIN.H" />
     <ClInclude Include="GENERICO.H" />
     <ClInclude Include="GRAFO.H" />
     <ClInclude Include="LERPARM.H" />
