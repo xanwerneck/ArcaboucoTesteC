@@ -140,6 +140,10 @@ static void LiberarAresta(GRA_tppArestaGrafo pAres);
 
 static void GRA_excluirValorListaNada ( void * pValor ) ;
 
+static int ChecaArestaExiste(tpVerticeGrafo * pVertice , char * String, char Dest);
+
+static int ChecaVerticeExiste(GRA_tppGrafo pGrafo, char Vert);
+
 /*****  Código das funções exportadas pelo módulo  *****/
 
 /***************************************************************************
@@ -192,6 +196,12 @@ GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppGrafo pGrafo, char * String , char id)
 {
 
 	GRA_tppVerGrafo pVert;
+	int ret = 0;
+
+	ret = ChecaVerticeExiste(pGrafo, id);
+	if(ret == 1){
+		return GRA_VerticeJaExiste ;
+	} /* if */
 
 	pVert = (GRA_tppVerGrafo) malloc (sizeof (tpVerticeGrafo));
 
@@ -226,23 +236,29 @@ GRA_tpCondRet GRA_CriarAresta (char pVertOrig , char pVertDest , GRA_tppGrafo pG
 	GRA_tppArestaGrafo pAres;
 	tpVerticeGrafo * pVertO;
 	tpVerticeGrafo * pVertD;
+	int ret = 0;
+
+	pVertO = GRA_BuscarVertice(pGrafo, pVertOrig);
+	if(pVertO == NULL){
+		return GRA_CondRetNaoAchou ;
+	} /* if */
+	
+	pVertD = GRA_BuscarVertice(pGrafo, pVertDest);
+	if(pVertD == NULL){
+		return GRA_CondRetNaoAchou ;
+	} /* if */
+	
+	ret = ChecaArestaExiste(pVertO , String, pVertD->pIdVertice);
+	if(ret==1){
+		return GRA_ArestaJaExiste ;
+	} /* if */
 
 	pAres = (GRA_tppArestaGrafo) malloc (sizeof (tpArestaGrafo));
 
 	if(pAres == NULL){
 		return GRA_CondRetFaltouMemoria ;
 	} /* if */
-
-	pVertO = GRA_BuscarVertice(pGrafo, pVertOrig);
-	if(pVertO == NULL){
-		return GRA_CondRetNaoAchou ;
-	} /* if */
-
-	pVertD = GRA_BuscarVertice(pGrafo, pVertDest);
-	if(pVertD == NULL){
-		return GRA_CondRetNaoAchou ;
-	} /* if */
-
+	
 	pAres->Nome = String;
 	pAres->pVerticeDest = pVertD;
 
@@ -935,6 +951,84 @@ void LiberarAresta(GRA_tppArestaGrafo pAres)
 	free(pAres);
 	pAres = NULL;
 } /* Fim função: GRA &Limpar conteúdo de aresta */
+
+/***************************************************************************
+*
+*  Função: GRA  &Checa se aresta existe
+*
+****************************************************************************/
+
+int ChecaArestaExiste(tpVerticeGrafo * pVertice , char * String, char Dest)
+{
+	tpArestaGrafo * pAres ;
+
+	if(pVertice==NULL){
+		return 0;
+	} /* if */
+
+	ListaRetCaminho=LIS_IrInicioLista(pVertice->pVerSuc);
+
+	
+	while(ListaRetCaminho==LIS_CondRetOK || ListaRetCaminho==LIS_CondRetFimLista){
+
+		LIS_ObterValor(pVertice->pVerSuc , (void**)&pAres);
+
+		if(strcmp(pAres->Nome , String)==0 && pAres->pVerticeDest->pIdVertice == Dest){
+
+			return 1;
+
+		} /* if */
+
+		if(ListaRetCaminho == LIS_CondRetFimLista){
+			return 0;
+		} /* if */
+		ListaRetCaminho = LIS_AvancarElementoCorrente(pVertice->pVerSuc, 1);
+
+	} /* while */
+
+	pAres = NULL;
+
+	return 0;
+} /* Fim função: GRA &Checa se aresta existe */
+
+/***************************************************************************
+*
+*  Função: GRA  &Checa se vértice existe
+*
+****************************************************************************/
+
+int ChecaVerticeExiste(GRA_tppGrafo pGrafo, char Vert)
+{
+	tpVerticeGrafo * pVertice;
+
+	if(pGrafo==NULL){
+		return 0;
+	} /* if */
+
+	ListaRetCaminho=LIS_IrInicioLista(pGrafo->pListaVertices);
+	
+	while(ListaRetCaminho==LIS_CondRetOK || ListaRetCaminho==LIS_CondRetFimLista){
+
+		LIS_ObterValor(pGrafo->pListaVertices , (void**)&pVertice);
+
+		if(pVertice->pIdVertice == Vert){
+
+			return 1;
+
+		} /* if */
+
+		if(ListaRetCaminho == LIS_CondRetFimLista){
+			return 0;
+		} /* if */
+		ListaRetCaminho = LIS_AvancarElementoCorrente(pGrafo->pListaVertices, 1);
+
+	} /* while */
+
+	pVertice = NULL;
+
+	return 0;
+} /* Fim função: GRA &Checa se vertice existe */
+
 
 /********** Fim do módulo de implementação: Módulo GRAFO **********/
 

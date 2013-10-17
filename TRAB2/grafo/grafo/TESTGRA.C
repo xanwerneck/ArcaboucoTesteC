@@ -185,10 +185,10 @@ static void TES_excluirInfo (void * pValor);
 				return TST_CondRetParm;
 			}
 
-			CondRetObtido = GRA_CriarAresta( ValorOrig, ValorDest , vtGrafo[ inxGrafo ] , StringDado  );
+			CondRetObtido = GRA_CriarAresta( ValorOrig , ValorDest , vtGrafo[ inxGrafo ] , StringDado  );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao inserir conteúdo no vértice." );
+                                    "Retorno errado ao criar aresta." );
 
 		} /* fim ativa: Testar GRA Inserir aresta */
 

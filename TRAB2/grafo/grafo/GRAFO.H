@@ -87,8 +87,14 @@ typedef enum {
        GRA_CondRetMaisdeUmaOrigem = 7 ,
 	       /* Não foi possível inserir em origem */
 
+		GRA_ArestaJaExiste = 8 ,
+	       /* Não foi possível criar aresta */
+
         GRA_CondRetFaltouMemoria = 9 ,
             /* Faltou memória ao alocar dados */
+
+		GRA_VerticeJaExiste = 10 
+			/* Vertice já existe na lista de vértices desse grafo */
 
 } GRA_tpCondRet ;
 
