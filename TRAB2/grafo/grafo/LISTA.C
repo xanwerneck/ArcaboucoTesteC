@@ -2,17 +2,17 @@
 *
 *  $MCD Módulo de definição: LIS  Lista duplamente encadeada
 *
-*  Arquivo gerado:              LISTA.H
+*  Arquivo gerado:              LISTA.C
 *  Letras identificadoras:      LIS
 *
-*  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
-*  Arquivo da base de software: D:\AUTOTEST\PROJETOS\LISTA.BSW
+*  Nome da base de software:    Exemplo de teste automatizado
+*  Arquivo da base de software: D:\AUTOTEST\PROJETOS\SIMPLES.BSW
 *
-*  Projeto: INF 1301 / 1628 Automatização dos testes de módulos C
+*  Projeto: INF 1301 Automatização dos testes de módulos C
 *  Gestor:  LES/DI/PUC-Rio
 *  Autores: aw - Alexandre Werneck
 *           fr - Fernanda Camelo Ribeiro
-*           vo - Vinicius de Luiz de Oliveira
+*			vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
@@ -78,15 +78,15 @@
 
    } LIS_tpLista ;
 
-/***** Protótipos das funções encapuladas no módulo *****/
+/***** Protótipos das funções encapsuladas no módulo *****/
 
-   static void LiberarElemento( LIS_tppLista   pLista ,
-                                tpElemLista  * pElem   ) ;
+static void LiberarElemento( LIS_tppLista   pLista ,
+                            tpElemLista  * pElem   ) ;
 
-   static tpElemLista * CriarElemento( LIS_tppLista pLista ,
-                                       void *       pValor  ) ;
+static tpElemLista * CriarElemento( LIS_tppLista pLista ,
+                                    void *       pValor  ) ;
 
-   static void LimparCabeca( LIS_tppLista pLista ) ;
+static void LimparCabeca( LIS_tppLista pLista ) ;
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -183,28 +183,26 @@
          assert( pLista != NULL ) ;
       #endif
 
-      /* Criar elemento a inerir antes */
+		/* Criar elemento a inserir antes */
 
          pElem = CriarElemento( pLista , pValor ) ;
-         if ( pElem == NULL )
-         {
+         if ( pElem == NULL ){
             return LIS_CondRetFaltouMemoria ;
          } /* if */
 
-      /* Encadear o elemento antes do elemento corrente */
+		/* Encadear o elemento antes do elemento corrente */
 
-         if ( pLista->pElemCorr == NULL )
-         {
+         if ( pLista->pElemCorr == NULL ) {
+
             pLista->pOrigemLista = pElem ;
             pLista->pFimLista = pElem ;
-         } else
-         {
-            if ( pLista->pElemCorr->pAnt != NULL )
-            {
+
+         } else{
+
+            if ( pLista->pElemCorr->pAnt != NULL ){
                pElem->pAnt  = pLista->pElemCorr->pAnt ;
                pLista->pElemCorr->pAnt->pProx = pElem ;
-            } else
-            {
+            } else{
                pLista->pOrigemLista = pElem ;
             } /* if */
 
@@ -237,25 +235,23 @@
       /* Criar elemento a inerir após */
 
          pElem = CriarElemento( pLista , pValor ) ;
-         if ( pElem == NULL )
-         {
+         if ( pElem == NULL ){
             return LIS_CondRetFaltouMemoria ;
          } /* if */
 
       /* Encadear o elemento após o elemento */
 
-         if ( pLista->pElemCorr == NULL )
-         {
+         if ( pLista->pElemCorr == NULL ){
+
             pLista->pOrigemLista = pElem ;
             pLista->pFimLista = pElem ;
-         } else
-         {
-            if ( pLista->pElemCorr->pProx != NULL )
-            {
+
+         } else{
+
+            if ( pLista->pElemCorr->pProx != NULL ){
                pElem->pProx  = pLista->pElemCorr->pProx ;
                pLista->pElemCorr->pProx->pAnt = pElem ;
-            } else
-            {
+            } else{
                pLista->pFimLista = pElem ;
             } /* if */
 
@@ -314,8 +310,7 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 
       /* Desencadeia à esquerda */
 
-         if ( pElem->pAnt != NULL )
-         {
+         if ( pElem->pAnt != NULL ){
             pElem->pAnt->pProx   = pElem->pProx ;
             pLista->pElemCorr    = pElem->pAnt ;
          } else {
@@ -325,11 +320,9 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 
       /* Desencadeia à direita */
 
-         if ( pElem->pProx != NULL )
-         {
+         if ( pElem->pProx != NULL ) {
             pElem->pProx->pAnt = pElem->pAnt ;
-         } else
-         {
+         } else {
             pLista->pFimLista = pElem->pAnt ;
          } /* if */
 
@@ -344,19 +337,18 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 *  Função: LIS  &Obter referência para o valor contido no elemento
 *  ****/
 
-   LIS_tpCondRet LIS_ObterValor( LIS_tppLista pLista , void **ppContLista )
+   LIS_tpCondRet LIS_ObterValor( LIS_tppLista pLista , void **pContListaM )
    {
 
       #ifdef _DEBUG
          assert( pLista != NULL ) ;
       #endif
 
-      if ( pLista->pElemCorr == NULL )
-      {
+      if ( pLista->pElemCorr == NULL ){
 		  return LIS_CondRetListaVazia ;
       } /* if */
 
-      *ppContLista = pLista->pElemCorr->pValor ;
+      *pContListaM = pLista->pElemCorr->pValor ;
 
 	  return LIS_CondRetOK ;
 
@@ -377,6 +369,7 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
       pLista->pElemCorr = pLista->pOrigemLista ;
 
 	  return LIS_CondRetOK ;
+
    } /* Fim função: LIS  &Ir para o elemento inicial */
 
 /***************************************************************************
@@ -399,7 +392,7 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 
 /***************************************************************************
 *
-*  Função: LIS  &Avançar elemento
+*  Função: LIS  &Avançar elemento 
 *  ****/
 
    LIS_tpCondRet LIS_AvancarElementoCorrente( LIS_tppLista pLista ,
@@ -416,8 +409,7 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 
       /* Tratar lista vazia */
 
-         if ( pLista->pElemCorr == NULL )
-         {
+         if ( pLista->pElemCorr == NULL ){
 
             return LIS_CondRetListaVazia ;
 
@@ -425,21 +417,17 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 
       /* Tratar avançar para frente */
 
-         if ( numElem > 0 )
-         {
+         if ( numElem > 0 ) {
 
             pElem = pLista->pElemCorr ;
-            for( i = numElem ; i > 0 ; i-- )
-            {
-               if ( pElem == NULL )
-               {
+            for( i = numElem ; i > 0 ; i-- ){
+               if ( pElem == NULL ){
                   break ;
                } /* if */
                pElem    = pElem->pProx ;
             } /* for */
 
-            if ( pElem != NULL )
-            {
+            if ( pElem != NULL ){
                pLista->pElemCorr = pElem ;
                return LIS_CondRetOK ;
             } /* if */
@@ -447,25 +435,21 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
             pLista->pElemCorr = pLista->pFimLista ;
             return LIS_CondRetFimLista ;
 
-         } /* fim ativa: Tratar avançar para frente */
+         } /*  fim ativa : Tratar avançar para frente */
 
       /* Tratar avançar para trás */
 
-         else if ( numElem < 0 )
-         {
+         else if ( numElem < 0 ){
 
             pElem = pLista->pElemCorr ;
-            for( i = numElem ; i < 0 ; i++ )
-            {
-               if ( pElem == NULL )
-               {
+            for( i = numElem ; i < 0 ; i++ ) {
+               if ( pElem == NULL ) {
                   break ;
                } /* if */
                pElem    = pElem->pAnt ;
             } /* for */
 
-            if ( pElem != NULL )
-            {
+            if ( pElem != NULL ){
                pLista->pElemCorr = pElem ;
                return LIS_CondRetOK ;
             } /* if */
@@ -497,8 +481,7 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
          assert( pLista  != NULL ) ;
       #endif
 
-      if ( pLista->pElemCorr == NULL )
-      {
+      if ( pLista->pElemCorr == NULL ){
          return LIS_CondRetListaVazia ;
       } /* if */
 
@@ -506,8 +489,7 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
             pElem != NULL ;
             pElem  = pElem->pProx )
       {
-         if ( ComparaValor( pElem->pValor , pValor ) == 0 )
-         {
+         if ( ComparaValor( pElem->pValor , pValor ) == 0 ){
             pLista->pElemCorr = pElem ;
             return LIS_CondRetOK ;
          } /* if */
@@ -527,7 +509,8 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 *
 *  $ED Descrição da função
 *     Elimina os espaços apontados pelo valor do elemento e o
-*     próprio elemento.
+*     próprio elemento. Chama a função de exclusão definida no
+*     modulo cliente na criação de lista.
 *
 ***********************************************************************/
 
@@ -550,7 +533,7 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 
 /***********************************************************************
 *
-*  $FC Função: LIS  -Criar o elemento
+*  $FC Função: LIS  -Criar o elemento sem encadeamento na estrutura
 *
 ***********************************************************************/
 
