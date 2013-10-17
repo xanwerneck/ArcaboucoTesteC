@@ -222,7 +222,7 @@ GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo);
 *
 ***********************************************************************/
 
-GRA_tpCondRet GRA_ObterValorVerticeCorrente (GRA_tppGrafo pGrafo , char * nomeForn) ;
+GRA_tpCondRet GRA_ChecarNomeVerticeCorrente (GRA_tppGrafo pGrafo , char * nomeForn) ;
 
 /***********************************************************************
 *
@@ -257,7 +257,7 @@ GRA_tpCondRet GRA_ObterValorVerticeCorrente (GRA_tppGrafo pGrafo , char * nomeFo
 *
 ***********************************************************************/
 
-GRA_tpCondRet GRA_MudarValorVerticeCorrente (GRA_tppGrafo pGrafo , char * nomeForn) ;
+GRA_tpCondRet GRA_MudarNomeVerticeCorrente (GRA_tppGrafo pGrafo , char * nomeForn) ;
 
 /***********************************************************************
 *
@@ -390,6 +390,34 @@ GRA_tpCondRet GRA_ExcluirAresta (char pVertOrig , char pVertDest , GRA_tppGrafo 
 
 GRA_tpCondRet GRA_DefinirCorrente( GRA_tppGrafo pGrafo , char IdVert);
 
+
+/***********************************************************************
+*
+*  $FC Função: GRA Destruir grafo
+*
+*  $ED Descrição da função
+*      Destrói o grafo fornecido como parâmetro
+*     
+*
+*  $EP Parâmetros
+*      pGrafo    - Grafo a ser excluído
+*
+*  $FV Valor retornado
+*      GRA_CondRetGrafoNulo
+*      GRA_CondRetOK
+*
+*  $AE Grafo já deve ter sido iniciado
+*      A lista de Origens e Vértices não deve estar vazia
+*
+*  $AS Se CondRet = GRA_CondRetGrafoNulo
+*      O grafo fornecido não foi criado ou está nulo
+*
+*	   Se CondRet = GRA_CondRetOK
+*      Grafo excluído com sucesso
+*
+***********************************************************************/
+
+GRA_tpCondRet GRA_DestruirGrafo( GRA_tppGrafo * pGrafo);
 
 #undef MATRIZ_EXT
 

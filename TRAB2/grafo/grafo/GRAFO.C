@@ -138,7 +138,7 @@ tpVerticeGrafo * GRA_BuscarVertice(GRA_tppGrafo pGrafo , char Id) ;
 
 static void LiberarAresta(GRA_tppArestaGrafo pAres);
 
-void GRA_excluirValorListaNada ( void * pValor ) ;
+static void GRA_excluirValorListaNada ( void * pValor ) ;
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -408,7 +408,7 @@ GRA_tpCondRet GRA_DefinirCorrente(GRA_tppGrafo pGrafo, char IdVert)
 
 GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo)
 {
-	// falta excluir da lista de origens
+
 	tpVerticeGrafo * pVertOrigem;
 	tpVerticeGrafo * pVerticeCaminho;
 	GRA_tppArestaGrafo pAres;
@@ -519,7 +519,7 @@ GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo)
 *  Função: GRA  &Obter valor do vértice corrente
 *  ****/
 
-GRA_tpCondRet GRA_ObterValorVerticeCorrente(GRA_tppGrafo pGrafo , char * nomeForn)
+GRA_tpCondRet GRA_ChecarNomeVerticeCorrente(GRA_tppGrafo pGrafo , char * nomeForn)
 {
 
 	VER_tppVerticeCont valorElem ;
@@ -548,7 +548,7 @@ GRA_tpCondRet GRA_ObterValorVerticeCorrente(GRA_tppGrafo pGrafo , char * nomeFor
 *  Função: GRA  &Mudar valor do vértice corrente
 *  ****/
 
-GRA_tpCondRet GRA_MudarValorVerticeCorrente(GRA_tppGrafo pGrafo , char * nomeForn)
+GRA_tpCondRet GRA_MudarNomeVerticeCorrente(GRA_tppGrafo pGrafo , char * nomeForn)
 {
 	
 	if(pGrafo == NULL){
@@ -565,6 +565,54 @@ GRA_tpCondRet GRA_MudarValorVerticeCorrente(GRA_tppGrafo pGrafo , char * nomeFor
 	return GRA_CondRetConteudoNulo;
 }
 
+/***************************************************************************
+*
+*  Função: GRA  &Obter valor por referência
+*  ****/
+
+GRA_tpCondRet GRA_ObterValorCorrente(GRA_tppGrafo pGrafo , void ** pValor)
+{
+
+	if(pGrafo == NULL){
+
+		return GRA_CondRetGrafoNulo;
+
+	} /* if */
+	
+	*pValor = pGrafo->pCorrente->pConteudo;
+
+	return GRA_CondRetOK ;
+}
+
+/***************************************************************************
+*
+*  Função: GRA  &Destruir Grafo
+*  ****/
+
+GRA_tpCondRet GRA_DestruirGrafo(GRA_tppGrafo * pGrafo)
+{
+	GRA_tpGrafo * pGrafoM = (GRA_tpGrafo*) *pGrafo;
+
+	if(pGrafo==NULL){
+
+		return GRA_CondRetGrafoNulo;
+
+	} /* if */
+
+	ListaRetCaminho=LIS_CondRetOK ;
+
+	LIS_DestruirLista(pGrafoM->pListaOrigens);
+
+	LIS_DestruirLista(pGrafoM->pListaVertices);
+
+	free(pGrafoM);
+
+	pGrafo  = NULL;
+	pGrafoM = NULL;
+
+	return GRA_CondRetOK;
+
+}
 
 /*****  Código das funções encapsuladas pelo módulo  *****/
 

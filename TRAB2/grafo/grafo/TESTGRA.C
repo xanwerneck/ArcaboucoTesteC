@@ -46,6 +46,7 @@ static const char INSERE_VERT_ORIG_CMD      [ ] = "=inserirvertorigens"   ;
 static const char OBTER_VALOR_VERT_CMD		[ ] = "=obtervalorvertcorr"   ;
 static const char MUDAR_VALOR_VERT_CMD      [ ] = "=mudarvalorvertcorr"   ;
 static const char DEFINIR_CORR_GRA_CMD      [ ] = "=definircorrentegra"   ;
+static const char DESTRUIR_GRA_CMD          [ ] = "=destruirgrafo"        ;
 
 
 
@@ -83,7 +84,8 @@ static void TES_excluirInfo (void * pValor);
 *    =inserirvertorigens           inxGrafo  casa        CondRetEsp
 *    =obtervalorvertcorr           inxGrafo  nome        CondRetEsp
 *    =mudarvalorvertcorr           inxGrafo  nome        CondRetEsp
-*    =definircorrentegra           inxGrafo  casa      CondRetEsp
+*    =definircorrentegra           inxGrafo  casa        CondRetEsp
+*    =destruirgrafo                inxGrafo  CondRetEsp
 *
 ***********************************************************************/
 
@@ -220,7 +222,7 @@ static void TES_excluirInfo (void * pValor);
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = GRA_ObterValorVerticeCorrente( vtGrafo[inxGrafo] , StringDado );
+			CondRetObtido = GRA_ChecarNomeVerticeCorrente( vtGrafo[inxGrafo] , StringDado );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao obter valor do vértice corrente." );
@@ -236,7 +238,7 @@ static void TES_excluirInfo (void * pValor);
 				return TST_CondRetParm;
 			}
 			
-			CondRetObtido = GRA_MudarValorVerticeCorrente( vtGrafo[inxGrafo] , StringDado );
+			CondRetObtido = GRA_MudarNomeVerticeCorrente( vtGrafo[inxGrafo] , StringDado );
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao obter valor do vértice corrente." );
@@ -293,6 +295,24 @@ static void TES_excluirInfo (void * pValor);
                                     "Retorno errado ao inserir vertice na lista de origens" );
 
 		} /* fim ativa: Testar GRA Inserir vértice no início da lista de origens */
+
+		else if(strcmp (ComandoTeste, DESTRUIR_GRA_CMD ) == 0)
+		{
+
+			NumLidos = LER_LerParametros ( "ii" , &inxGrafo , &CondRetEsperada );
+
+			if(NumLidos != 2){
+				return TST_CondRetParm;
+			}
+
+			CondRetObtido = GRA_DestruirGrafo( &vtGrafo[ inxGrafo ]);
+
+			vtGrafo[ inxGrafo ] = NULL;
+
+			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao destruir grafo!" );
+
+		} /* fim ativa: Testar GRA Destruir Grafo */
 
 
       return TST_CondRetNaoConhec ;
