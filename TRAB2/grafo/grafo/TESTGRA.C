@@ -31,8 +31,6 @@
 #include	"GRAFO.H"
 #include    "VERTICE.H"
 #include    "LISTA.H"
-#include    "PILHA.H"
-
 
 /***********************************************************************
 * Operações em Grafo
@@ -49,8 +47,6 @@ static const char MUDAR_VALOR_VERT_CMD      [ ] = "=mudarvalorvertcorr"   ;
 static const char DEFINIR_CORR_GRA_CMD      [ ] = "=definircorrentegra"   ;
 static const char DESTRUIR_GRA_CMD          [ ] = "=destruirgrafo"        ;
 
-static const char LIMPAR_MEM_CMD            [ ] = "=limparmemoria"        ;
-
 
 #define TRUE  1
 #define FALSE 0
@@ -62,7 +58,6 @@ static const char LIMPAR_MEM_CMD            [ ] = "=limparmemoria"        ;
 #define DIM_VALOR          100
 
 GRA_tppGrafo    vtGrafo[ DIM_VT_GRAFO ] ;
-
 
 
 /***** Protótipos das funções encapuladas no módulo *****/
@@ -116,10 +111,7 @@ static void TES_excluirConteudo ( void * pValor );
 
 	  GRA_tpCondRet CondRetObtido   = GRA_CondRetOK ;
       GRA_tpCondRet CondRetEsperada = GRA_CondRetFaltouMemoria ;
-                                      /* inicializa para qualquer coisa */
 
-      char ValorEsperado = '?'  ;
-      char ValorObtido   = '!'  ;
       char ValorDado     = '\0' ;
 	  char ValorOrig     = '\0' ;
 	  char ValorDest     = '\0' ;
@@ -127,15 +119,9 @@ static void TES_excluirConteudo ( void * pValor );
 	  char StringDado[DIM_VALOR];
 
 	  int inxGrafo     = -1 ,
-		  inxLista     = -1 ,
-		  inxVertices  = -1 ,
-		  inxVerticesOr= -1 ,
-		  inxVerCont   = -1 ,
           NumLidos     = -1 ,
-		  NumElementos = 0 ,
-          CondRetEsp   = -1 ,
-		  i            = 0 ;
-
+		  i            = 0  ;
+	  
 		/* Testar GRA Criar grafo */
 
 		if ( strcmp( ComandoTeste , CRIAR_GRAFO_CMD ) == 0 )
@@ -152,7 +138,6 @@ static void TES_excluirConteudo ( void * pValor );
 			vtGrafo[ inxGrafo ] = NULL;
 
 			CondRetObtido = GRA_CriarGrafo( &vtGrafo[ inxGrafo ] , TES_excluirInfo );
-
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao criar grafo." );
@@ -314,7 +299,7 @@ static void TES_excluirConteudo ( void * pValor );
 				return TST_CondRetParm;
 			}
 
-			CondRetObtido = GRA_DestruirGrafo( &vtGrafo[ inxGrafo ]);
+			CondRetObtido = GRA_DestruirGrafo( vtGrafo[ inxGrafo ]);
 
 			vtGrafo[ inxGrafo ] = NULL;
 
@@ -323,27 +308,7 @@ static void TES_excluirConteudo ( void * pValor );
 
 		} /* fim ativa: Testar GRA Destruir Grafo */
 
-		/* Testar GRA Limpar Memória */
-
-		else if(strcmp (ComandoTeste, LIMPAR_MEM_CMD ) == 0)
-		{
-
-			NumLidos = LER_LerParametros ( "ii" , &inxGrafo , &CondRetEsperada );
-
-			if(NumLidos != 2){
-				return TST_CondRetParm;
-			}
-			
-			CondRetObtido = GRA_LimparEstrutura( vtGrafo[ inxGrafo ]);
-
-			vtGrafo[ inxGrafo ] = NULL;
-
-			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao limpar memoria!" );		
-
-		} /* fim ativa: Testar GRA Limpar Memória */
-
-		
+				
 
       return TST_CondRetNaoConhec ;
 

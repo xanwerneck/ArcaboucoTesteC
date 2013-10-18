@@ -27,9 +27,6 @@
     <ClCompile Include="VERTICE.C">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PILHA.C">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GRAFO.H">
@@ -48,9 +45,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VERTICE.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PILHA.H">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -365,7 +365,7 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
       #ifdef _DEBUG
          assert( pLista != NULL ) ;
       #endif
-
+		 
       pLista->pElemCorr = pLista->pOrigemLista ;
 
 	  return LIS_CondRetOK ;
@@ -385,6 +385,25 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
       #endif
 
       pLista->pElemCorr = pLista->pFimLista ;
+
+	  return LIS_CondRetOK ;
+
+   } /* Fim função: LIS  &Ir para o elemento final */
+
+
+/***************************************************************************
+*
+*  Função: LIS  &Ir para o elemento final
+*  ****/
+
+   LIS_tpCondRet LIS_NumElem( LIS_tppLista pLista , int * numElem )
+   {
+
+      #ifdef _DEBUG
+         assert( pLista != NULL ) ;
+      #endif
+	
+	  (*numElem) = pLista->numElem;
 
 	  return LIS_CondRetOK ;
 

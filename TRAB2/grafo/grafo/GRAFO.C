@@ -30,9 +30,6 @@
 
 LIS_tpCondRet ListaRet , ListaRetCaminho;
 VER_tpCondRet ContVertRet;
-PIL_tpCondRet ContRetPilha;
-
-PIL_tppPilha * pPilha;
 
 
 
@@ -148,15 +145,11 @@ static int ChecaArestaExiste(tpVerticeGrafo * pVertice , char * String, char Des
 
 static int ChecaVerticeExiste(GRA_tppGrafo pGrafo, char Vert);
 
-static void TES_excluirPilha ( void * pValor );
+static void DestruirMalloc(LIS_tppLista pLista);
 
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
-void GRA_Inicio()
-{
-	ContRetPilha = PIL_CriarPilha(pPilha , TES_excluirPilha);
-}
 
 /***************************************************************************
 *
@@ -184,8 +177,6 @@ GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo , void   ( * ExcluirValor ) 
 
 	(*pGrafo) = ( GRA_tpGrafo * ) malloc( sizeof( GRA_tppGrafo )) ;
 
-	PIL_PilhaPush((*pPilha) , pGrafo);
-
 	if(pGrafo == NULL){
 
 		return GRA_CondRetFaltouMemoria;
@@ -194,7 +185,7 @@ GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo , void   ( * ExcluirValor ) 
 
 	(*pGrafo) = mGrafo;
 
-
+	
 	return GRA_CondRetOK;
 }
 
@@ -209,6 +200,12 @@ GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppGrafo pGrafo, char * String , char id,
 
 	GRA_tppVerGrafo pVert;
 	int ret = 0;
+
+	if(pGrafo==NULL){
+
+		return GRA_CondRetGrafoNulo ;
+
+	} /* if */
 
 	ret = ChecaVerticeExiste(pGrafo, id);
 	if(ret == 1){
@@ -250,6 +247,10 @@ GRA_tpCondRet GRA_CriarAresta (char pVertOrig , char pVertDest , GRA_tppGrafo pG
 	tpVerticeGrafo * pVertO;
 	tpVerticeGrafo * pVertD;
 	int ret = 0;
+
+	if(pGrafo==NULL){
+		return GRA_CondRetGrafoNulo ;
+	} /* if */ 
 
 	pVertO = GRA_BuscarVertice(pGrafo, pVertOrig);
 	if(pVertO == NULL){
@@ -361,9 +362,9 @@ GRA_tpCondRet GRA_ExcluirAresta(char pVertOrig , char pVertDest , GRA_tppGrafo p
 
 		if(pAres->pVerticeDest->pIdVertice == pVertDest){
 
-			LIS_ExcluirElemento(pVertO->pVerSuc);
-
 			GRA_excluirValorListaAresta(pAres);
+
+			LIS_ExcluirElemento(pVertO->pVerSuc);
 
 			break;
 
@@ -437,92 +438,107 @@ GRA_tpCondRet GRA_DefinirCorrente(GRA_tppGrafo pGrafo, char IdVert)
 
 GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo)
 {
-
+	int ts;
 	tpVerticeGrafo * pVertOrigem;
 	tpVerticeGrafo * pVerticeCaminho;
 	GRA_tppArestaGrafo pAres;
+	LIS_tppLista * pLista1;
+	LIS_tppLista * pLista2;
 
 	pVertOrigem = pGrafo->pCorrente;
 
 	LIS_IrInicioLista(pVertOrigem->pVerAnt);
 
 	ListaRet        = LIS_CondRetOK ;
-	ListaRetCaminho = LIS_CondRetOK;
+	ListaRetCaminho = LIS_CondRetOK;	
 	
-	while(ListaRet!=LIS_CondRetListaVazia)
-	{
 
-		LIS_ObterValor (pVertOrigem->pVerAnt , (void**)&pVerticeCaminho);
+	LIS_NumElem(pVertOrigem->pVerAnt,&ts);
+
+	if(ts > 0 ){
+
+		while(ListaRet!=LIS_CondRetListaVazia)
+		{
+
+			LIS_ObterValor (pVertOrigem->pVerAnt , (void**)&pVerticeCaminho);
 		
-		LIS_IrInicioLista(pVerticeCaminho->pVerSuc);
-		
-		while(ListaRetCaminho==LIS_CondRetOK || ListaRetCaminho==LIS_CondRetFimLista){
+			LIS_IrInicioLista(pVerticeCaminho->pVerSuc);		
+
+
+			while(ListaRetCaminho==LIS_CondRetOK || ListaRetCaminho==LIS_CondRetFimLista){
 			
-			LIS_ObterValor (pVerticeCaminho->pVerSuc , (void**)&pAres);
+				LIS_ObterValor (pVerticeCaminho->pVerSuc , (void**)&pAres);
 
-			if(pAres->pVerticeDest->pIdVertice == pVertOrigem->pIdVertice){
+				if(pAres->pVerticeDest->pIdVertice == pVertOrigem->pIdVertice){
 
-				GRA_ExcluirAresta(pVerticeCaminho->pIdVertice , pVertOrigem->pIdVertice , pGrafo);
+					GRA_ExcluirAresta(pVerticeCaminho->pIdVertice , pVertOrigem->pIdVertice , pGrafo);
 
-				break;
+					break;
 
-			} /* if */
-			if(ListaRetCaminho == LIS_CondRetFimLista){
-				break;
-			} /* if */
-			ListaRetCaminho = LIS_AvancarElementoCorrente(pVerticeCaminho->pVerSuc, 1);
+				} /* if */
+				if(ListaRetCaminho == LIS_CondRetFimLista){
+					break;
+				} /* if */
+				ListaRetCaminho = LIS_AvancarElementoCorrente(pVerticeCaminho->pVerSuc, 1);
 
+
+			} /* while */
+
+		
+			ListaRet = LIS_ChecaOrigemNulo(pVertOrigem->pVerAnt);
 
 		} /* while */
-
-		ListaRet = LIS_ChecaOrigemNulo(pVertOrigem->pVerAnt);
-
-	} /* while */
+	} /* if */
 
 	LIS_IrInicioLista(pVertOrigem->pVerSuc);
 
 	ListaRet = LIS_CondRetOK ;
 
-	while(ListaRet!=LIS_CondRetListaVazia)
-	{
+	LIS_NumElem(pVertOrigem->pVerSuc,&ts);
 
-		LIS_ObterValor (pVertOrigem->pVerSuc , (void**)&pAres);
+	if(ts > 0 ){
 
-		LIS_IrInicioLista((LIS_tppLista)pAres->pVerticeDest->pVerAnt);
+		while(ListaRet!=LIS_CondRetListaVazia)
+		{
+		
+			LIS_ObterValor (pVertOrigem->pVerSuc , (void**)&pAres);
+
+			LIS_IrInicioLista((LIS_tppLista)pAres->pVerticeDest->pVerAnt);
+
+			while(ListaRetCaminho==LIS_CondRetOK || ListaRetCaminho==LIS_CondRetFimLista){
+
+				LIS_ObterValor (pAres->pVerticeDest->pVerAnt , (void**)&pVerticeCaminho);
+			
+				if(pVerticeCaminho->pIdVertice == pVertOrigem->pIdVertice){
+
+					GRA_ExcluirAresta(pVertOrigem->pIdVertice , pVerticeCaminho->pIdVertice  , pGrafo);
+
+					break;
+
+				} /* if */
+				if(ListaRetCaminho == LIS_CondRetFimLista){
+
+					break;
+
+				} /* if */
+
+				ListaRetCaminho = LIS_AvancarElementoCorrente(pAres->pVerticeDest->pVerAnt, 1);
 
 
-		while(ListaRetCaminho==LIS_CondRetOK || ListaRetCaminho==LIS_CondRetFimLista){
+			} /* while */
 
-			LIS_ObterValor (pAres->pVerticeDest->pVerAnt , (void**)&pVerticeCaminho);
 
-			if(pVerticeCaminho->pIdVertice == pVertOrigem->pIdVertice){
-
-				GRA_ExcluirAresta(pAres->pVerticeDest->pIdVertice , pVertOrigem->pIdVertice , pGrafo);
-
-				break;
-
-			} /* if */
-			if(ListaRetCaminho == LIS_CondRetFimLista){
-
-				break;
-
-			} /* if */
-			ListaRetCaminho = LIS_AvancarElementoCorrente(pAres->pVerticeDest->pVerAnt, 1);
-
+			ListaRet = LIS_ChecaOrigemNulo(pVertOrigem->pVerAnt);
 
 		} /* while */
 
-		ListaRet = LIS_ChecaOrigemNulo(pVertOrigem->pVerAnt);
-
-	} /* while */
-	
+	} /* if */
 
 	LIS_DestruirLista (pVertOrigem->pVerAnt);
 		/* Destroi a lista de antecessores após eliminar as referencias */
 
 	LIS_DestruirLista (pVertOrigem->pVerSuc);
 		/* Destroi a lista de antecessores após eliminar as referencias */
-
 
 	GRA_ExcluirdeVertices(pGrafo,pVertOrigem);
 		/* Destroi a referência da lista de origens  */
@@ -532,9 +548,15 @@ GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo)
 	
 	pGrafo->pCorrente->destruirValorV(pVertOrigem->pConteudo);
 
+	ListaRet = LIS_IrInicioLista(pGrafo->pListaVertices);
+	if(ListaRet == LIS_CondRetOK){
+		LIS_ObterValor(pGrafo->pListaVertices , (void**)&pVerticeCaminho);
+		pGrafo->pCorrente = pVerticeCaminho;
+	}
+
 	free (pVertOrigem);
 
-	pVertOrigem->pIdVertice = '\0';
+	pVertOrigem->pIdVertice = '\0';	
 	pVertOrigem->pConteudo = NULL;
 
 	pVertOrigem = NULL;
@@ -554,13 +576,18 @@ GRA_tpCondRet GRA_ChecarNomeVerticeCorrente(GRA_tppGrafo pGrafo , char * nomeFor
 
 	VER_tppVerticeCont valorElem ;
 
-	valorElem = (VER_tppVerticeCont)pGrafo->pCorrente->pConteudo ;
-
 	if(pGrafo == NULL){
 
 		return GRA_CondRetGrafoNulo;
 
 	} /* if */
+	if(pGrafo->pCorrente == NULL){
+
+		return GRA_CondRetConteudoNulo ;
+
+	} /* if */
+	
+	valorElem = (VER_tppVerticeCont)pGrafo->pCorrente->pConteudo ;
 	
 	ContVertRet = VER_ObterValor((VER_tppVerticeCont)pGrafo->pCorrente->pConteudo , nomeForn) ;
 
@@ -619,9 +646,11 @@ GRA_tpCondRet GRA_ObterValorCorrente(GRA_tppGrafo pGrafo , void ** pValor)
 *  Função: GRA  &Destruir Grafo
 *  ****/
 
-GRA_tpCondRet GRA_DestruirGrafo(GRA_tppGrafo * pGrafo)
+GRA_tpCondRet GRA_DestruirGrafo(GRA_tppGrafo pGrafo)
 {
-	GRA_tpGrafo * pGrafoM = (GRA_tpGrafo*) *pGrafo;
+	int numElem = 0;
+	tpVerticeGrafo * pVert ;
+	GRA_tpCondRet RET;
 
 	if(pGrafo==NULL){
 
@@ -629,19 +658,58 @@ GRA_tpCondRet GRA_DestruirGrafo(GRA_tppGrafo * pGrafo)
 
 	} /* if */
 
-	ListaRetCaminho=LIS_CondRetOK ;
+	LIS_IrInicioLista(pGrafo->pListaVertices);
 
-	LIS_DestruirLista(pGrafoM->pListaOrigens);
+	LIS_NumElem(pGrafo->pListaVertices , &numElem);
 
-	LIS_DestruirLista(pGrafoM->pListaVertices);
+	while(numElem > 0){
 
-	free(pGrafoM);
+		LIS_IrInicioLista(pGrafo->pListaVertices);
+
+		LIS_ObterValor(pGrafo->pListaVertices , (void**)&pVert);
+
+		printf("Valor %c", pVert->pIdVertice);
+
+		pGrafo->pCorrente = pVert;
+
+	    RET = GRA_ExcluirVerticeCorrente(pGrafo);
+		
+		LIS_NumElem(pGrafo->pListaVertices , &numElem);
+
+
+	} /* while */
+
+	LIS_DestruirLista(pGrafo->pListaOrigens);
+
+	LIS_DestruirLista(pGrafo->pListaVertices);
+
+	free(pGrafo);
 
 	pGrafo  = NULL;
-	pGrafoM = NULL;
 
 	return GRA_CondRetOK;
 
+}
+
+GRA_tpCondRet GRA_AvancarCorrente(GRA_tppGrafo pGrafo , int val)
+{
+	
+	tpVerticeGrafo * pVert;
+
+	if(pGrafo == NULL){
+		return GRA_CondRetGrafoNulo ;
+	} /* if */
+	if(pGrafo->pCorrente == NULL){
+		return GRA_CondRetConteudoNulo ;
+	} /* if */
+
+	LIS_IrInicioLista(pGrafo->pListaVertices);
+
+	LIS_ObterValor(pGrafo->pListaVertices , (void **)&pVert);
+
+	pGrafo->pCorrente = pVert;
+
+	return GRA_CondRetOK ;
 }
 
 /*****  Código das funções encapsuladas pelo módulo  *****/
@@ -917,41 +985,6 @@ GRA_tpCondRet destruirValor(GRA_tppGrafo pGrafo)
 } /* Fim função: GRA  &Destruir valor do grafo */
 
 
-GRA_tpCondRet GRA_LimparEstrutura(GRA_tppGrafo pGrafo)
-{
-	tpVerticeGrafo * pVert;
-
-	LIS_IrInicioLista(pGrafo->pListaVertices);
-
-	ListaRet = LIS_CondRetOK ;
-
-
-	while(ListaRetCaminho == LIS_CondRetOK || ListaRetCaminho == LIS_CondRetFimLista)
-	{
-
-		LIS_ObterValor(pGrafo->pListaVertices , (void**)&pVert);
-		printf("Valor do primeiro %c" , pVert->pIdVertice);
-		return ;
-		GRA_ExcluirVerticeCorrente(pGrafo);
-
-		LIS_ExcluirElemento (pGrafo->pListaVertices);
-
-		if(ListaRetCaminho == LIS_CondRetFimLista)
-		{
-			break;
-		}
-		LIS_AvancarElementoCorrente(pGrafo->pListaOrigens , 1);
-
-	}
-	return GRA_CondRetOK;
-
-	LIS_DestruirLista(pGrafo->pListaOrigens);
-
-	LIS_DestruirLista(pGrafo->pListaVertices);
-
-	return GRA_CondRetOK;
-
-}
 
 /***************************************************************************
 *
@@ -966,7 +999,7 @@ tpVerticeGrafo * GRA_BuscarVertice(GRA_tppGrafo pGrafo , char Id)
 	LIS_IrInicioLista(pGrafo->pListaVertices);
 
 	ListaRet = LIS_CondRetOK;
-
+	
 	while (ListaRet != LIS_CondRetFimLista){
 	
 		LIS_ObterValor (pGrafo->pListaVertices , (void**)&pVerticeRes);
@@ -1075,14 +1108,3 @@ int ChecaVerticeExiste(GRA_tppGrafo pGrafo, char Vert)
 
 
 /********** Fim do módulo de implementação: Módulo GRAFO **********/
-
-/***********************************************************************
-*
-*  $FC Função: TES -Excluir pilha de execução
-*
-***********************************************************************/
-
-void TES_excluirPilha (void * pValor)
-{
-	free((PIL_tppPilha) pValor);
-}
