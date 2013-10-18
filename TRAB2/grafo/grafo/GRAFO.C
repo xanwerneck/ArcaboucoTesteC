@@ -27,11 +27,14 @@
 #include "GRAFO.H"
 #undef GRAFO_OWN
 
-#include "LISTA.H"
-#include "VERTICE.H"
 
 LIS_tpCondRet ListaRet , ListaRetCaminho;
 VER_tpCondRet ContVertRet;
+PIL_tpCondRet ContRetPilha;
+
+PIL_tppPilha * pPilha;
+
+
 
 /***********************************************************************
 *
@@ -145,7 +148,15 @@ static int ChecaArestaExiste(tpVerticeGrafo * pVertice , char * String, char Des
 
 static int ChecaVerticeExiste(GRA_tppGrafo pGrafo, char Vert);
 
+static void TES_excluirPilha ( void * pValor );
+
+
 /*****  Código das funções exportadas pelo módulo  *****/
+
+void GRA_Inicio()
+{
+	ContRetPilha = PIL_CriarPilha(pPilha , TES_excluirPilha);
+}
 
 /***************************************************************************
 *
@@ -158,7 +169,6 @@ GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo , void   ( * ExcluirValor ) 
 	GRA_tppGrafo mGrafo ;
 
 	mGrafo = (GRA_tppGrafo) malloc ( sizeof( GRA_tpGrafo ));
-
 
 	if(mGrafo == NULL){
 
@@ -174,6 +184,7 @@ GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo , void   ( * ExcluirValor ) 
 
 	(*pGrafo) = ( GRA_tpGrafo * ) malloc( sizeof( GRA_tppGrafo )) ;
 
+	PIL_PilhaPush((*pPilha) , pGrafo);
 
 	if(pGrafo == NULL){
 
@@ -794,7 +805,7 @@ void GRA_CriaListaAntecessoresVertice(tpVerticeGrafo * pVertice)
 *
 ****************************************************************************/
 
-void GRA_excluirValorLista ( VER_tppVerticeCont pValor )
+void GRA_excluirValorLista ( void * pValor )
 {
 
 
@@ -905,11 +916,41 @@ GRA_tpCondRet destruirValor(GRA_tppGrafo pGrafo)
 
 } /* Fim função: GRA  &Destruir valor do grafo */
 
-GRA_tpCondRet GRA_LimparMemoria(GRA_tppGrafo pGrafo){
+
+GRA_tpCondRet GRA_LimparEstrutura(GRA_tppGrafo pGrafo)
+{
+	tpVerticeGrafo * pVert;
+
+	LIS_IrInicioLista(pGrafo->pListaVertices);
+
+	ListaRet = LIS_CondRetOK ;
+
+
+	while(ListaRetCaminho == LIS_CondRetOK || ListaRetCaminho == LIS_CondRetFimLista)
+	{
+
+		LIS_ObterValor(pGrafo->pListaVertices , (void**)&pVert);
+		printf("Valor do primeiro %c" , pVert->pIdVertice);
+		return ;
+		GRA_ExcluirVerticeCorrente(pGrafo);
+
+		LIS_ExcluirElemento (pGrafo->pListaVertices);
+
+		if(ListaRetCaminho == LIS_CondRetFimLista)
+		{
+			break;
+		}
+		LIS_AvancarElementoCorrente(pGrafo->pListaOrigens , 1);
+
+	}
+	return GRA_CondRetOK;
 
 	LIS_DestruirLista(pGrafo->pListaOrigens);
+
 	LIS_DestruirLista(pGrafo->pListaVertices);
+
 	return GRA_CondRetOK;
+
 }
 
 /***************************************************************************
@@ -1035,3 +1076,13 @@ int ChecaVerticeExiste(GRA_tppGrafo pGrafo, char Vert)
 
 /********** Fim do módulo de implementação: Módulo GRAFO **********/
 
+/***********************************************************************
+*
+*  $FC Função: TES -Excluir pilha de execução
+*
+***********************************************************************/
+
+void TES_excluirPilha (void * pValor)
+{
+	free((PIL_tppPilha) pValor);
+}

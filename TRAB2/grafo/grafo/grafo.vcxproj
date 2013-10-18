@@ -76,15 +76,16 @@
   <ItemGroup>
     <ClCompile Include="GRAFO.C" />
     <ClCompile Include="LISTA.C" />
+    <ClCompile Include="PILHA.C" />
     <ClCompile Include="TESTGRA.C" />
     <ClCompile Include="VERTICE.C" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CESPDIN.H" />
     <ClInclude Include="GENERICO.H" />
     <ClInclude Include="GRAFO.H" />
     <ClInclude Include="LERPARM.H" />
     <ClInclude Include="LISTA.H" />
+    <ClInclude Include="PILHA.H" />
     <ClInclude Include="TST_ESPC.H" />
     <ClInclude Include="VERTICE.H" />
   </ItemGroup>

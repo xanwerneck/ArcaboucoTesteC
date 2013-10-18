@@ -42,6 +42,7 @@
 
 #include "LISTA.H"
 #include "VERTICE.H"
+#include "PILHA.H"
 
 /***** Declarações exportadas pelo módulo *****/
 
@@ -426,11 +427,10 @@ GRA_tpCondRet GRA_DefinirCorrente( GRA_tppGrafo pGrafo , char IdVert);
 GRA_tpCondRet GRA_DestruirGrafo( GRA_tppGrafo * pGrafo);
 
 
+GRA_tpCondRet GRA_LimparEstrutura(GRA_tppGrafo pGrafo);
 
-GRA_tpCondRet GRA_LimparMemoria(GRA_tppGrafo pGrafo);
 
-
-#undef MATRIZ_EXT
+#undef GRAFO_EXT
 
 /********** Fim do módulo de definição: Módulo grafo **********/
 

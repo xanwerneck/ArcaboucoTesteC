@@ -31,8 +31,8 @@
 #include	"GRAFO.H"
 #include    "VERTICE.H"
 #include    "LISTA.H"
+#include    "PILHA.H"
 
-#include    "CESPDIN.H"
 
 /***********************************************************************
 * Operações em Grafo
@@ -49,7 +49,7 @@ static const char MUDAR_VALOR_VERT_CMD      [ ] = "=mudarvalorvertcorr"   ;
 static const char DEFINIR_CORR_GRA_CMD      [ ] = "=definircorrentegra"   ;
 static const char DESTRUIR_GRA_CMD          [ ] = "=destruirgrafo"        ;
 
-static const char GRF_VER_MEMORIA_CMD       [ ] = "=checaespaco"        ;
+static const char LIMPAR_MEM_CMD            [ ] = "=limparmemoria"        ;
 
 
 #define TRUE  1
@@ -62,6 +62,7 @@ static const char GRF_VER_MEMORIA_CMD       [ ] = "=checaespaco"        ;
 #define DIM_VALOR          100
 
 GRA_tppGrafo    vtGrafo[ DIM_VT_GRAFO ] ;
+
 
 
 /***** Protótipos das funções encapuladas no módulo *****/
@@ -284,6 +285,8 @@ static void TES_excluirConteudo ( void * pValor );
 
 		} /* fim ativa: Testar GRA Inserir vértice no início da lista de origens */
 
+		/* Testar GRA Definir corrente */
+
 		else if(strcmp (ComandoTeste, DEFINIR_CORR_GRA_CMD ) == 0)
 		{
 
@@ -299,6 +302,8 @@ static void TES_excluirConteudo ( void * pValor );
                                     "Retorno errado ao inserir vertice na lista de origens" );
 
 		} /* fim ativa: Testar GRA Inserir vértice no início da lista de origens */
+
+		/* Testar GRA Destruir Grafo */
 
 		else if(strcmp (ComandoTeste, DESTRUIR_GRA_CMD ) == 0)
 		{
@@ -318,24 +323,27 @@ static void TES_excluirConteudo ( void * pValor );
 
 		} /* fim ativa: Testar GRA Destruir Grafo */
 
+		/* Testar GRA Limpar Memória */
 
-		else if ( strcmp( ComandoTeste , GRF_VER_MEMORIA_CMD ) == 0 )
-         {
-            CED_ExibirTodosEspacos( CED_ExibirInativos ) ;        
-            return TST_CondRetOK ;
-
-         } /* fim ativa: VerificarMemoria */
-
-		else
+		else if(strcmp (ComandoTeste, LIMPAR_MEM_CMD ) == 0)
 		{
-			printf("Limpeza de memória");
-			for(i=0; i < DIM_VT_GRAFO ; i++ ){
-				if(!ValidarInxGrafo(i , VAZIO)){
-					GRA_LimparMemoria(vtGrafo[i]);
-				} /* if */
-				printf("Limpeza de memória");
-			} /* for */
-		}
+
+			NumLidos = LER_LerParametros ( "ii" , &inxGrafo , &CondRetEsperada );
+
+			if(NumLidos != 2){
+				return TST_CondRetParm;
+			}
+			
+			CondRetObtido = GRA_LimparEstrutura( vtGrafo[ inxGrafo ]);
+
+			vtGrafo[ inxGrafo ] = NULL;
+
+			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao limpar memoria!" );		
+
+		} /* fim ativa: Testar GRA Limpar Memória */
+
+		
 
       return TST_CondRetNaoConhec ;
 
@@ -401,6 +409,7 @@ void TES_excluirConteudo ( void * pValor )
 	VER_DestruirVertice ((VER_tppVerticeCont *) pValor);
 
 }
+
 
 /********** Fim do módulo de implementação: Módulo de teste específico **********/
 
