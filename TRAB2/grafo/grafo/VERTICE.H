@@ -101,7 +101,7 @@ typedef struct VER_tagVertice * VER_tppVerticeCont ;
 *
 ***********************************************************************/
 
-   VER_tpCondRet VER_DestruirVertice( VER_tppVerticeCont pVertice) ;
+   VER_tpCondRet VER_DestruirVertice( VER_tppVerticeCont * pVertice) ;
 
 /***********************************************************************
 *

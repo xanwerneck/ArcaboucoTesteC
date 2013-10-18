@@ -80,6 +80,9 @@ typedef struct tagVerticeGrafo {
 
 	char pIdVertice;
 		/* Identificador do vértice */
+
+	void (*destruirValorV)(void *pValor);
+        /* Destruir Valor do conteúdo do vértice */
 	
 } tpVerticeGrafo ;
 
@@ -99,16 +102,16 @@ typedef struct tagVerticeGrafo {
 typedef struct GRA_tagGrafo {
 
 	LIS_tppLista pListaOrigens;
-	/* Ponteiro para lista de vértices de origens */
+		/* Ponteiro para lista de vértices de origens */
 
 	LIS_tppLista pListaVertices;
-	/* Ponteiro para lista com todos os vértices */
+		/* Ponteiro para lista com todos os vértices */
 
 	tpVerticeGrafo * pCorrente;
-	/* Ponteiro do Elemento vértice corrente */
+		/* Ponteiro do Elemento vértice corrente */
 
 	void (*destruirValor)(void *pValor);
-	/* Ponteiro para implementação do destruir grafo genérico */
+		/* Ponteiro para implementação do destruir grafo genérico */
 
 } GRA_tpGrafo ;
 
@@ -137,8 +140,6 @@ static int GRA_comparaVerticeConteudo( void * pVerticeO , void * pValorO ) ;
 tpVerticeGrafo * GRA_BuscarVertice(GRA_tppGrafo pGrafo , char Id) ;
 
 static void LiberarAresta(GRA_tppArestaGrafo pAres);
-
-static void GRA_excluirValorListaNada ( void * pValor ) ;
 
 static int ChecaArestaExiste(tpVerticeGrafo * pVertice , char * String, char Dest);
 
@@ -192,7 +193,7 @@ GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo , void   ( * ExcluirValor ) 
 *  Função: GRA  &Criar Vértice Grafo
 *  ****/
 
-GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppGrafo pGrafo, char * String , char id)
+GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppGrafo pGrafo, char * String , char id, void   ( * ExcluirValor ) ( void * pDado ))
 {
 
 	GRA_tppVerGrafo pVert;
@@ -212,6 +213,7 @@ GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppGrafo pGrafo, char * String , char id)
 
 	pVert->pIdVertice = id ;
 	pVert->pConteudo = GRA_CriaContVertice (String) ;
+	pVert->destruirValorV = ExcluirValor ;
 	GRA_CriaListaSucessoresVertice (pVert);
 	GRA_CriaListaAntecessoresVertice (pVert);
 	
@@ -517,6 +519,7 @@ GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo)
 	GRA_ExcluirdeOrigens(pGrafo,pVertOrigem);
 		/* Destroi a referência da lista de vértices */
 	
+	pGrafo->pCorrente->destruirValorV(pVertOrigem->pConteudo);
 
 	free (pVertOrigem);
 
@@ -760,7 +763,7 @@ void GRA_CriaListaSucessoresVertice(tpVerticeGrafo * pVertice)
 
 	LIS_tppLista pListaSuc ;
 
-	LIS_CriarLista (GRA_excluirValorListaNada, &pListaSuc);
+	LIS_CriarLista (GRA_excluirValorLista, &pListaSuc);
 
 	pVertice->pVerSuc = pListaSuc ;
 
@@ -778,16 +781,12 @@ void GRA_CriaListaAntecessoresVertice(tpVerticeGrafo * pVertice)
 
 	LIS_tppLista pListaAnt ;
 
-	LIS_CriarLista (GRA_excluirValorListaNada , &pListaAnt);
+	LIS_CriarLista (GRA_excluirValorLista , &pListaAnt);
 
 	pVertice->pVerAnt = pListaAnt ;
 
 } /* Fim função: GRA  &Criar Lista de antecessores do vertice do Grafo */
 
-
-void GRA_excluirValorListaNada ( void * pValor ){
-	
-}
 
 /***************************************************************************
 *
@@ -797,8 +796,6 @@ void GRA_excluirValorListaNada ( void * pValor ){
 
 void GRA_excluirValorLista ( VER_tppVerticeCont pValor )
 {
-
-    VER_DestruirVertice (pValor) ;
 
 
 } /* Fim função: GRA  &Excluir valor lista */

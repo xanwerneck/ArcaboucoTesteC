@@ -82,16 +82,17 @@ VER_tpCondRet Ret;
 *  Função: VER  &Destruir vértice
 *  ****/
 
-   VER_tpCondRet VER_DestruirVertice( VER_tppVerticeCont pVertice )
+   VER_tpCondRet VER_DestruirVertice( VER_tppVerticeCont * pVertice )
    {
 
       #ifdef _DEBUG
          assert( pVertice != NULL ) ;
       #endif
 
-      strcpy (pVertice->Nome , "");
+      VER_tpVertice * pConteudo;
+      pConteudo = *pVertice;
 
-	  pVertice       = NULL;
+	  free(pVertice);
 
 	  return VER_CondRetOK ;
 

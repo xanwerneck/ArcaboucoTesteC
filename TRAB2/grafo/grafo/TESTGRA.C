@@ -70,6 +70,8 @@ static int ValidarInxGrafo( int inxGrafo , int Modo ) ;
 
 static void TES_excluirInfo (void * pValor);
 
+static void TES_excluirConteudo ( void * pValor );
+
 /*****  Código das funções exportadas pelo módulo  *****/
 
 /***********************************************************************
@@ -169,7 +171,7 @@ static void TES_excluirInfo (void * pValor);
                return TST_CondRetParm ;
             } /* if */
 
-			CondRetObtido = GRA_CriaVerticeGrafo( vtGrafo[ inxGrafo ] , StringDado , ValorDado );
+			CondRetObtido = GRA_CriaVerticeGrafo( vtGrafo[ inxGrafo ] , StringDado , ValorDado , TES_excluirConteudo );
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao criar vertice no grafo." );
@@ -380,13 +382,25 @@ static void TES_excluirInfo (void * pValor);
 ***********************************************************************/
 
 
-   void TES_excluirInfo ( void * pValor )
-   {
+void TES_excluirInfo ( void * pValor )
+{
 
-      free( ( void * ) pValor ) ;
+    free( ( void * ) pValor ) ;
 
-   } /* Fim função: TST -Excluir informacao */
+} /* Fim função: TST -Excluir informacao */
 
+/***********************************************************************
+*
+*  $FC Função: TES -Excluir conteudo alocado vértice do grafo
+*
+***********************************************************************/
+
+void TES_excluirConteudo ( void * pValor )
+{
+
+	VER_DestruirVertice ((VER_tppVerticeCont *) pValor);
+
+}
 
 /********** Fim do módulo de implementação: Módulo de teste específico **********/
 

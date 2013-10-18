@@ -159,7 +159,7 @@ GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo, void   ( * ExcluirValor ) (
 *
 ***********************************************************************/
 
-GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppGrafo pGrafo, char * String , char id);
+GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppGrafo pGrafo, char * String , char id , void   ( * ExcluirValor ) ( void * pDado ));
 
 
 /***********************************************************************
