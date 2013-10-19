@@ -266,7 +266,7 @@ static void TES_excluirConteudo ( void * pValor );
 			CondRetObtido = GRA_ExcluirAresta( ValorDado , ValorDest , vtGrafo[ inxGrafo ]);
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao inserir vertice na lista de origens" );
+                                    "Retorno errado ao excluir aresta" );
 
 		} /* fim ativa: Testar GRA Inserir vértice no início da lista de origens */
 
@@ -284,7 +284,7 @@ static void TES_excluirConteudo ( void * pValor );
 			CondRetObtido = GRA_DefinirCorrente( vtGrafo[ inxGrafo ] , ValorDado);
 
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao inserir vertice na lista de origens" );
+                                    "Retorno errado ao definir corrente" );
 
 		} /* fim ativa: Testar GRA Inserir vértice no início da lista de origens */
 
