@@ -29,7 +29,7 @@
 
 
 LIS_tpCondRet ListaRet , ListaRetCaminho;
-VER_tpCondRet ContVertRet;
+
 
 
 
@@ -125,8 +125,6 @@ static void GRA_CriaListaVertices( GRA_tppGrafo pGrafo ) ;
 
 static void GRA_CriaListaOrigens( GRA_tppGrafo pGrafo ) ;
 
-static void * GRA_CriaContVertice( char * Conteudo );
-
 static void GRA_CriaListaSucessoresVertice(tpVerticeGrafo * pVertice) ;
 
 static void GRA_CriaListaAntecessoresVertice(tpVerticeGrafo * pVertice) ;
@@ -134,8 +132,6 @@ static void GRA_CriaListaAntecessoresVertice(tpVerticeGrafo * pVertice) ;
 static void GRA_excluirValorLista ( void * pValor ) ;
 
 static void GRA_excluirValorListaAresta ( void * pValor );
-
-static int GRA_comparaVerticeConteudo( void * pVerticeO , void * pValorO ) ;
 
 tpVerticeGrafo * GRA_BuscarVertice(GRA_tppGrafo pGrafo , char Id) ;
 
@@ -220,7 +216,7 @@ GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppGrafo pGrafo, char * String , char id,
 	} /* if */
 
 	pVert->pIdVertice = id ;
-	pVert->pConteudo = GRA_CriaContVertice (String) ;
+	pVert->pConteudo = String;
 	pVert->destruirValorV = ExcluirValor ;
 	GRA_CriaListaSucessoresVertice (pVert);
 	GRA_CriaListaAntecessoresVertice (pVert);
@@ -567,62 +563,6 @@ GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo)
 
 /***************************************************************************
 *
-*  Função: GRA  &Obter valor do vértice corrente
-*  ****/
-
-GRA_tpCondRet GRA_ChecarNomeVerticeCorrente(GRA_tppGrafo pGrafo , char * nomeForn)
-{
-
-	VER_tppVerticeCont valorElem ;
-
-	if(pGrafo == NULL){
-
-		return GRA_CondRetGrafoNulo;
-
-	} /* if */
-	if(pGrafo->pCorrente == NULL){
-
-		return GRA_CondRetConteudoNulo ;
-
-	} /* if */
-	
-	valorElem = (VER_tppVerticeCont)pGrafo->pCorrente->pConteudo ;
-	
-	ContVertRet = VER_ObterValor((VER_tppVerticeCont)pGrafo->pCorrente->pConteudo , nomeForn) ;
-
-	if(ContVertRet == VER_CondRetOK){
-
-		return GRA_CondRetOK ;
- 
-	} /* if */
-
-	return GRA_CondRetConteudoNulo ;
-}
-
-/***************************************************************************
-*
-*  Função: GRA  &Mudar valor do vértice corrente
-*  ****/
-
-GRA_tpCondRet GRA_MudarNomeVerticeCorrente(GRA_tppGrafo pGrafo , char * nomeForn)
-{
-	
-	if(pGrafo == NULL){
-
-		return GRA_CondRetVerticeNulo;
-
-	} /* if */
-	if(VER_MudarNomeVertice((VER_tppVerticeCont)pGrafo->pCorrente->pConteudo , nomeForn)==0){
-
-		return GRA_CondRetOK ;
-
-	} /* if */
-
-	return GRA_CondRetConteudoNulo;
-}
-
-/***************************************************************************
-*
 *  Função: GRA  &Obter valor por referência
 *  ****/
 
@@ -649,7 +589,6 @@ GRA_tpCondRet GRA_DestruirGrafo(GRA_tppGrafo pGrafo)
 {
 	int numElem = 0;
 	tpVerticeGrafo * pVert ;
-	GRA_tpCondRet RET;
 
 	if(pGrafo==NULL){
 
@@ -730,13 +669,13 @@ void GRA_ExcluirdeVertices(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 		LIS_ObterValor(pGrafo->pListaVertices , (void**)&pVert);
 		if(pVertice->pIdVertice == pVert->pIdVertice){
 			LIS_ExcluirElemento (pGrafo->pListaVertices);
-		}
+		} /* if */
 		if(ListaRet == LIS_CondRetFimLista){
 			break;
-		}
+		} /* if */
 		ListaRet = LIS_AvancarElementoCorrente(pGrafo->pListaVertices, 1);
 
-	}
+	} /* while */
 	
 
 } /* Fim função: GRA &Limpa o conteúdo da lista de vértices do grafo  */
@@ -762,39 +701,18 @@ void GRA_ExcluirdeOrigens(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 		LIS_ObterValor(pGrafo->pListaOrigens , (void**)&pVert);
 		if(pVertice->pIdVertice == pVert->pIdVertice){
 			LIS_ExcluirElemento (pGrafo->pListaOrigens);
-		}
+		} /* if */
 		if(ListaRet == LIS_CondRetFimLista){
 			break;
-		}
+		} /* if */
 		ListaRet = LIS_AvancarElementoCorrente(pGrafo->pListaOrigens, 1);
 
-	}
+	} /* while */
 
 
 } /* Fim função: GRA &Limpa o conteúdo da lista de origens do grafo  */
 
 
- /***************************************************************************
-*
-*  Função: GRA  &Criar conteúdo do vértice do Grafo
-*  
-************************************************************************/
-
-void * GRA_CriaContVertice(char * Conteudo )
-{
-	
-	VER_tppVerticeCont pVerticeCont ;
-
-	ContVertRet = VER_CriarVertice(&pVerticeCont , Conteudo);
-
-	if(ContVertRet == VER_CondRetOK){
-
-		return pVerticeCont ;
-
-	} 
-	return NULL;
-
-} /* Fim função: GRA  &Criar conteúdo do vértice do Grafo */
 
 
 /***************************************************************************
@@ -900,43 +818,6 @@ void GRA_excluirValorListaAresta ( tpArestaGrafo * pAresta )
 
 /***************************************************************************
 *
-*  Função: GRA  &Compara conteudo do vertice
-*
-****************************************************************************/
-
-int GRA_comparaVerticeConteudo( void * pVerticeO , void * pValorO )
-{
-
-	int ret = 0;
-	char * Corrente ;
-	char * Buscado ;
-	tpVerticeGrafo * pValorVert ;
-    LIS_tppLista pVerticeLista ;
-
-	Corrente = "";
-	Buscado  = "";
-	
-	pVerticeLista = ( LIS_tppLista ) pVerticeO ;
-    
-	LIS_ObterValor (pVerticeLista , (void**)&pValorVert);
-
-
-	VER_RetornaValor ((VER_tppVerticeCont)pValorVert->pConteudo , Corrente) ;
-
-	VER_RetornaValor ((VER_tppVerticeCont)pValorO , Buscado) ;
-	
-	if(strcmp(Corrente , Buscado) == 0){
-
-		return 0;
-	}
-
-	return 1;
-
-
-} /* Fim função: GRA  &Compara valores */
-
-/***************************************************************************
-*
 *  Função: GRA  &Avancar Vertice corrente
 *
 ****************************************************************************/
@@ -956,7 +837,7 @@ int AvancarVerticeCorrente (GRA_tppGrafo pGrafo , int numElem)
 
 		return 1 ;
 
-	}
+	} /* if */
 
 	return 0 ;
 } /* Fim função: GRA  &Avancar Vertice corrente */
@@ -973,7 +854,7 @@ GRA_tpCondRet destruirValor(GRA_tppGrafo pGrafo)
 
 	if(pGrafo==NULL){
 		return GRA_CondRetGrafoNulo;
-	}
+	} /* if */
 
 	pGrafo->pCorrente = NULL;
 
@@ -1008,13 +889,13 @@ tpVerticeGrafo * GRA_BuscarVertice(GRA_tppGrafo pGrafo , char Id)
 
 		if(pVerticeRes->pIdVertice == Id){
 			return pVerticeRes ;
-		}
+		} /* if */
 		if(ListaRet ==LIS_CondRetFimLista){
 			break;
 		} /* if */
 
 		ListaRet = LIS_AvancarElementoCorrente(pGrafo->pListaVertices, 1);
-	}
+	} /* while */
 
 	return NULL ;
 

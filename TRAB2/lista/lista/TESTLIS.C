@@ -136,7 +136,7 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
                return TST_CondRetParm ;
             } /* if */
 
-            CondRetObtido = LIS_CriarLista( DestruirValor, vtListas[ inxLista ] ) ;
+            CondRetObtido = LIS_CriarLista( DestruirValor, &vtListas[ inxLista ] ) ;
 
             return TST_CompararInt( CondRetEsp , CondRetObtido ,
                "Erro ao criar nova lista."  ) ;

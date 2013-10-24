@@ -47,7 +47,7 @@ static const char RETORNAR_VALOR_VERTICE_CMD [ ] = "=retornarvalorvert"   ;
 #define DIM_VT_VERTICE   10
 #define DIM_VT_VALOR     80
 
-VER_tppVertice   vtVertices[ DIM_VT_VERTICE ] ;
+VER_tppVerticeCont   vtVertices[ DIM_VT_VERTICE ] ;
 
 /***** Protótipos das funções encapuladas no módulo *****/
 
