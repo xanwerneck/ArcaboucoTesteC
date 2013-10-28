@@ -1,5 +1,5 @@
-#if ! defined( LISTA_ )
-#define LISTA_
+#if ! defined( PECA_ )
+#define PECA_
 /***************************************************************************
 *
 *  $MCD Módulo de definição: LIS  Lista duplamente encadeada
@@ -50,10 +50,10 @@
 *
 ***************************************************************************/
  
-#if defined( LISTA_OWN )
-   #define LISTA_EXT
+#if defined( PECA_OWN )
+   #define PECA_EXT
 #else
-   #define LISTA_EXT extern
+   #define PECA_EXT extern
 #endif
 
 /***** Declarações exportadas pelo módulo *****/
@@ -384,7 +384,7 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista) ;
 
 LIS_tpCondRet LIS_NumElem( LIS_tppLista pLista , int * numElem );
 
-#undef LISTA_EXT
+#undef PECA_EXT
 
 /********** Fim do módulo de definição: LIS  Lista duplamente encadeada **********/
 

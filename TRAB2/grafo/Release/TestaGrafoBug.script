@@ -1,0 +1,229 @@
+// Script:    TesteLista.script
+// Autor:     AFV
+// Data:      13/set/2013
+// Propósito: Testar vértice
+//
+
+== Inicializar valores para grafo
+=declararparm   grafo0  int 0
+
+
+=declararparm   vertice0  int 0
+=declararparm   vertice1  int 1
+=declararparm   vertice2  int 2
+=declararparm   vertice3  int 3
+=declararparm   vertice4  int 4
+=declararparm   vertice5  int 5
+=declararparm   vertice6  int 6
+
+
+=declararparm   OK             int  0
+=declararparm   ValorNulo      int  1
+=declararparm   VerticeNulo    int  2
+=declararparm   ListaNula      int  3
+=declararparm   ConteudoNulo   int  4
+=declararparm   MaisDeUmaOrig  int  7
+=declararparm   FaltouMemoria  int  9
+
+
+=declararparm   nome0    string  "rei"
+=declararparm   nome1    string  "rainha"
+=declararparm   nome2    string  "peao"
+=declararparm   nome3    string  "cavalo"
+=declararparm   nome4    string  "Bispo"
+=declararparm   nome5    string  "Torre"
+=declararparm   nome6    string  "xxxyyy"
+
+
+=declararparm   casa0    char  'A'
+=declararparm   casa1    char  'B'
+=declararparm   casa2    char  'C'
+=declararparm   casa3    char  'D'
+=declararparm   casa4    char  'E'
+=declararparm   casa5    char  'F'
+=declararparm   casa6    char  'G'
+
+
+
+
+== Criar grafo 0
+=criargrafo		grafo0   OK
+
+
+
+== Criar vertice 0
+=criarverticegrafo	vertice0 nome0 casa0 OK
+
+== Criar vertice 1
+=criarverticegrafo	vertice1 nome1 casa1 OK
+
+== Criar vertice 2
+=criarverticegrafo	vertice2 nome2 casa2 OK
+
+== Criar vertice 3
+=criarverticegrafo	vertice3 nome3 casa3 OK
+
+== Criar vertice 4
+=criarverticegrafo	vertice4 nome4 casa4 OK
+
+== Criar vertice 5
+=criarverticegrafo	vertice5 nome5 casa5 OK
+
+== Criar vertice 6
+=criarverticegrafo	vertice6 nome6 casa6 OK
+
+
+
+== Insere lista de antecessores do vertice 0
+=insereantvertive	vertice0 OK
+
+== Excluir Antecessores do Vertice 0
+=excluirantvertive  vertice0 OK
+
+== Insere lista de antecessores do vertice 0
+=insereantvertive	vertice0 OK
+
+== Insere lista de antecessores do vertice 1
+=insereantvertive	vertice1 OK
+
+== Insere lista de antecessores do vertice 2
+=insereantvertive	vertice2 OK
+
+== Insere lista de antecessores do vertice 3
+=insereantvertive	vertice3 OK
+
+== Insere lista de antecessores do vertice 4
+=insereantvertive	vertice4 OK
+
+== Insere lista de antecessores do vertice 5
+=insereantvertive	vertice5 OK
+
+== Insere lista de antecessores do vertice 6
+=insereantvertive	vertice6 OK
+
+
+
+
+== Insere lista de sucessores do vertice 0
+=inseresucvertive  	vertice0 OK
+
+== Insere lista de sucessores do vertice 1
+=inseresucvertive  	vertice1 OK
+
+== Insere lista de sucessores do vertice 2
+=inseresucvertive  	vertice2 OK
+
+== Insere lista de sucessores do vertice 3
+=inseresucvertive  	vertice3 OK
+
+== Insere lista de sucessores do vertice 4
+=inseresucvertive  	vertice4 OK
+
+== Insere lista de sucessores do vertice 5
+=inseresucvertive  	vertice5 OK
+
+== Insere lista de sucessores do vertice 6
+=inseresucvertive  	vertice6 OK
+
+
+
+
+== Insere vertice 0 no inicio  
+=inserevertiveinic   	grafo0 vertice2 OK
+
+== Insere vertice 1 no final
+=inserevertivefinal  	grafo0 vertice3 OK
+
+== Insere vertice 2 no inicio
+=inserevertiveinic   	grafo0 vertice1 OK
+
+== Insere vertice 3 no final
+=inserevertivefinal  	grafo0 vertice4 OK
+
+== Insere vertice 4 no inicio
+=inserevertiveinic   	grafo0 vertice0 OK
+
+== Insere vertice 5 no final
+=inserevertivefinal  	grafo0 vertice5 OK
+
+== Insere vertice 6 no final
+=inserevertivefinal  	grafo0 vertice6 OK
+
+== Insere vertice 0 na lista de origens
+=inserirvertorigens     grafo0 vertice1 OK
+
+
+== Insere vertice 0 na lista de origens
+=inserirvertorigens     grafo0 vertice0 MaisDeUmaOrig
+
+== Obter valor do conteúdo do corrente no grafo
+=obtervalorvertcorr grafo0 nome0 OK
+
+== Mudar valor do  vertice corrente
+=mudarvalorvertcorr grafo0 nome5 OK
+
+
+== Obter valor do conteúdo do corrente no grafo
+=obtervalorvertcorr grafo0 nome5 OK
+
+
+
+== Insere vertice antecessores ao vertice 0
+=inserevertiveantvert 	vertice0 vertice1 OK
+
+== Insere vertice antecessores ao vertice 0
+=inserevertiveantvert 	vertice0 vertice2 OK
+
+== Insere vertice antecessores ao vertice 1
+=inserevertiveantvert 	vertice1 vertice4 OK
+
+== Insere vertice antecessores ao vertice 2
+=inserevertiveantvert 	vertice2 vertice4 OK
+
+== Insere vertice antecessores ao vertice 3
+=inserevertiveantvert 	vertice3 vertice0 OK
+
+== Insere vertice antecessores ao vertice 4
+=inserevertiveantvert 	vertice4 vertice0 OK
+
+== Insere vertice antecessores ao vertice 4
+=inserevertiveantvert 	vertice4 vertice3 OK
+
+== Insere vertice antecessores ao vertice 6
+=inserevertiveantvert 	vertice6 vertice5 OK
+
+
+
+
+
+
+== Insere vertice sucessores do vertice 0
+=inserevertivesucvert 	vertice0 vertice4 OK
+
+== Insere vertice sucessores do vertice 1
+=inserevertivesucvert 	vertice1 vertice0 OK
+
+== Insere vertice sucessores do vertice 2
+=inserevertivesucvert 	vertice2 vertice0 OK
+
+== Insere vertice sucessores do vertice 3
+=inserevertivesucvert 	vertice3 vertice4 OK
+
+== Insere vertice sucessores do vertice 4
+=inserevertivesucvert 	vertice4 vertice1 OK
+
+== Insere vertice sucessores do vertice 4
+=inserevertivesucvert 	vertice4 vertice2 OK
+
+== Insere vertice sucessores do vertice 5
+=inserevertivesucvert 	vertice5 vertice6 OK
+
+
+
+=excluirvertice   grafo0 vertice1 OK
+
+== Insere vertice 0 na lista de origens
+=inserirvertorigens     grafo0 vertice0 OK
+
+
+

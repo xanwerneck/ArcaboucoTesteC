@@ -42,7 +42,8 @@
 #endif
 
 #include "LISTA.H"
-
+#include "TABULEIRO.H"
+#include "MATRIZ.H"
 
 /***** Declarações exportadas pelo módulo *****/
 
@@ -194,6 +195,77 @@ GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppGrafo pGrafo, char * String , char id 
 ***********************************************************************/
 
 GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo);
+
+
+/***********************************************************************
+*
+*  $FC Função: GRA Obter valor do vértice corrente
+*
+*  $ED Descrição da função
+*      Checa se a string fornecida é igual a do elemento
+*      vértice corrente no grafo.     
+*
+*  $EP Parâmetros
+*      pGrafo - Ponteiro para o grafo que contém o corrente
+*      nomeForn - String de comparação     
+*
+*  $FV Valor retornado
+*      GRA_CondRetGrafoNulo
+*      GRA_CondRetConteudoNulo
+*      GRA_CondRetOK
+*
+*  $AE Grafo deve estar iniciado
+*      Corrente não pode estar apontando para NULL
+*      String fornecida não vazia
+*      Grafo não vazio, ou seja, sem vértices
+*
+*  $AS Se CondRet = GRA_CondRetGrafoNulo 
+*      Grafo fornecido não criado
+*
+*	   Se CondRet = GRA_CondRetConteudoNulo
+*      Valor não encontrado ou string fornecida vazia
+*
+*	   Se CondRet = GRA_CondRetOK
+*      Valor fornecido igual ao do vértice corrente
+*
+***********************************************************************/
+
+GRA_tpCondRet GRA_ChecarNomeVerticeCorrente (GRA_tppGrafo pGrafo , char * nomeForn) ;
+
+/***********************************************************************
+*
+*  $FC Função: GRA Mudar valor do vértice corrente
+*
+*  $ED Descrição da função
+*     Recebe uma string como segundo parâmetro e altera o valor
+*     do conteúdo do vértice corrente do grafo.
+*
+*  $EP Parâmetros
+*     pGrafo - Ponteiro para o grafo
+*     nomeForn - String a ser usada como novo valor para o conteudo do vértice
+*
+*  $FV Valor retornado
+*      GRA_CondRetVerticeNulo
+*      GRA_CondRetConteudoNulo
+*      GRA_CondRetOK
+*
+*  $AE Grafo deve estar iniciado
+*      Corrente não pode estar apontando para NULL
+*      String fornecida não vazia
+*      Grafo não vazio, ou seja, sem vértices
+*
+*  $AS Se CondRet = GRA_CondRetGrafoNulo 
+*      Grafo fornecido não criado
+*
+*	   Se CondRet = GRA_CondRetConteudoNulo
+*	   String fornecida vazia
+*
+*	   Se CondRet = GRA_CondRetOK
+*      Valor do conteúdo do vértice corrente do grafo alterado
+*
+***********************************************************************/
+
+GRA_tpCondRet GRA_MudarNomeVerticeCorrente (GRA_tppGrafo pGrafo , char * nomeForn) ;
 
 /***********************************************************************
 *
@@ -355,6 +427,10 @@ GRA_tpCondRet GRA_DefinirCorrente( GRA_tppGrafo pGrafo , char IdVert);
 
 GRA_tpCondRet GRA_DestruirGrafo( GRA_tppGrafo pGrafo);
 
+/*
+
+*/
+GRA_tpCondRet GRA_ObterVertice(GRA_tppGrafo pGrafo , void ** pValor);
 
 #undef GRAFO_EXT
 

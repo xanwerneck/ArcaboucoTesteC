@@ -1,0 +1,133 @@
+
+!!! Inicio dos testes
+!!!      Construto sob teste: ..\produto\testetabelasimbolos
+!!!      Script de teste:     ..\scripts\testetabelasimbolos.script
+
+!!!    0  Linha:     1  // Script:    TesteTabSimbolos.script 
+!!!    0  Linha:     2  // Autor:     Arndt von Staa 
+!!!    0  Linha:     3  // Data:      18/fev/2006 
+!!!    0  Linha:     4  // Propósito: Testar o módulo tabela de simbolos utilizado no arcabouço 
+!!!    0  Linha:     5  // 
+    7  == Inicializar o modulo de teste
+   11  == Testar criação de tabela do tipo 1
+!!!    0  Linha:    12  // inxTabela tamTabela idTipo 
+   16  == Testar criação de tabela de tipo errado
+>>>    1  Linha:    17  Erro nos parâmetros do comando:  =criartab   1  11  0
+<<<    0  Linha:    18  Falha esperada foi recuperada. 
+   20  == Testar criação de tabela de tamanho errado
+>>>    1  Linha:    21  Erro nos parâmetros do comando:  =criartab   1   1  1
+<<<    0  Linha:    22  Falha esperada foi recuperada. 
+   24  == Testar criação de tabela já existente
+>>>    1  Linha:    25  Erro nos parâmetros do comando:  =criartab   0   3  2
+<<<    0  Linha:    26  Falha esperada foi recuperada. 
+   28  == Testar validar tabela existente vazia
+!!!    0  Linha:    29  // inxTabela 
+   32  == Testar inserir simbolo em tabela do tipo 1 novo
+!!!    0  Linha:    33  // inxtabela conta  simbolo condret 
+   36  == Testar validar tabela com um símbolo
+   39  == Testar inserir simbolo existente em tabela do tipo 1
+   42  == teste erro parametro tabela inexistente
+>>>    1  Linha:    43  Erro nos parâmetros do comando:  =inssimboloum   1    2 "bbbb"  0
+<<<    0  Linha:    44  Falha esperada foi recuperada. 
+   46  == Verificar total de espaços alocados
+   49  == Testar procurar simbolo encontra
+!!!    0  Linha:    50  // inxtabela idTipo string condret 
+   53  == Testar procurar simbolo não encontra
+   56  == Testar excluir simbolo
+!!!    0  Linha:    57  // inxTabela string condRet 
+   60  == Testar excluir simbolo não existe
+   63  == Testar procurar simbolo não encontra
+>>>    1  Linha:    64  Dado tipo um deveria existir. Deveria ser: não NULL  É: NULL
+<<<    0  Linha:    65  Falha esperada foi recuperada. 
+   67  == Testar procurar simbolo não encontra
+   70  == Testar validar tabela esvaziada
+   73  == Testar destruir tabela do tipo 1
+!!!    0  Linha:    76  // 
+!!!    0  Linha:    77  //------------------------------------------------------------------------- 
+!!!    0  Linha:    78  // 
+   80  == Testar criação de tabela do tipo 2
+   83  == Testar validar outra tabela existente e vazia
+   86  == Testar destruir tabela do tipo 2 vazia
+!!!    0  Linha:    87  // inxTabela 
+   90  == Testar validar tabela inexistente
+>>>    1  Linha:    91  Erro nos parâmetros do comando:  =validartab     1
+<<<    0  Linha:    92  Falha esperada foi recuperada. 
+   94  == Criar tabela do tipo 2
+   97  == Testar inserir simbolo 1 em tabela do tipo 2
+  100  == Testar inserir simbolo 2 em tabela do tipo 2
+  103  == Testar inserir simbolo 3 em tabela do tipo 2
+  106  == Testar inserir simbolo 4 em tabela do tipo 2
+  109  == Testar inserir simbolo 5 em tabela do tipo 2
+  112  == Testar inserir simbolo 6 em tabela do tipo 2
+  115  == Testar inserir simbolo 7 em tabela do tipo 2
+  118  == Testar inserir simbolo 8 em tabela do tipo 2
+  121  == Validar tabela com 8 símbolos
+  124  == Testar procurar simbolo 1 em tabela do tipo 2
+  127  == Testar procurar simbolo 2 em tabela do tipo 2
+  130  == Testar procurar simbolo 3 em tabela do tipo 2
+  133  == Testar procurar simbolo 4 em tabela do tipo 2
+  136  == Testar procurar simbolo 5 em tabela do tipo 2
+  139  == Testar procurar simbolo 6 em tabela do tipo 2
+  142  == Testar procurar simbolo 7 em tabela do tipo 2
+  145  == Testar procurar simbolo 8 em tabela do tipo 2
+  148  == Testar excluir simbolo 1 em tabela do tipo 2
+  151  == Testar excluir simbolo 3 em tabela do tipo 2
+  154  == Testar excluir simbolo 5 em tabela do tipo 2
+  157  == Testar excluir simbolo 7 em tabela do tipo 2
+  160  == Testar excluir simbolo 1 inexistente em tabela do tipo 2
+  163  == Testar excluir simbolo 3 inexistente em tabela do tipo 2
+  166  == Testar excluir simbolo 5 inexistente em tabela do tipo 2
+  169  == Testar excluir simbolo 7 inexistente em tabela do tipo 2
+  172  == Validar tabela com 4 símbolos restantes
+  175  == Validar espaco dos 4 simbolos restantes
+  178  == Testar procurar simbolo 1 em tabela do tipo 2
+  181  == Testar procurar simbolo 2 em tabela do tipo 2
+  184  == Testar procurar simbolo 3 em tabela do tipo 2
+  187  == Testar procurar simbolo 4 em tabela do tipo 2
+  190  == Testar procurar simbolo 5 em tabela do tipo 2
+  193  == Testar procurar simbolo 6 em tabela do tipo 2
+  196  == Testar procurar simbolo 7 em tabela do tipo 2
+  199  == Testar procurar simbolo 8 em tabela do tipo 2
+  202  == Validar tabela com 4 símbolos restantes
+  205  == Destruir tabela
+!!!    0  Linha:   208  // 
+!!!    0  Linha:   209  //---------------------------------------------- 
+!!!    0  Linha:   210  // 
+  212  == Criar tabela do tipo 2
+  215  == Testar inserir 8 simbolos do tipo 2
+  225  == Validar tabela com 8 símbolos
+  228  == Testar procurar os simbolo inseridos na tabela
+  241  == Validar tabela com 8 símbolos
+  244  == Testar excluir simbolo 1 em tabela do tipo 2
+  254  == Validar tabela vazia
+  257  == Testar excluir simbolo 1 inexistente
+  260  == Testar excluir simbolo 3 inexistente
+  263  == Testar excluir simbolo 5 inexistente
+  266  == Testar excluir simbolo 7 inexistente
+  269  == Validar tabela vazia
+  272  == Validar espaco da tabela vazia
+  275  == Destruir tabela
+  278  == Controlar espaços remanescentes
+!!!    0  Linha:   281  // 
+!!!    0  Linha:   282  //---------------------------------------------- 
+!!!    0  Linha:   283  // 
+!!!    0  Linha:   284  // Teste tabela contendo valor que aponta para um espaço 
+  286  == Criar tabela do tipo 3
+  289  == Inserir símbolos tipo 3
+  294  == Controlar espaços remanescentes
+  297  == Obter os símbolos
+  304  == Eliminar um simbolo
+  307  == Controlar espaços remanescentes
+  311  == Destruir tabela
+  315  == Controlar espaços remanescentes
+!!!    0  Linha:   320  // fim 
+
+!!! Número de linhas lidas:         320
+!!! Número de casos de teste:        84
+!!! Número comandos corretos:       112
+!!! Número de falhas encontradas:     0
+
+!!! Não foram encontrados problemas
+
+
+!!! Numero de espacos ainda alocados: 0

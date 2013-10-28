@@ -1,0 +1,123 @@
+
+!!! Inicio dos testes
+!!!      Construto sob teste: ..\produto\testefuncoes
+!!!      Script de teste:     ..\scripts\testefuncoes.script
+
+!!!    0  Linha:     1  // Script:    TesteGenerico.script 
+!!!    0  Linha:     2  // Autor:     Arndt von Staa 
+!!!    0  Linha:     3  // Data:      12/ago/2003 
+!!!    0  Linha:     4  // Propósito: Testar as funções do módulo de teste genérico 
+!!!    0  Linha:     5  // 
+    7  == Teste de booleanos
+>>>    1  Linha:     9  Booleanos não são iguais. Deveria ser: TRUE É: FALSE
+<<<    0  Linha:    10  Falha esperada foi recuperada. 
+>>>    1  Linha:    11  Booleanos não são iguais. Deveria ser: FALSE É: TRUE
+<<<    0  Linha:    12  Falha esperada foi recuperada. 
+   15  == Teste de caracteres
+>>>    1  Linha:    17  Caracteres não são iguais. Deveria ser: 'b'  É: 'a'
+<<<    0  Linha:    18  Falha esperada foi recuperada. 
+   20  == Teste de inteiros
+>>>    1  Linha:    22  Inteiros não são iguais. Deveria ser: -2  É: -1
+<<<    0  Linha:    23  Falha esperada foi recuperada. 
+   25  == Teste de inteiros longos
+>>>    1  Linha:    27  Inteiros longos não são iguais. Deveria ser: 2  É: 1
+<<<    0  Linha:    28  Falha esperada foi recuperada. 
+   30  == Teste de flutuantes
+>>>    1  Linha:    33  Flutuantes fora da tolerância. Tolerância 0.1, esperado: -1234 , obtido: 1234
+<<<    0  Linha:    34  Falha esperada foi recuperada. 
+!!!    0  Linha:    38  //=compararfloat   124400000000000.0 123400000000000.0   1.0 
+!!!    0  Linha:    39  //=recuperar 
+>>>    1  Linha:    40  Flutuantes fora da tolerância. Tolerância 0.001, esperado: 1244 , obtido: 1234
+<<<    0  Linha:    41  Falha esperada foi recuperada. 
+>>>    1  Linha:    43  Flutuantes fora da tolerância. Tolerância 0.0001, esperado: -10000 , obtido: -9999
+<<<    0  Linha:    44  Falha esperada foi recuperada. 
+>>>    1  Linha:    45  Flutuantes fora da tolerância. Tolerância 9e-005, esperado: -10000 , obtido: -9999
+<<<    0  Linha:    46  Falha esperada foi recuperada. 
+   48  == Teste de string
+>>>    1  Linha:    50  Strings não são iguais. Deveria ser: >z<  É: ><
+<<<    0  Linha:    51  Falha esperada foi recuperada. 
+>>>    1  Linha:    52  Strings não são iguais. Deveria ser: ><  É: >z<
+<<<    0  Linha:    53  Falha esperada foi recuperada. 
+>>>    1  Linha:    57  Strings não são iguais. Deveria ser: >acd<  É: >bcd<
+<<<    0  Linha:    58  Falha esperada foi recuperada. 
+>>>    1  Linha:    59  Strings não são iguais. Deveria ser: >bad<  É: >bcd<
+<<<    0  Linha:    60  Falha esperada foi recuperada. 
+>>>    1  Linha:    61  Strings não são iguais. Deveria ser: >bca<  É: >bcd<
+<<<    0  Linha:    62  Falha esperada foi recuperada. 
+>>>    1  Linha:    63  Strings não são iguais. Deveria ser: >bcde<  É: >bcd<
+<<<    0  Linha:    64  Falha esperada foi recuperada. 
+   66  == Teste espacos curtos iguais
+   69  == Teste espacos de 16 bytes iguais
+   72  == Teste espacos de 16 bytes não iguais
+>>>    1  Linha:    73  Espaços não são iguais. 
+
+   00000 Nao é:  61 62 63 64 65 66 67 68 69 6A 6B 6C 6D 6E 6F 70   abcdefghijklmnop
+         É    :  61 62 63 64 65 66 67 68 69 6A 6B 6C 6D 6E 6F 00   abcdefghijklmno.
+
+<<<    0  Linha:    74  Falha esperada foi recuperada. 
+   76  == Teste espacos de 17 bytes iguais
+   79  == Teste espacos contendo brancos e caracteres nao letra
+   82  == Teste espacos contendo branco no final. Da erro sempre
+>>>    1  Linha:    83  Espaços não são iguais. 
+
+   00000 Nao é:  2B 20 20 61 20 7E 20 63 5E 64 20 2D 20 20 20      +  a ~ c^d -   
+         É    :  2B 20 20 61 20 7E 20 63 5E 64 20 2D 00 2D 00      +  a ~ c^d -.-.
+
+<<<    0  Linha:    84  Falha esperada foi recuperada. 
+   86  == Teste espacos de 17 bytes nao iguais
+>>>    1  Linha:    87  Espaços não são iguais. 
+
+   00000 Nao é:  61 62 63 64 65 66 67 68 69 6A 6B 6C 6D 6E 6F 70   abcdefghijklmnop
+         É    :  61 62 63 64 65 66 67 68 69 6A 6B 6C 6D 6E 6F 00   abcdefghijklmno.
+
+   00016 Nao é:  71                                                q
+         É    :  71                                                q
+
+<<<    0  Linha:    88  Falha esperada foi recuperada. 
+   90  == Teste espacos longos iguais
+   93  == Teste espacos longos não iguais (caractere 22 é r deveria ser c)
+>>>    1  Linha:    94  Espaços não são iguais. 
+
+   00000 Nao é:  7A 7A 78 76 63 7A 78 76 7A 78 76 7A 78 63 76 7A   zzxvczxvzxvzxcvz
+         É    :  7A 7A 78 76 63 7A 78 76 7A 78 76 7A 78 63 76 7A   zzxvczxvzxvzxcvz
+
+   00016 Nao é:  78 76 7A 63 76 78 63 76 7A 78 76 7A 78 76 63 61   xvzcvxcvzxvzxvca
+         É    :  78 76 7A 63 76 78 72 76 7A 78 76 7A 78 76 63 61   xvzcvxrvzxvzxvca
+
+   00032 Nao é:  62 63 64 65 66 67 68 69 6A 6B 6C 6D 6E            bcdefghijklmn
+         É    :  62 63 64 65 66 67 68 69 6A 6B 6C 6D 6E            bcdefghijklmn
+
+<<<    0  Linha:    95  Falha esperada foi recuperada. 
+   97  == Teste espacos de tamanho 0
+  100  == Teste espacos de errados, 2o. aponta para algum lixo de valor desconhecido
+>>>    1  Linha:   101  Espaços não são iguais. 
+
+   00000 Nao é:  30 31 32 33 34 35 36 37 38 39 30 61 62 63 64 65   01234567890abcde
+         É    :  02 00 00 00 D8 F1 41 62 0F D6 FF 39 CC 97 17 3F   ....ØñAb.Ö.9Ì—.?
+
+   00016 Nao é:  66                                                f
+         É    :  29                                                )
+
+<<<    0  Linha:   102  Falha esperada foi recuperada. 
+  104  == Teste espacos contendo texto com caracteres em branco, iguais
+  107  == Teste espacos contendo texto com caracteres em branco, diferentes
+>>>    1  Linha:   108  Espaços não são iguais. 
+
+   00000 Nao é:  30 31 20 32 33 20 34 35 20 36 37 20 20 38 39 20   01 23 45 67  89 
+         É    :  30 31 20 32 33 20 34 35 20 36 37 20 38 39 20 30   01 23 45 67 89 0
+
+   00016 Nao é:  30 61 20 62 63 20 64 65 66                        0a bc def
+         É    :  61 20 62 63 20 64 65 66 00                        a bc def.
+
+<<<    0  Linha:   109  Falha esperada foi recuperada. 
+!!!    0  Linha:   111  // fim 
+
+!!! Número de linhas lidas:         111
+!!! Número de casos de teste:        19
+!!! Número comandos corretos:        22
+!!! Número de falhas encontradas:     0
+
+!!! Não foram encontrados problemas
+
+
+!!! Numero de espacos ainda alocados: 0

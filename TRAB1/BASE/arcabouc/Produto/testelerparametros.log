@@ -1,0 +1,209 @@
+
+!!! Inicio dos testes
+!!!      Construto sob teste: ..\produto\testelerparametros
+!!!      Script de teste:     ..\scripts\testelerparametros.script
+
+!!!    0  Linha:     1  // Script:    TesteContadores.script 
+!!!    0  Linha:     2  // Autor:     Arndt von Staa 
+!!!    0  Linha:     3  // Data:      15/fev/2006 
+!!!    0  Linha:     4  // Propósito: Testar o módulo de leitura de parâmetros de comando de teste 
+!!!    0  Linha:     5  // 
+    7  == Verificar linha 1
+   10  == Verificar linha 2
+   13  == Verificar linha 2
+   16  == Verificar inteiro sozinho
+   19  == Verificar dois strings em seguida
+   22  == Verificar um string solitario
+   25  == Verificar um string solitario sem aspa final
+ll>    1  Linha:    26  Faltou aspas no final do string. 
+>>>    2  Linha:    26  Não leu todos os parâmetros. Deveria ser: 1  É: 0
+<<<    1  Linha:    27  Falha esperada foi recuperada. 
+<<<    0  Linha:    28  Falhas registradas eram esperadas e foram recuperadas. 
+   30  == Verificar um flutuante
+   37  == Verificar ler nome
+   42  == Verificar ler nome errado inicia com número
+ll>    1  Linha:    43  Nome deve iniciar com letra. 
+>>>    2  Linha:    43  Não leu todos os parâmetros. Deveria ser: 1  É: 0
+>>>    3  Linha:    43  Nome errado. Deveria ser: >2<  É: ><
+<<<    2  Linha:    44  Falha esperada foi recuperada. 
+<<<    0  Linha:    45  Falhas registradas eram esperadas e foram recuperadas. 
+   47  == Verificar ler nome errado inicia com sublinhado
+ll>    1  Linha:    48  Nome deve iniciar com letra. 
+>>>    2  Linha:    48  Não leu todos os parâmetros. Deveria ser: 1  É: 0
+>>>    3  Linha:    48  Nome errado. Deveria ser: >_<  É: ><
+<<<    2  Linha:    49  Falha esperada foi recuperada. 
+<<<    0  Linha:    50  Falhas registradas eram esperadas e foram recuperadas. 
+   52  == Verificar ler nome errado inicia com aspas duplas
+ll>    1  Linha:    53  Nome deve iniciar com letra. 
+>>>    2  Linha:    53  Não leu todos os parâmetros. Deveria ser: 1  É: 0
+>>>    3  Linha:    53  Nome errado. Deveria ser: >"<  É: ><
+<<<    2  Linha:    54  Falha esperada foi recuperada. 
+<<<    0  Linha:    55  Falhas registradas eram esperadas e foram recuperadas. 
+   57  == Verificar ler nome errado inicia com aspas simples
+ll>    1  Linha:    58  Nome deve iniciar com letra. 
+>>>    2  Linha:    58  Não leu todos os parâmetros. Deveria ser: 1  É: 0
+>>>    3  Linha:    58  Nome errado. Deveria ser: >'<  É: ><
+<<<    2  Linha:    59  Falha esperada foi recuperada. 
+<<<    0  Linha:    60  Falhas registradas eram esperadas e foram recuperadas. 
+   62  == Verificar ler nome errado inicia com caractere especial
+ll>    1  Linha:    63  Nome deve iniciar com letra. 
+>>>    2  Linha:    63  Não leu todos os parâmetros. Deveria ser: 1  É: 0
+>>>    3  Linha:    63  Nome errado. Deveria ser: >*<  É: ><
+<<<    2  Linha:    64  Falha esperada foi recuperada. 
+<<<    0  Linha:    65  Falhas registradas eram esperadas e foram recuperadas. 
+   67  == Declara string de tamanho 0
+
+ll!    0  Linha:    69  Parâmetro:  String0
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  53 74 72 69 6E 67 30 00 00 00 00 00 00 00 00 00   String0.........
+    010  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
+    020  F8 2E 32 00 00 00 00 00 00 00 00 00 73 00 00 00   ø.2.........s...
+
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  00                                                .
+
+   71  == Repete a declaração
+ll>    1  Linha:    72  Nome já foi declarado antes:  String0
+>>>    2  Linha:    72  Não declarou o parâmetro. 
+<<<    1  Linha:    73  Falha esperada foi recuperada. 
+<<<    0  Linha:    74  Falhas registradas eram esperadas e foram recuperadas. 
+   77  == Declara string de tamanho 1
+
+ll!    0  Linha:    79  Parâmetro:  String1
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  53 74 72 69 6E 67 31 00 00 00 00 00 00 00 00 00   String1.........
+    010  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
+    020  58 2F 32 00 00 00 00 00 01 00 00 00 73 00 00 00   X/2.........s...
+
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  61 00                                             a.
+
+   81  == Declara string de tamanho 12
+
+ll!    0  Linha:    83  Parâmetro:  String12
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  53 74 72 69 6E 67 31 32 00 00 00 00 00 00 00 00   String12........
+    010  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
+    020  B8 2F 32 00 00 00 00 00 0C 00 00 00 73 00 00 00   ¸/2.........s...
+
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  61 E1 E3 E2 E0 E4 41 C1 C3 C2 C0 C4 00            aáãâàäAÁÃÂÀÄ.
+
+   85  == Declara string com caracteres especiais
+
+ll!    0  Linha:    87  Parâmetro:  String1E
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  53 74 72 69 6E 67 31 45 00 00 00 00 00 00 00 00   String1E........
+    010  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
+    020  20 30 32 00 00 00 00 00 0A 00 00 00 73 00 00 00    02.........s...
+
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  0A 0D 07 09 0C 0B 22 27 5C 3F 00                  ......"'\?.
+
+   89  == Declara string caractere nulo
+
+ll!    0  Linha:    91  Parâmetro:  String1Null
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  53 74 72 69 6E 67 31 4E 75 6C 6C 00 00 00 00 00   String1Null.....
+    010  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
+    020  50 30 32 00 00 00 00 00 01 00 00 00 73 00 00 00   P02.........s...
+
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  00                                                .
+
+   93  == Declara string com caracteres nulos pelo meio
+
+ll!    0  Linha:    95  Parâmetro:  String1N
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  53 74 72 69 6E 67 31 4E 00 00 00 00 00 00 00 00   String1N........
+    010  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
+    020  D8 75 32 00 00 00 00 00 08 00 00 00 73 00 00 00   Øu2.........s...
+
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  61 62 63 00                                       abc.
+
+   97  == Declara inteiro
+
+ll!    0  Linha:    99  Parâmetro:  Inteiro
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  49 6E 74 65 69 72 6F 00 00 00 00 00 00 00 00 00   Inteiro.........
+    010  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
+    020  FF 00 00 00 00 00 00 00 00 00 00 00 69 00 00 00   ............i...
+
+  101  == Declara char
+
+ll!    0  Linha:   103  Parâmetro:  Char
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  43 68 61 72 00 00 00 00 00 00 00 00 00 00 00 00   Char............
+    010  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
+    020  71 00 00 00 00 00 00 00 00 00 00 00 63 00 00 00   q...........c...
+
+  105  == Declara char nulo
+
+ll!    0  Linha:   107  Parâmetro:  Char0
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  43 68 61 72 30 00 00 00 00 00 00 00 00 00 00 00   Char0...........
+    010  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
+    020  00 00 00 00 00 00 00 00 00 00 00 00 63 00 00 00   ............c...
+
+  109  == Declara char \n
+
+ll!    0  Linha:   111  Parâmetro:  Charn
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  43 68 61 72 6E 00 00 00 00 00 00 00 00 00 00 00   Charn...........
+    010  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
+    020  0A 00 00 00 00 00 00 00 00 00 00 00 63 00 00 00   ............c...
+
+  113  == Declara double
+
+ll!    0  Linha:   115  Parâmetro:  Double
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  44 6F 75 62 6C 65 00 00 00 00 00 00 00 00 00 00   Double..........
+    010  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
+    020  29 5C 8F C2 F5 28 BC 3F 00 00 00 00 66 00 00 00   )\Âõ(¼?....f...
+
+  117  == Comparar parâmetros caractere
+  122  == Comparar com tipo incorreto
+ll>    1  Linha:   123  Tipo do parâmetro incorreto.  Inteiro
+>>>    2  Linha:   123  Não leu todos os parâmetros. Deveria ser: 2  É: 1
+>>>    3  Linha:   123  Caracteres diferentes. Deveria ser: 'q'  É: ' '
+<<<    2  Linha:   124  Falha esperada foi recuperada. 
+<<<    0  Linha:   125  Falhas registradas eram esperadas e foram recuperadas. 
+  127  == Comparar parâmetros inteiro
+  132  == Comparar parâmetros double
+  137  == Comparar parâmetros string
+  143  == Comparar caracteres hexadecimais
+ll>    1  Linha:   149  Faltou aspas após literal char. 
+>>>    2  Linha:   149  Não leu todos os parâmetros. Deveria ser: 2  É: 1
+>>>    3  Linha:   149  Caracteres diferentes. Deveria ser: 'a'  É: 'A'
+<<<    2  Linha:   150  Falha esperada foi recuperada. 
+<<<    0  Linha:   151  Falhas registradas eram esperadas e foram recuperadas. 
+ll>    1  Linha:   155  Valor de caractere octal maior do que 255. 
+<<<    0  Linha:   156  Falhas registradas eram esperadas e foram recuperadas. 
+  158  == Comparar strings com hexadecimais
+  161  == Comparar caracteres octais
+ll>    1  Linha:   167  Faltou aspas após literal char. 
+>>>    2  Linha:   167  Não leu todos os parâmetros. Deveria ser: 2  É: 1
+>>>    3  Linha:   167  Caracteres diferentes. Deveria ser: ''  É: '@'
+<<<    2  Linha:   168  Falha esperada foi recuperada. 
+<<<    0  Linha:   169  Falhas registradas eram esperadas e foram recuperadas. 
+ll>    1  Linha:   170  Valor de caractere octal maior do que 255. 
+>>>    2  Linha:   170  Caracteres diferentes. Deveria ser: ''  É: 'm'
+<<<    1  Linha:   171  Falha esperada foi recuperada. 
+<<<    0  Linha:   172  Falhas registradas eram esperadas e foram recuperadas. 
+  174  == Comparar strings com octais
+  177  == Verificar dois strings em seguida com tab antes do primeiro
+  181  == Verificar dois strings em seguida com mistura de tab e branco entre os dois
+  185  == Verificar dois strings em seguida com somente tab antes de cada um
+  188  == Verificar dois strings em seguida com somente tab tambem antes do comando
+!!!    0  Linha:   191  // fim 
+
+!!! Número de linhas lidas:         192
+!!! Número de casos de teste:        39
+!!! Número comandos corretos:        83
+!!! Número de falhas encontradas:     0
+
+!!! Não foram encontrados problemas
+
+
+!!! Numero de espacos ainda alocados: 0

@@ -1,0 +1,115 @@
+
+!!! Inicio dos testes
+!!!      Construto sob teste: ..\produto\TesteControleEspaco
+!!!      Script de teste:     ..\scripts\testecontroleespaco-lim.script
+
+!!!    0  Linha:     1  // Script:    TesteControleEspaco.script 
+!!!    0  Linha:     2  // Autor:     Arndt von Staa 
+!!!    0  Linha:     3  // Data:      18/fev/2006 
+!!!    0  Linha:     4  // Propósito: Testar operações de limitação de memória 
+!!!    0  Linha:     5  // 
+    7  == Verificar total de espaço alocado
+   11  == Alocar espaço de 16 bytes
+   14  == Verificar total de espaço alocado
+   18  == Desalocar espaço
+   23  == Limitar espaço em 16
+   29  == Desalocar espaço
+   34  == Limitar espaço em 15
+!!!    0  Linha:    36  Simula falta de memoria. 
+!!!    0  Linha:    39  Exibir espaco recebeu ponteiro nulo. 
+   41  == Limitar espaço em 100
+   44  == Alocar 5 blocos de 18 , 19 , 20 , 21 e 22
+   51  == Verificar total de espaço alocado
+   55  == Desalocar espaço de 21 bytes
+   60  == Desalocar espaço de 19 bytes
+   65  == Desalocar espaço de 22 bytes
+   70  == Desalocar espaço de 18 bytes
+   75  == Desalocar espaço de 20 bytes
+   80  == Alocar 5 blocos de 18 , 19 , 20 , 21 e 23
+!!!    0  Linha:    85  Simula falta de memoria. 
+   87  == Verificar total de espaço alocado
+   91  == Alocar o que falta para completar
+   96  == Eliminar limitacao de espaco
+   99  == Desalocar último
+  104  == Alocar um além do limite que existia
+!!!    0  Linha:   108  Total espaço alocado é: 101 bytes 
+  110  == Desalocar todos
+  119  == Limitar espaço em 100
+  122  == Alocar 5 blocos de 18 , 19 , 20 , 21 e 23
+!!!    0  Linha:   127  Simula falta de memoria. 
+  129  == Verificar total de espaço alocado
+  133  == Eliminar todos os limites de espaço
+  138  == Desalocar todos
+  147  == Limitar número de espaços em 3
+  150  == Alocar 5 blocos de 18 , 19 , 20 , 21 e 23
+!!!    0  Linha:   156  Limita numero de espacos alocados. 
+!!!    0  Linha:   157  Limita numero de espacos alocados. 
+  159  == Verificar total de espaço alocado
+  163  == Limitar número de espaços em 4 espaços
+!!!    0  Linha:   166  Limita numero de espacos alocados. 
+  170  == Eliminar limite de número de espaços
+  176  == Estabelecer limite de número a posteriori
+!!!    0  Linha:   178  Limita numero de espacos alocados. 
+!!!    0  Linha:   179  Limita numero de espacos alocados. 
+  183  == Remover todos os limites
+  190  == Verificar o número de NULLs gerados
+  193  == Verificar a freqüência de NULLs controlados
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+!!!    0  Linha:   194  Simulou NULL por frequencia. 
+  196  == Exibir o número total de de NULLs gerados
+!!!    0  Linha:   197  O número total de NULLs simulados é:   54
+!!!    0  Linha:   200  // fim 
+
+!!! Número de linhas lidas:         201
+!!! Número de casos de teste:        37
+!!! Número comandos corretos:       118
+!!! Número de falhas encontradas:     0
+
+!!! Não foram encontrados problemas
+
+
+!!! Numero de espacos ainda alocados: 7

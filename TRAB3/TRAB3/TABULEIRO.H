@@ -1,7 +1,8 @@
-
+#if ! defined( TABULEIRO_ )
+#define TABULEIRO_
 /***************************************************************************
 *
-*  $MCD Módulo de definição: LIS  Lista duplamente encadeada
+*  $MCD Módulo de definição: TAB  Tabuleiro de xadrez
 *
 *  Arquivo gerado:              TABULEIRO.H
 *  Letras identificadoras:      TAB
@@ -20,32 +21,74 @@
 *     1       afv   19/out/2013 início desenvolvimento
 *
 *  $ED Descrição do módulo
-*     Implementa listas genéricas duplamente encadeadas.
-*     Podem existir n listas em operação simultaneamente.
-*     As listas possuem uma cabeça encapsulando o seu estado.
-*
-*     Cada lista é homogênea quanto ao tipo dos dados que armazena.
-*     Cada elemento da lista referencia o valor que contém.
-*
-*     Os ponteiros para os dados são copiados para elementos da lista.
-*     Não é copiado o valor apontado por estes ponteiros.
-*
-*     O controle da destruição do valor de um elemento a ser excluído
-*     é realizado por uma função fornecida pelo usuário do módulo.
-*
-*     Cada lista referencia uma função que determina como devem ser
-*     desalocados os dados nela contidos.
-*
-*     A função de liberação dos valores contidos nos elementos deve
-*     assegurar a liberação de todos os espaços referenciados pelo
-*     valor contido em um elemento.
-*     Esta função é chamada antes de se desalocar um elemento
-*     de uma lista.
-*     Caso não seja necessário desalocar o valor referenciado pelo
-*     elemento, o ponteiro para a função de liberação poderá ser NULL .
-*     Caso o elemento da lista seja a única âncora do valor referenciado,
-*     esta função deve promover a destruição (free) desse valor e
-*     de todos os dados nele ancorados.
+*     Armazena as funções de tabuleiro, contem as instruções do jogo.
 *
 ***************************************************************************/
+ 
+#if defined( TABULEIRO_OWN )
+   #define TABULEIRO_EXT
+#else
+   #define TABULEIRO_EXT extern
+#endif
 
+/***** Declarações exportadas pelo módulo *****/
+
+/* Tipo referência para um tabuleiro */
+
+typedef struct TAB_tagTabuleiro * TAB_tppTabuleiro ;
+
+
+/***********************************************************************
+*
+*  $TC Tipo de dados: TAB Condições de retorno
+*
+*
+*  $ED Descrição do tipo
+*     Condições de retorno das funções da lista
+*
+***********************************************************************/
+
+   typedef enum {
+
+         TAB_CondRetOK = 0,
+               /* Concluiu corretamente */
+
+         TAB_CondRetFaltouMemoria = 9
+               /* Faltou memória ao tentar criar um tabuleiro */
+
+   } TAB_tpCondRet ;
+
+
+/***********************************************************************
+*
+*  $FC Função: TAB  &Criar lista
+*
+*  $ED Descrição da função
+*     Cria uma lista genérica duplamente encadeada.
+*     Os possíveis tipos são desconhecidos inicialmente.
+*     A tipagem é implicita.
+*     Não existe identificador de tipo associado à lista.
+*
+*  $EP Parâmetros
+*     pLista  - ponteiro para o elemento do tipo de lista a ser alocado.
+*     ExcluirValor  - ponteiro para a função que processa a
+*                     exclusão do valor referenciado pelo elemento
+*                     a ser excluído.
+*                     Ver descrição do módulo.
+*                     Esta função é criada no módulo que utiliza a lista.
+*
+*  $FV Valor retornado
+*     TAB_CondRetFaltouMemoria - Não conseguiu criar a lista.
+*     TAB_CondRetOK - Conseguiu criar a lista com sucesso.
+*
+***********************************************************************/
+
+   TAB_tpCondRet TAB_CriarTabuleiro( TAB_tppTabuleiro * pTabuleiro , char * IdVertice ) ;
+
+
+#undef TABULEIRO_EXT
+
+/********** Fim do módulo de definição: LIS  Lista duplamente encadeada **********/
+
+#else
+#endif

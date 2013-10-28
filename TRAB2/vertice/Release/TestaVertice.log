@@ -1,0 +1,39 @@
+
+
+LES - Laboratório de Engenharia de Software DI/PUC-Rio
+      Arcabouço de teste de módulos C  (c) 2006
+
+---------------------------------------------
+      Construto sob teste: vertice
+
+      Arquivo de teste:    TestaVertice.script
+
+
+!!!    0  Linha:     1  // Script:    TesteLista.script 
+!!!    0  Linha:     2  // Autor:     AFV 
+!!!    0  Linha:     3  // Data:      13/set/2013 
+!!!    0  Linha:     4  // Propósito: Testar vértice 
+!!!    0  Linha:     5  // 
+    7  == Inicializar valores
+!!!    0  Linha:    23  // Iniciar chamada para comandos de teste 
+   25  == Criar vertice 0
+   28  == Criar vertice 1
+   31  == Criar vertice 2
+   34  == Criar vertice 3
+   37  == Destruir vertice 3
+   40  == Criar vertice 3
+   43  == Obter valor vertice 3
+   46  == Mudar valor vertice 3
+   49  == Obter valor vertice 3
+   52  == Obter valor vertice 3
+!!!    0  Linha:    55  // fim 
+
+!!! Número de linhas lidas:          56
+!!! Número de casos de teste:        11
+!!! Número comandos corretos:        22
+!!! Número de falhas encontradas:     0
+
+!!! Não foram encontrados problemas
+
+
+!!! Numero de espacos ainda alocados: 0

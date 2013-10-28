@@ -1,0 +1,56 @@
+// Script:    TesteLista.script
+// Autor:     AFV
+// Data:      13/set/2013
+// Propósito: Testar vértice
+//
+
+== Inicializar valores
+=declararparm   vertice0  int 0
+=declararparm   vertice1  int 1
+=declararparm   vertice2  int 2
+=declararparm   vertice3  int 3
+
+=declararparm   nome0    string  "rei"
+=declararparm   nome1    string  "rainha"
+=declararparm   nome2    string  "peao"
+=declararparm   nome3    string  "cavalo"
+
+=declararparm   OK             int  0
+=declararparm   NaoAchou       int  1
+=declararparm   VerticeVazio   int  2
+=declararparm   FaltouMemoria  int  9
+
+// Iniciar chamada para comandos de teste
+
+== Criar vertice 0
+=criavertice      vertice0  nome0  OK
+
+== Criar vertice 1
+=criavertice      vertice1  nome1 OK
+
+== Criar vertice 2
+=criavertice      vertice2  nome2 OK
+
+== Criar vertice 3
+=criavertice      vertice3  nome3 OK
+
+== Destruir vertice 3
+=destruirvertice  vertice3  OK
+
+== Criar vertice 3
+=criavertice      vertice3  nome3 OK
+
+== Obter valor vertice 3
+=obtervalorvert   vertice3  nome3 OK
+
+== Mudar valor vertice 3
+=mudarvalorvert   vertice3  nome0 OK
+
+== Obter valor vertice 3
+=obtervalorvert   vertice3  nome3 NaoAchou
+
+== Obter valor vertice 3
+=obtervalorvert   vertice3  nome0 OK
+
+// fim
+

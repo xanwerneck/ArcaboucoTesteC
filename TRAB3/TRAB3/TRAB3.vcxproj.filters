@@ -21,13 +21,16 @@
     <ClInclude Include="GRAFO.H">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PECA.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PRINCIPAL.H">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TABULEIRO.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MATRIZ.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VERTICE.H">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -38,13 +41,16 @@
     <ClCompile Include="LISTA.C">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PECA.C">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PRINCIPAL.C">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TABULEIRO.C">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MATRIZ.C">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VERTICE.C">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

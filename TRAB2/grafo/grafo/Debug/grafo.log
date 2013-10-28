@@ -1,0 +1,53 @@
+﻿Build started 10/10/2013 21:19:59.
+     1>Project "C:\Users\b1320614\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB2\grafo\grafo\grafo.vcxproj" on node 2 (rebuild target(s)).
+     1>_PrepareForClean:
+         Deleting file "Debug\grafo.lastbuildstate".
+       InitializeBuildStatus:
+         Creating "Debug\grafo.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TC /analyze- /errorReport:prompt GRAFO.C LISTA.C TESTGRA.C VERTICE.C
+         VERTICE.C
+     1>c:\users\b1320614\documents\visual studio 2010\projects\arcaboucotestec\trab2\grafo\grafo\vertice.c(64): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(105) : see declaration of 'strcpy'
+     1>c:\users\b1320614\documents\visual studio 2010\projects\arcaboucotestec\trab2\grafo\grafo\vertice.c(92): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(105) : see declaration of 'strcpy'
+     1>c:\users\b1320614\documents\visual studio 2010\projects\arcaboucotestec\trab2\grafo\grafo\vertice.c(119): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(105) : see declaration of 'strcpy'
+         TESTGRA.C
+         LISTA.C
+         GRAFO.C
+         Generating Code...
+     1>c:\users\b1320614\documents\visual studio 2010\projects\arcaboucotestec\trab2\grafo\grafo\grafo.c(673): warning C4700: uninitialized local variable 'Corrente' used
+     1>c:\users\b1320614\documents\visual studio 2010\projects\arcaboucotestec\trab2\grafo\grafo\grafo.c(675): warning C4700: uninitialized local variable 'Buscado' used
+     1>c:\users\b1320614\documents\visual studio 2010\projects\arcaboucotestec\trab2\grafo\grafo\grafo.c(742): warning C4700: uninitialized local variable 'cond' used
+       ManifestResourceCompile:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\grafo.exe.embed.manifest.res" Debug\grafo_manifest.rc 
+       Link:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\b1320614\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB2\grafo\Debug\grafo.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\grafo.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\b1320614\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB2\grafo\Debug\grafo.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\b1320614\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB2\grafo\Debug\grafo.lib" /MACHINE:X86 Debug\grafo.exe.embed.manifest.res
+         Debug\GRAFO.obj
+         Debug\LISTA.obj
+         Debug\TESTGRA.obj
+         Debug\VERTICE.obj
+         ArcaboucoTeste.lib
+     1>LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
+       Manifest:
+         Deleting file "Debug\grafo.exe.embed.manifest".
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\grafo.exe.embed.manifest" /manifest Debug\grafo.exe.intermediate.manifest
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\grafo.exe.embed.manifest.res" Debug\grafo_manifest.rc 
+       LinkEmbedManifest:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\b1320614\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB2\grafo\Debug\grafo.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\grafo.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\b1320614\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB2\grafo\Debug\grafo.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\b1320614\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB2\grafo\Debug\grafo.lib" /MACHINE:X86 Debug\grafo.exe.embed.manifest.res
+         Debug\GRAFO.obj
+         Debug\LISTA.obj
+         Debug\TESTGRA.obj
+         Debug\VERTICE.obj
+         ArcaboucoTeste.lib
+     1>LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
+         grafo.vcxproj -> C:\Users\b1320614\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB2\grafo\Debug\grafo.exe
+       FinalizeBuildStatus:
+         Deleting file "Debug\grafo.unsuccessfulbuild".
+         Touching "Debug\grafo.lastbuildstate".
+     1>Done Building Project "C:\Users\b1320614\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB2\grafo\grafo\grafo.vcxproj" (rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.20

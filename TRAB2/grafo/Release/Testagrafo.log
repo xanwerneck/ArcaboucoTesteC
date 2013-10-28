@@ -1,0 +1,56 @@
+
+
+LES - Laboratório de Engenharia de Software DI/PUC-Rio
+      Arcabouço de teste de módulos C  (c) 2006
+
+---------------------------------------------
+      Construto sob teste: grafo
+
+      Arquivo de teste:    TestaGrafo.script
+
+
+!!!    0  Linha:     1  // Script:    TesteLista.script 
+!!!    0  Linha:     2  // Autor:     AFV 
+!!!    0  Linha:     3  // Data:      13/set/2013 
+!!!    0  Linha:     4  // Propósito: Testar vértice 
+!!!    0  Linha:     5  // 
+    7  == Inicializar valores para grafo
+   53  == Criar grafo 0
+   58  == Criar vertice 0
+   62  == Criar vertice 1
+   65  == Criar vertice 1
+   68  == Criar vertice 2
+   71  == Criar vertice 3
+   74  == Criar vertice 4
+   77  == Criar vertice 5
+   80  == Criar vertice 6
+   83  ==obter valor vertice grafo
+   86  ==Criar Aresta BA
+   88  ==Criar Aresta CA
+   90  ==Criar Aresta AD
+   93  ==Criar Aresta AD
+   96  ==Criar Aresta AE
+   98  ==Criar Aresta EB
+  100  ==Criar Aresta EC
+  102  ==Criar Aresta DE
+  104  ==Criar Aresta FG
+  106  ==Criar Aresta FG
+  110  ==vertice em origem
+  113  ==vertice em origem
+  116  ==vertice em origem
+  119  == Excluir Aresta
+  122  ==definir corrente
+  129  == Criar grafo 0
+  132  == Criar grafo 0
+  135  == Criar grafo 0
+  138  ==checa espaco
+
+!!! Número de linhas lidas:         140
+!!! Número de casos de teste:        30
+!!! Número comandos corretos:        67
+!!! Número de falhas encontradas:     0
+
+!!! Não foram encontrados problemas
+
+
+!!! Numero de espacos ainda alocados: 0

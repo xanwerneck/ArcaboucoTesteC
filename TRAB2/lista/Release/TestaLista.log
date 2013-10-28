@@ -1,0 +1,18 @@
+
+!!! Inicio dos testes
+!!!      Construto sob teste: lista
+!!!      Script de teste:     TestaLista.script
+
+!!!    0  Linha:     1  // Script:    TesteLista.script 
+!!!    0  Linha:     2  // Autor:     AFV 
+!!!    0  Linha:     3  // Data:      17/out/2013 
+!!!    0  Linha:     4  // Propósito: Testar Lista 
+!!!    0  Linha:     5  // 
+    7  == Inicializar valores
+!!!    0  Linha:    32  // Iniciar chamada para comandos de teste 
+   34  ==Criar Listas
+   40  ==Inserir elementos na lista 0
+   46  ==Inserir elementos na lista 1
+   52  ==Inserir elementos na lista 2
+   58  ==Testa ir inicio da lista 0
+   61  ==Esvaziar Lista 0

@@ -1,0 +1,34 @@
+﻿Build started 07/09/2013 19:11:41.
+     1>Project "C:\Users\Alexandre Werneck\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\ArcaboucoTesteC\ArcaboucoTesteC.vcxproj" on node 2 (rebuild target(s)).
+     1>_PrepareForClean:
+         Deleting file "Release\ArcaboucoTesteC.lastbuildstate".
+       InitializeBuildStatus:
+         Touching "Release\ArcaboucoTesteC.unsuccessfulbuild".
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TC /analyze- /errorReport:prompt LISTA.C MATRIZ.C TESTLIS.C TESTMAT.C
+         LISTA.C
+     1>LISTA.C(105): warning C4028: formal parameter 2 different from declaration
+         MATRIZ.C
+     1>MATRIZ.C(123): warning C4028: formal parameter 1 different from declaration
+     1>MATRIZ.C(163): warning C4028: formal parameter 1 different from declaration
+     1>MATRIZ.C(180): warning C4047: '=' : 'LIS_tppLista *' differs in levels of indirection from 'LIS_tppLista *'
+     1>MATRIZ.C(436): warning C4028: formal parameter 1 different from declaration
+     1>MATRIZ.C(446): warning C4047: '=' : 'LIS_tppLista *' differs in levels of indirection from 'LIS_tppLista *'
+         TESTLIS.C
+     1>TESTLIS.C(132): error C2065: 'condRetRecebido' : undeclared identifier
+     1>TESTLIS.C(142): error C2065: 'condRetRecebido' : undeclared identifier
+     1>TESTLIS.C(142): warning C4022: 'TST_CompararPonteiroNulo' : pointer mismatch for actual parameter 2
+     1>TESTLIS.C(208): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>TESTLIS.C(211): warning C4047: 'function' : 'char' differs in levels of indirection from 'char *'
+     1>TESTLIS.C(211): warning C4024: 'LIS_InserirElementoAntes' : different types for formal and actual parameter 2
+     1>TESTLIS.C(243): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>TESTLIS.C(246): warning C4047: 'function' : 'char' differs in levels of indirection from 'char *'
+     1>TESTLIS.C(246): warning C4024: 'LIS_InserirElementoApos' : different types for formal and actual parameter 2
+         TESTMAT.C
+     1>TESTMAT.C(146): warning C4047: 'function' : 'LIS_tppLista *' differs in levels of indirection from 'LIS_tppLista'
+     1>TESTMAT.C(146): warning C4024: 'LIS_CriarLista' : different types for formal and actual parameter 2
+     1>Done Building Project "C:\Users\Alexandre Werneck\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\ArcaboucoTesteC\ArcaboucoTesteC.vcxproj" (rebuild target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.72

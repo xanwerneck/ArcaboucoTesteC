@@ -1,0 +1,72 @@
+// Script:    TesteLista.script
+// Autor:     AFV
+// Data:      17/out/2013
+// Propósito: Testar Lista
+//
+
+== Inicializar valores
+=declararparm   Lista0 		int 0
+=declararparm   Lista1 		int 1
+=declararparm   Lista2 		int 2
+=declararparm   Lista3 		int 3
+=declararparm   Lista10		int 10
+
+=declararparm	A string		"AX"
+=declararparm	B string		"BX"
+=declararparm	C string		"CX"
+=declararparm	D string		"DX"
+=declararparm	E string		"EX"
+=declararparm	F string		"FX"
+=declararparm	G string		"GX"
+=declararparm	H string		"HX"
+=declararparm	I string		"IX"
+=declararparm	J string		"JX"
+
+=declararparm   OK              int  0
+=declararparm   ListaVazia      int  1
+=declararparm   FimLista	    int  2
+=declararparm	NaoAchou	    int  3
+=declararparm   FaltouMemoria   int  9
+
+
+// Iniciar chamada para comandos de teste
+
+==Criar Listas
+=criarlista			Lista0		OK
+=criarlista			Lista1		OK
+=criarlista			Lista2		OK
+=criarlista			Lista3		OK
+
+==Inserir elementos na lista 0
+=inselemantes			Lista0	  A	OK
+=inselemapos			Lista0	  D	OK
+=inselemantes			Lista0	  B	OK
+=inselemapos			Lista0	  C	OK
+
+==Inserir elementos na lista 1
+=inselemantes			Lista1	  A	OK
+=inselemapos			Lista1	  D	OK
+=inselemantes			Lista1	  B	OK
+=inselemapos			Lista1	  C	OK
+
+==Inserir elementos na lista 2
+=inselemantes			Lista2	  A	OK
+=inselemapos			Lista2	  D	OK
+=inselemantes			Lista2	  B	OK
+=inselemapos			Lista2	  C	OK
+
+==Testa ir inicio da lista 0	
+=irinicio			    Lista0		OK
+
+==Esvaziar Lista 0	
+=esvaziarlista			Lista0		OK
+=irinicio			    Lista0		ListaVazia
+
+==Destroi Lista 0
+=destruirlista			Lista0		OK
+
+==Reseta Vetor de Lista
+=resetteste
+		
+// fim
+

@@ -1,54 +1,131 @@
 /***************************************************************************
-*  $MCI Módulo de implementação: PART PARTIDA
+*  $MCI Módulo de implementação: PRI Principal
 *
 *  Arquivo gerado:              PRINCIPAL.C
 *  Letras identificadoras:      PRI
 *
-*  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
-*  Arquivo da base de software: D:\AUTOTEST\PROJETOS\SIMPLES.BSW
 *
-*  Projeto: INF 1301 Automatização dos testes de módulos C
-*  Gestor:  LES/DI/PUC-Rio
-*  Autores: aw - Alexandre Werneck
-*           fr - Fernanda Camelo Ribeiro
-*			vo - Vinicius de Luiz de Oliveira
+*  Projeto: INF 1301 - Verificador de Xeque-mate
+*  Gestor:  Flavio Bevilacqua
+*  Autores: afv
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     1       afv   11/nov/2013 início desenvolvimento
+*     Y       afv   xx/xx/2013  finalização do desenvolvimento do modulo
+*     X       afv   xx/xx/2013  continuação do desenvolvimento do modulo
+*     1       afv   24/out/2013 início do desenvolvimento do módulo
 *
 ***************************************************************************/
 
 
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <conio.h>
 
-//#include "GRAFO.H"
-//#include "TABULEIRO.H"
-//#include "PECA.H"
+#include "TABULEIRO.H"
 
 /************  Protótipo das funções encapsuladas no módulo  *************/
 
+static void imprimeMenuPrincipal ( void ) ;
 
 /************* Função responsável pela execução da aplicação ***************/
 
-int main (void){
-	int val;
-	char tecla;
-	printf("\nVERIFICADOR DE XEQUE MATE - AFV\n\n");
-	printf("\n_________________________\n\n");
-	printf("Informe o número de peças por time");
+int main (void)
+{
+	int x, y, contador = 0 ;
+	char opcaoEscolhidaModificar ;
+	int opcaoEscolhida ;
+	char caminhoParaOArquivo [ 201 ] ;
+	TAB_tpCondRet TabRet;
+	TAB_tppTabuleiro * pTabuleiro;
 
-	scanf("%d" , &val);
-	printf("O valor informado é: %d\n" , val);
 
-	printf("Pressione qualquer tecla para sair\n");
-	scanf("%c" , &tecla);
-	if(tecla != 0){
-		exit(1);
-	}
+	char IdVertice[4] = {'A','B','C','D'};
+
+	while ( 1 ) 
+	{
+		
+		imprimeMenuPrincipal () ;
+		scanf ( "%d", &opcaoEscolhida ) ;
+
+		system ( "cls" ) ;
+		
+		switch ( opcaoEscolhida )
+		{
+		
+		/* Cria tabuleiro */
+		case 1:	/* Criando um segundo tabuleiro, o primeiro é destruído. */
+				
+				puts ( " Você escolheu: '1- Criar tabuleiro.'" ) ;
+
+				printf("Teste %c" , IdVertice[0]);
+
+				TabRet = TAB_CriarTabuleiro(pTabuleiro , IdVertice);
+			
+				system ( "cls" ) ;
+				puts ( "Labirinito  criado" ) ;
+			
+				break;
+		case 6:
+			exit(0);
+
+			/* Usuário com caracter não esperado */
+		default: puts ( "Favor entre com uma das opcoes abaixo." ) ; 
+				 break ;
+
+		} /* switch */
+
+	} /* while */
+	
+	return 0;
 }
 
 
- /************* Código das funções encapsuladas no módulo *****************/
+/*****  Código das funções encapsuladas no módulo  *****/
+
+static void CriarTabuleiro()
+{
+
+
+}
+
+/***********************************************************************
+*
+*  $FC Função: PRI  - Imprimir Menu
+*
+*  $ED Descrição da função
+*     Imprime o menu para a aplicação.
+*
+***********************************************************************/
+
+static void imprimeMenuPrincipal ( void ) 
+{
+	puts ( "*******************************************************************" ) ;
+	puts ( "*               AFV - VERIFICADOR DE XEQUE-MATE                   *" ) ;
+	puts ( "*-----------------------------------------------------------------*" ) ;
+	puts ( "*  Entre com o numero correspondente a opcao desejada:            *" ) ;
+	puts ( "*                                                                 *" ) ;
+	puts ( "* 1- Criar tabuleiro.                                             *" ) ;
+	puts ( "* 2- Modificar tabuleiro.                                         *" ) ;
+	puts ( "* 3- Salvar tabuleiro.  		                                  *" ) ;
+	puts ( "* 4- Recuperar tabuleiro. 		                                  *" ) ;
+	puts ( "* 5- Verificar Xeque-mate.                                        *" ) ;
+	puts ( "* 6- Fechar aplicacao.                                            *" ) ;
+	puts ( "*                                                                 *" ) ;
+	puts ( "*******************************************************************" ) ;
+
+}
+
+static void imprimeMenuEscolhaTime ( void ) 
+{
+	puts ( "*******************************************************************" ) ;
+	puts ( "*  Escolha seu time:                                              *" ) ;
+	puts ( "*                                                                 *" ) ;
+	puts ( "* 1- Preto.                                                       *" ) ;
+	puts ( "* 2- Branco.                                                      *" ) ;
+	puts ( "*                                                                 *" ) ;
+	puts ( "*******************************************************************" ) ;
+
+}
+

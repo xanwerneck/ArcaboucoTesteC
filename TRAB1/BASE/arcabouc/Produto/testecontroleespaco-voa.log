@@ -1,0 +1,225 @@
+
+!!! Inicio dos testes
+!!!      Construto sob teste: ..\produto\TesteControleEspaco
+!!!      Script de teste:     ..\scripts\testecontroleespaco-voa.script
+
+!!!    0  Linha:     1  // Script:    TesteControleEspaco-Voa.script 
+!!!    0  Linha:     2  // Autor:     Arndt von Staa 
+!!!    0  Linha:     3  // Data:      13/abr/2006 
+!!!    0  Linha:     4  // Propósito: Testar deturpação e verificação da estrutura de controle de espaços dinâmicos 
+!!!    0  Linha:     5  // 
+    7  == Alocar espaços  de tamanhos 2 5 e 15
+   12  == Verificar controle de tamanho de nome de arquivo - deve ser c09...
+
+!!!  Espaco de dados, id:     3  pValor: 003276E2  hexa: E2 76 32 00  E' origem lista  Id suc:     2
+     Tipo indefinido  Tamanho: 2  Ativo  Linha onde alocou: 2  Arquivo: c098765432b098765432a0987654321
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  7C 7C                                             ||
+
+   17  == Verificar a lista de todos os espaços
+   20  == inserir exato no espaço
+
+!!!  Espaco de dados, id:     2  pValor: 00327622  hexa: 22 76 32 00  Id ant:     3  Id suc:     1
+     Tipo indefinido  Tamanho: 15  Ativo  Linha onde alocou: 15  Arquivo: dado0
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  63 63 63 63 63 63 63 63 63 63 63 63 63 63 00      cccccccccccccc.
+
+   25  == inserir 1 menor no espaço
+
+!!!  Espaco de dados, id:     1  pValor: 0032301A  hexa: 1A 30 32 00  Id ant:     2  Id suc:     0
+     Tipo indefinido  Tamanho: 5  Ativo  Linha onde alocou: 5  Arquivo: dado1
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  61 61 61 00 7C                                    aaa.|
+
+   30  == inserir 1 maior no espaço
+ed>    1  Linha:    32  Controle de extravasão após está errado. 
+ed>    2  Linha:    32  Espaco de dados esta corrompido.  Id: 0  pValor: 00322F62
+
+     Espaco de dados, id:     0  pValor: 00322F62  hexa: 62 2F 32 00  Id ant:     1  E' final lista
+     Tipo indefinido  Tamanho: 2  Ativo  Linha onde alocou: 2  Arquivo: dado2
+     Controle antes OK  Controle apos errado: 00 C3
+
+   35  == Verificar um a um todos os espaços com conteúdo inicializado, espaço 2 está em erro
+ed>    3  Linha:    38  Controle de extravasão após está errado. 
+ed>    4  Linha:    38  Espaco de dados esta corrompido.  Id: 0  pValor: 00322F62
+
+     Espaco de dados, id:     0  pValor: 00322F62  hexa: 62 2F 32 00  Id ant:     1  E' final lista
+     Tipo indefinido  Tamanho: 2  Ativo  Linha onde alocou: 2  Arquivo: dado2
+     Controle antes OK  Controle apos errado: 00 C3
+
+   40  == Obter total de falhas até este ponto
+<<<    0  Linha:    41  Falhas registradas eram esperadas e foram recuperadas. 
+   43  == Verificar a lista de todos os espaços
+ed>    1  Linha:    44  Controle de extravasão após está errado. 
+ed>    2  Linha:    44  Espaco de dados esta corrompido.  Id: 0  pValor: 00322F62
+
+     Espaco de dados, id:     0  pValor: 00322F62  hexa: 62 2F 32 00  Id ant:     1  E' final lista
+     Tipo indefinido  Tamanho: 2  Ativo  Linha onde alocou: 2  Arquivo: dado2
+     Controle antes OK  Controle apos errado: 00 C3
+
+   46  == Obter total de falhas até este ponto
+<<<    0  Linha:    47  Falhas registradas eram esperadas e foram recuperadas. 
+   49  == Deturpar, sem destruir
+
+!!!  Espaco de dados, id:     2  pValor: 00327622  hexa: 22 76 32 00  Id ant:     3  Id suc:     1
+     Tipo indefinido  Tamanho: 15  Ativo  Linha onde alocou: 15  Arquivo: dado0
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  63 33 63 44 63 55 63 63 63 63 63 63 63 63 00      c3cDcUcccccccc.
+
+   55  == Deturpar controle antes, controle após já está deturpado
+ed>    1  Linha:    57  Controle de extravasão antes está errado. 
+ed>    2  Linha:    57  Controle de extravasão após está errado. 
+ed>    3  Linha:    57  Espaco de dados esta corrompido.  Id: 0  pValor: 00322F62
+
+     Espaco de dados, id:     0  pValor: 00322F62  hexa: 62 2F 32 00  Id ant:     1  E' final lista
+     Tipo indefinido  Tamanho: 2  Ativo  Linha onde alocou: 2  Arquivo: dado2
+     Controle antes errado: 96 21  Controle apos errado: 00 C3
+
+>>>    4  Linha:    57  Verificação resultou errado. Deveria ser: TRUE É: FALSE
+<<<    3  Linha:    58  Falha esperada foi recuperada. 
+<<<    0  Linha:    59  Falhas registradas eram esperadas e foram recuperadas. 
+   61  == Deturpar identificaçao do espaço
+ed>    1  Linha:    63  Identificação do espaço está errada. 
+ed>    2  Linha:    63  Espaco de dados esta corrompido.  Id: 129  pValor: 0032301A
+
+     Espaco de dados, id:   129  pValor: 0032301A  hexa: 1A 30 32 00  Id ant:     2  Id suc:     0
+     Tipo indefinido  Tamanho: 5  Ativo  Linha onde alocou: 5  Arquivo: dado1
+     Controle antes OK  Controle apos OK
+
+<<<    0  Linha:    64  Falhas registradas eram esperadas e foram recuperadas. 
+   66  == Deturpar encadeamento após
+ed>    1  Linha:    68  Identificação do espaço está errada. 
+ed>    2  Linha:    68  Encadeamento após está errado. 
+ed>    3  Linha:    68  Espaco de dados esta corrompido.  Id: 129  pValor: 0032301A
+
+     Espaco de dados, id:   129  pValor: 0032301A  hexa: 1A 30 32 00  Id ant:     2  E' final lista
+     Tipo indefinido  Tamanho: 5  Ativo  Linha onde alocou: 5  Arquivo: dado1
+     Controle antes OK  Controle apos OK
+
+<<<    0  Linha:    69  Falhas registradas eram esperadas e foram recuperadas. 
+   71  == Deturpar encadeamento antes (espaço após foi corrigido para NULL)
+ed>    1  Linha:    73  Identificação do espaço está errada. 
+ed>    2  Linha:    73  Encadeamento antes está errado. 
+ed>    3  Linha:    73  Espaco de dados esta corrompido.  Id: 129  pValor: 0032301A
+
+     Espaco de dados, id:   129  pValor: 0032301A  hexa: 1A 30 32 00  E' origem lista  E' final lista
+     Tipo indefinido  Tamanho: 5  Ativo  Linha onde alocou: 5  Arquivo: dado1
+     Controle antes OK  Controle apos OK
+
+<<<    0  Linha:    74  Falhas registradas eram esperadas e foram recuperadas. 
+   76  == Deturpar tamanho do valor
+ed>    1  Linha:    78  Tamanho do espaço está errado. 
+ed>    2  Linha:    78  Controle de extravasão após está errado. 
+ed>    3  Linha:    78  Espaco de dados esta corrompido.  Id: 3  pValor: 003276E2
+
+     Espaco de dados, id:     3  pValor: 003276E2  hexa: E2 76 32 00  E' origem lista  Id suc:     2
+     Tipo indefinido  Tamanho: 85  Ativo  Linha onde alocou: 2  Arquivo: c098765432b098765432a0987654321
+     Controle antes OK  Controle apos errado: 00 00
+
+<<<    0  Linha:    79  Falhas registradas eram esperadas e foram recuperadas. 
+   81  == Deturpar tamanho total, controles já estão deturpados, encadeamento errado
+ed>    1  Linha:    83  Encadeamento antes está errado. 
+ed>    2  Linha:    83  Tamanho do espaço está errado. 
+ed>    3  Linha:    83  Controle de extravasão antes está errado. 
+ed>    4  Linha:    83  Controle de extravasão após está errado. 
+ed>    5  Linha:    83  Espaco de dados esta corrompido.  Id: 0  pValor: 00322F62
+
+     Espaco de dados, id:     0  pValor: 00322F62  hexa: 62 2F 32 00  E' origem lista  E' final lista
+     Tipo indefinido  Tamanho: 2  Ativo  Linha onde alocou: 2  Arquivo: dado2
+     Controle antes errado: 96 21  Controle apos errado: 00 C3
+
+<<<    0  Linha:    84  Falhas registradas eram esperadas e foram recuperadas. 
+   86  == Deturpar anterior de espaço origem
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  AE 46 71 C0 58 00 00 00 01 00 00 00 98 76 32 00   ®FqÀX.......˜v2.
+    010  04 00 00 00 01 00 00 00 00 00 00 00 0A 00 00 00   ................
+    020  0F 00 00 00 64 61 64 6F 32 00 00 00 00 00 00 00   ....dado2.......
+    030  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
+    040  00 00 00 00 96 C3 7C 7C 7C 7C                     ....–Ã||||
+
+ed>    1  Linha:    90  Origem da lista de espaços está errada. 
+ed>    2  Linha:    90  Espaço origem da lista está errada. 
+ed>    3  Linha:    90  Espaco de dados esta corrompido.  Id: 4  pValor: 0032779A
+
+     Espaco de dados, id:     4  pValor: 0032779A  hexa: 9A 77 32 00  E' origem lista  Id suc:     3
+     Tipo indefinido  Tamanho: 10  Ativo  Linha onde alocou: 15  Arquivo: dado2
+     Controle antes OK  Controle apos OK
+
+<<<    0  Linha:    91  Falhas registradas eram esperadas e foram recuperadas. 
+   93  == Repetir verificação para controlar correção
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  AE 46 71 C0 58 00 00 00 00 00 00 00 98 76 32 00   ®FqÀX.......˜v2.
+    010  04 00 00 00 01 00 00 00 00 00 00 00 0A 00 00 00   ................
+    020  0F 00 00 00 64 61 64 6F 32 00 00 00 00 00 00 00   ....dado2.......
+    030  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
+    040  00 00 00 00 96 C3 7C 7C 7C 7C                     ....–Ã||||
+
+   97  == Repetir verificação de deturpação de pAnt no meio corrigida para NULL
+ed>    1  Linha:    98  Identificação do espaço está errada. 
+ed>    2  Linha:    98  Espáco anterior == NULL, mas não é a origem da lista de espaços. 
+ed>    3  Linha:    98  Espaco de dados esta corrompido.  Id: 129  pValor: 0032301A
+
+     Espaco de dados, id:   129  pValor: 0032301A  hexa: 1A 30 32 00  E' origem lista  E' final lista
+     Tipo indefinido  Tamanho: 5  Ativo  Linha onde alocou: 5  Arquivo: dado1
+     Controle antes OK  Controle apos OK
+
+<<<    0  Linha:    99  Falhas registradas eram esperadas e foram recuperadas. 
+  101  == Deturpar marca digital do espaco, é tratado como NULL
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  01 46 71 C0 58 00 00 00 00 00 00 00 98 76 32 00   .FqÀX.......˜v2.
+    010  04 00 00 00 01 00 00 00 00 00 00 00 0A 00 00 00   ................
+    020  0F 00 00 00 64 61 64 6F 32 00 00 00 00 00 00 00   ....dado2.......
+    030  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
+    040  00 00 00 00 96 C3 7C 7C 7C 7C                     ....–Ã||||
+
+  106  == Excluir os espacos
+ed>    1  Linha:   107  Encadeamento após está errado. 
+ed>    2  Linha:   107  Espaco de dados esta corrompido.  Id: 2  pValor: 00327622
+
+     Espaco de dados, id:     2  pValor: 00327622  hexa: 22 76 32 00  Id ant:     3  E' final lista
+     Tipo indefinido  Tamanho: 15  Ativo  Linha onde alocou: 15  Arquivo: dado0
+     Controle antes OK  Controle apos OK
+
+ed>    3  Linha:   108  Identificação do espaço está errada. 
+ed>    4  Linha:   108  Espáco anterior == NULL, mas não é a origem da lista de espaços. 
+ed>    5  Linha:   108  Espaco de dados esta corrompido.  Id: 129  pValor: 0032301A
+
+     Espaco de dados, id:   129  pValor: 0032301A  hexa: 1A 30 32 00  E' origem lista  E' final lista
+     Tipo indefinido  Tamanho: 5  Ativo  Linha onde alocou: 5  Arquivo: dado1
+     Controle antes OK  Controle apos OK
+
+ed>    6  Linha:   109  Espáco anterior == NULL, mas não é a origem da lista de espaços. 
+ed>    7  Linha:   109  Tamanho do espaço está errado. 
+ed>    8  Linha:   109  Controle de extravasão antes está errado. 
+ed>    9  Linha:   109  Controle de extravasão após está errado. 
+ed>   10  Linha:   109  Espaco de dados esta corrompido.  Id: 0  pValor: 00322F62
+
+     Espaco de dados, id:     0  pValor: 00322F62  hexa: 62 2F 32 00  E' origem lista  E' final lista
+     Tipo indefinido  Tamanho: 2  Ativo  Linha onde alocou: 2  Arquivo: dado2
+     Controle antes errado: 96 21  Controle apos errado: 00 C3
+
+ed>   11  Linha:   110  Tamanho do espaço está errado. 
+ed>   12  Linha:   110  Controle de extravasão após está errado. 
+ed>   13  Linha:   110  Espaco de dados esta corrompido.  Id: 3  pValor: 003276E2
+
+     Espaco de dados, id:     3  pValor: 003276E2  hexa: E2 76 32 00  Id ant:     4  Id suc:     2
+     Tipo indefinido  Tamanho: 85  Ativo  Linha onde alocou: 2  Arquivo: c098765432b098765432a0987654321
+     Controle antes OK  Controle apos errado: 00 00
+
+<<<    0  Linha:   112  Falhas registradas eram esperadas e foram recuperadas. 
+  114  == Verificar número de espacos remanescentes
+!!!    0  Linha:   117  // fim 
+
+!!! Número de linhas lidas:         117
+!!! Número de casos de teste:        23
+!!! Número comandos corretos:        62
+!!! Número de falhas encontradas:     0
+
+!!! Não foram encontrados problemas
+
+
+!!! Numero de espacos ainda alocados: 5

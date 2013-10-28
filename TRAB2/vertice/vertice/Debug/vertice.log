@@ -1,0 +1,54 @@
+﻿Build started 29/09/2013 15:03:18.
+     1>Project "C:\Users\Alexandre Werneck\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB2\vertice\vertice\vertice.vcxproj" on node 2 (rebuild target(s)).
+     1>PrepareForBuild:
+         Creating directory "C:\Users\Alexandre Werneck\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB2\vertice\Debug\".
+       InitializeBuildStatus:
+         Creating "Debug\vertice.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TC /analyze- /errorReport:prompt TESTVER.C VERTICE.C
+         VERTICE.C
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\vertice.c(30): error C2085: 'Ret' : not in formal parameter list
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\vertice.c(43): error C2085: 'VER_tpVertice' : not in formal parameter list
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\vertice.c(53): error C2143: syntax error : missing ')' before '*'
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\vertice.c(53): error C2082: redefinition of formal parameter 'VER_CriarVertice'
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\vertice.c(53): error C2143: syntax error : missing ';' before '*'
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\vertice.c(53): error C2059: syntax error : ')'
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\vertice.c(89): error C2037: left of 'Nome' specifies undefined struct/union 'VER_tagVertice'
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\vertice.c(89): error C2198: 'strcpy' : too few arguments for call
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\vertice.c(108): error C2084: function 'VER_tpCondRet VER_MudarNomeVertice(VER_tppVertice,char *)' already has a body
+                 c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\vertice.h(120) : see previous definition of 'VER_MudarNomeVertice'
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\vertice.c(118): error C2037: left of 'Nome' specifies undefined struct/union 'VER_tagVertice'
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\vertice.c(118): error C2198: 'strcmp' : too few arguments for call
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\vertice.c(123): error C2037: left of 'Nome' specifies undefined struct/union 'VER_tagVertice'
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\vertice.c(123): error C2198: 'strcpy' : too few arguments for call
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\vertice.c(125): error C2037: left of 'Nome' specifies undefined struct/union 'VER_tagVertice'
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\vertice.c(125): error C2198: 'strcmp' : too few arguments for call
+         TESTVER.C
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\testver.c(31): error C2085: 'RESET_VERTICE_CMD' : not in formal parameter list
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\testver.c(31): error C2143: syntax error : missing ';' before '='
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\testver.c(86): error C2065: 'RESET_VERTICE_CMD' : undeclared identifier
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\testver.c(86): warning C4047: 'function' : 'const char *' differs in levels of indirection from 'int'
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\testver.c(86): warning C4024: 'strcmp' : different types for formal and actual parameter 2
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\testver.c(91): error C2065: 'vtVertices' : undeclared identifier
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\testver.c(91): error C2109: subscript requires array or pointer type
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\testver.c(112): error C2065: 'vtVertices' : undeclared identifier
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\testver.c(112): error C2109: subscript requires array or pointer type
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\testver.c(112): warning C4047: 'function' : 'VER_tppVertice *' differs in levels of indirection from 'char [80]'
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\testver.c(112): warning C4024: 'VER_CriarVertice' : different types for formal and actual parameter 1
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\testver.c(112): error C2198: 'VER_CriarVertice' : too few arguments for call
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\testver.c(133): error C2065: 'vtVertices' : undeclared identifier
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\testver.c(133): error C2109: subscript requires array or pointer type
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\testver.c(133): error C2198: 'VER_DestruirVertice' : too few arguments for call
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\testver.c(135): error C2065: 'vtVertices' : undeclared identifier
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\testver.c(135): error C2109: subscript requires array or pointer type
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\testver.c(156): error C2065: 'vtVertices' : undeclared identifier
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\testver.c(156): error C2109: subscript requires array or pointer type
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\testver.c(156): warning C4133: 'function' : incompatible types - from 'char [80]' to 'VER_tppVertice'
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\testver.c(156): error C2198: 'VER_MudarNomeVertice' : too few arguments for call
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab2\vertice\vertice\testver.c(187): fatal error C1903: unable to recover from previous error(s); stopping compilation
+         Generating Code...
+     1>Done Building Project "C:\Users\Alexandre Werneck\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB2\vertice\vertice\vertice.vcxproj" (rebuild target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:01.26
