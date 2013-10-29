@@ -95,8 +95,11 @@ typedef enum {
         GRA_CondRetFaltouMemoria = 9 ,
             /* Faltou memória ao alocar dados */
 
-		GRA_VerticeJaExiste = 10 
+		GRA_VerticeJaExiste = 10 ,
 			/* Vertice já existe na lista de vértices desse grafo */
+
+		GRA_CondRetFimLista = 11
+		    /*	Fim da lista de vértices */
 
 } GRA_tpCondRet ;
 
@@ -431,6 +434,10 @@ GRA_tpCondRet GRA_DestruirGrafo( GRA_tppGrafo pGrafo);
 
 */
 GRA_tpCondRet GRA_ObterVertice(GRA_tppGrafo pGrafo , void ** pValor);
+
+GRA_tpCondRet GRA_IrInicio(GRA_tppGrafo pGrafo);
+GRA_tpCondRet GRA_BuscaIdVertice(GRA_tppGrafo pGrafo , char * pValor);
+GRA_tpCondRet GRA_AvancarCorrenteVert(GRA_tppGrafo pGrafo , int val);
 
 #undef GRAFO_EXT
 

@@ -36,6 +36,8 @@
 
 #define MAX_TAB 3
 
+GRA_tpCondRet GrafRet;
+
 /***********************************************************************
 *
 *  $TC Tipo de dados: LIS Descritor do Tabuleiro
@@ -45,7 +47,9 @@
 
    typedef struct TAB_tagTabuleiro {
 
-         char * Nome;
+         GRA_tppGrafo  tpGrafo;
+		
+		 MAT_tppMatriz tpMatriz;
 
    } TAB_tpTabuleiro ;
 
@@ -56,14 +60,60 @@
 /*****  Código das funções exportadas pelo módulo  *****/
 
 
-TAB_tpCondRet TAB_CriarTabuleiro( TAB_tppTabuleiro * pTabuleiro , char * IdVertice ){
+TAB_tpCondRet TAB_CriarTabuleiro( TAB_tppTabuleiro * pTabuleiro ){
 
-	GRA_tppGrafo * pGrafo;
-	MAT_tppMatriz * pMatriz;
+	GRA_tppGrafo     pGrafo;
+	MAT_tppMatriz    pMatriz;
+	TAB_tppTabuleiro mTab;
 
-	GRA_CriarGrafo(pGrafo , ExcluirInfo);
+	mTab = ( TAB_tppTabuleiro ) malloc ( sizeof ( TAB_tpTabuleiro ) );
+			/* Malloc para gerar um ponteiro de matriz */
+		   
+	if(mTab == NULL)
+	{
+		return TAB_CondRetFaltouMemoria ;
+	} /* if */
 
-	MAT_CriarMatriz(pMatriz, (*pGrafo) , 8);
+	GRA_CriarGrafo( &pGrafo , ExcluirInfo);
+
+	MAT_CriarMatriz(&pMatriz, pGrafo , 8);
+
+	mTab->tpGrafo = pGrafo;
+
+	mTab->tpMatriz = pMatriz;
+
+	(*pTabuleiro) = (TAB_tpTabuleiro *) malloc (sizeof(TAB_tppTabuleiro));
+
+	if( (*pTabuleiro) == NULL)
+	{
+		return TAB_CondRetFaltouMemoria ;
+	} /* if */
+
+	(*pTabuleiro) = mTab ;
+
+	return TAB_CondRetOK;
+}
+
+TAB_tpCondRet TAB_ApresentaTabuleiro( TAB_tppTabuleiro pTabuleiro ){
+
+	int cont = 0;
+	char id;
+
+	GrafRet = GRA_IrInicio(pTabuleiro->tpGrafo);
+
+	while(GrafRet == GRA_CondRetFimLista || GrafRet == GRA_CondRetOK)
+	{
+		cont++;
+		GRA_BuscaIdVertice(pTabuleiro->tpGrafo , &id);
+		printf("| %c |" , id );
+		if(cont == 8){
+			printf("\n");
+			cont=0;
+		}
+		if(GrafRet == GRA_CondRetFimLista)
+			return TAB_CondRetOK;
+		GrafRet = GRA_AvancarCorrenteVert(pTabuleiro->tpGrafo , 1);
+	} /* while */
 
 	return TAB_CondRetOK;
 }

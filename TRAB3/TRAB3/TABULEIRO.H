@@ -83,7 +83,9 @@ typedef struct TAB_tagTabuleiro * TAB_tppTabuleiro ;
 *
 ***********************************************************************/
 
-   TAB_tpCondRet TAB_CriarTabuleiro( TAB_tppTabuleiro * pTabuleiro , char * IdVertice ) ;
+   TAB_tpCondRet TAB_CriarTabuleiro( TAB_tppTabuleiro * pTabuleiro) ;
+
+   TAB_tpCondRet TAB_ApresentaTabuleiro( TAB_tppTabuleiro pTabuleiro );
 
 
 #undef TABULEIRO_EXT

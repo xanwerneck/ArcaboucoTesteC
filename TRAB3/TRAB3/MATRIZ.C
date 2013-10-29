@@ -108,7 +108,7 @@ static void DestroiMatriz( MAT_tpMatriz * tpMatExc ) ;
 
 static void DestroiNoMatriz( MAT_tpMatriz * tpMatExc );
 
-static tpElemMatriz * CriarNo( GRA_tppGrafo pGrafo ) ;
+static tpElemMatriz * CriarNo( GRA_tppGrafo pGrafo , char Id ) ;
 
 static void ExcluirValorNo( void * pValor );
 
@@ -125,11 +125,6 @@ MAT_tpCondRet MAT_CriarMatriz( MAT_tppMatriz *tpMat, GRA_tppGrafo pGrafo , int n
 		MAT_tpCondRet CondRet ;
 
 		MAT_tppMatriz mMatriz ;
-
-		if((*tpMat) != NULL)
-		{
-			DestroiMatriz( (*tpMat) ); 
-		} /* if */
 		
 		mMatriz = ( MAT_tppMatriz ) malloc ( sizeof ( MAT_tpMatriz ) );
 			/* Malloc para gerar um ponteiro de matriz */
@@ -625,6 +620,9 @@ void DestroiNoMatriz( MAT_tpMatriz * tpMatExc )
 MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat, GRA_tppGrafo pGrafo  , int numElementos ){
 
 	int i = 0, j = 0;
+	char IdVertice[64] = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','X','Y','Z','W','1','2','3','4','5','6'
+		
+						,'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','x','y','z','w','7','8','9','0','@','!'};
 
 	tpElemMatriz * tpElemLesteCabeca   = NULL;
 	tpElemMatriz * tpElemSudesteCabeca = NULL;
@@ -632,7 +630,7 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat, GRA_tppGrafo pGrafo 
 	tpElemMatriz * tpElemLesteNo	   = NULL;
 	tpElemMatriz * tpElemSudesteNo	   = NULL;
 	tpElemMatriz * tpElemSulNo		   = NULL;
-	tpElemMatriz * tpElem			   = CriarNo( pGrafo );
+	tpElemMatriz * tpElem			   = CriarNo( pGrafo , IdVertice[0] );
 	if(tpElem == NULL)
 	{
 		return MAT_CondRetFaltouMemoria ;
@@ -662,9 +660,9 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat, GRA_tppGrafo pGrafo 
 						tpMat->pNoRaiz       = tpElem;
 						tpMat->pNoIndLinha   = tpElem;
 
-						tpElemLesteCabeca   = CriarNo( pGrafo );
-						tpElemSudesteCabeca = CriarNo( pGrafo );
-						tpElemSulCabeca     = CriarNo( pGrafo );
+						tpElemLesteCabeca   = CriarNo( pGrafo , IdVertice[1] );
+						tpElemSudesteCabeca = CriarNo( pGrafo , IdVertice[9] );
+						tpElemSulCabeca     = CriarNo( pGrafo , IdVertice[8]);
 						if(tpElemLesteCabeca==NULL || tpElemSudesteCabeca==NULL || tpElemSulCabeca==NULL){
 							return MAT_CondRetFaltouMemoria ;
 						}						
@@ -722,8 +720,8 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat, GRA_tppGrafo pGrafo 
 						tpMat->pNoCorr->pNoLeste->pNoSudoeste = tpMat->pNoCorr->pNoSul;
 						tpMat->pNoCorr->pNoLeste->pNoOeste    = tpMat->pNoCorr;
 
-						tpElemLesteNo   = CriarNo( pGrafo );
-						tpElemSudesteNo = CriarNo( pGrafo );
+						tpElemLesteNo   = CriarNo( pGrafo , IdVertice[((numElementos) * i) + j]);
+						tpElemSudesteNo = CriarNo( pGrafo , IdVertice[((numElementos) * (i+1)) + j]);
 						if(tpElemLesteNo==NULL || tpElemSudesteNo==NULL){
 							return MAT_CondRetFaltouMemoria ;
 						}
@@ -741,8 +739,8 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat, GRA_tppGrafo pGrafo 
 						tpMat->pNoIndLinha->pNoSul->pNoNordeste = tpMat->pNoIndLinha->pNoLeste;
 						tpMat->pNoIndLinha->pNoSul->pNoNorte    = tpMat->pNoIndLinha;
 
-						tpElemSulNo     = CriarNo( pGrafo );
-						tpElemSudesteNo = CriarNo( pGrafo );
+						tpElemSulNo     = CriarNo( pGrafo , IdVertice[((numElementos) * (i+1))]);
+						tpElemSudesteNo = CriarNo( pGrafo , IdVertice[((numElementos) * (i+1)) + j]);
 						if(tpElemSulNo==NULL || tpElemSudesteNo==NULL){
 							return MAT_CondRetFaltouMemoria ;
 						}
@@ -792,7 +790,7 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat, GRA_tppGrafo pGrafo 
 						tpMat->pNoCorr->pNoLeste->pNoSudoeste  = tpMat->pNoCorr->pNoSul;
 						tpMat->pNoCorr->pNoLeste->pNoOeste     = tpMat->pNoCorr;
 						tpMat->pNoCorr->pNoLeste->pNoNoroeste  = tpMat->pNoCorr->pNoNorte;
-						tpElemSudesteNo   = CriarNo( pGrafo );
+						tpElemSudesteNo   = CriarNo( pGrafo , IdVertice[((numElementos) * (i+1)) + j]);
 						if(tpElemSudesteNo==NULL){
 							return MAT_CondRetFaltouMemoria ;
 						}
@@ -824,13 +822,13 @@ MAT_tpCondRet PreparaEstruturaMatriz( MAT_tpMatriz * tpMat, GRA_tppGrafo pGrafo 
 *
 ***********************************************************************/
 
-tpElemMatriz * CriarNo( GRA_tppGrafo pGrafo )
+tpElemMatriz * CriarNo( GRA_tppGrafo pGrafo , char Id )
    {
 	  GRA_tppVerGrafo * pVertice;
 
       tpElemMatriz * pNoMatriz ;
 
-	  GRA_CriaVerticeGrafo(pGrafo , "Nome" , 'A' , ExcluirValorNo);
+	  GRA_CriaVerticeGrafo(pGrafo , "XXX" , Id , ExcluirValorNo);
 
       pNoMatriz = ( tpElemMatriz * ) malloc( sizeof( tpElemMatriz )) ;
       if ( pNoMatriz == NULL )

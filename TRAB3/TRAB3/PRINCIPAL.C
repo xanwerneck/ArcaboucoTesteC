@@ -33,15 +33,12 @@ static void imprimeMenuPrincipal ( void ) ;
 
 int main (void)
 {
-	int x, y, contador = 0 ;
+	int contador = 0 ;
 	char opcaoEscolhidaModificar ;
 	int opcaoEscolhida ;
-	char caminhoParaOArquivo [ 201 ] ;
 	TAB_tpCondRet TabRet;
-	TAB_tppTabuleiro * pTabuleiro;
+	TAB_tppTabuleiro pTabuleiro;
 
-
-	char IdVertice[4] = {'A','B','C','D'};
 
 	while ( 1 ) 
 	{
@@ -59,14 +56,22 @@ int main (void)
 				
 				puts ( " Você escolheu: '1- Criar tabuleiro.'" ) ;
 
-				printf("Teste %c" , IdVertice[0]);
+				TabRet = TAB_CriarTabuleiro(&pTabuleiro);
 
-				TabRet = TAB_CriarTabuleiro(pTabuleiro , IdVertice);
-			
-				system ( "cls" ) ;
 				puts ( "Labirinito  criado" ) ;
 			
 				break;
+		/* Apresenta tabuleiro */
+		case 2:	/* Mostra visualmente o tabuleiro */
+				
+				puts ( " Você escolheu: '2- Apresentar tabuleiro.'" ) ;
+
+				TabRet = TAB_ApresentaTabuleiro(pTabuleiro);
+
+				puts ( "Percurso no Labirinto" ) ;
+			
+				break;
+
 		case 6:
 			exit(0);
 
