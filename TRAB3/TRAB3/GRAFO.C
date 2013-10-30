@@ -731,6 +731,9 @@ GRA_tpCondRet GRA_IrInicio(GRA_tppGrafo pGrafo)
 
 GRA_tpCondRet GRA_BuscaIdVertice(GRA_tppGrafo pGrafo , char * pValor)
 {
+	if(pGrafo == NULL){
+		return GRA_CondRetGrafoNulo;
+	} /* if */
 
 	*pValor = pGrafo->pCorrente->pIdVertice;
 
@@ -748,6 +751,20 @@ GRA_tpCondRet GRA_AvancarCorrenteVert(GRA_tppGrafo pGrafo , int val)
 	}
 
 	return GRA_CondRetOK;
+}
+
+GRA_tpCondRet GRA_NumeroVertices(GRA_tppGrafo pGrafo , int * val)
+{
+
+	ListaRet  = LIS_NumElem(pGrafo->pListaVertices , val);
+
+	if(ListaRet == LIS_CondRetOK){
+
+		return GRA_CondRetOK;
+
+	} /* if */
+	return GRA_CondRetNaoAchou;
+
 }
 
 /*****  Código das funções encapsuladas pelo módulo  *****/

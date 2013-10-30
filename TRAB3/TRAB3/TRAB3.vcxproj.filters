@@ -33,6 +33,9 @@
     <ClInclude Include="VERTICE.H">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PECA.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GRAFO.C">
@@ -51,6 +54,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="VERTICE.C">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PECA.C">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

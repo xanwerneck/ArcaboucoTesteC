@@ -46,6 +46,10 @@ typedef struct LIS_tagLista * LIS_tpMatLista ;
 
 typedef struct GRA_tagGrafo * GRA_tppGrafo ;
 
+/* Tipo referência para um grafo */
+
+typedef struct tagVerticeGrafo * GRA_tppVerGrafo ;
+
 
 /***********************************************************************
 *
@@ -126,7 +130,7 @@ MAT_tpCondRet MAT_CriarMatriz(MAT_tppMatriz* tpMatrizModulo, GRA_tppGrafo pGrafo
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_InsereListaMatriz( LIS_tpMatLista * lt, MAT_tppMatriz tpMatrizModulo);
+MAT_tpCondRet MAT_InsereListaMatriz( GRA_tppVerGrafo lt, MAT_tppMatriz tpMatrizModulo);
 
 /***********************************************************************
 *
@@ -258,7 +262,7 @@ MAT_tpCondRet MAT_IrNoNoroeste(MAT_tppMatriz tpMatrizModulo) ;
 *
 ***********************************************************************/
 
-MAT_tpCondRet MAT_ObterListaCorr( LIS_tpMatLista * lst_valor , MAT_tppMatriz tpMatrizModulo ) ;
+MAT_tpCondRet MAT_ObterListaCorr( GRA_tppVerGrafo lst_valor  , MAT_tppMatriz tpMatrizModulo ) ;
 
 
 /***********************************************************************

@@ -33,10 +33,11 @@
 
 #include "MATRIZ.H"
 #include "GRAFO.H"
-
-#define MAX_TAB 3
+#include "PECA.H"
 
 GRA_tpCondRet GrafRet;
+
+
 
 /***********************************************************************
 *
@@ -51,11 +52,17 @@ GRA_tpCondRet GrafRet;
 		
 		 MAT_tppMatriz tpMatriz;
 
+		 LIS_tppLista pListaTimeA;
+
+		 LIS_tppLista pListaTimeB;
+
    } TAB_tpTabuleiro ;
 
 /***** Protótipos das funções encapsuladas no módulo *****/
 
    static void ExcluirInfo ( void * pValor );
+   
+   static void ExcluirPeca( void * pPeca );
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -64,6 +71,8 @@ TAB_tpCondRet TAB_CriarTabuleiro( TAB_tppTabuleiro * pTabuleiro ){
 
 	GRA_tppGrafo     pGrafo;
 	MAT_tppMatriz    pMatriz;
+	LIS_tppLista     ListaTimeA;
+	LIS_tppLista     ListaTimeB;
 	TAB_tppTabuleiro mTab;
 
 	mTab = ( TAB_tppTabuleiro ) malloc ( sizeof ( TAB_tpTabuleiro ) );
@@ -77,6 +86,8 @@ TAB_tpCondRet TAB_CriarTabuleiro( TAB_tppTabuleiro * pTabuleiro ){
 	GRA_CriarGrafo( &pGrafo , ExcluirInfo);
 
 	MAT_CriarMatriz(&pMatriz, pGrafo , 8);
+
+	LIS_CriarLista(ExcluirPeca , &ListaTimeA);
 
 	mTab->tpGrafo = pGrafo;
 
@@ -98,11 +109,17 @@ TAB_tpCondRet TAB_ApresentaTabuleiro( TAB_tppTabuleiro pTabuleiro ){
 
 	int cont = 0;
 	char id;
+	int numElem = 0;
+
+	GrafRet = GRA_NumeroVertices(pTabuleiro->tpGrafo , &numElem);
+	if(GrafRet == GRA_CondRetOK ){
+		printf("Numero de Casas do Tabuleiro %d \n\n" , numElem);
+	} /* if */
 
 	GrafRet = GRA_IrInicio(pTabuleiro->tpGrafo);
 
-	while(GrafRet == GRA_CondRetFimLista || GrafRet == GRA_CondRetOK)
-	{
+	do{
+
 		cont++;
 		GRA_BuscaIdVertice(pTabuleiro->tpGrafo , &id);
 		printf("| %c |" , id );
@@ -110,12 +127,26 @@ TAB_tpCondRet TAB_ApresentaTabuleiro( TAB_tppTabuleiro pTabuleiro ){
 			printf("\n");
 			cont=0;
 		}
-		if(GrafRet == GRA_CondRetFimLista)
-			return TAB_CondRetOK;
 		GrafRet = GRA_AvancarCorrenteVert(pTabuleiro->tpGrafo , 1);
-	} /* while */
 
+	}while(GrafRet != GRA_CondRetFimLista);	
+	printf("\n");
 	return TAB_CondRetOK;
+}
+
+TAB_tpCondRet TAB_CriarPeca(TAB_tppTabuleiro pTabuleiro , char * Nome , int Diagonal , int Reta , int QtdeMov , int Time)
+{
+	PEC_tppPeca * pPeca;
+	if(pTabuleiro == NULL){
+		return TAB_CondRetFaltouMemoria;
+	}
+	PEC_CriarPeca(pPeca , Diagonal , Reta , QtdeMov );
+	if(Time == 0){
+		LIS_InserirElementoApos(pTabuleiro->pListaTimeA , *pPeca);
+	}else if(Time == 1){
+		LIS_InserirElementoApos(pTabuleiro->pListaTimeB , *pPeca);
+	} /* if */
+
 }
 
 void ExcluirInfo ( void * pValor )
@@ -124,6 +155,13 @@ void ExcluirInfo ( void * pValor )
     free( ( void * ) pValor ) ;
 
 } /* Fim função: TST -Excluir informacao */
+
+void ExcluirPeca( void * pPeca )
+{
+
+	free ((void *) pPeca);
+
+} /* Fim função: TST -Excluir peca */
 
 /********** Fim do módulo de implementação: LIS  Lista duplamente encadeada **********/
 

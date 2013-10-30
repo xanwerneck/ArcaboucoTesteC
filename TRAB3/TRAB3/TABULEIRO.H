@@ -87,6 +87,8 @@ typedef struct TAB_tagTabuleiro * TAB_tppTabuleiro ;
 
    TAB_tpCondRet TAB_ApresentaTabuleiro( TAB_tppTabuleiro pTabuleiro );
 
+   TAB_tpCondRet TAB_CriarPeca(TAB_tppTabuleiro pTabuleiro , char * Nome , int Diagonal , int Reta , int QtdeMov, int Time);
+
 
 #undef TABULEIRO_EXT
 

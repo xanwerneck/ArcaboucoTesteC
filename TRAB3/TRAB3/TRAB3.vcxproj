@@ -77,6 +77,7 @@
     <ClInclude Include="GRAFO.H" />
     <ClInclude Include="LISTA.H" />
     <ClInclude Include="MATRIZ.H" />
+    <ClInclude Include="PECA.H" />
     <ClInclude Include="PRINCIPAL.H" />
     <ClInclude Include="TABULEIRO.H" />
     <ClInclude Include="VERTICE.H" />
@@ -85,6 +86,7 @@
     <ClCompile Include="GRAFO.C" />
     <ClCompile Include="LISTA.C" />
     <ClCompile Include="MATRIZ.C" />
+    <ClCompile Include="PECA.C" />
     <ClCompile Include="PRINCIPAL.C" />
     <ClCompile Include="TABULEIRO.C" />
     <ClCompile Include="VERTICE.C" />
