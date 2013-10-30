@@ -1,4 +1,4 @@
-﻿Build started 29/10/2013 21:35:45.
+﻿Build started 29/10/2013 22:23:40.
      1>Project "C:\Users\Alexandre Werneck\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB3\TRAB3\TRAB3.vcxproj" on node 2 (rebuild target(s)).
      1>_PrepareForClean:
          Deleting file "Release\TRAB3.lastbuildstate".
@@ -13,7 +13,7 @@
      1>MATRIZ.C(192): warning C4047: '=' : 'GRA_tppVerGrafo *' differs in levels of indirection from 'GRA_tppVerGrafo *'
      1>MATRIZ.C(450): warning C4028: formal parameter 1 different from declaration
      1>MATRIZ.C(465): warning C4047: '==' : 'GRA_tppVerGrafo *' differs in levels of indirection from 'GRA_tppVerGrafo *'
-     1>MATRIZ.C(841): warning C4047: '=' : 'GRA_tppVerGrafo *' differs in levels of indirection from 'GRA_tppVerGrafo *'
+     1>MATRIZ.C(839): warning C4047: '=' : 'GRA_tppVerGrafo *' differs in levels of indirection from 'GRA_tppVerGrafo *'
          PRINCIPAL.C
      1>PRINCIPAL.C(47): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(304) : see declaration of 'scanf'
@@ -41,4 +41,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.69
+Time Elapsed 00:00:01.89
