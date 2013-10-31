@@ -65,21 +65,24 @@
 *  Função: PEC  &Criar peca
 *  ****/
 
-PEC_tpCondRet PEC_CriarPeca(PEC_tppPeca * pPeca, int Diag , int Reta , int Qtde )
+PEC_tpCondRet PEC_CriarPeca(PEC_tppPeca * pPeca, int Diag , int Reta , int Qtde , char * Nome)
 {
 
 	PEC_tppPeca mPeca = NULL;
 	
-	mPeca = (PEC_tppPeca *) malloc(sizeof(PEC_tpElemPeca));
+	mPeca = (PEC_tppPeca) malloc(sizeof(PEC_tpElemPeca));
 
 	if(mPeca == NULL)
 	{
 		return PEC_CondRetFaltouMemoria ;
-	}
+	}	
 	
+	mPeca->diagonal = Diag;
+	mPeca->reta     = Reta;
+	mPeca->qtde     = Qtde;
+	mPeca->Nome     = Nome;
 	
-	
-	(*pPeca) = (PEC_tppPeca) malloc(sizeof(PEC_tpElemPeca));
+	(*pPeca) = (PEC_tpElemPeca *) malloc(sizeof(PEC_tppPeca));
 	
 	(*pPeca) = mPeca;
 	
@@ -87,6 +90,17 @@ PEC_tpCondRet PEC_CriarPeca(PEC_tppPeca * pPeca, int Diag , int Reta , int Qtde 
 	
 } /* Fim função: PEC &Criar Peca */
 
+PEC_tpCondRet PEC_ObterNome (PEC_tppPeca pPeca ,  void ** NomePeca)
+{
+	if(pPeca == NULL)
+	{
+		return PEC_CondRetPecaNula ;
+	}
+
+	*NomePeca = pPeca->Nome;
+	
+	return PEC_CondRetOK;
+}
 
 
 /********** Fim do módulo de implementação: LIS  Lista duplamente encadeada **********/

@@ -53,6 +53,10 @@ typedef struct TAB_tagTabuleiro * TAB_tppTabuleiro ;
          TAB_CondRetOK = 0,
                /* Concluiu corretamente */
 
+		 TAB_TimeAVazio = 1 ,
+
+		 TAB_TimeBVazio = 2 ,
+
          TAB_CondRetFaltouMemoria = 9
                /* Faltou memória ao tentar criar um tabuleiro */
 
@@ -88,6 +92,8 @@ typedef struct TAB_tagTabuleiro * TAB_tppTabuleiro ;
    TAB_tpCondRet TAB_ApresentaTabuleiro( TAB_tppTabuleiro pTabuleiro );
 
    TAB_tpCondRet TAB_CriarPeca(TAB_tppTabuleiro pTabuleiro , char * Nome , int Diagonal , int Reta , int QtdeMov, int Time);
+
+   TAB_tpCondRet TAB_ApresentaPecas(TAB_tppTabuleiro pTabuleiro);
 
 
 #undef TABULEIRO_EXT

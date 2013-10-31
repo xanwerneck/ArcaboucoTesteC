@@ -365,7 +365,10 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
       #ifdef _DEBUG
          assert( pLista != NULL ) ;
       #endif
-		 
+	
+	  if(pLista->pOrigemLista==NULL)
+			return LIS_CondRetListaVazia;
+
       pLista->pElemCorr = pLista->pOrigemLista ;
 
 	  return LIS_CondRetOK ;

@@ -126,7 +126,28 @@ int main (void)
 
 				TabRet = TAB_CriarPeca(pTabuleiro , NomePeca , Diagonal , Reta , QtdeMov , Time );
 
-				puts ( "Percurso no Tabuleiro" ) ;
+				printf ( "Peca criada para time %d \n" , Time ) ;
+			
+				break;
+
+		/* Apresenta pecas */
+		case 4:	/* Mostra visualmente as pecas */
+				
+				puts ( " Voce escolheu: 4 - Apresentar pecas." ) ;
+
+				if(pTabuleiro==NULL){
+					puts ( "O tabuleiro precisa ser criado!" ) ; 
+					break ;
+				}
+
+				TabRet = TAB_ApresentaPecas(pTabuleiro);
+				if(TabRet == TAB_CondRetOK){
+					puts ( "Pecas do Tabuleiro" ) ;
+				}else if(TabRet == TAB_TimeAVazio){
+					puts ( "Time A vazio" ) ;
+				}else{
+					puts ( "Time B vazio" ) ;
+				} /* if */
 			
 				break;
 
@@ -166,7 +187,8 @@ static void imprimeMenuPrincipal ( void )
 	puts ( "*                                                                 *" ) ;
 	puts ( "* 1- Criar tabuleiro.                                             *" ) ;
 	puts ( "* 2- Modificar tabuleiro.                                         *" ) ;
-	puts ( "* 3- Salvar tabuleiro.  		                                  *" ) ;
+	puts ( "* 3- Criar Peca.                                                  *" ) ;
+	puts ( "* 7- Salvar tabuleiro.  		                                  *" ) ;
 	puts ( "* 4- Recuperar tabuleiro. 		                                  *" ) ;
 	puts ( "* 5- Verificar Xeque-mate.                                        *" ) ;
 	puts ( "* 6- Fechar aplicacao.                                            *" ) ;

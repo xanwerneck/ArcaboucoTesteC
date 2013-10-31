@@ -37,7 +37,7 @@
 
 GRA_tpCondRet GrafRet;
 
-
+LIS_tpCondRet ListaRet;
 
 /***********************************************************************
 *
@@ -89,12 +89,18 @@ TAB_tpCondRet TAB_CriarTabuleiro( TAB_tppTabuleiro * pTabuleiro ){
 
 	LIS_CriarLista(ExcluirPeca , &ListaTimeA);
 
-	mTab->tpGrafo = pGrafo;
+	LIS_CriarLista(ExcluirPeca , &ListaTimeB);
 
-	mTab->tpMatriz = pMatriz;
+	mTab->tpGrafo     = pGrafo;
+
+	mTab->tpMatriz    = pMatriz;
+
+	mTab->pListaTimeA = ListaTimeA;
+
+	mTab->pListaTimeB = ListaTimeB;
 
 	(*pTabuleiro) = (TAB_tpTabuleiro *) malloc (sizeof(TAB_tppTabuleiro));
-
+	
 	if( (*pTabuleiro) == NULL)
 	{
 		return TAB_CondRetFaltouMemoria ;
@@ -108,7 +114,7 @@ TAB_tpCondRet TAB_CriarTabuleiro( TAB_tppTabuleiro * pTabuleiro ){
 TAB_tpCondRet TAB_ApresentaTabuleiro( TAB_tppTabuleiro pTabuleiro ){
 
 	int cont = 0;
-	char id;
+	char * id;
 	int numElem = 0;
 
 	GrafRet = GRA_NumeroVertices(pTabuleiro->tpGrafo , &numElem);
@@ -116,15 +122,19 @@ TAB_tpCondRet TAB_ApresentaTabuleiro( TAB_tppTabuleiro pTabuleiro ){
 		printf("Numero de Casas do Tabuleiro %d \n\n" , numElem);
 	} /* if */
 
+	GrafRet = GRA_SetarCorrente(pTabuleiro->tpGrafo , "A1");
+	GRA_BuscaIdVertice(pTabuleiro->tpGrafo , &id);
+		printf( "CASA| %s |" , id );
+
 	GrafRet = GRA_IrInicio(pTabuleiro->tpGrafo);
 
 	do{
 
 		cont++;
 		GRA_BuscaIdVertice(pTabuleiro->tpGrafo , &id);
-		printf("| %c |" , id );
+		printf( "| %s |" , id );
 		if(cont == 8){
-			printf("\n");
+			printf( "\n" );
 			cont=0;
 		}
 		GrafRet = GRA_AvancarCorrenteVert(pTabuleiro->tpGrafo , 1);
@@ -132,20 +142,71 @@ TAB_tpCondRet TAB_ApresentaTabuleiro( TAB_tppTabuleiro pTabuleiro ){
 	}while(GrafRet != GRA_CondRetFimLista);	
 	printf("\n");
 	return TAB_CondRetOK;
+
 }
 
 TAB_tpCondRet TAB_CriarPeca(TAB_tppTabuleiro pTabuleiro , char * Nome , int Diagonal , int Reta , int QtdeMov , int Time)
 {
-	PEC_tppPeca * pPeca;
+
+	PEC_tppPeca pPeca;
 	if(pTabuleiro == NULL){
 		return TAB_CondRetFaltouMemoria;
 	}
-	PEC_CriarPeca(pPeca , Diagonal , Reta , QtdeMov );
-	if(Time == 0){
-		LIS_InserirElementoApos(pTabuleiro->pListaTimeA , *pPeca);
-	}else if(Time == 1){
-		LIS_InserirElementoApos(pTabuleiro->pListaTimeB , *pPeca);
+	PEC_CriarPeca(&pPeca , Diagonal , Reta , QtdeMov , Nome );
+
+	if(Time == 1){
+		LIS_InserirElementoApos(pTabuleiro->pListaTimeA , pPeca);
+	}else if(Time == 2){
+		LIS_InserirElementoApos(pTabuleiro->pListaTimeB , pPeca);
 	} /* if */
+
+	return TAB_CondRetOK;
+}
+
+TAB_tpCondRet TAB_ApresentaPecas(TAB_tppTabuleiro pTabuleiro)
+{
+	PEC_tppPeca pPeca;
+	char ** NomePeca;
+	if(pTabuleiro->pListaTimeA == NULL){
+		return TAB_TimeAVazio;
+	}
+	if(pTabuleiro->pListaTimeB == NULL){
+		return TAB_TimeBVazio;
+	}
+	
+	printf("Lista de pecas TIME A \n");
+	ListaRet = LIS_IrInicioLista(pTabuleiro->pListaTimeA);
+	if(ListaRet == LIS_CondRetListaVazia)
+		return TAB_TimeAVazio;
+	do{
+		LIS_ObterValor(pTabuleiro->pListaTimeA , (void**)&pPeca);
+
+		PEC_ObterNome (pPeca , (void**)&NomePeca);
+		printf("Peca time A: %s \n" , &NomePeca );
+
+		ListaRet = LIS_AvancarElementoCorrente(pTabuleiro->pListaTimeA , 1);
+
+
+	}while(ListaRet != LIS_CondRetFimLista);
+
+	printf("Lista de pecas TIME B \n");
+	ListaRet = LIS_IrInicioLista(pTabuleiro->pListaTimeB);
+	if(ListaRet == LIS_CondRetListaVazia)
+		return TAB_TimeBVazio;
+	do{
+
+		LIS_ObterValor(pTabuleiro->pListaTimeB , (void**)&pPeca);
+
+		PEC_ObterNome (pPeca , (void**)&NomePeca);
+
+		printf("Peca time B: %s \n" , &NomePeca );
+
+		ListaRet = LIS_AvancarElementoCorrente(pTabuleiro->pListaTimeB , 1);
+
+
+	}while(ListaRet != LIS_CondRetFimLista);
+
+	return TAB_CondRetOK;
 
 }
 
@@ -159,7 +220,7 @@ void ExcluirInfo ( void * pValor )
 void ExcluirPeca( void * pPeca )
 {
 
-	free ((void *) pPeca);
+	free ( (void *) pPeca);
 
 } /* Fim função: TST -Excluir peca */
 

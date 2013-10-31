@@ -50,8 +50,10 @@ typedef struct PEC_tagElemPeca * PEC_tppPeca ;
 
 typedef enum {
 
-	 PEC_CondRetOK = 0,
+	 PEC_CondRetOK = 0 ,
 		   /* Concluiu corretamente */
+
+	 PEC_CondRetPecaNula = 1 ,
 
 	 PEC_CondRetFaltouMemoria = 9
 		   /* Faltou memória ao tentar criar um elemento de peca */
@@ -66,7 +68,9 @@ typedef enum {
 *
 ***********************************************************************/
 
-PEC_tpCondRet PEC_CriarPeca(PEC_tppPeca * pPeca, int Diag , int Reta , int Qtde);
+PEC_tpCondRet PEC_CriarPeca(PEC_tppPeca * pPeca, int Diag , int Reta , int Qtde, char * Nome);
+
+PEC_tpCondRet PEC_ObterNome (PEC_tppPeca pPeca ,  void **NomePeca);
 
 #undef PECA_EXT
 
