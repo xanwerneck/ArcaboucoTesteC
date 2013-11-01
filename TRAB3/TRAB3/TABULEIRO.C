@@ -52,11 +52,10 @@ LIS_tpCondRet ListaRet;
 		
 		 MAT_tppMatriz tpMatriz;
 
-		 LIS_tppLista pListaTimeA;
-
-		 LIS_tppLista pListaTimeB;
+		 LIS_tppLista  pListaPecas;
 
    } TAB_tpTabuleiro ;
+
 
 /***** Protótipos das funções encapsuladas no módulo *****/
 
@@ -71,8 +70,7 @@ TAB_tpCondRet TAB_CriarTabuleiro( TAB_tppTabuleiro * pTabuleiro ){
 
 	GRA_tppGrafo     pGrafo;
 	MAT_tppMatriz    pMatriz;
-	LIS_tppLista     ListaTimeA;
-	LIS_tppLista     ListaTimeB;
+	LIS_tppLista     ListaPecas;
 	TAB_tppTabuleiro mTab;
 
 	mTab = ( TAB_tppTabuleiro ) malloc ( sizeof ( TAB_tpTabuleiro ) );
@@ -87,17 +85,13 @@ TAB_tpCondRet TAB_CriarTabuleiro( TAB_tppTabuleiro * pTabuleiro ){
 
 	MAT_CriarMatriz(&pMatriz, pGrafo , 8);
 
-	LIS_CriarLista(ExcluirPeca , &ListaTimeA);
-
-	LIS_CriarLista(ExcluirPeca , &ListaTimeB);
+	LIS_CriarLista(ExcluirPeca , &ListaPecas);
 
 	mTab->tpGrafo     = pGrafo;
 
 	mTab->tpMatriz    = pMatriz;
 
-	mTab->pListaTimeA = ListaTimeA;
-
-	mTab->pListaTimeB = ListaTimeB;
+	mTab->pListaPecas = ListaPecas;
 
 	(*pTabuleiro) = (TAB_tpTabuleiro *) malloc (sizeof(TAB_tppTabuleiro));
 	
@@ -145,7 +139,7 @@ TAB_tpCondRet TAB_ApresentaTabuleiro( TAB_tppTabuleiro pTabuleiro ){
 
 }
 
-TAB_tpCondRet TAB_CriarPeca(TAB_tppTabuleiro pTabuleiro , char * Nome , int Diagonal , int Reta , int QtdeMov , int Time)
+TAB_tpCondRet TAB_CriarTipoPeca(TAB_tppTabuleiro pTabuleiro , char * Nome , int Diagonal , int Reta , int QtdeMov)
 {
 
 	PEC_tppPeca pPeca;
@@ -154,61 +148,71 @@ TAB_tpCondRet TAB_CriarPeca(TAB_tppTabuleiro pTabuleiro , char * Nome , int Diag
 	}
 	PEC_CriarPeca(&pPeca , Diagonal , Reta , QtdeMov , Nome );
 
-	if(Time == 1){
-		LIS_InserirElementoApos(pTabuleiro->pListaTimeA , pPeca);
-	}else if(Time == 2){
-		LIS_InserirElementoApos(pTabuleiro->pListaTimeB , pPeca);
+	if(pPeca != NULL){
+		LIS_InserirElementoApos(pTabuleiro->pListaPecas , pPeca);
 	} /* if */
 
 	return TAB_CondRetOK;
 }
 
-TAB_tpCondRet TAB_ApresentaPecas(TAB_tppTabuleiro pTabuleiro)
+TAB_tpCondRet TAB_ApresentaTipoPecas(TAB_tppTabuleiro pTabuleiro)
 {
 	PEC_tppPeca pPeca;
 	char ** NomePeca;
-	if(pTabuleiro->pListaTimeA == NULL){
-		return TAB_TimeAVazio;
-	}
-	if(pTabuleiro->pListaTimeB == NULL){
-		return TAB_TimeBVazio;
+	if(pTabuleiro->pListaPecas == NULL){
+		return TAB_CondRetFaltouMemoria;
 	}
 	
-	printf("Lista de pecas TIME A \n");
-	ListaRet = LIS_IrInicioLista(pTabuleiro->pListaTimeA);
+	printf("Lista de tipo de pecas \n");
+	ListaRet = LIS_IrInicioLista(pTabuleiro->pListaPecas);
 	if(ListaRet == LIS_CondRetListaVazia)
 		return TAB_TimeAVazio;
 	do{
-		LIS_ObterValor(pTabuleiro->pListaTimeA , (void**)&pPeca);
+		LIS_ObterValor(pTabuleiro->pListaPecas , (void**)&pPeca);
 
 		PEC_ObterNome (pPeca , (void**)&NomePeca);
-		printf("Peca time A: %s \n" , &NomePeca );
+		printf("Nome Peca: %s \n" , &NomePeca );
 
-		ListaRet = LIS_AvancarElementoCorrente(pTabuleiro->pListaTimeA , 1);
+		ListaRet = LIS_AvancarElementoCorrente(pTabuleiro->pListaPecas , 1);
 
 
 	}while(ListaRet != LIS_CondRetFimLista);
 
-	printf("Lista de pecas TIME B \n");
-	ListaRet = LIS_IrInicioLista(pTabuleiro->pListaTimeB);
-	if(ListaRet == LIS_CondRetListaVazia)
-		return TAB_TimeBVazio;
-	do{
-
-		LIS_ObterValor(pTabuleiro->pListaTimeB , (void**)&pPeca);
-
-		PEC_ObterNome (pPeca , (void**)&NomePeca);
-
-		printf("Peca time B: %s \n" , &NomePeca );
-
-		ListaRet = LIS_AvancarElementoCorrente(pTabuleiro->pListaTimeB , 1);
-
-
-	}while(ListaRet != LIS_CondRetFimLista);
-
+	
 	return TAB_CondRetOK;
 
 }
+
+TAB_tpCondRet TAB_ProcuraPeca(TAB_tppTabuleiro pTabuleiro , char * NomeBuscado , void ** PecaBuscada)
+{
+	PEC_tppPeca pPeca;
+
+	char * NomeEnc;
+
+	ListaRet = LIS_IrInicioLista(pTabuleiro->pListaPecas);
+	
+	if(ListaRet == LIS_CondRetListaVazia)
+	
+		return TAB_CondRetFaltouMemoria;
+
+	do{
+		LIS_ObterValor(pTabuleiro->pListaPecas , (void**)&pPeca);
+
+		PEC_ObterNome (pPeca , (void**)&NomeEnc);
+
+		if(strcmp(NomeBuscado , NomeEnc)==0){
+			*PecaBuscada = pPeca;
+			return TAB_CondRetOK;
+		}
+		ListaRet = LIS_AvancarElementoCorrente(pTabuleiro->pListaPecas , 1);
+
+
+	}while(ListaRet != LIS_CondRetFimLista);
+
+	
+	return TAB_CondRetNaoAchou;
+
+} /* if */
 
 void ExcluirInfo ( void * pValor )
 {

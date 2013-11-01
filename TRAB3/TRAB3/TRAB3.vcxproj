@@ -75,6 +75,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="GRAFO.H" />
+    <ClInclude Include="JOGO.H" />
     <ClInclude Include="LISTA.H" />
     <ClInclude Include="MATRIZ.H" />
     <ClInclude Include="PECA.H" />
@@ -84,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GRAFO.C" />
+    <ClCompile Include="JOGO.C" />
     <ClCompile Include="LISTA.C" />
     <ClCompile Include="MATRIZ.C" />
     <ClCompile Include="PECA.C" />

@@ -37,6 +37,8 @@
 
 typedef struct TAB_tagTabuleiro * TAB_tppTabuleiro ;
 
+typedef struct TAB_tagPecaJogo * TAB_tppPecaJogo ;
+
 
 /***********************************************************************
 *
@@ -56,6 +58,8 @@ typedef struct TAB_tagTabuleiro * TAB_tppTabuleiro ;
 		 TAB_TimeAVazio = 1 ,
 
 		 TAB_TimeBVazio = 2 ,
+
+		 TAB_CondRetNaoAchou = 3 ,
 
          TAB_CondRetFaltouMemoria = 9
                /* Faltou memória ao tentar criar um tabuleiro */
@@ -91,10 +95,11 @@ typedef struct TAB_tagTabuleiro * TAB_tppTabuleiro ;
 
    TAB_tpCondRet TAB_ApresentaTabuleiro( TAB_tppTabuleiro pTabuleiro );
 
-   TAB_tpCondRet TAB_CriarPeca(TAB_tppTabuleiro pTabuleiro , char * Nome , int Diagonal , int Reta , int QtdeMov, int Time);
+   TAB_tpCondRet TAB_CriarTipoPeca(TAB_tppTabuleiro pTabuleiro , char * Nome , int Diagonal , int Reta , int QtdeMov);
 
-   TAB_tpCondRet TAB_ApresentaPecas(TAB_tppTabuleiro pTabuleiro);
+   TAB_tpCondRet TAB_ApresentaTipoPecas(TAB_tppTabuleiro pTabuleiro) ;
 
+   TAB_tpCondRet TAB_ProcuraPeca(TAB_tppTabuleiro pTabuleiro , char * NomeBuscado , void ** PecaBuscada);
 
 #undef TABULEIRO_EXT
 

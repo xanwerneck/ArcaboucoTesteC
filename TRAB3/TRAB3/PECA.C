@@ -33,6 +33,7 @@
 
 #include "LISTA.H"
 
+
 /***********************************************************************
 *
 *  $TC Tipo de dados: PEC Descritor do elemento Peca
@@ -49,11 +50,7 @@
 		int reta;
 		
 		int qtde;
-		
-		LIS_tppLista pListaDestino;
-		
-		LIS_tppLista pListaCaminho;
-   
+		  
    } PEC_tpElemPeca ;
 
 /***** Protótipos das funções encapsuladas no módulo *****/

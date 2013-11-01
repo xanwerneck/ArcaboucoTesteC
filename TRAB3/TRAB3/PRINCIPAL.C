@@ -24,6 +24,8 @@
 #include <conio.h>
 
 #include "TABULEIRO.H"
+#include "JOGO.H"
+#include "PECA.H"
 
 /************  Protótipo das funções encapsuladas no módulo  *************/
 
@@ -46,9 +48,17 @@ int main (void)
 	int Reta;
 	int QtdeMov;
 
+	/* Disposicao */
+	int NumPecas;
+
 	TAB_tpCondRet TabRet;
 	TAB_tppTabuleiro pTabuleiro;
 
+	JOG_tpCondRet JogRet;
+	JOG_tppJogo   pJogo;
+
+	PEC_tpCondRet PecaRet;
+	PEC_tppPeca pPecaBusca;
 
 	while ( 1 ) 
 	{
@@ -96,9 +106,6 @@ int main (void)
 				
 				puts ( " Voce escolheu: 3- Criar peca." ) ;
 
-				imprimeMenuEscolhaTime();
-				scanf ( "%d", &Time ) ;
-
 				if(pTabuleiro==NULL){
 					puts ( "O tabuleiro precisa ser criado!" ) ; 
 					break ;
@@ -124,32 +131,71 @@ int main (void)
 					puts("Informacao inconsistente!");
 				}
 
-				TabRet = TAB_CriarPeca(pTabuleiro , NomePeca , Diagonal , Reta , QtdeMov , Time );
+				TabRet = TAB_CriarTipoPeca(pTabuleiro , NomePeca , Diagonal , Reta , QtdeMov );
 
-				printf ( "Peca criada para time %d \n" , Time ) ;
+				puts ( "Peca criada \n" ) ;
 			
 				break;
 
 		/* Apresenta pecas */
 		case 4:	/* Mostra visualmente as pecas */
 				
-				puts ( " Voce escolheu: 4 - Apresentar pecas." ) ;
+				puts ( " Voce escolheu: 4 - Apresentar tipo pecas." ) ;
 
 				if(pTabuleiro==NULL){
 					puts ( "O tabuleiro precisa ser criado!" ) ; 
 					break ;
 				}
 
-				TabRet = TAB_ApresentaPecas(pTabuleiro);
+				TabRet = TAB_ApresentaTipoPecas(pTabuleiro);
 				if(TabRet == TAB_CondRetOK){
 					puts ( "Pecas do Tabuleiro" ) ;
-				}else if(TabRet == TAB_TimeAVazio){
-					puts ( "Time A vazio" ) ;
-				}else{
-					puts ( "Time B vazio" ) ;
 				} /* if */
 			
 				break;
+
+		/* Dispor pecas */
+		case 5:	/* Dispoe pecas pelo time */
+				
+				puts ( " Voce escolheu: 5 - Dispor pecas." ) ;
+
+				JOG_CriarJogo(&pJogo);
+
+				imprimeMenuEscolhaTime();
+				scanf ( "%d", &Time ) ;
+
+				if(pTabuleiro==NULL){
+					puts ( "O tabuleiro precisa ser criado!" ) ; 
+					break ;
+				}
+
+				printf ( "Informe o numero de pecas do time %d : " , Time ) ;
+				scanf ("%d" , &NumPecas);
+
+				while(NumPecas > 0){
+
+					printf( "Informe o nome da peca" );
+					scanf ( "%s", &NomePeca ) ;
+
+					TabRet = TAB_ProcuraPeca (pTabuleiro , NomePeca , (void**)&pPecaBusca);
+
+					if(TabRet != TAB_CondRetOK){
+						puts("Peca nao localizada");
+						break;
+					}
+
+					JogRet = JOG_InserirPecaTimeA(pJogo , pPecaBusca);
+
+					NumPecas--;
+
+				}
+
+				
+				
+			
+				break;
+
+
 
 		case 6:
 			exit(0);
@@ -205,6 +251,15 @@ static void imprimeMenuEscolhaTime ( void )
 	puts ( "* 1- Preto.                                                       *" ) ;
 	puts ( "* 2- Branco.                                                      *" ) ;
 	puts ( "*                                                                 *" ) ;
+	puts ( "*******************************************************************" ) ;
+
+}
+
+static void apresentaTipoPeca( void )
+{
+
+	puts ( "*******************************************************************" ) ;
+	puts ( "*  Escolha o tipo de peca:                                        *" ) ;
 	puts ( "*******************************************************************" ) ;
 
 }
