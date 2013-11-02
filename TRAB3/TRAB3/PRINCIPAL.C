@@ -27,6 +27,8 @@
 #include "JOGO.H"
 #include "PECA.H"
 
+#define MAX_NOME 10
+
 /************  Protótipo das funções encapsuladas no módulo  *************/
 
 static void imprimeMenuPrincipal ( void ) ;
@@ -43,7 +45,7 @@ int main (void)
 	int Time;
 	
 	/* Movimentos */
-	char * NomePeca;
+	char NomePeca[MAX_NOME];
 	int Diagonal;
 	int Reta;
 	int QtdeMov;
@@ -130,8 +132,10 @@ int main (void)
 				if(QtdeMov > 7){
 					puts("Informacao inconsistente!");
 				}
-
+				
 				TabRet = TAB_CriarTipoPeca(pTabuleiro , NomePeca , Diagonal , Reta , QtdeMov );
+				
+				strcpy(NomePeca , "");
 
 				puts ( "Peca criada \n" ) ;
 			
@@ -181,13 +185,11 @@ int main (void)
 
 					if(TabRet != TAB_CondRetOK){
 						puts("Peca nao localizada");
-						break;
+					}else{
+						JogRet = JOG_InserirPecaTimeA(pJogo , pPecaBusca);
+						NumPecas--;
+
 					}
-
-					JogRet = JOG_InserirPecaTimeA(pJogo , pPecaBusca);
-
-					NumPecas--;
-
 				}
 
 				
@@ -198,7 +200,7 @@ int main (void)
 
 
 		case 6:
-			exit(0);
+			exit(1);
 
 			/* Usuário com caracter não esperado */
 		default: puts ( "Favor entre com uma das opcoes abaixo." ) ; 
@@ -234,8 +236,8 @@ static void imprimeMenuPrincipal ( void )
 	puts ( "* 1- Criar tabuleiro.                                             *" ) ;
 	puts ( "* 2- Modificar tabuleiro.                                         *" ) ;
 	puts ( "* 3- Criar Peca.                                                  *" ) ;
-	puts ( "* 7- Salvar tabuleiro.  		                                  *" ) ;
-	puts ( "* 4- Recuperar tabuleiro. 		                                  *" ) ;
+	puts ( "* 4- Apresenta tabuleiro.  		                                  *" ) ;
+	puts ( "* 5- Dispor pecas no Tabuleiro.                                   *" ) ;
 	puts ( "* 5- Verificar Xeque-mate.                                        *" ) ;
 	puts ( "* 6- Fechar aplicacao.                                            *" ) ;
 	puts ( "*                                                                 *" ) ;

@@ -33,6 +33,7 @@
 
 #include "LISTA.H"
 
+#define MAX_NOME 10
 
 /***********************************************************************
 *
@@ -43,7 +44,7 @@
 
    typedef struct PEC_tagElemPeca {
 
-		char * Nome;
+		char Nome[MAX_NOME];
 		
 		int diagonal;
 		
@@ -64,7 +65,7 @@
 
 PEC_tpCondRet PEC_CriarPeca(PEC_tppPeca * pPeca, int Diag , int Reta , int Qtde , char * Nome)
 {
-
+	
 	PEC_tppPeca mPeca = NULL;
 	
 	mPeca = (PEC_tppPeca) malloc(sizeof(PEC_tpElemPeca));
@@ -77,7 +78,7 @@ PEC_tpCondRet PEC_CriarPeca(PEC_tppPeca * pPeca, int Diag , int Reta , int Qtde 
 	mPeca->diagonal = Diag;
 	mPeca->reta     = Reta;
 	mPeca->qtde     = Qtde;
-	mPeca->Nome     = Nome;
+	strcpy(mPeca->Nome , Nome);
 	
 	(*pPeca) = (PEC_tpElemPeca *) malloc(sizeof(PEC_tppPeca));
 	
@@ -94,7 +95,8 @@ PEC_tpCondRet PEC_ObterNome (PEC_tppPeca pPeca ,  void ** NomePeca)
 		return PEC_CondRetPecaNula ;
 	}
 
-	*NomePeca = pPeca->Nome;
+	strcpy((char *)NomePeca , pPeca->Nome);
+
 	
 	return PEC_CondRetOK;
 }

@@ -35,6 +35,8 @@
 #include "GRAFO.H"
 #include "PECA.H"
 
+#define MAX_NOME 10
+
 GRA_tpCondRet GrafRet;
 
 LIS_tpCondRet ListaRet;
@@ -146,6 +148,7 @@ TAB_tpCondRet TAB_CriarTipoPeca(TAB_tppTabuleiro pTabuleiro , char * Nome , int 
 	if(pTabuleiro == NULL){
 		return TAB_CondRetFaltouMemoria;
 	}
+
 	PEC_CriarPeca(&pPeca , Diagonal , Reta , QtdeMov , Nome );
 
 	if(pPeca != NULL){
@@ -158,7 +161,7 @@ TAB_tpCondRet TAB_CriarTipoPeca(TAB_tppTabuleiro pTabuleiro , char * Nome , int 
 TAB_tpCondRet TAB_ApresentaTipoPecas(TAB_tppTabuleiro pTabuleiro)
 {
 	PEC_tppPeca pPeca;
-	char ** NomePeca;
+	char * NomePeca;
 	if(pTabuleiro->pListaPecas == NULL){
 		return TAB_CondRetFaltouMemoria;
 	}
@@ -172,6 +175,7 @@ TAB_tpCondRet TAB_ApresentaTipoPecas(TAB_tppTabuleiro pTabuleiro)
 
 		PEC_ObterNome (pPeca , (void**)&NomePeca);
 		printf("Nome Peca: %s \n" , &NomePeca );
+
 
 		ListaRet = LIS_AvancarElementoCorrente(pTabuleiro->pListaPecas , 1);
 
@@ -187,7 +191,7 @@ TAB_tpCondRet TAB_ProcuraPeca(TAB_tppTabuleiro pTabuleiro , char * NomeBuscado ,
 {
 	PEC_tppPeca pPeca;
 
-	char * NomeEnc;
+	char NomeEnc[MAX_NOME];
 
 	ListaRet = LIS_IrInicioLista(pTabuleiro->pListaPecas);
 	
@@ -197,13 +201,14 @@ TAB_tpCondRet TAB_ProcuraPeca(TAB_tppTabuleiro pTabuleiro , char * NomeBuscado ,
 
 	do{
 		LIS_ObterValor(pTabuleiro->pListaPecas , (void**)&pPeca);
-
+		
 		PEC_ObterNome (pPeca , (void**)&NomeEnc);
 
 		if(strcmp(NomeBuscado , NomeEnc)==0){
 			*PecaBuscada = pPeca;
 			return TAB_CondRetOK;
 		}
+
 		ListaRet = LIS_AvancarElementoCorrente(pTabuleiro->pListaPecas , 1);
 
 
