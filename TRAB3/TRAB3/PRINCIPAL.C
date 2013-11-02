@@ -197,6 +197,21 @@ int main (void)
 				printf ( "Informe o numero de pecas do time %d : " , Time ) ;
 				scanf ("%d" , &NumPecas);
 				
+				while(NumPecas > 0){
+
+					printf( "Informe o nome da peca" );
+					scanf ( "%s", &NomePeca ) ;
+					
+					TabRet = TAB_ProcuraPeca (pTabuleiro , NomePeca , (void**)&pPecaBusca);
+
+					if(TabRet != TAB_CondRetOK){
+						puts("Peca nao localizada");
+					}else{
+						JogRet = JOG_InserirPecaTimeB(pJogo , pPecaBusca);
+						NumPecas--;
+					}
+				}
+
 			
 				break;
 

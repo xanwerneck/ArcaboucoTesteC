@@ -115,25 +115,27 @@ JOG_tpCondRet JOG_CriarJogo(JOG_tppJogo * pJOGO)
 
 JOG_tpCondRet JOG_InserirPecaTimeA(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar)
 {
-
-	JOG_tppPecaJogo mPeca = NULL;
+	JOG_tppPecaJogo * pPecaJogo ;
+	JOG_tppPecaJogo mPeca = NULL ;
 	
 	mPeca = (JOG_tppPecaJogo) malloc(sizeof(JOG_tpPecaJogo));
 
-	JOG_tppPecaJogo pPecaJogo;
 	if(pJOGO == NULL)
 	{
 		return JOG_CondRetJogoNulo ;
 	}	
-
-	pPecaJogo =  (JOG_tpPecaJogo *) malloc(sizeof(JOG_tppPecaJogo));
 	
-	pPecaJogo->pTipoPeca = pPecaSetar;
+	mPeca->pTipoPeca = pPecaSetar;
 
-	LIS_CriarLista(ExcluirPecaJogo , &pPecaJogo->pListaCaminho);
+	LIS_CriarLista(ExcluirPecaJogo , &mPeca->pListaCaminho);
 
-	LIS_CriarLista(ExcluirPecaJogo , &pPecaJogo->pListaDestino);
+	LIS_CriarLista(ExcluirPecaJogo , &mPeca->pListaDestino);
 	
+
+	(*pPecaJogo) =  (JOG_tpPecaJogo *) malloc(sizeof(JOG_tppPecaJogo));
+
+	(*pPecaJogo) = mPeca;
+
 	LIS_InserirElementoApos(pJOGO->pListaTimeA , pPecaJogo);
 	
 	return JOG_CondRetOK;
@@ -148,21 +150,27 @@ JOG_tpCondRet JOG_InserirPecaTimeA(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar)
 
 JOG_tpCondRet JOG_InserirPecaTimeB(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar)
 {
-	JOG_tppPecaJogo pPecaJogo;
+	JOG_tppPecaJogo * pPecaJogo ;
+	JOG_tppPecaJogo mPeca = NULL ;
+	
+	mPeca = (JOG_tppPecaJogo) malloc(sizeof(JOG_tpPecaJogo));
 
 	if(pJOGO == NULL)
 	{
 		return JOG_CondRetJogoNulo ;
 	}	
-
-	pPecaJogo =  (JOG_tpPecaJogo *) malloc(sizeof(JOG_tppPecaJogo));
-
-	pPecaJogo->pTipoPeca = pPecaSetar;
-
-	LIS_CriarLista(ExcluirPecaJogo , &pPecaJogo->pListaCaminho);
-
-	LIS_CriarLista(ExcluirPecaJogo , &pPecaJogo->pListaDestino);
 	
+	mPeca->pTipoPeca = pPecaSetar;
+
+	LIS_CriarLista(ExcluirPecaJogo , &mPeca->pListaCaminho);
+
+	LIS_CriarLista(ExcluirPecaJogo , &mPeca->pListaDestino);
+	
+
+	(*pPecaJogo) =  (JOG_tpPecaJogo *) malloc(sizeof(JOG_tppPecaJogo));
+
+	(*pPecaJogo) = mPeca;
+
 	LIS_InserirElementoApos(pJOGO->pListaTimeB , pPecaJogo);
 	
 	return JOG_CondRetOK;
