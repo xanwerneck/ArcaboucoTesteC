@@ -1,4 +1,4 @@
-﻿Build started 01/11/2013 22:02:04.
+﻿Build started 01/11/2013 22:26:31.
      1>Project "C:\Users\Alexandre Werneck\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB3\TRAB3\TRAB3.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release\TRAB3.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -22,6 +22,10 @@
                  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(304) : see declaration of 'scanf'
      1>PRINCIPAL.C(182): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(304) : see declaration of 'scanf'
+     1>PRINCIPAL.C(195): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(304) : see declaration of 'scanf'
+     1>PRINCIPAL.C(198): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(304) : see declaration of 'scanf'
      1>PRINCIPAL.C(43): warning C4101: 'opcaoEscolhidaModificar' : unreferenced local variable
      1>PRINCIPAL.C(62): warning C4101: 'PecaRet' : unreferenced local variable
        Link:
@@ -34,6 +38,7 @@
          Release\TABULEIRO.obj
          Release\VERTICE.obj
          Generating code
+     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab3\trab3\jogo.c(136): warning C4715: 'JOG_InserirPecaTimeA' : not all control paths return a value
          Finished generating code
          TRAB3.vcxproj -> C:\Users\Alexandre Werneck\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB3\Release\TRAB3.exe
        Manifest:
@@ -45,4 +50,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.95
+Time Elapsed 00:00:01.12

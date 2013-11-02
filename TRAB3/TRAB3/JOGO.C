@@ -115,6 +115,11 @@ JOG_tpCondRet JOG_CriarJogo(JOG_tppJogo * pJOGO)
 
 JOG_tpCondRet JOG_InserirPecaTimeA(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar)
 {
+
+	JOG_tppPecaJogo mPeca = NULL;
+	
+	mPeca = (JOG_tppPecaJogo) malloc(sizeof(JOG_tpPecaJogo));
+
 	JOG_tppPecaJogo pPecaJogo;
 	if(pJOGO == NULL)
 	{
@@ -122,7 +127,7 @@ JOG_tpCondRet JOG_InserirPecaTimeA(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar)
 	}	
 
 	pPecaJogo =  (JOG_tpPecaJogo *) malloc(sizeof(JOG_tppPecaJogo));
-
+	
 	pPecaJogo->pTipoPeca = pPecaSetar;
 
 	LIS_CriarLista(ExcluirPecaJogo , &pPecaJogo->pListaCaminho);

@@ -180,7 +180,7 @@ int main (void)
 
 					printf( "Informe o nome da peca" );
 					scanf ( "%s", &NomePeca ) ;
-
+					
 					TabRet = TAB_ProcuraPeca (pTabuleiro , NomePeca , (void**)&pPecaBusca);
 
 					if(TabRet != TAB_CondRetOK){
@@ -188,11 +188,14 @@ int main (void)
 					}else{
 						JogRet = JOG_InserirPecaTimeA(pJogo , pPecaBusca);
 						NumPecas--;
-
 					}
 				}
 
-				
+				imprimeMenuEscolhaTime();
+				scanf ( "%d", &Time ) ;
+
+				printf ( "Informe o numero de pecas do time %d : " , Time ) ;
+				scanf ("%d" , &NumPecas);
 				
 			
 				break;
