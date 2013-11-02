@@ -94,11 +94,27 @@ PEC_tpCondRet PEC_ObterNome (PEC_tppPeca pPeca ,  void ** NomePeca)
 	{
 		return PEC_CondRetPecaNula ;
 	}
-
+	
 	strcpy((char *)NomePeca , pPeca->Nome);
 
 	
 	return PEC_CondRetOK;
+}
+
+PEC_tpCondRet PEC_ObterDadosTipoPeca (PEC_tppPeca pPeca , void ** Nome, int * Diag , int * Reta , int * Qtde)
+{
+	if(pPeca == NULL)
+	{
+		return PEC_CondRetPecaNula ;
+	}
+	printf("Nome aqui %d" ,pPeca->diagonal );
+	strcpy((char *)Nome , pPeca->Nome);
+	*Diag = pPeca->diagonal ;
+	*Reta = pPeca->reta;
+	*Qtde = pPeca->qtde;
+
+	return PEC_CondRetOK;
+
 }
 
 

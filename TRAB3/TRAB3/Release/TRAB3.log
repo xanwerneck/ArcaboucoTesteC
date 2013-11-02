@@ -1,10 +1,9 @@
-﻿Build started 02/11/2013 02:00:32.
+﻿Build started 02/11/2013 18:07:01.
      1>Project "C:\Users\Alexandre Werneck\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB3\TRAB3\TRAB3.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Creating "Release\TRAB3.unsuccessfulbuild" because "AlwaysCreate" was specified.
+         Touching "Release\TRAB3.unsuccessfulbuild".
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TC /analyze- /errorReport:prompt JOGO.C
-         JOGO.C
+         All outputs are up-to-date.
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Alexandre Werneck\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB3\Release\TRAB3.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\TRAB3.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Alexandre Werneck\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB3\Release\TRAB3.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Alexandre Werneck\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB3\Release\TRAB3.lib" /MACHINE:X86 Release\GRAFO.obj
          Release\JOGO.obj
@@ -15,8 +14,6 @@
          Release\TABULEIRO.obj
          Release\VERTICE.obj
          Generating code
-     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab3\trab3\jogo.c(170): warning C4700: uninitialized local variable 'pPecaJogo' used
-     1>c:\users\alexandre werneck\documents\visual studio 2010\projects\arcaboucotestec\trab3\trab3\jogo.c(135): warning C4700: uninitialized local variable 'pPecaJogo' used
          Finished generating code
          TRAB3.vcxproj -> C:\Users\Alexandre Werneck\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB3\Release\TRAB3.exe
        Manifest:
@@ -28,4 +25,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.03
+Time Elapsed 00:00:00.71

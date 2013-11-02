@@ -110,7 +110,7 @@ TAB_tpCondRet TAB_CriarTabuleiro( TAB_tppTabuleiro * pTabuleiro ){
 TAB_tpCondRet TAB_ApresentaTabuleiro( TAB_tppTabuleiro pTabuleiro ){
 
 	int cont = 0;
-	char * id;
+	char * id = NULL;
 	int numElem = 0;
 
 	GrafRet = GRA_NumeroVertices(pTabuleiro->tpGrafo , &numElem);
@@ -119,8 +119,6 @@ TAB_tpCondRet TAB_ApresentaTabuleiro( TAB_tppTabuleiro pTabuleiro ){
 	} /* if */
 
 	GrafRet = GRA_SetarCorrente(pTabuleiro->tpGrafo , "A1");
-	GRA_BuscaIdVertice(pTabuleiro->tpGrafo , &id);
-		printf( "CASA| %s |" , id );
 
 	GrafRet = GRA_IrInicio(pTabuleiro->tpGrafo);
 
@@ -133,6 +131,7 @@ TAB_tpCondRet TAB_ApresentaTabuleiro( TAB_tppTabuleiro pTabuleiro ){
 			printf( "\n" );
 			cont=0;
 		}
+		id = NULL;
 		GrafRet = GRA_AvancarCorrenteVert(pTabuleiro->tpGrafo , 1);
 
 	}while(GrafRet != GRA_CondRetFimLista);	
@@ -146,7 +145,7 @@ TAB_tpCondRet TAB_CriarTipoPeca(TAB_tppTabuleiro pTabuleiro , char * Nome , int 
 
 	PEC_tppPeca pPeca;
 	if(pTabuleiro == NULL){
-		return TAB_CondRetFaltouMemoria;
+		return TAB_CondRetTabuleiroNulo;
 	}
 
 	PEC_CriarPeca(&pPeca , Diagonal , Reta , QtdeMov , Nome );
@@ -162,8 +161,11 @@ TAB_tpCondRet TAB_ApresentaTipoPecas(TAB_tppTabuleiro pTabuleiro)
 {
 	PEC_tppPeca pPeca;
 	char * NomePeca;
+	if(pTabuleiro==NULL){
+		return TAB_CondRetTabuleiroNulo;
+	}
 	if(pTabuleiro->pListaPecas == NULL){
-		return TAB_CondRetFaltouMemoria;
+		return TAB_CondRetTabuleiroListaNula;
 	}
 	
 	printf("Lista de tipo de pecas \n");
@@ -189,9 +191,14 @@ TAB_tpCondRet TAB_ApresentaTipoPecas(TAB_tppTabuleiro pTabuleiro)
 
 TAB_tpCondRet TAB_ProcuraPeca(TAB_tppTabuleiro pTabuleiro , char * NomeBuscado , void ** PecaBuscada)
 {
+
 	PEC_tppPeca pPeca;
 
 	char NomeEnc[MAX_NOME];
+
+	if(pTabuleiro==NULL){
+		return TAB_CondRetTabuleiroNulo;
+	}
 
 	ListaRet = LIS_IrInicioLista(pTabuleiro->pListaPecas);
 	
@@ -218,6 +225,45 @@ TAB_tpCondRet TAB_ProcuraPeca(TAB_tppTabuleiro pTabuleiro , char * NomeBuscado ,
 	return TAB_CondRetNaoAchou;
 
 } /* if */
+
+TAB_tpCondRet TAB_IrInicioListaPecas(TAB_tppTabuleiro pTabuleiro)
+{
+	if(pTabuleiro==NULL){
+		return TAB_CondRetTabuleiroNulo;
+	}
+
+	ListaRet = LIS_IrInicioLista(pTabuleiro->pListaPecas);
+	if(ListaRet == LIS_CondRetListaVazia)
+		return TAB_CondRetListaVazia;
+	return TAB_CondRetOK;
+}
+
+TAB_tpCondRet TAB_ObterTipoPeca(TAB_tppTabuleiro pTabuleiro , void ** pPeca)
+{
+	
+	if(pTabuleiro==NULL){
+		return TAB_CondRetTabuleiroNulo;
+	}
+
+	ListaRet = LIS_ObterValor(pTabuleiro->pListaPecas , (void**)&pPeca);
+	
+	if(ListaRet == LIS_CondRetListaVazia)
+		return TAB_CondRetListaVazia;
+
+	return TAB_CondRetOK;
+}
+
+TAB_tpCondRet TAB_AvancarTipoPeca(TAB_tppTabuleiro pTabuleiro , int val)
+{
+	if(pTabuleiro==NULL){
+		return TAB_CondRetTabuleiroNulo;
+	} /* if */
+	ListaRet = LIS_AvancarElementoCorrente(pTabuleiro->pListaPecas , val);
+	if(ListaRet == LIS_CondRetFimLista){
+		return TAB_CondRetFimLista;
+	} /* if */
+	return TAB_CondRetOK;
+}
 
 void ExcluirInfo ( void * pValor )
 {

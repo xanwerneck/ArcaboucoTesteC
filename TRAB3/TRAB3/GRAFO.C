@@ -455,7 +455,6 @@ GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo)
 
 	ListaRet        = LIS_CondRetOK ;
 	ListaRetCaminho = LIS_CondRetOK;	
-	
 
 	LIS_NumElem(pVertOrigem->pVerAnt,&ts);
 
@@ -729,7 +728,7 @@ GRA_tpCondRet GRA_BuscaIdVertice(GRA_tppGrafo pGrafo , char ** pValor)
 	if(pGrafo == NULL){
 		return GRA_CondRetGrafoNulo;
 	} /* if */
-	
+
 	*pValor = pGrafo->pCorrente->pIdVertice;
 
 	return GRA_CondRetOK;
