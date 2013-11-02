@@ -61,6 +61,8 @@ typedef enum {
 
 	 JOG_CondRetJogoNulo = 1 ,
 
+	 JOG_CondRetFimLista = 2 ,
+
 	 JOG_CondRetFaltouMemoria = 9
 		   /* Faltou memória ao tentar criar um elemento de JOGO */
 

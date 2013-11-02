@@ -284,7 +284,7 @@ int main (void)
 
 			puts ( " Voce escolheu: 7 - Salvar JOGO." ) ;
 
-			gravarArquivo(pTabuleiro , pJogo);
+			gravarArquivo(pTabuleiro , pJogo , pPecaBusca);
 
 			break;
 
@@ -357,16 +357,17 @@ static void apresentaTipoPeca( void )
 
 }
 
-static void gravarArquivo( TAB_tppTabuleiro pTabuleiro , JOG_tppJogo pJogo  )
+static void gravarArquivo( TAB_tppTabuleiro pTabuleiro , JOG_tppJogo pJogo , PEC_tppPeca pTipoPeca  )
 {
 	
 	FILE *fp;
 	char TipoPeca[250];
-	PEC_tppPeca pTipoPeca;
 	TAB_tpCondRet TabRetorno;
+	JOG_tpCondRet JogRet;
+	 PEC_tppPeca pTipoPecaFile;
 	
 	/* Detalhes da peca */
-	char NomePecaFile[MAX_NOME] = "";
+	char  NomePecaFile[10];
 	int Diag = 0;
 	int Reta = 0;
 	int Qtde = 0;
@@ -379,6 +380,7 @@ static void gravarArquivo( TAB_tppTabuleiro pTabuleiro , JOG_tppJogo pJogo  )
 	fputs ("***************** Verificador de XEQUE MATE ***********************\n" , fp);
 	fputs ("*****************    AFV - Novembro 2013    ***********************\n" , fp);
 
+	/* Grava os tipos de peca */
 	TabRetorno = TAB_IrInicioListaPecas(pTabuleiro);
 
 	if(TabRetorno != TAB_CondRetListaVazia){
@@ -387,19 +389,60 @@ static void gravarArquivo( TAB_tppTabuleiro pTabuleiro , JOG_tppJogo pJogo  )
 
 			TAB_ObterTipoPeca(pTabuleiro , (void**)&pTipoPeca);
 
-			PEC_ObterDadosTipoPeca(pTipoPeca, (void**)&NomePecaFile, &Diag , &Reta , &Qtde);
-			
-			
-			printf("Nome %s" , NomePecaFile);
+			//PEC_ObterDadosTipoPeca(pTipoPeca, (void**)&NomePecaFile, &Diag , &Reta , &Qtde);
 
 			strcpy (TipoPeca, "TIPOPECA ");
-			strcat (TipoPeca, NomePecaFile);
+			strcat (TipoPeca, "AS ");
 			fputs(TipoPeca, fp);
 			fputs("\n", fp);
 
 			TabRetorno = TAB_AvancarTipoPeca(pTabuleiro , 1);
 
 		}while (TabRetorno != TAB_CondRetFimLista);
+	}
+
+	/* Grava as pecas dos times */
+	/* Time A */
+	JogRet = JOG_IrInicioPecas(pJogo , 'A');
+
+	if(JogRet != JOG_CondRetJogoNulo){
+
+		do{
+
+			JOG_ObterTipoPeca(pJogo , 'A' , (void**)&pTipoPecaFile);
+
+			PEC_ObterNome(pTipoPecaFile , (void**)&NomePecaFile);
+			
+			printf("Nome peca %s" , NomePecaFile);
+			strcpy (TipoPeca, "PECAS A ");
+			strcat (TipoPeca, NomePecaFile);
+			fputs(TipoPeca, fp);
+			fputs("\n", fp);
+
+			JogRet = JOG_AvancarCorrrenteTime(pJogo , 'A' , 1);
+
+		}while (JogRet != JOG_CondRetFimLista);
+	}
+
+	/* Time B */
+	JogRet = JOG_IrInicioPecas(pJogo , 'B');
+
+	if(JogRet != JOG_CondRetJogoNulo){
+
+		do{
+
+			JOG_ObterTipoPeca(pJogo , 'B' , (void**)&pTipoPecaFile);
+
+			PEC_ObterNome(pTipoPecaFile , (void**)&NomePecaFile);
+
+			strcpy (TipoPeca, "PECAS B ");
+			strcat (TipoPeca, NomePecaFile);
+			fputs(TipoPeca, fp);
+			fputs("\n", fp);
+
+			JogRet = JOG_AvancarCorrrenteTime(pJogo , 'B' , 1);
+
+		}while (JogRet != JOG_CondRetFimLista);
 	}
 
 	fputs ("*****************       FIM DO ARQUIVO      ***********************" , fp);

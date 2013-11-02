@@ -107,7 +107,8 @@ PEC_tpCondRet PEC_ObterDadosTipoPeca (PEC_tppPeca pPeca , void ** Nome, int * Di
 	{
 		return PEC_CondRetPecaNula ;
 	}
-	printf("Nome aqui %d" ,pPeca->diagonal );
+	printf("Nome aqui %s" ,pPeca->Nome );
+
 	strcpy((char *)Nome , pPeca->Nome);
 	*Diag = pPeca->diagonal ;
 	*Reta = pPeca->reta;

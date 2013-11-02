@@ -216,10 +216,13 @@ JOG_tpCondRet JOG_AvancarCorrrenteTime(JOG_tppJogo pJOGO , char Time , int val)
 	}	
 
 	if(Time == 'A')
-		LIS_AvancarElementoCorrente(pJOGO->pListaTimeA, val);
+		ListaRet = LIS_AvancarElementoCorrente(pJOGO->pListaTimeA, val);
 	
 	else if(Time == 'B')
-		LIS_AvancarElementoCorrente(pJOGO->pListaTimeB, val);
+		ListaRet = LIS_AvancarElementoCorrente(pJOGO->pListaTimeB, val);
+
+	if(ListaRet == LIS_CondRetFimLista)
+		return JOG_CondRetFimLista;
 
 	return JOG_CondRetOK;
 }

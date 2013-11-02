@@ -246,7 +246,7 @@ TAB_tpCondRet TAB_ObterTipoPeca(TAB_tppTabuleiro pTabuleiro , void ** pPeca)
 	}
 
 	ListaRet = LIS_ObterValor(pTabuleiro->pListaPecas , (void**)&pPeca);
-	
+
 	if(ListaRet == LIS_CondRetListaVazia)
 		return TAB_CondRetListaVazia;
 
