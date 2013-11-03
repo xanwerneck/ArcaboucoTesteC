@@ -35,7 +35,7 @@ static void imprimeMenuPrincipal ( void ) ;
 
 static void imprimeMenuEscolhaTime ( void ) ;
 
-static void gravarArquivo( TAB_tppTabuleiro pTabuleiro , JOG_tppJogo pJogo );
+static void gravarArquivo( TAB_tppTabuleiro pTabuleiro , JOG_tppJogo pJogo , PEC_tppPeca pPecaFile );
 
 /************* Função responsável pela execução da aplicação ***************/
 
@@ -49,6 +49,7 @@ int main (void)
 	/* Movimentos */
 	char NomePeca[MAX_NOME];
 	char NomePosicao[2];
+	char * NomeBusca;
 	int Diagonal;
 	int Reta;
 	int QtdeMov;
@@ -285,7 +286,7 @@ int main (void)
 			puts ( " Voce escolheu: 7 - Salvar JOGO." ) ;
 
 			gravarArquivo(pTabuleiro , pJogo , pPecaBusca);
-
+			
 			break;
 
 
@@ -357,20 +358,20 @@ static void apresentaTipoPeca( void )
 
 }
 
-static void gravarArquivo( TAB_tppTabuleiro pTabuleiro , JOG_tppJogo pJogo , PEC_tppPeca pTipoPeca  )
+static void gravarArquivo( TAB_tppTabuleiro pTabuleiro , JOG_tppJogo pJogo , PEC_tppPeca pTipoPecaFile  )
 {
 	
 	FILE *fp;
 	char TipoPeca[250];
 	TAB_tpCondRet TabRetorno;
 	JOG_tpCondRet JogRet;
-	 PEC_tppPeca pTipoPecaFile;
+
 	
 	/* Detalhes da peca */
-	char  NomePecaFile[10];
-	int Diag = 0;
-	int Reta = 0;
-	int Qtde = 0;
+	char  * NomePecaFile;
+	int Diag;
+	int Reta;
+	int Qtde;
 
     fp = fopen ("Jogo.txt", "w+");
     if (fp == NULL) {
@@ -387,16 +388,26 @@ static void gravarArquivo( TAB_tppTabuleiro pTabuleiro , JOG_tppJogo pJogo , PEC
 
 		do{
 
-			TAB_ObterTipoPeca(pTabuleiro , (void**)&pTipoPeca);
+			TAB_ObterTipoPeca(pTabuleiro , (void**)&pTipoPecaFile);
 
-			//PEC_ObterDadosTipoPeca(pTipoPeca, (void**)&NomePecaFile, &Diag , &Reta , &Qtde);
-
+			PEC_ObterDadosTipoPeca(pTipoPecaFile, (void**)&NomePecaFile , &Diag , &Reta , &Qtde);
+			
+			
 			strcpy (TipoPeca, "TIPOPECA ");
-			strcat (TipoPeca, "AS ");
+			strcat (TipoPeca, (char *)&NomePecaFile);
+			strcat (TipoPeca, " ");
+			
+			strcat (TipoPeca, (char *)&Diag);
+			strcat (TipoPeca, " ");
+			strcat (TipoPeca, (char *)&Reta);
+			strcat (TipoPeca, " ");
+			strcat (TipoPeca, (char *)&Qtde);
+
 			fputs(TipoPeca, fp);
 			fputs("\n", fp);
 
 			TabRetorno = TAB_AvancarTipoPeca(pTabuleiro , 1);
+
 
 		}while (TabRetorno != TAB_CondRetFimLista);
 	}
@@ -412,10 +423,9 @@ static void gravarArquivo( TAB_tppTabuleiro pTabuleiro , JOG_tppJogo pJogo , PEC
 			JOG_ObterTipoPeca(pJogo , 'A' , (void**)&pTipoPecaFile);
 
 			PEC_ObterNome(pTipoPecaFile , (void**)&NomePecaFile);
-			
-			printf("Nome peca %s" , NomePecaFile);
+
 			strcpy (TipoPeca, "PECAS A ");
-			strcat (TipoPeca, NomePecaFile);
+			strcat (TipoPeca,  (char *)&NomePecaFile);
 			fputs(TipoPeca, fp);
 			fputs("\n", fp);
 
@@ -436,7 +446,7 @@ static void gravarArquivo( TAB_tppTabuleiro pTabuleiro , JOG_tppJogo pJogo , PEC
 			PEC_ObterNome(pTipoPecaFile , (void**)&NomePecaFile);
 
 			strcpy (TipoPeca, "PECAS B ");
-			strcat (TipoPeca, NomePecaFile);
+			strcat (TipoPeca,  (char *)&NomePecaFile);
 			fputs(TipoPeca, fp);
 			fputs("\n", fp);
 

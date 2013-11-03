@@ -246,6 +246,11 @@ JOG_tpCondRet JOG_ObterTipoPeca(JOG_tppJogo pJOGO , char Time, void ** pTipo)
 	return JOG_CondRetOK;
 }
 
+JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO , char Time)
+{
+	
+}
+
 void ExcluirJogo( void * pPeca )
 {
 

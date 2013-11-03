@@ -77,7 +77,7 @@ typedef struct tagVerticeGrafo {
 	void * pConteudo ;
 		/* Ponteiro para o conteúdo do vértice */
 
-	char * pIdVertice;
+	char pIdVertice[2];
 		/* Identificador do vértice */
 
 	void (*destruirValorV)(void *pValor);
@@ -221,8 +221,9 @@ GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppGrafo pGrafo, char * String , char * i
 	if(pVert == NULL){
 		return GRA_CondRetFaltouMemoria ;
 	} /* if */
-
-	pVert->pIdVertice = id ;
+	
+	strcpy(pVert->pIdVertice , id);
+	//pVert->pIdVertice = id ;
 	pVert->pConteudo = String ;
 	pVert->destruirValorV = ExcluirValor ;
 	GRA_CriaListaSucessoresVertice (pVert);
@@ -231,8 +232,9 @@ GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppGrafo pGrafo, char * String , char * i
 	LIS_InserirElementoApos(pGrafo->pListaVertices, pVert );
 		/* Insere vértice na lista de vértices do grafo */
 
-	pGrafo->pCorrente = pVert;
 	
+	pGrafo->pCorrente = pVert;
+
 	return GRA_CondRetOK ;
 
 	
@@ -556,8 +558,8 @@ GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo)
 	}
 
 	free (pVertOrigem);
-
-	pVertOrigem->pIdVertice = '\0';	
+	
+	strcpy(pVertOrigem->pIdVertice , "");
 	pVertOrigem->pConteudo = NULL;
 
 	pVertOrigem = NULL;

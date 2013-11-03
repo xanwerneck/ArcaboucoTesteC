@@ -37,8 +37,9 @@
 
 typedef struct TAB_tagTabuleiro * TAB_tppTabuleiro ;
 
-typedef struct TAB_tagPecaJogo * TAB_tppPecaJogo ;
+typedef struct tpElemCasa * TAB_ElemCasa ;
 
+typedef struct TAB_tgEstCasa * TAB_tppEstCasa ;
 
 /***********************************************************************
 *

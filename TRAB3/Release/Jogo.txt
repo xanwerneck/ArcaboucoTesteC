@@ -1,17 +1,6 @@
 ***************** Verificador de XEQUE MATE ***********************
 *****************    AFV - Novembro 2013    ***********************
-TIPOPECA AS 
-TIPOPECA AS 
-TIPOPECA AS 
-TIPOPECA AS 
-TIPOPECA AS 
-PECAS A °¯
-PECAS A °¯
-PECAS A °¯
-PECAS A °¯
-PECAS B °¯
-PECAS B °¯
-PECAS B °¯
-PECAS B °¯
-PECAS B °¯
+TIPOPECA as   
+PECAS A as
+PECAS B as
 *****************       FIM DO ARQUIVO      ***********************
