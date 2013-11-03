@@ -65,6 +65,8 @@ int main (void)
 	JOG_tpCondRet JogRet;
 	JOG_tppJogo   pJogo;
 
+	JOG_tppPecaJogo pPecaBuscaJogo;
+
 	PEC_tpCondRet PecaRet;
 	PEC_tppPeca pPecaBusca;
 
@@ -245,16 +247,29 @@ int main (void)
 					break ;
 				}
 
+				
+
 				/* Colocacao time A */
 				JOG_IrInicioPecas(pJogo , 'A');
 				puts("**** Disposicao das pecas do time A: ****\n");
 				while (NumPecasA > 0){
+
 					JOG_ObterTipoPeca(pJogo , 'A' , (void**)&pPecaBusca);
 
 					PEC_ObterNome(pPecaBusca , (void**)&NomePeca);
 
 					printf("Indique a posicao da peca %s : " , NomePeca);
 					scanf ( "%s", &NomePosicao ) ;
+
+					/** Colocar a peca na casa do tabuleiro **/
+
+					JOG_ObterPecaJogo(pJogo , 'A' , (void**)&pPecaBuscaJogo);
+
+					TAB_SetarCorrente(pTabuleiro , NomePosicao);
+
+					TAB_InserirConteudoCasa(pTabuleiro , pPecaBuscaJogo );
+
+					/** Fim do colocar a peca na casa do tabuleiro **/
 
 					JOG_AvancarCorrrenteTime(pJogo , 'A' , 1);
 
@@ -271,6 +286,16 @@ int main (void)
 
 					printf("Indique a posicao da peca %s : " , NomePeca);
 					scanf ( "%s", &NomePosicao ) ;
+
+					/** Colocar a peca na casa do tabuleiro **/
+
+					JOG_ObterPecaJogo(pJogo , 'B' , (void**)&pPecaBuscaJogo);
+
+					TAB_SetarCorrente(pTabuleiro , NomePosicao);
+
+					TAB_InserirConteudoCasa(pTabuleiro , pPecaBuscaJogo );
+
+					/** Fim do colocar a peca na casa do tabuleiro **/
 
 					JOG_AvancarCorrrenteTime(pJogo , 'B' , 1);
 

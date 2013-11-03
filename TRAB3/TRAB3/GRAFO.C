@@ -223,7 +223,6 @@ GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppGrafo pGrafo, char * String , char * i
 	} /* if */
 	
 	strcpy(pVert->pIdVertice , id);
-	//pVert->pIdVertice = id ;
 	pVert->pConteudo = String ;
 	pVert->destruirValorV = ExcluirValor ;
 	GRA_CriaListaSucessoresVertice (pVert);
@@ -727,11 +726,14 @@ GRA_tpCondRet GRA_IrInicio(GRA_tppGrafo pGrafo)
 
 GRA_tpCondRet GRA_BuscaIdVertice(GRA_tppGrafo pGrafo , char ** pValor)
 {
+	GRA_tppVerGrafo pVert;
 	if(pGrafo == NULL){
 		return GRA_CondRetGrafoNulo;
 	} /* if */
 
-	*pValor = pGrafo->pCorrente->pIdVertice;
+	LIS_ObterValor(pGrafo->pListaVertices , (void**)&pVert);
+
+	*pValor = pVert->pIdVertice;
 
 	return GRA_CondRetOK;
 }
@@ -782,6 +784,35 @@ GRA_tpCondRet GRA_NumeroVertices(GRA_tppGrafo pGrafo , int * val)
 	return GRA_CondRetNaoAchou;
 
 }
+
+GRA_tpCondRet GRA_InsereConteudoVertice(GRA_tppGrafo pGrafo , void * pConteudo)
+{
+
+	if(pGrafo == NULL) {
+		return GRA_CondRetGrafoNulo;
+	} /* if */
+
+	pGrafo->pCorrente->pConteudo = pConteudo;
+
+	return GRA_CondRetOK;
+}
+
+GRA_tpCondRet GRA_PegaConteudo(GRA_tppGrafo pGrafo , void ** pConteudo)
+{
+	GRA_tppVerGrafo pVert;
+
+	if(pGrafo == NULL) {
+		return GRA_CondRetGrafoNulo;
+	} /* if */
+
+	LIS_ObterValor(pGrafo->pListaVertices , (void**)&pVert);
+
+	*pConteudo = pVert->pConteudo;
+
+	return GRA_CondRetOK;
+
+}
+
 
 /*****  Código das funções encapsuladas pelo módulo  *****/
 

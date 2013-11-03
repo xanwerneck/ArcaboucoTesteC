@@ -70,6 +70,8 @@ typedef struct TAB_tgEstCasa * TAB_tppEstCasa ;
 
 		 TAB_CondRetTabuleiroListaNula = 7 ,
 
+		 TAB_CondRetCorrenteNulo = 8 ,
+
          TAB_CondRetFaltouMemoria = 9
                /* Faltou memória ao tentar criar um tabuleiro */
 
@@ -115,6 +117,22 @@ typedef struct TAB_tgEstCasa * TAB_tppEstCasa ;
    TAB_tpCondRet TAB_ObterTipoPeca(TAB_tppTabuleiro pTabuleiro , void ** pPeca);
 
    TAB_tpCondRet TAB_AvancarTipoPeca(TAB_tppTabuleiro pTabuleiro , int val);
+
+   TAB_tpCondRet TAB_SetarCorrente( TAB_tppTabuleiro pTabuleiro , char * NomeCasa );
+
+   TAB_tpCondRet TAB_InserirConteudoCasa(TAB_tppTabuleiro pTabuleiro , void * pPeca);
+
+
+   /** caminhos **/
+   TAB_tpCondRet TAB_IrNoNorte(TAB_tppEstCasa tpTab);
+   TAB_tpCondRet TAB_IrNoNordeste(TAB_tppEstCasa tpTab);
+   TAB_tpCondRet TAB_IrNoLeste(TAB_tppEstCasa tpTab);
+   TAB_tpCondRet TAB_IrNoSudeste(TAB_tppEstCasa tpTab);
+   TAB_tpCondRet TAB_IrNoSul(TAB_tppEstCasa tpTab);
+   TAB_tpCondRet TAB_IrNoSudoeste(TAB_tppEstCasa tpTab);
+   TAB_tpCondRet TAB_IrNoOeste(TAB_tppEstCasa tpTab);
+   TAB_tpCondRet TAB_IrNoNoroeste(TAB_tppEstCasa tpTab);
+
 
 #undef TABULEIRO_EXT
 

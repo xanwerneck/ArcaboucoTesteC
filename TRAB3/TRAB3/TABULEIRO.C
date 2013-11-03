@@ -33,6 +33,7 @@
 
 #include "GRAFO.H"
 #include "PECA.H"
+#include "JOGO.H" 
 
 #define MAX_NOME 10
 
@@ -176,26 +177,65 @@ TAB_tpCondRet TAB_CriarTabuleiro( TAB_tppTabuleiro * pTabuleiro ){
 	return TAB_CondRetOK;
 }
 
+
+TAB_tpCondRet TAB_SetarCorrente( TAB_tppTabuleiro pTabuleiro , char * NomeCasa )
+{
+
+	if(pTabuleiro == NULL){
+		return TAB_CondRetTabuleiroNulo;
+	}
+
+	GrafRet = GRA_SetarCorrente(pTabuleiro->tpGrafo , NomeCasa);
+
+	return TAB_CondRetOK;
+
+}
+
+TAB_tpCondRet TAB_InserirConteudoCasa(TAB_tppTabuleiro pTabuleiro , void * pPeca)
+{
+
+	if(pTabuleiro == NULL){
+		return TAB_CondRetTabuleiroNulo;
+	}
+
+	GrafRet = GRA_InsereConteudoVertice(pTabuleiro->tpGrafo , pPeca);
+
+	if(GrafRet == GRA_CondRetOK){
+		return TAB_CondRetOK;
+	}
+
+	return TAB_CondRetNaoAchou;
+}
+
 TAB_tpCondRet TAB_ApresentaTabuleiro( TAB_tppTabuleiro pTabuleiro ){
 
 	int cont = 0;
 	char * id = NULL;
+	char * NomeCasa = NULL;
 	int numElem = 0;
+	JOG_tppPecaJogo pPecaTab;
 
 	GrafRet = GRA_NumeroVertices(pTabuleiro->tpGrafo , &numElem);
 	if(GrafRet == GRA_CondRetOK ){
 		printf("Numero de Casas do Tabuleiro %d \n\n" , numElem);
 	} /* if */
 
-	//GrafRet = GRA_SetarCorrente(pTabuleiro->tpGrafo , "A1");
-
 	GrafRet = GRA_IrInicio(pTabuleiro->tpGrafo);
 
 	do{
 
 		cont++;
-		GRA_BuscaIdVertice(pTabuleiro->tpGrafo , &id);
-		printf( "| %s |" , id );
+
+		GRA_BuscaIdVertice( pTabuleiro->tpGrafo , &id );
+
+		GRA_PegaConteudo (pTabuleiro->tpGrafo , (void**)&pPecaTab);
+
+		if(pPecaTab != NULL){
+			printf( "| %s |" , "XX" );
+		}else{
+			printf( "| %s |" , id );
+		}
+		
 		if(cont == 8){
 			printf( "\n" );
 			cont=0;
@@ -309,12 +349,13 @@ TAB_tpCondRet TAB_IrInicioListaPecas(TAB_tppTabuleiro pTabuleiro)
 
 TAB_tpCondRet TAB_ObterTipoPeca(TAB_tppTabuleiro pTabuleiro , void ** pPeca)
 {
-	
+
 	if(pTabuleiro==NULL){
 		return TAB_CondRetTabuleiroNulo;
 	}
 
 	ListaRet = LIS_ObterValor(pTabuleiro->pListaPecas , (void**)&pPeca);
+
 
 	if(ListaRet == LIS_CondRetListaVazia)
 		return TAB_CondRetListaVazia;
@@ -401,14 +442,7 @@ TAB_tpCondRet PreparaEstruturaMatriz( TAB_tpEstCasa * tpMat, GRA_tppGrafo pGrafo
 	
 	char * IdVertices[64] = 
 	{
-		"A1","A2","A3","A4","A5","A6","A7","A8",
-		"B1","B2","B3","B4","B5","B6","B7","B8",
-		"C1","C2","C3","C4","C5","C6","C7","C8",
-		"D1","D2","D3","D4","D5","D6","D7","D8",
-		"E1","E2","E3","E4","E5","E6","E7","E8",
-		"F1","F2","F3","F4","F5","F6","F7","F8",
-		"G1","G2","G3","G4","G5","G6","G7","G8",
-		"H1","H2","H3","H4","H5","H6","H7","H8"
+		"A1","A2","A3","A4","A5","A6","A7","A8","B1","B2","B3","B4","B5","B6","B7","B8","C1","C2","C3","C4","C5","C6","C7","C8","D1","D2","D3","D4","D5","D6","D7","D8","E1","E2","E3","E4","E5","E6","E7","E8","F1","F2","F3","F4","F5","F6","F7","F8","G1","G2","G3","G4","G5","G6","G7","G8","H1","H2","H3","H4","H5","H6","H7","H8"
 	};
 
 	tpElemCasa * tpElemLesteCabeca   = NULL;
@@ -656,6 +690,201 @@ tpElemCasa * CriarNo( GRA_tppGrafo pGrafo , char * Id )
       return pNoMatriz ;
 
    } /* Fim função: ARV Criar nó da árvore */
+
+
+/***** CAMINHO TABULEIRO *****/
+
+TAB_tpCondRet TAB_IrNoNorte(TAB_tpEstCasa * tpTab){
+
+	  if ( tpTab == NULL )
+      {
+		  return TAB_CondRetTabuleiroNulo;
+      } /* if */
+
+      if ( tpTab->pNoCorr == NULL )
+      {
+         return TAB_CondRetCorrenteNulo ;
+      } /* if */
+
+	  if ( tpTab->pNoCorr->pNoNorte == NULL )
+      {
+		  return TAB_CondRetNaoAchou ;
+      } /* if */
+
+      tpTab->pNoCorr = tpTab->pNoCorr->pNoNorte ;
+
+      return TAB_CondRetOK ;
+
+} /* Fim do IrNoNorte */
+
+   
+TAB_tpCondRet TAB_IrNoNordeste(TAB_tpEstCasa * tpTab){
+
+	  if ( tpTab == NULL )
+      {
+         return TAB_CondRetTabuleiroNulo ;
+      } /* if */
+
+      if ( tpTab->pNoCorr == NULL )
+      {
+         return TAB_CondRetCorrenteNulo ;
+      } /* if */
+
+	  if ( tpTab->pNoCorr->pNoNordeste == NULL )
+      {
+         return TAB_CondRetNaoAchou ;
+      } /* if */
+
+      tpTab->pNoCorr = tpTab->pNoCorr->pNoNordeste ;
+
+      return TAB_CondRetOK ;
+
+} /* Fim do IrNoNordeste */
+
+   
+TAB_tpCondRet TAB_IrNoLeste(TAB_tpEstCasa * tpTab){
+
+	  if ( tpTab == NULL )
+      {
+         return TAB_CondRetTabuleiroNulo ;
+      } /* if */
+
+      if ( tpTab->pNoCorr == NULL )
+      {
+         return TAB_CondRetCorrenteNulo ;
+      } /* if */
+
+	  if ( tpTab->pNoCorr->pNoLeste == NULL )
+      {
+         return TAB_CondRetNaoAchou ;
+      } /* if */
+
+	  tpTab->pNoCorr = tpTab->pNoCorr->pNoLeste ;
+
+      return TAB_CondRetOK ;
+
+} /* Fim do TAB IrNoLeste */
+
+   
+TAB_tpCondRet TAB_IrNoSudeste(TAB_tpEstCasa * tpTab){
+
+	  if ( tpTab == NULL )
+      {
+         return TAB_CondRetTabuleiroNulo ;
+      } /* if */
+
+      if ( tpTab->pNoCorr == NULL )
+      {
+         return TAB_CondRetCorrenteNulo ;
+      } /* if */
+
+	  if ( tpTab->pNoCorr->pNoSudeste == NULL )
+      {
+         return TAB_CondRetNaoAchou ;
+      } /* if */
+
+      tpTab->pNoCorr = tpTab->pNoCorr->pNoSudeste ;
+
+      return TAB_CondRetOK ;
+
+} /* Fim do TAB IrNoSudeste */
+
+   
+TAB_tpCondRet TAB_IrNoSul(TAB_tpEstCasa * tpTab){
+
+	  if ( tpTab == NULL )
+      {
+         return TAB_CondRetTabuleiroNulo ;
+      } /* if */
+
+      if ( tpTab->pNoCorr == NULL )
+      {
+         return TAB_CondRetCorrenteNulo ;
+      } /* if */
+
+	  if ( tpTab->pNoCorr->pNoSul == NULL )
+      {
+         return TAB_CondRetNaoAchou ;
+      } /* if */
+
+      tpTab->pNoCorr = tpTab->pNoCorr->pNoSul ;
+
+      return TAB_CondRetOK ;
+
+} /* Fim do TAB IrNoSul */
+
+   
+TAB_tpCondRet TAB_IrNoSudoeste(TAB_tpEstCasa * tpTab){
+
+	  if ( tpTab == NULL )
+      {
+         return TAB_CondRetTabuleiroNulo ;
+      } /* if */
+
+      if ( tpTab->pNoCorr == NULL )
+      {
+         return TAB_CondRetCorrenteNulo ;
+      } /* if */
+
+	  if ( tpTab->pNoCorr->pNoSudoeste == NULL )
+      {
+         return TAB_CondRetNaoAchou ;
+      } /* if */
+
+      tpTab->pNoCorr = tpTab->pNoCorr->pNoSudoeste ;
+
+      return TAB_CondRetOK ;
+
+} /* Fim do TAB IrNoSudoeste */
+
+   
+TAB_tpCondRet TAB_IrNoOeste(TAB_tpEstCasa * tpTab){
+
+	  if ( tpTab == NULL )
+      {
+         return TAB_CondRetTabuleiroNulo ;
+      } /* if */
+
+      if ( tpTab->pNoCorr == NULL )
+      {
+         return TAB_CondRetCorrenteNulo ;
+      } /* if */
+
+	  if ( tpTab->pNoCorr->pNoOeste == NULL )
+      {
+         return TAB_CondRetNaoAchou ;
+      } /* if */
+
+      tpTab->pNoCorr = tpTab->pNoCorr->pNoOeste ;
+
+
+      return TAB_CondRetOK ;
+
+} /* Fim do TAB IrNoOeste */
+
+   
+TAB_tpCondRet TAB_IrNoNoroeste(TAB_tpEstCasa * tpTab){
+
+	  if ( tpTab == NULL )
+      {
+         return TAB_CondRetTabuleiroNulo ;
+      } /* if */
+
+      if ( tpTab->pNoCorr == NULL )
+      {
+         return TAB_CondRetCorrenteNulo ;
+      } /* if */
+
+	  if ( tpTab->pNoCorr->pNoNoroeste == NULL )
+      {
+         return TAB_CondRetNaoAchou ;
+      } /* if */
+
+      tpTab->pNoCorr = tpTab->pNoCorr->pNoNoroeste ;
+
+      return TAB_CondRetOK ;
+
+} /* Fim do TAB IrNoNoroeste */
 
 
 void ExcluirValorNo( void * pValor )

@@ -90,6 +90,8 @@ JOG_tpCondRet JOG_IrInicioPecas(JOG_tppJogo pJOGO , char Time);
 
 JOG_tpCondRet JOG_AvancarCorrrenteTime(JOG_tppJogo pJOGO , char Time , int val);
 
+JOG_tpCondRet JOG_ObterPecaJogo(JOG_tppJogo pJOGO , char Time, void ** pTipo);
+
 #undef JOGO_EXT
 
 /********** Fim do módulo de definição: JOG  JOGO do tabuleiro **********/

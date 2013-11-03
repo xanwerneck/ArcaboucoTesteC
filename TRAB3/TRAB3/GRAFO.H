@@ -442,6 +442,10 @@ GRA_tpCondRet GRA_NumeroVertices(GRA_tppGrafo pGrafo , int * val);
 
 GRA_tpCondRet GRA_SetarCorrente(GRA_tppGrafo pGrafo , char * pValor);
 
+GRA_tpCondRet GRA_InsereConteudoVertice(GRA_tppGrafo pGrafo , void * pConteudo);
+
+GRA_tpCondRet GRA_PegaConteudo(GRA_tppGrafo pGrafo , void ** pConteudo);
+
 #undef GRAFO_EXT
 
 /********** Fim do módulo de definição: Módulo grafo **********/

@@ -33,6 +33,7 @@
 
 #include "LISTA.H"
 #include "PECA.H"
+#include "TABULEIRO.H"
 
 LIS_tpCondRet ListaRet;
 
@@ -229,26 +230,99 @@ JOG_tpCondRet JOG_AvancarCorrrenteTime(JOG_tppJogo pJOGO , char Time , int val)
 
 JOG_tpCondRet JOG_ObterTipoPeca(JOG_tppJogo pJOGO , char Time, void ** pTipo)
 {
+	JOG_tppPecaJogo pPecaJogo ;
 	if(pJOGO == NULL)
 	{
 		return JOG_CondRetJogoNulo ;
 	}	
 	if(Time == 'A'){
 		
-		LIS_ObterValor(pJOGO->pListaTimeA , (void**)&pTipo);
+		LIS_ObterValor(pJOGO->pListaTimeA , (void**)&pPecaJogo);
 
 	}
 	else if(Time == 'B'){
 
-		LIS_ObterValor(pJOGO->pListaTimeB , (void**)&pTipo);
+		LIS_ObterValor(pJOGO->pListaTimeB , (void**)&pPecaJogo);
 
 	}
+
+	*pTipo = pPecaJogo->pTipoPeca;
+
+	return JOG_CondRetOK;
+}
+
+JOG_tpCondRet JOG_ObterPecaJogo(JOG_tppJogo pJOGO , char Time, void ** pTipo)
+{
+	JOG_tppPecaJogo pPecaJogo;
+	if(pJOGO == NULL)
+	{
+		return JOG_CondRetJogoNulo ;
+	}	
+	if(Time == 'A'){
+		
+		LIS_ObterValor(pJOGO->pListaTimeA , (void**)&pPecaJogo);
+
+	}
+	else if(Time == 'B'){
+
+		LIS_ObterValor(pJOGO->pListaTimeB , (void**)&pPecaJogo);
+
+	}
+
+	*pTipo = pPecaJogo;
+
 	return JOG_CondRetOK;
 }
 
 JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO , char Time)
 {
 	
+	JOG_tppPecaJogo pPecaJogo;
+	TAB_tppEstCasa pCasa;
+	
+
+	char * Nome;
+	int Diag;
+	int Reta;
+	int Qtde;
+
+	int QtdeTmp;
+
+	if(pJOGO == NULL)
+	{
+		return JOG_CondRetJogoNulo ;
+	}	
+	if(Time == 'A'){
+		
+		LIS_ObterValor(pJOGO->pListaTimeA , (void**)&pPecaJogo);
+
+	}
+	else if(Time == 'B'){
+
+		LIS_ObterValor(pJOGO->pListaTimeB , (void**)&pPecaJogo);
+
+	}
+
+	/*
+	PEC_ObterDadosTipoPeca(pPecaJogo->pTipoPeca , (void**)&Nome, &Diag, &Reta, &Qtde);
+	
+	if(Diag == 1){
+		QtdeTmp = Qtde;
+		while(QtdeTmp > 0){
+			TAB_IrNoNordeste(pCasa);
+			if(pPecaJogo != NULL){
+				//LIS_InserirElementoApos(pPecaJogo->pListaCaminho);
+			}
+			QtdeTmp--;
+		}
+	}
+	if(Reta == 1){
+
+	}
+	*/
+
+	return JOG_CondRetOK;
+
 }
 
 void ExcluirJogo( void * pPeca )
