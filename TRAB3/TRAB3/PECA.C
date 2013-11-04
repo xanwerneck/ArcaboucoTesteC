@@ -9,7 +9,7 @@
 *  Gestor:  Flavio Bevilacqua
 *  Autores: afv:  aw - Alexandre Werneck
 *                 fr - Fernanda C Ribeiro
-*			      vo - Vinicius de Luiz de Oliveira
+*			         vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
@@ -33,12 +33,12 @@
 
 #define MAX_NOME 10
 
-/***********************************************************************
+/**************************************************************************
 *
 *  $TC Tipo de dados: PEC Descritor do tipo de peca
 *
 *
-***********************************************************************/
+**************************************************************************/
 
    typedef struct PEC_tagElemPeca {
 
@@ -69,7 +69,8 @@
 *  Função: PEC  &Criar peca
 *  ****/
 
-PEC_tpCondRet PEC_CriarPeca(PEC_tppPeca * pPeca, int Diag , int Reta , int Qtde , char * Nome)
+PEC_tpCondRet PEC_CriarPeca(PEC_tppPeca * pPeca, int Diag , int Reta , 
+									 int Qtde , char * Nome)
 {
 	
 	PEC_tppPeca mPeca = NULL;
@@ -122,7 +123,8 @@ PEC_tpCondRet PEC_ObterNome (PEC_tppPeca pPeca ,  void ** NomePeca)
 *  Função: PEC  &Obter dados do tipo peça
 *  ****/
 
-PEC_tpCondRet PEC_ObterDadosTipoPeca (PEC_tppPeca pPeca , void ** Nome, int * Diag , int * Reta , int * Qtde)
+PEC_tpCondRet PEC_ObterDadosTipoPeca (PEC_tppPeca pPeca , void ** Nome, 
+                                      int * Diag , int * Reta , int * Qtde)
 {
 	if(pPeca == NULL)
 	{

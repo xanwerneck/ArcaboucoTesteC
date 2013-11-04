@@ -1,22 +1,20 @@
 /***************************************************************************
 *
-*  $MCD Módulo de definição: JOG  JOGO do tabuleiro
+*  $MCD Módulo de definição: JOG  Jogo do tabuleiro
 *
 *  Arquivo gerado:              JOGO.C
 *  Letras identificadoras:      JOG
 *
-*  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
-*  Arquivo da base de software: D:\AUTOTEST\PROJETOS\SIMPLES.BSW
-*
-*  Projeto: INF 1301 Automatização dos testes de módulos C
-*  Gestor:  LES/DI/PUC-Rio
-*  Autores: aw - Alexandre Werneck
-*           fr - Fernanda Camelo Ribeiro
-*			vo - Vinicius de Luiz de Oliveira
+*  Projeto: INF 1301 - Verificador de Xeque-Mate
+*  Gestor:  Flavio Bevilacqua
+*  Autores: afv:  aw - Alexandre Werneck
+*                 fr - Fernanda C Ribeiro
+*			         vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     1       afv   19/out/2013 início desenvolvimento
+*     Y       afv   xx/xx/2013  finalização do desenvolvimento do modulo
+*     1       afv   19/out/2013 início do desenvolvimento do módulo
 *
 ***************************************************************************/
 
@@ -39,23 +37,25 @@ LIS_tpCondRet ListaRet;
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: JOG Descritor das pecas do JOGO
+*  $TC Tipo de dados: JOG Descritor das peças do jogo
 *
 *
 ***********************************************************************/
 
-typedef struct JOG_tagListaPeca{
+	typedef struct JOG_tagListaPeca{
 
-	LIS_tppLista pListaTimeA;
+		LIS_tppLista pListaTimeA;
+		/* Ponteiro para lista de peças do time A */
 
-	LIS_tppLista pListaTimeB;
+		LIS_tppLista pListaTimeB;
+		/* Ponteiro para lista de peças do time B */
+		
+	}JOG_tpListaPeca;
 
-}JOG_tpListaPeca;
 
-
-   /***********************************************************************
+/***********************************************************************
 *
-*  $TC Tipo de dados: LIS Descritor do elemento peca para Tabuleiro
+*  $TC Tipo de dados: JOG Descritor do elemento peca para Tabuleiro
 *
 *
 ***********************************************************************/
@@ -63,12 +63,17 @@ typedef struct JOG_tagListaPeca{
    typedef struct JOG_tagPecaJogo {
 
 	   char Id;
+		/* Identificador da casa do tabuleiro onde a peça se encontra */
 
-	   	LIS_tppLista pListaDestino;
+	   LIS_tppLista pListaDestino;
+		/* Ponteiro para lista de casas possíveis pelo movimento da peça 
+         que chegam até ao Rei */		
 		
 		LIS_tppLista pListaCaminho;
+		/* Ponteiro para lista de casas possíveis pelo movimento da peça */
 
 		PEC_tppPeca  pTipoPeca ;
+		/* Ponteiro para o tipo da peça */
 
    } JOG_tpPecaJogo ;
 
