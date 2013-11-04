@@ -11,7 +11,7 @@
 *  Gestor:  Flavio Bevilacqua
 *  Autores: afv:  aw - Alexandre Werneck
 *                 fr - Fernanda C Ribeiro
-*			      vo - Vinicius de Luiz de Oliveira
+*			         vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações

@@ -2,26 +2,25 @@
 #define JOGO_
 /***************************************************************************
 *
-*  $MCD Módulo de definição: JOG  JOGO do tabuleiro
+*  $MCD Módulo de definição: JOG  Jogo do tabuleiro
 *
 *  Arquivo gerado:              JOGO.H
 *  Letras identificadoras:      JOG
 *
-*  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
-*  Arquivo da base de software: D:\AUTOTEST\PROJETOS\SIMPLES.BSW
-*
-*  Projeto: INF 1301 Automatização dos testes de módulos C
-*  Gestor:  LES/DI/PUC-Rio
-*  Autores: aw - Alexandre Werneck
-*           fr - Fernanda Camelo Ribeiro
-*			vo - Vinicius de Luiz de Oliveira
+*  Projeto: INF 1301 - Verificador de Xeque-Mate
+*  Gestor:  Flavio Bevilacqua
+*  Autores: afv:  aw - Alexandre Werneck
+*                 fr - Fernanda C Ribeiro
+*			      vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     1       afv   19/out/2013 início desenvolvimento
+*     Y       afv   xx/xx/2013  finalização do desenvolvimento do modulo
+*     1       afv   19/out/2013 início do desenvolvimento do módulo
 *
 *  $ED Descrição do módulo
-*     Implementa a criação de elementos do tipo JOGO para tabuleiro
+*     O presente módulo implementa a criação e manipulação de estruturas 
+*     do tipo jogo para tabuleiro.
 *
 ***************************************************************************/
  
@@ -40,8 +39,7 @@
 typedef struct JOG_tagListaPeca * JOG_tppJogo ;
 
 
-/* Tipo referência para uma PECA DO JOGO */
-
+/* Tipo referência para uma peça do jogo */
 typedef struct JOG_tagPecaJogo * JOG_tppPecaJogo ;
 
 /***********************************************************************
@@ -50,7 +48,7 @@ typedef struct JOG_tagPecaJogo * JOG_tppPecaJogo ;
 *
 *
 *  $ED Descrição do tipo
-*     Condições de retorno das funções da JOGO
+*     Condições de retorno das funções do jogo
 *
 ***********************************************************************/
 
@@ -60,27 +58,82 @@ typedef enum {
 		   /* Concluiu corretamente */
 
 	 JOG_CondRetJogoNulo = 1 ,
+		   /* Jogo nulo */
 
 	 JOG_CondRetFimLista = 2 ,
-
+		   /* Final de lista */
+		   
 	 JOG_CondRetFaltouMemoria = 9
-		   /* Faltou memória ao tentar criar um elemento de JOGO */
+		   /* Faltou memória ao tentar criar um elemento jogo */
 
 } JOG_tpCondRet ;
 
 
-/***********************************************************************
+/***************************************************************************
 *
-*  $FC Função: JOG  &Criar JOGO
+*  $FC Função: PEC Criar jogo
 *
+*  $ED Descrição da função
+*     Inicia um jogo vazio.
 *
-***********************************************************************/
+*  $EP Parâmetros
+*     pJogo - Referência para o jogo que será criado.     
+*
+*  $FV Valor retornado
+*     JOG_CondRetOK
+*     JOG_CondRetFaltouMemoria
+*
+*  $AE CondRet deve ter sido instanciado
+*
+*  $AS Se CondRet = PEC_CondRetOK
+*	   Peça criada com sucesso;
+*
+*	   Se CondRet = PEC_CondRetFaltouMemoria
+*	   Peça não foi criada por falta de memória;
+*
+**************************************************************************/
 
 JOG_tpCondRet JOG_CriarJogo(JOG_tppJogo * pJogo);
 
-JOG_tpCondRet JOG_InserirPecaTimeB(JOG_tppJogo pJOGO , PEC_tppPeca pTipoPeca);
+
+/***********************************************************************
+*
+*  $FC Função: JOG Inserir peça no tima A
+*
+*  $ED Descrição da função
+*     A funão insere um tipo peça na estrutura de tipo jogo.
+*
+*  $EP Parâmetros
+*     pPeca - Referência para a peça da qual serão retornados 
+*             os elementos.
+*     Nome  - Ponteiro para o qual será retornado o peça Nome.
+*     Diag  - Ponteiro para o qual será retornado o peça Diag.
+*     Reta  - Ponteiro para o qual será retornado o peça Reta.
+*     Qtde  - Ponteiro para o qual será retornado o peça Qtde.
+*
+*  $FV Valor retornado
+*     PEC_CondRetOK
+*     PEC_CondRetPecaNula
+*
+*  $AE CondRet deve ter sido instanciado
+*      Nome da peça tem que ser uma string não nula.
+*      Diag, Reta e Qtde da variável de tipo PEC_tppPeca tem que
+*      não nulos, valores inteiros.
+*      Diag e Reta da pPeca valores inteiros entre 0 e 1;
+*      Qtde da pPeca valor inteiro entre 1 e 7;
+*
+*  $AS Se CondRet = PEC_CondRetOK
+*	   Obteve Nome, Diag, Reta e Qtde com sucesso;
+*
+*	   Se CondRet = PEC_CondRetPecaNula
+*	   Peça nula, não pode retornar elementos da pPeca;
+*
+***********************************************************************/
 
 JOG_tpCondRet JOG_InserirPecaTimeA(JOG_tppJogo pJOGO , PEC_tppPeca pTipoPeca);
+
+JOG_tpCondRet JOG_InserirPecaTimeB(JOG_tppJogo pJOGO , PEC_tppPeca pTipoPeca);
+
 
 JOG_tpCondRet JOG_NumPecasTime(JOG_tppJogo pJOGO ,char Time, int * NumPecas);
 

@@ -9,7 +9,7 @@
 *  Gestor:  Flavio Bevilacqua
 *  Autores: afv:  aw - Alexandre Werneck
 *                 fr - Fernanda C Ribeiro
-*			         vo - Vinicius de Luiz de Oliveira
+*                 vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
@@ -87,7 +87,7 @@ LIS_tpCondRet ListaRet;
 
 /***************************************************************************
 *
-*  Função: JOG  &Criar JOGO
+*  Função: JOG  &Criar jogo
 *  ****/
 
 JOG_tpCondRet JOG_CriarJogo(JOG_tppJogo * pJOGO)
@@ -100,24 +100,29 @@ JOG_tpCondRet JOG_CriarJogo(JOG_tppJogo * pJOGO)
 	if(mJOGO == NULL)
 	{
 		return JOG_CondRetFaltouMemoria ;
-	}	
+	} /* if */
 	
 	LIS_CriarLista(ExcluirJogo , &mJOGO->pListaTimeA);
 
 	LIS_CriarLista(ExcluirJogo , &mJOGO->pListaTimeB);
 	
 	(*pJOGO) = (JOG_tpListaPeca *) malloc(sizeof(JOG_tppJogo));
+
+	if(pJOGO == NULL)
+	{
+		return JOG_CondRetFaltouMemoria ;
+	} /* if */
 	
 	(*pJOGO) = mJOGO;
 
 
 	return JOG_CondRetOK;
 	
-} /* Fim função: JOG &Criar JOGO */
+} /* Fim função: JOG &Criar jogo */
 
 /***************************************************************************
 *
-*  Função: JOG  &InserirPecaTimeA
+*  Função: JOG  &Inserir peça no tima A
 *  ****/
 
 JOG_tpCondRet JOG_InserirPecaTimeA(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar)
@@ -125,25 +130,37 @@ JOG_tpCondRet JOG_InserirPecaTimeA(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar)
 
 	JOG_tppPecaJogo mPeca = NULL ;
 
+
 	mPeca = (JOG_tppPecaJogo) malloc(sizeof(JOG_tpPecaJogo));
 
 	if(pJOGO == NULL)
 	{
 		return JOG_CondRetJogoNulo ;
-	}	
+	} /* if */
 	
 	mPeca->pTipoPeca = pPecaSetar;
 
-	LIS_CriarLista(ExcluirPecaJogo , &mPeca->pListaCaminho);
+	ListaRet = LIS_CriarLista(ExcluirPecaJogo , &mPeca->pListaCaminho);
+	if(ListaRet == LIS_CondRetFaltouMemoria)
+	{
+		return JOG_CondRetFaltouMemoria;
+	} /* if */
 
-	LIS_CriarLista(ExcluirPecaJogo , &mPeca->pListaDestino);
-	
+	ListaRet = LIS_CriarLista(ExcluirPecaJogo , &mPeca->pListaDestino);
+	if(ListaRet == LIS_CondRetFaltouMemoria)
+	{
+		return JOG_CondRetFaltouMemoria;
+	} /* if */
 
-	LIS_InserirElementoApos(pJOGO->pListaTimeA , mPeca);
+	ListaRet = LIS_InserirElementoApos(pJOGO->pListaTimeA , mPeca);
+	if(ListaRet == LIS_CondRetFaltouMemoria)
+	{
+		return JOG_CondRetFaltouMemoria;
+	} /* if */
 
 	return JOG_CondRetOK;
 	
-} /* Fim função: JOG &InserirPecaTimeA */
+} /* Fim função: JOG &Inserir peça no tima A */
 
 
 /***************************************************************************
@@ -161,7 +178,7 @@ JOG_tpCondRet JOG_InserirPecaTimeB(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar)
 	if(pJOGO == NULL)
 	{
 		return JOG_CondRetJogoNulo ;
-	}	
+	} 
 	
 	mPeca->pTipoPeca = pPecaSetar;
 
