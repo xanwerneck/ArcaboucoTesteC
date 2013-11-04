@@ -274,12 +274,13 @@ JOG_tpCondRet JOG_ObterPecaJogo(JOG_tppJogo pJOGO , char Time, void ** pTipo)
 	return JOG_CondRetOK;
 }
 
-JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO , char Time)
+JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro)
 {
 	
 	JOG_tppPecaJogo pPecaJogo;
 	TAB_tppEstCasa pCasa;
-	
+	TAB_tpCondRet TabRet;
+	void * Vertice;
 
 	char * Nome;
 	int Diag;
@@ -287,42 +288,60 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO , char Time)
 	int Qtde;
 
 	int QtdeTmp;
-
+	
 	if(pJOGO == NULL)
 	{
 		return JOG_CondRetJogoNulo ;
-	}	
-	if(Time == 'A'){
-		
-		LIS_ObterValor(pJOGO->pListaTimeA , (void**)&pPecaJogo);
-
-	}
-	else if(Time == 'B'){
-
-		LIS_ObterValor(pJOGO->pListaTimeB , (void**)&pPecaJogo);
-
 	}
 
-	/*
-	PEC_ObterDadosTipoPeca(pPecaJogo->pTipoPeca , (void**)&Nome, &Diag, &Reta, &Qtde);
+	TabRet = TAB_IrInicioCasas(pTabuleiro);
 	
-	if(Diag == 1){
-		QtdeTmp = Qtde;
-		while(QtdeTmp > 0){
-			TAB_IrNoNordeste(pCasa);
-			if(pPecaJogo != NULL){
-				//LIS_InserirElementoApos(pPecaJogo->pListaCaminho);
-			}
-			QtdeTmp--;
-		}
-	}
-	if(Reta == 1){
+	do{
 
-	}
-	*/
+		TAB_ObterConteudo(pTabuleiro , (void**)&pPecaJogo);
+
+		if(pPecaJogo != NULL){
+
+			PEC_ObterDadosTipoPeca(pPecaJogo->pTipoPeca , (void**)&Nome, &Diag, &Reta, &Qtde);
+
+			if(Diag == 1){
+				QtdeTmp = Qtde;
+				while(QtdeTmp > 0){
+					TAB_ObterCasa(pTabuleiro , (void**)&pCasa);
+					TAB_IrNoNordeste(pCasa);
+					if(pPecaJogo != NULL){
+						TAB_ObterVertice(pTabuleiro , &Vertice);
+						JOG_InsereElemApos(pPecaJogo , Vertice);
+					}
+					QtdeTmp--;
+				}
+			}
+			if(Reta == 1){
+
+			}
+
+		}
+
+		TabRet = TAB_AvancarCasas(pTabuleiro , 1);
+
+	}while(TabRet != TAB_CondRetFimLista);
+
+	
+	
 
 	return JOG_CondRetOK;
 
+}
+
+JOG_tpCondRet JOG_InsereElemApos(JOG_tppPecaJogo pPeca , void * Conteudo)
+{
+	if(pPeca == NULL){
+		return JOG_CondRetJogoNulo;
+	}
+
+	LIS_InserirElementoApos(pPeca->pListaCaminho , Conteudo);
+
+	return JOG_CondRetOK;
 }
 
 void ExcluirJogo( void * pPeca )

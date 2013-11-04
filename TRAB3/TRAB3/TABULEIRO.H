@@ -133,6 +133,12 @@ typedef struct TAB_tgEstCasa * TAB_tppEstCasa ;
    TAB_tpCondRet TAB_IrNoOeste(TAB_tppEstCasa tpTab);
    TAB_tpCondRet TAB_IrNoNoroeste(TAB_tppEstCasa tpTab);
 
+   TAB_tpCondRet TAB_IrInicioCasas( TAB_tppTabuleiro pTabuleiro  );
+   TAB_tpCondRet TAB_AvancarCasas( TAB_tppTabuleiro pTabuleiro , int val );
+   TAB_tpCondRet TAB_ObterConteudo( TAB_tppTabuleiro pTabuleiro , void ** pConteudo );
+   TAB_tpCondRet TAB_ObterCasa(TAB_tppTabuleiro pTabuleiro , void ** pConteudo);
+   TAB_tpCondRet TAB_ObterVertice(TAB_tppTabuleiro pTabuleiro , void ** Vertice);
+
 
 #undef TABULEIRO_EXT
 

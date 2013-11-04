@@ -180,12 +180,79 @@ TAB_tpCondRet TAB_CriarTabuleiro( TAB_tppTabuleiro * pTabuleiro ){
 
 TAB_tpCondRet TAB_SetarCorrente( TAB_tppTabuleiro pTabuleiro , char * NomeCasa )
 {
+	GRA_tppVerGrafo pVert;
 
 	if(pTabuleiro == NULL){
 		return TAB_CondRetTabuleiroNulo;
 	}
 
 	GrafRet = GRA_SetarCorrente(pTabuleiro->tpGrafo , NomeCasa);
+
+	GRA_ObterVertice(pTabuleiro->tpGrafo , (void**)&pVert);
+
+	return TAB_CondRetOK;
+
+}
+
+TAB_tpCondRet TAB_IrInicioCasas( TAB_tppTabuleiro pTabuleiro  )
+{
+	if(pTabuleiro == NULL){
+		return TAB_CondRetTabuleiroNulo;
+	}
+
+	GRA_IrInicio(pTabuleiro->tpGrafo);
+
+	pTabuleiro->tpEstCasa->pNoCorr = pTabuleiro->tpEstCasa->pNoRaiz;
+
+	return TAB_CondRetOK;
+}
+
+TAB_tpCondRet TAB_AvancarCasas( TAB_tppTabuleiro pTabuleiro , int val )
+{
+	if(pTabuleiro == NULL){
+		return TAB_CondRetTabuleiroNulo;
+	}
+
+	GrafRet = GRA_AvancarCorrenteVert(pTabuleiro->tpGrafo , val);
+
+	if(GrafRet == GRA_CondRetOK){
+		return TAB_CondRetOK;
+	}
+	return TAB_CondRetFimLista;
+}
+
+TAB_tpCondRet TAB_ObterConteudo( TAB_tppTabuleiro pTabuleiro , void ** pConteudo )
+{
+
+	if(pTabuleiro == NULL){
+		return TAB_CondRetTabuleiroNulo;
+	}
+	
+	GRA_PegaConteudo(pTabuleiro->tpGrafo , (void**)&pConteudo);
+
+	return TAB_CondRetOK;
+
+}
+
+TAB_tpCondRet TAB_ObterCasa(TAB_tppTabuleiro pTabuleiro , void ** pConteudo)
+{
+	if(pTabuleiro == NULL){
+		return TAB_CondRetTabuleiroNulo;
+	}
+
+	*pConteudo = pTabuleiro->tpEstCasa->pNoCorr;
+
+	return TAB_CondRetOK;
+}
+
+TAB_tpCondRet TAB_ObterVertice(TAB_tppTabuleiro pTabuleiro , void ** Vertice)
+{
+
+	if(pTabuleiro == NULL){
+		return TAB_CondRetTabuleiroNulo;
+	}
+
+	*Vertice = pTabuleiro->tpEstCasa->pNoCorr->pVertice;
 
 	return TAB_CondRetOK;
 
