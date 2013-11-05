@@ -1,22 +1,20 @@
 /***************************************************************************
 *
-*  $MCD Módulo de definição: JOG  JOGO do tabuleiro
+*  $MCD Módulo de definição: JOG  Jogo do tabuleiro
 *
 *  Arquivo gerado:              JOGO.C
 *  Letras identificadoras:      JOG
 *
-*  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
-*  Arquivo da base de software: D:\AUTOTEST\PROJETOS\SIMPLES.BSW
-*
-*  Projeto: INF 1301 Automatização dos testes de módulos C
-*  Gestor:  LES/DI/PUC-Rio
-*  Autores: aw - Alexandre Werneck
-*           fr - Fernanda Camelo Ribeiro
-*			vo - Vinicius de Luiz de Oliveira
+*  Projeto: INF 1301 - Verificador de Xeque-Mate
+*  Gestor:  Flavio Bevilacqua
+*  Autores: afv:  aw - Alexandre Werneck
+*                 fr - Fernanda C Ribeiro
+*                 vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     1       afv   19/out/2013 início desenvolvimento
+*     Y       afv   xx/xx/2013  finalização do desenvolvimento do modulo
+*     1       afv   19/out/2013 início do desenvolvimento do módulo
 *
 ***************************************************************************/
 
@@ -39,23 +37,25 @@ LIS_tpCondRet ListaRet;
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: JOG Descritor das pecas do JOGO
+*  $TC Tipo de dados: JOG Descritor das peças do jogo
 *
 *
 ***********************************************************************/
 
-typedef struct JOG_tagListaPeca{
+	typedef struct JOG_tagListaPeca{
 
-	LIS_tppLista pListaTimeA;
+		LIS_tppLista pListaTimeA;
+		/* Ponteiro para lista de peças do time A */
 
-	LIS_tppLista pListaTimeB;
+		LIS_tppLista pListaTimeB;
+		/* Ponteiro para lista de peças do time B */
+		
+	}JOG_tpListaPeca;
 
-}JOG_tpListaPeca;
 
-
-   /***********************************************************************
+/***********************************************************************
 *
-*  $TC Tipo de dados: LIS Descritor do elemento peca para Tabuleiro
+*  $TC Tipo de dados: JOG Descritor do elemento peca para Tabuleiro
 *
 *
 ***********************************************************************/
@@ -63,12 +63,17 @@ typedef struct JOG_tagListaPeca{
    typedef struct JOG_tagPecaJogo {
 
 	   char Id;
+		/* Identificador da casa do tabuleiro onde a peça se encontra */
 
-	   	LIS_tppLista pListaDestino;
+	   LIS_tppLista pListaDestino;
+		/* Ponteiro para lista de casas possíveis pelo movimento da peça 
+         que chegam até ao Rei */		
 		
 		LIS_tppLista pListaCaminho;
+		/* Ponteiro para lista de casas possíveis pelo movimento da peça */
 
 		PEC_tppPeca  pTipoPeca ;
+		/* Ponteiro para o tipo da peça */
 
    } JOG_tpPecaJogo ;
 
@@ -82,7 +87,7 @@ typedef struct JOG_tagListaPeca{
 
 /***************************************************************************
 *
-*  Função: JOG  &Criar JOGO
+*  Função: JOG  &Criar jogo
 *  ****/
 
 JOG_tpCondRet JOG_CriarJogo(JOG_tppJogo * pJOGO)
@@ -95,24 +100,29 @@ JOG_tpCondRet JOG_CriarJogo(JOG_tppJogo * pJOGO)
 	if(mJOGO == NULL)
 	{
 		return JOG_CondRetFaltouMemoria ;
-	}	
+	} /* if */
 	
 	LIS_CriarLista(ExcluirJogo , &mJOGO->pListaTimeA);
 
 	LIS_CriarLista(ExcluirJogo , &mJOGO->pListaTimeB);
 	
 	(*pJOGO) = (JOG_tpListaPeca *) malloc(sizeof(JOG_tppJogo));
+
+	if(pJOGO == NULL)
+	{
+		return JOG_CondRetFaltouMemoria ;
+	} /* if */
 	
 	(*pJOGO) = mJOGO;
 
 
 	return JOG_CondRetOK;
 	
-} /* Fim função: JOG &Criar JOGO */
+} /* Fim função: JOG &Criar jogo */
 
 /***************************************************************************
 *
-*  Função: JOG  &InserirPecaTimeA
+*  Função: JOG  &Inserir peça no tima A
 *  ****/
 
 JOG_tpCondRet JOG_InserirPecaTimeA(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar)
@@ -120,25 +130,37 @@ JOG_tpCondRet JOG_InserirPecaTimeA(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar)
 
 	JOG_tppPecaJogo mPeca = NULL ;
 
+
 	mPeca = (JOG_tppPecaJogo) malloc(sizeof(JOG_tpPecaJogo));
 
 	if(pJOGO == NULL)
 	{
 		return JOG_CondRetJogoNulo ;
-	}	
+	} /* if */
 	
 	mPeca->pTipoPeca = pPecaSetar;
 
-	LIS_CriarLista(ExcluirPecaJogo , &mPeca->pListaCaminho);
+	ListaRet = LIS_CriarLista(ExcluirPecaJogo , &mPeca->pListaCaminho);
+	if(ListaRet == LIS_CondRetFaltouMemoria)
+	{
+		return JOG_CondRetFaltouMemoria;
+	} /* if */
 
-	LIS_CriarLista(ExcluirPecaJogo , &mPeca->pListaDestino);
-	
+	ListaRet = LIS_CriarLista(ExcluirPecaJogo , &mPeca->pListaDestino);
+	if(ListaRet == LIS_CondRetFaltouMemoria)
+	{
+		return JOG_CondRetFaltouMemoria;
+	} /* if */
 
-	LIS_InserirElementoApos(pJOGO->pListaTimeA , mPeca);
+	ListaRet = LIS_InserirElementoApos(pJOGO->pListaTimeA , mPeca);
+	if(ListaRet == LIS_CondRetFaltouMemoria)
+	{
+		return JOG_CondRetFaltouMemoria;
+	} /* if */
 
 	return JOG_CondRetOK;
 	
-} /* Fim função: JOG &InserirPecaTimeA */
+} /* Fim função: JOG &Inserir peça no tima A */
 
 
 /***************************************************************************
@@ -156,7 +178,7 @@ JOG_tpCondRet JOG_InserirPecaTimeB(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar)
 	if(pJOGO == NULL)
 	{
 		return JOG_CondRetJogoNulo ;
-	}	
+	} 
 	
 	mPeca->pTipoPeca = pPecaSetar;
 

@@ -11,7 +11,7 @@
 *  Gestor:  Flavio Bevilacqua
 *  Autores: afv:  aw - Alexandre Werneck
 *                 fr - Fernanda C Ribeiro
-*			      vo - Vinicius de Luiz de Oliveira
+*			         vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
@@ -38,7 +38,7 @@
 typedef struct PEC_tagElemPeca * PEC_tppPeca ;
 
 
-/***********************************************************************
+/**************************************************************************
 *
 *  $TC Tipo de dados: PEC Condições de retorno
 *
@@ -46,7 +46,7 @@ typedef struct PEC_tagElemPeca * PEC_tppPeca ;
 *  $ED Descrição do tipo
 *     Condições de retorno das funções da peça
 *
-***********************************************************************/
+**************************************************************************/
 
 typedef enum {
 
@@ -62,7 +62,7 @@ typedef enum {
 } PEC_tpCondRet ;
 
 
-/***********************************************************************
+/***************************************************************************
 *
 *  $FC Função: PEC Criar peça
 *
@@ -98,12 +98,13 @@ typedef enum {
 *	   Se CondRet = PEC_CondRetFaltouMemoria
 *	   Peça não foi criada por falta de memória;
 *
-***********************************************************************/
+**************************************************************************/
 
-PEC_tpCondRet PEC_CriarPeca(PEC_tppPeca * pPeca, int Diag , int Reta , int Qtde, char * Nome);
+PEC_tpCondRet PEC_CriarPeca(PEC_tppPeca * pPeca, int Diag , int Reta , 
+                            int Qtde, char * Nome);
 
 
-/***********************************************************************
+/**************************************************************************
 *
 *  $FC Função: PEC Obter nome
 *
@@ -166,11 +167,13 @@ PEC_tpCondRet PEC_ObterNome (PEC_tppPeca pPeca ,  void **NomePeca);
 *
 ***********************************************************************/
 
-PEC_tpCondRet PEC_ObterDadosTipoPeca(PEC_tppPeca pPeca , void ** Nome, int * Diag , int * Reta , int * Qtde);
+PEC_tpCondRet PEC_ObterDadosTipoPeca (PEC_tppPeca pPeca , void ** Nome, 
+                                     int * Diag , int * Reta , 
+                                     int * Qtde);
 
 #undef PECA_EXT
 
-/********** Fim do módulo de definição: PEC  Peca do tabuleiro **********/
+/******** Fim do módulo de definição: PEC  Peca do tabuleiro **********/
 
 #else
 #endif
