@@ -1,6 +1,6 @@
-/***************************************************************************
+/***********************************************************************
 *
-*  $MCD Módulo de definição: JOG  Jogo do tabuleiro
+*  $MCD Modulo de definicao: JOG  Jogo do tabuleiro
 *
 *  Arquivo gerado:              JOGO.C
 *  Letras identificadoras:      JOG
@@ -11,12 +11,12 @@
 *                 fr - Fernanda C Ribeiro
 *                 vo - Vinicius de Luiz de Oliveira
 *
-*  $HA Histórico de evolução:
-*     Versão  Autor    Data     Observações
-*     Y       afv   xx/xx/2013  finalização do desenvolvimento do modulo
-*     1       afv   19/out/2013 início do desenvolvimento do módulo
+*  $HA Historico de evolucao:
+*     Versao  Autor    Data     Observacoes
+*     Y       afv   xx/xx/2013  finalizacao do desenvolvimento do modulo
+*     1       afv   19/out/2013 inicio do desenvolvimento do modulo
 *
-***************************************************************************/
+***********************************************************************/
 
 #include   <stdio.h>
 #include   <string.h>
@@ -37,20 +37,20 @@ LIS_tpCondRet ListaRet;
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: JOG Descritor das peças do jogo
+*  $TC Tipo de dados: JOG Descritor das pecas do jogo
 *
 *
 ***********************************************************************/
 
-	typedef struct JOG_tagListaPeca{
+typedef struct JOG_tagListaPeca{
 
-		LIS_tppLista pListaTimeA;
-		/* Ponteiro para lista de peças do time A */
+	LIS_tppLista pListaTimeA;
+	/* Ponteiro para lista de pecas do time A */
 
-		LIS_tppLista pListaTimeB;
-		/* Ponteiro para lista de peças do time B */
-		
-	}JOG_tpListaPeca;
+	LIS_tppLista pListaTimeB;
+	/* Ponteiro para lista de pecas do time B */
+
+}JOG_tpListaPeca;
 
 
 /***********************************************************************
@@ -60,34 +60,36 @@ LIS_tpCondRet ListaRet;
 *
 ***********************************************************************/
 
-   typedef struct JOG_tagPecaJogo {
+typedef struct JOG_tagPecaJogo {
 
-	   char Id;
-		/* Identificador da casa do tabuleiro onde a peça se encontra */
+	char Id;
+	/* Identificador da casa do tabuleiro onde a peca se 
+	   encontra */
 
-	   LIS_tppLista pListaDestino;
-		/* Ponteiro para lista de casas possíveis pelo movimento da peça 
-         que chegam até ao Rei */		
-		
-		LIS_tppLista pListaCaminho;
-		/* Ponteiro para lista de casas possíveis pelo movimento da peça */
+	LIS_tppLista pListaDestino;
+	/* Ponteiro para lista de casas possiveis pelo movimento
+	   da peca que chegam ate ao Rei */		
 
-		PEC_tppPeca  pTipoPeca ;
-		/* Ponteiro para o tipo da peça */
+	LIS_tppLista pListaCaminho;
+	/* Ponteiro para lista de casas possiveis pelo 
+	   movimento da peca */
 
-   } JOG_tpPecaJogo ;
+	PEC_tppPeca  pTipoPeca ;
+	/* Ponteiro para o tipo da peca */
 
-/***** Protótipos das funções encapsuladas no módulo *****/
+} JOG_tpPecaJogo ;
+
+/***** Prototipos das funcoes encapsuladas no modulo *****/
 
    static void ExcluirJogo( void * pPeca );
 
    static void ExcluirPecaJogo( void * pPeca );
 
-/*****  Código das funções exportadas pelo módulo  *****/
+/*****  Codigo das funcoes exportadas pelo modulo  *****/
 
-/***************************************************************************
+/************************************************************************
 *
-*  Função: JOG  &Criar jogo
+*  Funcao: JOG  &Criar jogo
 *  ****/
 
 JOG_tpCondRet JOG_CriarJogo(JOG_tppJogo * pJOGO)
@@ -96,18 +98,24 @@ JOG_tpCondRet JOG_CriarJogo(JOG_tppJogo * pJOGO)
 	JOG_tppJogo mJOGO = NULL;
 	
 	mJOGO = (JOG_tppJogo) malloc(sizeof(JOG_tpListaPeca));
-
 	if(mJOGO == NULL)
 	{
 		return JOG_CondRetFaltouMemoria ;
 	} /* if */
 	
-	LIS_CriarLista(ExcluirJogo , &mJOGO->pListaTimeA);
-
+	ListaRet = LIS_CriarLista(ExcluirJogo , &mJOGO->pListaTimeA);
+	if(ListaRet == LIS_CondRetFaltouMemoria)
+	{
+		return JOG_CondRetFaltouMemoria;
+	} /* if */
+	
 	LIS_CriarLista(ExcluirJogo , &mJOGO->pListaTimeB);
+	if(ListaRet == LIS_CondRetFaltouMemoria)
+	{
+		return JOG_CondRetFaltouMemoria;
+	} /* if */
 	
 	(*pJOGO) = (JOG_tpListaPeca *) malloc(sizeof(JOG_tppJogo));
-
 	if(pJOGO == NULL)
 	{
 		return JOG_CondRetFaltouMemoria ;
@@ -115,14 +123,14 @@ JOG_tpCondRet JOG_CriarJogo(JOG_tppJogo * pJOGO)
 	
 	(*pJOGO) = mJOGO;
 
-
 	return JOG_CondRetOK;
 	
-} /* Fim função: JOG &Criar jogo */
+} /* Fim funcao: JOG &Criar jogo */
+
 
 /***************************************************************************
 *
-*  Função: JOG  &Inserir peça no tima A
+*  Funcao: JOG  &Inserir peca no tima A
 *  ****/
 
 JOG_tpCondRet JOG_InserirPecaTimeA(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar)
@@ -132,7 +140,6 @@ JOG_tpCondRet JOG_InserirPecaTimeA(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar)
 
 
 	mPeca = (JOG_tppPecaJogo) malloc(sizeof(JOG_tpPecaJogo));
-
 	if(pJOGO == NULL)
 	{
 		return JOG_CondRetJogoNulo ;
@@ -160,95 +167,78 @@ JOG_tpCondRet JOG_InserirPecaTimeA(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar)
 
 	return JOG_CondRetOK;
 	
-} /* Fim função: JOG &Inserir peça no tima A */
+} /* Fim funcao: JOG &Inserir peca no time A */
 
 
 /***************************************************************************
 *
-*  Função: JOG  &InserirPecaTimeB
+*  Funcao: JOG  &Inserir peca no tima B
 *  ****/
 
 JOG_tpCondRet JOG_InserirPecaTimeB(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar)
 {
 
 	JOG_tppPecaJogo mPeca = NULL ;
-	
-	mPeca = (JOG_tppPecaJogo) malloc(sizeof(JOG_tpPecaJogo));
 
+
+	mPeca = (JOG_tppPecaJogo) malloc(sizeof(JOG_tpPecaJogo));
 	if(pJOGO == NULL)
 	{
 		return JOG_CondRetJogoNulo ;
-	} 
+	} /* if */
 	
 	mPeca->pTipoPeca = pPecaSetar;
 
-	LIS_CriarLista(ExcluirPecaJogo , &mPeca->pListaCaminho);
-
-	LIS_CriarLista(ExcluirPecaJogo , &mPeca->pListaDestino);
-
-	LIS_InserirElementoApos(pJOGO->pListaTimeB , mPeca);
-	
-	return JOG_CondRetOK;
-	
-} /* Fim função: JOG &InserirPecaTimeB */
-
-JOG_tpCondRet JOG_NumPecasTime(JOG_tppJogo pJOGO ,char Time, int * NumPecas)
-{
-
-	if(pJOGO == NULL)
+	ListaRet = LIS_CriarLista(ExcluirPecaJogo , &mPeca->pListaCaminho);
+	if(ListaRet == LIS_CondRetFaltouMemoria)
 	{
-		return JOG_CondRetJogoNulo ;
-	}	
+		return JOG_CondRetFaltouMemoria;
+	} /* if */
 
-	if(Time == 'A'){
+	ListaRet = LIS_CriarLista(ExcluirPecaJogo , &mPeca->pListaDestino);
+	if(ListaRet == LIS_CondRetFaltouMemoria)
+	{
+		return JOG_CondRetFaltouMemoria;
+	} /* if */
 
-		LIS_NumElem(pJOGO->pListaTimeA , NumPecas);
-
-	}
-	else if(Time == 'B'){
-
-		LIS_NumElem(pJOGO->pListaTimeB , NumPecas);
-
+	ListaRet = LIS_InserirElementoApos(pJOGO->pListaTimeB , mPeca);
+	if(ListaRet == LIS_CondRetFaltouMemoria)
+	{
+		return JOG_CondRetFaltouMemoria;
 	} /* if */
 
 	return JOG_CondRetOK;
-
-}
-
-JOG_tpCondRet JOG_IrInicioPecas(JOG_tppJogo pJOGO , char Time)
-{
-	if(pJOGO == NULL)
-	{
-		return JOG_CondRetJogoNulo ;
-	}	
-
-	if(Time == 'A')
-		LIS_IrInicioLista(pJOGO->pListaTimeA);
-
-	else if(Time == 'B')
-		LIS_IrInicioLista(pJOGO->pListaTimeB);
-
-	return JOG_CondRetOK;
-}
-
-JOG_tpCondRet JOG_AvancarCorrrenteTime(JOG_tppJogo pJOGO , char Time , int val)
-{
-	if(pJOGO == NULL)
-	{
-		return JOG_CondRetJogoNulo ;
-	}	
-
-	if(Time == 'A')
-		ListaRet = LIS_AvancarElementoCorrente(pJOGO->pListaTimeA, val);
 	
-	else if(Time == 'B')
-		ListaRet = LIS_AvancarElementoCorrente(pJOGO->pListaTimeB, val);
+} /* Fim funcao: JOG &Inserir peca no tima B */
 
-	if(ListaRet == LIS_CondRetFimLista)
-		return JOG_CondRetFimLista;
+
+/***************************************************************************
+*
+*  Funcao: JOG  &Numero de pecas do time
+*  ****/
+
+JOG_tpCondRet JOG_NumPecasTime(JOG_tppJogo pJOGO ,char Time, int * NumPecas)
+{
+	if(pJOGO == NULL)
+	{
+		return JOG_CondRetJogoNulo ;
+	} /* if */
+
+	if(Time == 'A'){
+		LIS_NumElem(pJOGO->pListaTimeA , NumPecas);
+	}
+	else if(Time == 'B'){
+		LIS_NumElem(pJOGO->pListaTimeB , NumPecas);
+	} /* if */
 
 	return JOG_CondRetOK;
-}
+} /* Fim funcao: JOG &Inserir peca no tima B */
+
+
+/***************************************************************************
+*
+*  Funcao: JOG  &Obter tipo de peca
+*  ****/
 
 JOG_tpCondRet JOG_ObterTipoPeca(JOG_tppJogo pJOGO , char Time, void ** pTipo)
 {
@@ -256,46 +246,132 @@ JOG_tpCondRet JOG_ObterTipoPeca(JOG_tppJogo pJOGO , char Time, void ** pTipo)
 	if(pJOGO == NULL)
 	{
 		return JOG_CondRetJogoNulo ;
-	}	
+	} /* if */
 	if(Time == 'A'){
 		
-		LIS_ObterValor(pJOGO->pListaTimeA , (void**)&pPecaJogo);
+		ListaRet = LIS_ObterValor(pJOGO->pListaTimeA , (void**)&pPecaJogo);
+		if(ListaRet == LIS_CondRetListaVazia)
+		{
+			return JOG_CondRetJogoNulo;
+		} /* if */
 
 	}
 	else if(Time == 'B'){
 
-		LIS_ObterValor(pJOGO->pListaTimeB , (void**)&pPecaJogo);
-
-	}
+		ListaRet = LIS_ObterValor(pJOGO->pListaTimeB , (void**)&pPecaJogo);
+		if(ListaRet == LIS_CondRetListaVazia)
+		{
+			return JOG_CondRetJogoNulo;
+		} /* if */
+		
+	} /* if */
 
 	*pTipo = pPecaJogo->pTipoPeca;
 
 	return JOG_CondRetOK;
-}
+} /* Fim funcao: JOG &Obter tipo de peca */
+
+
+/***************************************************************************
+*
+*  Funcao: JOG  &Ir inicio das pecas
+*  ****/
+
+JOG_tpCondRet JOG_IrInicioPecas(JOG_tppJogo pJOGO , char Time)
+{
+	if(pJOGO == NULL)
+	{
+		return JOG_CondRetJogoNulo ;
+	} /* if */
+
+	if(Time == 'A'){
+		ListaRet = LIS_IrInicioLista(pJOGO->pListaTimeA);
+		if(ListaRet == LIS_CondRetListaVazia)
+		{
+			return JOG_CondRetFimLista;
+		} /* if */
+
+	}
+	else if(Time == 'B'){
+		ListaRet = LIS_IrInicioLista(pJOGO->pListaTimeB);
+		if(ListaRet == LIS_CondRetListaVazia)
+		{
+			return JOG_CondRetFimLista;
+		} /* if */
+	}
+	return JOG_CondRetOK;
+} /* Fim funcao: JOG &Ir inicio das pecas */
+
+
+/***************************************************************************
+*
+*  Funcao: JOG  &Avancar corrente do time
+*  ****/
+
+JOG_tpCondRet JOG_AvancarCorrrenteTime(JOG_tppJogo pJOGO , char Time , int val)
+{
+	if(pJOGO == NULL)
+	{
+		return JOG_CondRetJogoNulo ;
+	} /* if */
+
+	if(Time == 'A'){
+		ListaRet = LIS_AvancarElementoCorrente(pJOGO->pListaTimeA, val);
+	}
+	else if(Time == 'B'){
+		ListaRet = LIS_AvancarElementoCorrente(pJOGO->pListaTimeB, val);
+	} /* if */
+	
+	if(ListaRet == LIS_CondRetFimLista || LIS_CondRetListaVazia ){
+		return JOG_CondRetFimLista;
+	} /* if */
+	
+	return JOG_CondRetOK;
+	
+} /* Fim funcao: JOG &Avancar corrente do time */
+
+
+/***************************************************************************
+*
+*  Funcao: JOG  &Obter peca do jogo
+*  ****/
 
 JOG_tpCondRet JOG_ObterPecaJogo(JOG_tppJogo pJOGO , char Time, void ** pTipo)
 {
 	JOG_tppPecaJogo pPecaJogo;
+	
 	if(pJOGO == NULL)
 	{
 		return JOG_CondRetJogoNulo ;
-	}	
-	if(Time == 'A'){
-		
-		LIS_ObterValor(pJOGO->pListaTimeA , (void**)&pPecaJogo);
-
+	} /* if */
+	
+	if(Time == 'A'){		
+		ListaRet = LIS_ObterValor(pJOGO->pListaTimeA , (void**)&pPecaJogo);
+		if(ListaRet == LIS_CondRetListaVazia)
+		{
+			return JOG_CondRetJogoNulo;
+		} /* if */
 	}
 	else if(Time == 'B'){
-
-		LIS_ObterValor(pJOGO->pListaTimeB , (void**)&pPecaJogo);
-
-	}
+		ListaRet = LIS_ObterValor(pJOGO->pListaTimeB , (void**)&pPecaJogo);
+		if(ListaRet == LIS_CondRetListaVazia)
+		{
+			return JOG_CondRetJogoNulo;
+		} /* if */
+		
+	} /* if */
 
 	*pTipo = pPecaJogo;
 
 	return JOG_CondRetOK;
-}
+	
+} /* Fim funcao: JOG &Obter peca do jogo */
 
+
+/***************************************************************************
+*
+*  Funcao: JOG  &Preenche caminho
+*  ****/
 JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro)
 {
 	
@@ -366,19 +442,40 @@ JOG_tpCondRet JOG_InsereElemApos(JOG_tppPecaJogo pPeca , void * Conteudo)
 	return JOG_CondRetOK;
 }
 
-void ExcluirJogo( void * pPeca )
-{
 
-	free ( (void *) pPeca);
+/*****  Codigo das funcoes encapsuladas no modulo  *****/
 
-} /* Fim função: TST -Excluir peca */
+/***********************************************************************
+*
+*  $FC Funcao: JOG  -Excluir jogo
+*
+*  $ED Descricao da funcao
+*      Libera o espaco alocado na memoria para o jogo.
+*
+***********************************************************************/
 
-void ExcluirPecaJogo( void * pPeca )
-{
+	void ExcluirJogo( void * pPeca )
+	{
 
-	free ( (void *) pPeca);
+		free ( (void *) pPeca);
 
-} /* Fim função: TST -Excluir peca */
+	} /* Fim funcao: JOG -Excluir jogo */
 
-/********** Fim do módulo de implementação: LIS  Lista duplamente encadeada **********/
+/***********************************************************************
+*
+*  $FC Funcao: JOG  -Excluir peca do jogo
+*
+*  $ED Descricao da funcao
+*      Libera o espaco alocado na memoria para a peca do jogo.
+*
+***********************************************************************/
+
+	void ExcluirPecaJogo( void * pPeca )
+	{
+
+		free ( (void *) pPeca);
+
+	} /* Fim funcao: JOG -Excluir peca do jogo */
+
+/********** Fim do modulo de implementacao: JOG  Lista duplamente encadeada **********/
 
