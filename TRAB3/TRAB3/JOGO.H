@@ -14,7 +14,7 @@
 *			      vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Historico de evolucao:
-*     Versao  Autor    Data     Observacoes
+*     Versão  Autor    Data     Observacoes
 *     Y       afv   xx/xx/2013  finalizacao do desenvolvimento do modulo
 *     1       afv   19/out/2013 inicio do desenvolvimento do modulo
 *
@@ -31,6 +31,7 @@
 #endif
 
 #include "PECA.H"
+#include "TABULEIRO.H"
 
 /***** Declaracoes exportadas pelo modulo *****/
 
@@ -44,7 +45,6 @@ typedef struct JOG_tagPecaJogo * JOG_tppPecaJogo ;
 /***********************************************************************
 *
 *  $TC Tipo de dados: JOG Condicoes de retorno
-*
 *
 *  $ED Descricao do tipo
 *     Condicoes de retorno das funcoes do jogo
@@ -75,8 +75,8 @@ typedef enum {
 *  $ED Descricao da funcao
 *     Inicia um jogo vazio.
 *
-*  $EP Parametros
-*     pJogo - Referencia para o estrutura de jogo que sera criado.     
+*  $EP Parâmetros
+*     pJogo - Referencia para o jogo que sera criado.     
 *
 *  $FV Valor retornado
 *     JOG_CondRetOK
@@ -85,10 +85,10 @@ typedef enum {
 *  $AE CondRet deve ter sido instanciado
 *
 *  $AS Se CondRet = JOG_CondRetOK
-*	   Jogo criado com sucesso;
+*	   Jogo criado com sucesso.
 *
 *	   Se CondRet = JOG_CondRetFaltouMemoria
-*	   Jogo nao foi criado por falta de memoria;
+*	   Jogo nao foi criado.
 *
 **************************************************************************/
 
@@ -100,30 +100,31 @@ JOG_tpCondRet JOG_CriarJogo(JOG_tppJogo * pJogo);
 *  $FC Funcao: JOG Inserir peca no time A
 *
 *  $ED Descricao da funcao
-*     A funcao insere um tipo peca na estrutura de tipo jogo.
+*     A funcao insere um tipo peca numa estrutura de tipo jogo.
 *
 *  $EP Parametros
-*     pJOGO     - Referencia para o estrutura de jogo que sera criado.  
-*     pPecaSetar - Ponteiro para a peça a qual será inserida no jogo.
+*     pJOGO	     - Referencia para o jogo que sera criado.  
+*     pTipoPeca  - Ponteiro para a peca que sera inserida em jogo.
 *
 *  $FV Valor retornado
 *     JOG_CondRetOK
 *     JOG_CondRetFaltouMemoria
+*     JOG_CondRetJogoNulo
 *
 *  $AE CondRet deve ter sido instanciado
-*      pPecaSetar tem que ser uma estrutura válida, com elementos internos 
-*       setados e igualmente válidos.
 *
 *  $AS Se CondRet = JOG_CondRetOK
-*	   Obteve Nome, Diag, Reta e Qtde com sucesso;
+*	   Inseriu peca com sucesso.
 *
-*	   Se CondRet = JOG_CondRetFaltouMemoria
-*	   Não pode inserir elemento peça no jogo;
+*      Se CondRet = JOG_CondRetFaltouMemoria
+*      Peca nao foi inserida, faltou memoria.
+*
+*	   Se CondRet = JOG_CondRetJogoNulo
+*	   Peca nao foi inserida, jogo nulo.
 *
 ***********************************************************************/
 
-JOG_tpCondRet JOG_InserirPecaTimeA(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar);
-
+JOG_tpCondRet JOG_InserirPecaTimeA(JOG_tppJogo pJOGO , PEC_tppPeca pTipoPeca);
 
 
 /***********************************************************************
@@ -131,107 +132,201 @@ JOG_tpCondRet JOG_InserirPecaTimeA(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar);
 *  $FC Funcao: JOG Inserir peca no time B
 *
 *  $ED Descricao da funcao
-*     A funcao insere um tipo peca na estrutura de tipo jogo.
+*     A funcao insere um tipo peca numa estrutura de tipo jogo.
 *
 *  $EP Parametros
-*     pJOGO     - Referencia para o estrutura de jogo que sera criado.  
-*     pPecaSetar - Ponteiro para a peça a qual será inserida no jogo.
+*     pJOGO	     - Referencia para o jogo que sera criado.  
+*     pTipoPeca  - Ponteiro para a peca que sera inserida em jogo.
 *
 *  $FV Valor retornado
 *     JOG_CondRetOK
-*     JOG_CondRetFaltouMemoria
+*     JOG_CondRetJogoNulo
 *
-*  $AE CondRet deve ter sido instanciado
-*      pPecaSetar tem que ser uma estrutura válida, com elementos internos 
-*       setados e igualmente válidos.
+*  $AE CondRet deve ter sido instanciado.
 *
 *  $AS Se CondRet = JOG_CondRetOK
-*	   Obteve Nome, Diag, Reta e Qtde com sucesso;
+*	   Inseriu peca com sucesso.
 *
-*	   Se CondRet = JOG_CondRetFaltouMemoria
-*	   Não pode inserir elemento peça no jogo;
+*	   Se CondRet = JOG_CondRetJogoNulo
+*	   Peca nao foi inserida, jogo nulo.
 *
 ***********************************************************************/
 
-JOG_tpCondRet JOG_InserirPecaTimeB(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar);
-
+JOG_tpCondRet JOG_InserirPecaTimeB(JOG_tppJogo pJOGO , PEC_tppPeca pTipoPeca);
 
 
 /***********************************************************************
 *
-*  $FC Funcao: JOG Numero de pecas do time
-* 
+*  $FC Funcao: JOG Preenche caminho
+*
 *  $ED Descricao da funcao
-*     A funcao retorna por parametro a quantidade de pecas do time que 
-*     tambem foi passado por parametro.
+*     Preenchendo a lista de caminhos das pecas do time passado por parametro
+*     com as casas do tabuleiro segundo o tipo de peca de cada peca.
 *
 *  $EP Parametros
-*     pJOGO    - Referencia para o estrutura de jogo ao qual se obtem 
-*                quantidade de pecas.  
-*     Time     - O time sobre o qual sera obtido o numero de pecas.
-*     NumPecas - Ponteiro para onde será retornado a quantidade de pecas.
+*     pJOGO	   - Referencia para o jogo.  
+*     Time     - Qual o time cuja lista de caminho das pecas sera preenchida.
 *
 *  $FV Valor retornado
 *     JOG_CondRetOK
 *     JOG_CondRetJogoNulo
 *
 *  $AE CondRet deve ter sido instanciado
-*      pJOGO tem que ter a lista de jogos A e B declarados e válidos.
-*      Time tem que ser um char 'A' ou 'B'.      
+*      Time tem que ser um caracter 'A' ou 'B'.
+*      Lista de pecas do time passado por parametro tem que ser valido.
 *
 *  $AS Se CondRet = JOG_CondRetOK
-*      Retornou a quantidade de pecas corretamente.
+*	   Preencheu o caminho com sucesso.
 *
-*	   Se CondRet = JOG_CondRetFaltouMemoria
-*	   Jogo vazio, logo nao ha pecas.
+*	   Se CondRet = JOG_CondRetJogoNulo
+*	   Lista de caminho nao foi preenchida, jogo nulo.
+*
+***********************************************************************/
+
+JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO , char Time);
+
+
+/***********************************************************************
+*
+*  $FC Funcao: JOG Numero de pecas do time
+*
+*  $ED Descricao da funcao
+*     Retorna por parametro a quantidade de pecas do time do jogo, ambos
+*     tambem passados por parametro.
+*
+*  $EP Parametros
+*     pJOGO	   - Referencia para o jogo.  
+*     Time     - Qual o time que sera obtido o numero de pecas.
+*     NumPecas - Ponteiro para o qual sera retornado o numero de pecas
+*
+*  $FV Valor retornado
+*     JOG_CondRetOK
+*     JOG_CondRetJogoNulo
+*
+*  $AE CondRet deve ter sido instanciado
+*      Time tem que ser um caracter 'A' ou 'B'.
+*      Lista de pecas do time passado por parametro tem que ser valido.
+*
+*  $AS Se CondRet = PEC_CondRetOK
+*	   Retornou o numero de pecas com sucesso.
+*
+*	   Se CondRet = JOG_CondRetJogoNulo
+*	   Nao retornou peca, jogo nulo.
 *
 ***********************************************************************/
 
 JOG_tpCondRet JOG_NumPecasTime(JOG_tppJogo pJOGO ,char Time, int * NumPecas);
 
 
-
 /***********************************************************************
 *
-*  $FC Funcao: JOG Numero de pecas do time
-* 
+*  $FC Funcao: JOG Obter tipo de peca
+*
 *  $ED Descricao da funcao
-*     A funcao retorna por parametro a quantidade de pecas do time que 
-*     tambem foi passado por parametro.
+*     Retorna por parametro o tipo peca do time do jogo, ambos tambem
+*     passados por parametro.
 *
 *  $EP Parametros
-*     pJOGO    - Referencia para o estrutura de jogo ao qual se obtem 
-*                quantidade de pecas.  
-*     Time     - O time sobre o qual sera obtido o numero de pecas.
-*     NumPecas - Ponteiro para onde será retornado a quantidade de pecas.
+*     pJOGO	   - Referencia para o jogo.  
+*     Time     - Qual o time que sera obtido o tipo de peca.
+*     pTipo    - Ponteiro para retornar o tipo de peca.
 *
 *  $FV Valor retornado
 *     JOG_CondRetOK
 *     JOG_CondRetJogoNulo
 *
 *  $AE CondRet deve ter sido instanciado
-*      pJOGO tem que ter a lista de jogos A e B declarados e válidos.
-*      Time tem que ser um char 'A' ou 'B'.      
+*      Time tem que ser um caracter 'A' ou 'B'.
+*      A lista do time do jogo em questão tem que ser válida.
 *
 *  $AS Se CondRet = JOG_CondRetOK
-*      Retornou a quantidade de pecas corretamente.
+*	   Retornou o tipo de peca do time com sucesso.
 *
-*	   Se CondRet = JOG_CondRetFaltouMemoria
-*	   Jogo vazio, logo nao ha pecas.
+*	   Se CondRet = JOG_CondRetJogoNulo
+*	   Nao conseguiu retornar tipo de peca, jogo nulo.
 *
 ***********************************************************************/
 
 JOG_tpCondRet JOG_ObterTipoPeca(JOG_tppJogo pJOGO , char Time, void ** pTipo);
 
+
+/***********************************************************************
+*
+*  $FC Funcao: JOG Ir inicio das pecas
+*
+*  $ED Descricao da funcao
+*     Faz com que o corrente da lista de pecas do time passado por 
+*     parametro va para o inicio dessa lista.
+*
+*  $EP Parametros
+*     pJOGO	   - Referencia para o jogo com os times e suas respectivas 
+*                listas de pecas.  
+*     Time     - Qual o time cujo corrente da lista de pecas ira para 
+*                o inicio da lista.
+*
+*  $FV Valor retornado
+*     JOG_CondRetOK
+*     JOG_CondRetJogoNulo
+*     JOG_CondRetFimLista     
+*
+*  $AE CondRet deve ter sido instanciado
+*      Time tem que ser um caracter 'A' ou 'B'.
+*      A lista do time do jogo em questão tem que ser válida.
+*
+*  $AS Se CondRet = JOG_CondRetOK
+*	   Conseguiu com sucesso ir para inicio da lista de pecas do jogo 
+*      em questao.
+*
+*      Se CondRet = JOG_CondRetJogoNulo
+*	   Nao conseguiu ir para o inicio da lista de pecas, jogo nulo.
+*
+*	   Se CondRet = JOG_CondRetFimLista
+*	   Nao conseguiu ir para o inicio da lista de pecas, lista fazia. 
+*
+***********************************************************************/
+
 JOG_tpCondRet JOG_IrInicioPecas(JOG_tppJogo pJOGO , char Time);
 
-JOG_tpCondRet JOG_AvancarCorrrenteTime(JOG_tppJogo pJOGO , char Time , int val);
+
+/***********************************************************************
+*
+*  $FC Funcao: JOG Obter peca do jogo
+*
+*  $ED Descricao da funcao
+*     Retorna por parametro a peca do time do jogo, ambos também passados
+*     por parametros.
+*
+*  $EP Parametros
+*     pJOGO	   - Jogo do qual sera obtido a peca.  
+*     Time     - Sobre qual e o time que sera obtido a peca.
+*     pTipo    - Ponteiro para retorno do tipo de peca do time.
+*
+*  $FV Valor retornado
+*     JOG_CondRetOK
+*     JOG_CondRetJogoNulo
+*
+*  $AE CondRet deve ter sido instanciado
+*      Time tem que ser um caracter 'A' ou 'B'.
+*      A lista do time do jogo em questão tem que ser válida.
+*
+*  $AS Se CondRet = JOG_CondRetOK
+*	   retornou peca com sucesso.
+*
+*	   Se CondRet = JOG_CondRetJogoNulo
+*	   Não foi possivel obter peca, jogo nulo.
+*
+***********************************************************************/
 
 JOG_tpCondRet JOG_ObterPecaJogo(JOG_tppJogo pJOGO , char Time, void ** pTipo);
 
+
+JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro);
+
+JOG_tpCondRet JOG_AvancarCorrrenteTime(JOG_tppJogo pJOGO , char Time , int val);
+
 #undef JOGO_EXT
 
-/********** Fim do módulo de definição: JOG  JOGO do tabuleiro **********/
+/********** Fim do modulo de definicao: JOG  JOGO do tabuleiro **********/
 
 #else
 #endif

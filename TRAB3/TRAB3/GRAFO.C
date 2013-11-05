@@ -1087,7 +1087,7 @@ tpVerticeGrafo * GRA_BuscarVertice(GRA_tppGrafo pGrafo , char * Id)
 	
 		LIS_ObterValor (pGrafo->pListaVertices , (void**)&pVerticeRes);
 
-		if(pVerticeRes->pIdVertice == Id){
+		if(strcmp(pVerticeRes->pIdVertice, Id)==0){
 			return pVerticeRes ;
 		} /* if */
 		if(ListaRet ==LIS_CondRetFimLista){

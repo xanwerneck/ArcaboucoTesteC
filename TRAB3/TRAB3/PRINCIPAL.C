@@ -302,6 +302,8 @@ int main (void)
 					NumPecasB--;
 				}
 
+				JOG_PreencheCaminho(pJogo , pTabuleiro );
+
 				
 				break;
 
