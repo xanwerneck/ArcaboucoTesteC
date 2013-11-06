@@ -7,18 +7,16 @@
 *  Arquivo gerado:              LISTA.H
 *  Letras identificadoras:      LIS
 *
-*  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
-*  Arquivo da base de software: D:\AUTOTEST\PROJETOS\SIMPLES.BSW
+*  Projeto: INF 1301 - Verificador de Xeque-Mate
+*  Gestor:  Flavio Bevilacqua
+*  Autores: afv:  aw - Alexandre Werneck
+*                 fr - Fernanda C Ribeiro
+*                 vo - Vinicius de Luiz de Oliveira
 *
-*  Projeto: INF 1301 Automatização dos testes de módulos C
-*  Gestor:  LES/DI/PUC-Rio
-*  Autores: aw - Alexandre Werneck
-*           fr - Fernanda Camelo Ribeiro
-*			vo - Vinicius de Luiz de Oliveira
-*
-*  $HA Histórico de evolução:
-*     Versão  Autor    Data     Observações
-*     1       afv   19/out/2013 início desenvolvimento
+*  $HA Historico de evolucao:
+*     Versão  Autor    Data     Observacoes
+*     Y       afv   xx/xx/2013  finalizacao do desenvolvimento do modulo
+*     1       afv   19/out/2013 inicio do desenvolvimento do modulo
 *
 *  $ED Descrição do módulo
 *     Implementa listas genéricas duplamente encadeadas.

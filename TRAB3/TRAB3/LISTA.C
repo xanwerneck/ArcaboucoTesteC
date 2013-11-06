@@ -5,18 +5,16 @@
 *  Arquivo gerado:              LISTA.C
 *  Letras identificadoras:      LIS
 *
-*  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
-*  Arquivo da base de software: D:\AUTOTEST\PROJETOS\SIMPLES.BSW
+*  Projeto: INF 1301 - Verificador de Xeque-Mate
+*  Gestor:  Flavio Bevilacqua
+*  Autores: afv:  aw - Alexandre Werneck
+*                 fr - Fernanda C Ribeiro
+*                 vo - Vinicius de Luiz de Oliveira
 *
-*  Projeto: INF 1301 Automatização dos testes de módulos C
-*  Gestor:  LES/DI/PUC-Rio
-*  Autores: aw - Alexandre Werneck
-*           fr - Fernanda Camelo Ribeiro
-*			vo - Vinicius de Luiz de Oliveira
-*
-*  $HA Histórico de evolução:
-*     Versão  Autor    Data     Observações
-*     1       afv   19/out/2013 início desenvolvimento
+*  $HA Historico de evolucao:
+*     Versao  Autor    Data     Observacoes
+*     Y       afv   xx/xx/2013  finalizacao do desenvolvimento do modulo
+*     1       afv   19/out/2013 inicio do desenvolvimento do modulo
 *
 ***************************************************************************/
 
@@ -112,6 +110,10 @@ static void LimparCabeca( LIS_tppLista pLista ) ;
       pListaM->ExcluirValor = ExcluirValor ;
 
 	  (*pLista) = ( LIS_tppLista ) malloc( sizeof( LIS_tpLista )) ;
+      if ( (*pLista) == NULL )
+      {
+        return LIS_CondRetFaltouMemoria ;
+      } /* if */
 
 	  (*pLista) = pListaM ;
 
@@ -146,13 +148,12 @@ static void LimparCabeca( LIS_tppLista pLista ) ;
 
    LIS_tpCondRet LIS_EsvaziarLista( LIS_tppLista pLista )
    {
-
-      tpElemLista * pElem ;
-      tpElemLista * pProx ;
-
       #ifdef _DEBUG
          assert( pLista != NULL ) ;
       #endif
+
+      tpElemLista * pElem ;
+      tpElemLista * pProx ;
 
       pElem = pLista->pOrigemLista ;
       while ( pElem != NULL )
@@ -177,11 +178,12 @@ static void LimparCabeca( LIS_tppLista pLista ) ;
                                            void * pValor        )
    {
 
-      tpElemLista * pElem ;
-
       #ifdef _DEBUG
          assert( pLista != NULL ) ;
       #endif
+
+      tpElemLista * pElem ;
+
 
 		/* Criar elemento a inserir antes */
 
@@ -218,7 +220,7 @@ static void LimparCabeca( LIS_tppLista pLista ) ;
 
 /***************************************************************************
 *
-*  Função: LIS  &Inserir elemento após
+*  Função: LIS  &Inserir elemento apos
 *  ****/
 
    LIS_tpCondRet LIS_InserirElementoApos( LIS_tppLista pLista ,
@@ -226,11 +228,11 @@ static void LimparCabeca( LIS_tppLista pLista ) ;
       
    {
 
-      tpElemLista * pElem ;
-
       #ifdef _DEBUG
          assert( pLista != NULL ) ;
       #endif
+
+      tpElemLista * pElem ;
 
       /* Criar elemento a inerir após */
 
@@ -264,12 +266,14 @@ static void LimparCabeca( LIS_tppLista pLista ) ;
                   
          return LIS_CondRetOK ;
 
-   } /* Fim função: LIS  &Inserir elemento após */
+   } /* Fim função: LIS  &Inserir elemento apos */
+
 
 /***************************************************************************
 *
-*  Função: LIS  &Checa se a origem é nula
+*  Função: LIS  &Checa se a origem e nula
 *  ****/
+
 LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 {
 
@@ -283,7 +287,7 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 
 	return LIS_CondRetOK;
 
-}  /* Fim função: LIS  &Checa se a origem é nula */
+}  /* Fim função: LIS  &Checa se a origem e nula */
 
 
 
@@ -366,8 +370,9 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
          assert( pLista != NULL ) ;
       #endif
 	
-	  if(pLista->pOrigemLista==NULL)
+	  if(pLista->pOrigemLista==NULL){
 			return LIS_CondRetListaVazia;
+      }
 
       pLista->pElemCorr = pLista->pOrigemLista ;
 
@@ -396,7 +401,7 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 
 /***************************************************************************
 *
-*  Função: LIS  &Ir para o elemento final
+*  Função: LIS  &Numero de elementos
 *  ****/
 
    LIS_tpCondRet LIS_NumElem( LIS_tppLista pLista , int * numElem )
@@ -410,7 +415,7 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 
 	  return LIS_CondRetOK ;
 
-   } /* Fim função: LIS  &Ir para o elemento final */
+   } /* Fim função: LIS  &Numero de elementos */
 
 /***************************************************************************
 *
@@ -421,13 +426,14 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
                                               int numElem )
    {
 
+      #ifdef _DEBUG
+         assert( pLista != NULL ) ;
+      #endif
+
       int i ;
 
       tpElemLista * pElem ;
 
-      #ifdef _DEBUG
-         assert( pLista != NULL ) ;
-      #endif
 
       /* Tratar lista vazia */
 
@@ -497,11 +503,12 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
                                     int ( * ComparaValor ) ( void * pValorCorr , void * pValorBuscado ) )
    {
 
-      tpElemLista * pElem ;
-
       #ifdef _DEBUG
          assert( pLista  != NULL ) ;
       #endif
+         
+      tpElemLista * pElem ;
+
 
       if ( pLista->pElemCorr == NULL ){
          return LIS_CondRetListaVazia ;
@@ -528,11 +535,6 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 /***********************************************************************
 *
 *  $FC Função: LIS  -Liberar elemento da lista
-*
-*  $ED Descrição da função
-*     Elimina os espaços apontados pelo valor do elemento e o
-*     próprio elemento. Chama a função de exclusão definida no
-*     modulo cliente na criação de lista.
 *
 ***********************************************************************/
 
