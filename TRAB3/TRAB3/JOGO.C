@@ -412,7 +412,7 @@ JOG_tpCondRet JOG_NumPecasTime(JOG_tppJogo pJOGO ,char Time, int * NumPecas)
 
 	return JOG_CondRetOK;
 
-} /* Fim funcao: JOG &Inserir peca no tima B */
+} /* Fim funcao: JOG &Numero de pecas do time */
 
 /***************************************************************************
 *
@@ -422,10 +422,12 @@ JOG_tpCondRet JOG_NumPecasTime(JOG_tppJogo pJOGO ,char Time, int * NumPecas)
 JOG_tpCondRet JOG_ObterTipoPeca(JOG_tppJogo pJOGO , char Time, void ** pTipo)
 {
 	JOG_tppPecaJogo pPecaJogo ;
+
 	if(pJOGO == NULL)
 	{
 		return JOG_CondRetJogoNulo ;
 	} /* if */
+		
 	if(Time == 'A'){
 		
 		ListaRet = LIS_ObterValor(pJOGO->pListaTimeA , (void**)&pPecaJogo);

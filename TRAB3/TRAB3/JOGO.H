@@ -287,12 +287,12 @@ JOG_tpCondRet JOG_AvancarCorrrenteTime(JOG_tppJogo pJOGO , char Time ,
 *
 *  $ED Descricao da funcao
 *     Retorna por parametro a quantidade de pecas do time do jogo, ambos
-*     tambem passados por parametro.
+*      tambem passados por parametro.
 *
 *  $EP Parametros
-*     pJOGO	   - Referencia para o jogo.  
-*     Time     - Qual o time que sera obtido o numero de pecas.
-*     NumPecas - Ponteiro para o qual sera retornado o numero de pecas
+*     pJOGO    - Ponteiro para o jogo.    
+*     Time     - Identificador de time.
+*     NumPecas - Ponteiro para o qual sera retornado o numero de pecas.
 *
 *  $FV Valor retornado
 *     JOG_CondRetOK
@@ -306,7 +306,7 @@ JOG_tpCondRet JOG_AvancarCorrrenteTime(JOG_tppJogo pJOGO , char Time ,
 *	   Retornou o numero de pecas com sucesso.
 *
 *	   Se CondRet = JOG_CondRetJogoNulo
-*	   Nao retornou peca, jogo nulo.
+*	   Nao retornou numero de pecas, jogo nulo.
 *
 ***********************************************************************/
 
@@ -319,11 +319,11 @@ JOG_tpCondRet JOG_NumPecasTime(JOG_tppJogo pJOGO ,char Time, int * NumPecas);
 *
 *  $ED Descricao da funcao
 *     Retorna por parametro o tipo peca do time do jogo, ambos tambem
-*     passados por parametro.
+*      passados por parametro.
 *
 *  $EP Parametros
-*     pJOGO	   - Referencia para o jogo.  
-*     Time     - Qual o time que sera obtido o tipo de peca.
+*     pJOGO    - Ponteiro para o jogo.    
+*     Time     - Identificador de time.
 *     pTipo    - Ponteiro para retornar o tipo de peca.
 *
 *  $FV Valor retornado
@@ -354,8 +354,7 @@ JOG_tpCondRet JOG_ObterTipoPeca(JOG_tppJogo pJOGO , char Time, void ** pTipo);
 *     parametro va para o inicio dessa lista.
 *
 *  $EP Parametros
-*     pJOGO	   - Referencia para o jogo com os times e suas respectivas 
-*                listas de pecas.  
+*     pJOGO    - Ponteiro para o jogo.    
 *     Time     - Qual o time cujo corrente da lista de pecas ira para 
 *                o inicio da lista.
 *
@@ -370,7 +369,7 @@ JOG_tpCondRet JOG_ObterTipoPeca(JOG_tppJogo pJOGO , char Time, void ** pTipo);
 *
 *  $AS Se CondRet = JOG_CondRetOK
 *	   Conseguiu com sucesso ir para inicio da lista de pecas do jogo 
-*      em questao.
+*       em questao.
 *
 *      Se CondRet = JOG_CondRetJogoNulo
 *	   Nao conseguiu ir para o inicio da lista de pecas, jogo nulo.
@@ -388,11 +387,11 @@ JOG_tpCondRet JOG_IrInicioPecas(JOG_tppJogo pJOGO , char Time);
 *  $FC Funcao: JOG Obter peca do jogo
 *
 *  $ED Descricao da funcao
-*     Retorna por parametro a peca do time do jogo, ambos também passados
+*     Retorna por parametro a peca do time do jogo, ambos tambem passados
 *     por parametros.
 *
 *  $EP Parametros
-*     pJOGO	   - Jogo do qual sera obtido a peca.  
+*     pJOGO    - Ponteiro para o jogo.    
 *     Time     - Sobre qual e o time que sera obtido a peca.
 *     pTipo    - Ponteiro para retorno do tipo de peca do time.
 *
