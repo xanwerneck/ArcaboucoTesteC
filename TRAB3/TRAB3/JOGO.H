@@ -149,7 +149,7 @@ JOG_tpCondRet JOG_InserirPecaTimeA(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar);
 *
 *  $EP Parametros
 *     pJogo      - Ponteiro para o jogo.     
-*     pPecaSetar  - Ponteiro para a peca que sera inserida em jogo.
+*     pPecaSetar - Ponteiro para a peca que sera inserida em jogo.
 *
 *  $FV Valor retornado
 *     JOG_CondRetOK
@@ -182,12 +182,14 @@ JOG_tpCondRet JOG_InserirPecaTimeB(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar);
 *  $FC Funcao: JOG Preenche caminho
 *
 *  $ED Descricao da funcao
-*     Preenchendo a lista de caminhos das pecas do time passado por parametro
-*     com as casas do tabuleiro segundo o tipo de peca de cada peca.
+*     Preenche a lista de caminho das pecas do time do jogo passados 
+*      por parametro com as casas do tabuleiro segundo o tipo de peca 
+*      de cada peca.
 *
 *  $EP Parametros
-*     pJOGO	   - Referencia para o jogo.  
-*     Time     - Qual o time cuja lista de caminho das pecas sera preenchida.
+*     pJOGO      - Ponteiro para o jogo.    
+*     pTabuleiro - Ponteiro para a estrutura de tabuleiro referente as 
+*                   casas onde as pecas ficarao no jogo.
 *
 *  $FV Valor retornado
 *     JOG_CondRetOK
@@ -205,7 +207,78 @@ JOG_tpCondRet JOG_InserirPecaTimeB(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar);
 *
 ***********************************************************************/
 
-JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO , char Time);
+JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO , char pTabuleiro);
+
+
+/***********************************************************************
+*
+*  $FC Funcao: JOG Insere elemento apos
+*
+*  $ED Descricao da funcao
+*     Insere o elemento passado por parametro apos o corrente da peca.
+*
+*  $EP Parametros
+*     pPeca	   - Ponteiro para a peca a ser inserida.
+*     Conteudo - Ponteiro paro o elemento generico a ser inserido.
+*
+*  $FV Valor retornado
+*     JOG_CondRetOK
+*     JOG_CondRetFimLista
+*     JOG_CondRetFaltouMemoria
+*
+*  $AE CondRet deve ter sido instanciado
+*      Nao ha verificacao da integridade do conteudo, logo, Conteudo
+*       tem que ser valido.
+*
+*  $AS Se CondRet = JOG_CondRetOK
+*	   Inseriu elemento com sucesso.
+*
+*	   Se CondRet = JOG_CondRetFimLista
+*	   Nao conseguiu inserir, lista nula.
+*
+*	   Se CondRet = JOG_CondRetFaltouMemoria
+*	   Nao conseguiu inserir, faltou memoria.
+*
+***********************************************************************/
+
+JOG_tpCondRet JOG_InsereElemApos(JOG_tppPecaJogo pPeca , void * Conteudo);
+
+
+/***********************************************************************
+*
+*  $FC Funcao: JOG Avancar corrente do time
+*
+*  $ED Descricao da funcao
+*     Avanca lista de pecas do time passado por paramentro.
+*
+*  $EP Parametros
+*     pJOGO    - Ponteiro para o jogo.    
+*     Time     - Identificador de time.
+*     qtdPecas - Numero de pecas do time.
+*
+*  $FV Valor retornado
+*     JOG_CondRetOK
+*     JOG_CondRetJogoNulo
+*     JOG_CondRetFimLista
+*
+*  $AE CondRet deve ter sido instanciado
+*      Time tem que ser um caracter 'A' ou 'B'.
+*      Lista de pecas do time passado por parametro tem que ser valido.
+*      qtdPecas tem que ser um numero valido de pecas do time.
+*
+*  $AS Se CondRet = PEC_CondRetOK
+*	   Retornou o numero de pecas com sucesso.
+*
+*	   Se CondRet = JOG_CondRetJogoNulo
+*	   Nao retornou peca, jogo nulo.
+*
+*	   Se CondRet = JOG_CondRetFimLista
+*	   Nao retornou peca, a lista do time esta nula ou cheia.
+*
+***********************************************************************/
+
+JOG_tpCondRet JOG_AvancarCorrrenteTime(JOG_tppJogo pJOGO , char Time , 
+	                                   int qtdPecas);
 
 
 /***********************************************************************
@@ -341,10 +414,6 @@ JOG_tpCondRet JOG_IrInicioPecas(JOG_tppJogo pJOGO , char Time);
 
 JOG_tpCondRet JOG_ObterPecaJogo(JOG_tppJogo pJOGO , char Time, void ** pTipo);
 
-
-JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro);
-
-JOG_tpCondRet JOG_AvancarCorrrenteTime(JOG_tppJogo pJOGO , char Time , int val);
 
 #undef JOGO_EXT
 

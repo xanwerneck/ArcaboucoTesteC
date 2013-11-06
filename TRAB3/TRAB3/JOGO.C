@@ -329,22 +329,33 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 
 	return JOG_CondRetOK;
 
-}
+} /* Fim funcao: JOG &Preenche caminho */
 
+
+/***************************************************************************
+*
+*  Funcao: JOG  &Insere elemento apos
+*  ****/
 JOG_tpCondRet JOG_InsereElemApos(JOG_tppPecaJogo pPeca , void * Conteudo)
 {
 	int Num;
-	if(pPeca == NULL){
-		return JOG_CondRetJogoNulo;
-	}
+
+	if(pPeca == NULL)
+	{
+		return JOG_CondRetFimLista;
+	} /* if */
 	
 	LIS_NumElem(pPeca->pListaCaminho , &Num);
 	printf("Numero de elementos %d" , Num);
 
-	LIS_InserirElementoApos(pPeca->pListaCaminho , Conteudo);
+	ListaRet = LIS_InserirElementoApos(pPeca->pListaCaminho , Conteudo);
+	if(ListaRet == LIS_CondRetFaltouMemoria)
+	{
+		return JOG_CondRetFaltouMemoria;
+	} /* if */
 
 	return JOG_CondRetOK;
-}
+} /* Fim funcao: JOG &Insere elemento apos */
 
 
 /***************************************************************************
@@ -352,7 +363,7 @@ JOG_tpCondRet JOG_InsereElemApos(JOG_tppPecaJogo pPeca , void * Conteudo)
 *  Funcao: JOG  &Avancar corrente do time
 *  ****/
 
-JOG_tpCondRet JOG_AvancarCorrrenteTime(JOG_tppJogo pJOGO , char Time , int val)
+JOG_tpCondRet JOG_AvancarCorrrenteTime(JOG_tppJogo pJOGO , char Time , int qtdPecas)
 {
 	if(pJOGO == NULL)
 	{
@@ -360,16 +371,20 @@ JOG_tpCondRet JOG_AvancarCorrrenteTime(JOG_tppJogo pJOGO , char Time , int val)
 	} /* if */
 
 	if(Time == 'A'){
-		ListaRet = LIS_AvancarElementoCorrente(pJOGO->pListaTimeA, val);
+		ListaRet = LIS_AvancarElementoCorrente(pJOGO->pListaTimeA, qtdPecas);
+		if((ListaRet == LIS_CondRetListaVazia) || (ListaRet == LIS_CondRetFimLista))
+		{
+			return JOG_CondRetFimLista;
+		} /* if */
 	}
 	else if(Time == 'B'){
-		ListaRet = LIS_AvancarElementoCorrente(pJOGO->pListaTimeB, val);
+		ListaRet = LIS_AvancarElementoCorrente(pJOGO->pListaTimeB, qtdPecas);
+		if((ListaRet == LIS_CondRetListaVazia) || (ListaRet == LIS_CondRetFimLista))
+		{
+			return JOG_CondRetFimLista;
+		} /* if */
 	} /* if */
-	
-	if(ListaRet == LIS_CondRetFimLista || LIS_CondRetListaVazia ){
-		return JOG_CondRetFimLista;
-	} /* if */
-	
+		
 	return JOG_CondRetOK;
 	
 } /* Fim funcao: JOG &Avancar corrente do time */
