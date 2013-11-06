@@ -55,7 +55,7 @@ typedef struct JOG_tagListaPeca{
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: JOG Descritor do elemento peca para Tabuleiro
+*  $TC Tipo de dados: JOG Descritor do elemento peca para tabuleiro
 *
 *
 ***********************************************************************/
@@ -63,15 +63,15 @@ typedef struct JOG_tagListaPeca{
 typedef struct JOG_tagPecaJogo {
 
 	char Id;
-	/* Identificador da casa do tabuleiro onde a peca se 
+	/* Identificador da casa do tabuleiro, casa onde a peca se 
 	   encontra */
 
 	LIS_tppLista pListaDestino;
 	/* Ponteiro para lista de casas possiveis pelo movimento
-	   da peca que chegam ate ao Rei */		
+	   da peca, limitando-se as casas que chegam ate ao Rei */		
 
 	LIS_tppLista pListaCaminho;
-	/* Ponteiro para lista de casas possiveis pelo 
+	/* Ponteiro para lista de todas as casas possiveis pelo 
 	   movimento da peca */
 
 	PEC_tppPeca  pTipoPeca ;
@@ -81,8 +81,10 @@ typedef struct JOG_tagPecaJogo {
 
 /***** Prototipos das funcoes encapsuladas no modulo *****/
 
+   /* Funcao desaloca da memoria o jogo */
    static void ExcluirJogo( void * pPeca );
 
+   /* Funcao desaloca da memoria peca do jogo */
    static void ExcluirPecaJogo( void * pPeca );
 
 /*****  Codigo das funcoes exportadas pelo modulo  *****/
@@ -138,11 +140,20 @@ JOG_tpCondRet JOG_InserirPecaTimeA(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar)
 
 	JOG_tppPecaJogo mPeca = NULL ;
 
-
 	mPeca = (JOG_tppPecaJogo) malloc(sizeof(JOG_tpPecaJogo));
+	if(mPeca == NULL)
+	{
+		return JOG_CondRetFaltouMemoria;
+	} /* if */
+
 	if(pJOGO == NULL)
 	{
 		return JOG_CondRetJogoNulo ;
+	} /* if */
+
+	if (pPecaSetar == NULL)
+	{
+		return JOG_CondRetFimLista ;
 	} /* if */
 	
 	mPeca->pTipoPeca = pPecaSetar;
@@ -180,11 +191,20 @@ JOG_tpCondRet JOG_InserirPecaTimeB(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar)
 
 	JOG_tppPecaJogo mPeca = NULL ;
 
-
 	mPeca = (JOG_tppPecaJogo) malloc(sizeof(JOG_tpPecaJogo));
+	if(mPeca == NULL)
+	{
+		return JOG_CondRetFaltouMemoria;
+	} /* if */
+
 	if(pJOGO == NULL)
 	{
 		return JOG_CondRetJogoNulo ;
+	} /* if */
+
+	if (pPecaSetar == NULL)
+	{
+		return JOG_CondRetFimLista ;
 	} /* if */
 	
 	mPeca->pTipoPeca = pPecaSetar;

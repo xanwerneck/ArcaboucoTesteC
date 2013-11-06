@@ -20,7 +20,15 @@
 *
 *  $ED Descricao do modulo
 *     O presente modulo implementa a criacao e manipulacao de estruturas 
-*     do tipo jogo para tabuleiro.
+*      do tipo jogo para tabuleiro, que se limitam a uma estrutura 
+*      de encapsulamento que consiste em duas listas duplamente encadeadas
+*      e outra estrutura que consiste em um identificador, 
+*      duas listas duplamente encadeadas e um tipo de peca do jogo.
+*     Vide declaracao das estruturas no modulo de desenvolvimento.
+*     O jogo consiste basicamente em funcoes para manutencao de uma partida 
+*      verificadora de Xeque-mate de tabuleiro de xadrez, na qual so sera 
+*      manipulado uma partida por vez, podendo haver a necessidade de salvar 
+*      a partida. 
 *
 ***************************************************************************/
  
@@ -76,7 +84,7 @@ typedef enum {
 *     Inicia um jogo vazio.
 *
 *  $EP Parâmetros
-*     pJogo - Referencia para o jogo que sera criado.     
+*     pJogo - Ponteiro para o jogo que sera criado.     
 *
 *  $FV Valor retornado
 *     JOG_CondRetOK
@@ -88,7 +96,7 @@ typedef enum {
 *	   Jogo criado com sucesso.
 *
 *	   Se CondRet = JOG_CondRetFaltouMemoria
-*	   Jogo nao foi criado.
+*	   Jogo nao foi criado, nao foi possivel alocar memoria.
 *
 **************************************************************************/
 
@@ -100,18 +108,20 @@ JOG_tpCondRet JOG_CriarJogo(JOG_tppJogo * pJogo);
 *  $FC Funcao: JOG Inserir peca no time A
 *
 *  $ED Descricao da funcao
-*     A funcao insere um tipo peca numa estrutura de tipo jogo.
+*     Insere um tipo peca numa estrutura de tipo jogo.
 *
 *  $EP Parametros
-*     pJOGO	     - Referencia para o jogo que sera criado.  
-*     pTipoPeca  - Ponteiro para a peca que sera inserida em jogo.
+*     pJogo      - Ponteiro para o jogo.     
+*     pPecaSetar - Ponteiro para a peca que sera inserida em jogo.
 *
 *  $FV Valor retornado
 *     JOG_CondRetOK
 *     JOG_CondRetFaltouMemoria
 *     JOG_CondRetJogoNulo
+*     JOG_CondRetFimLista
 *
 *  $AE CondRet deve ter sido instanciado
+*      pPecaSetar tem que ter estrutura valida e definida.
 *
 *  $AS Se CondRet = JOG_CondRetOK
 *	   Inseriu peca com sucesso.
@@ -122,9 +132,12 @@ JOG_tpCondRet JOG_CriarJogo(JOG_tppJogo * pJogo);
 *	   Se CondRet = JOG_CondRetJogoNulo
 *	   Peca nao foi inserida, jogo nulo.
 *
+*      Se CondRet = JOG_CondRetFimLista
+*      Peca nao foi inserida, pPecaSetar nulo.
+*
 ***********************************************************************/
 
-JOG_tpCondRet JOG_InserirPecaTimeA(JOG_tppJogo pJOGO , PEC_tppPeca pTipoPeca);
+JOG_tpCondRet JOG_InserirPecaTimeA(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar);
 
 
 /***********************************************************************
@@ -132,27 +145,36 @@ JOG_tpCondRet JOG_InserirPecaTimeA(JOG_tppJogo pJOGO , PEC_tppPeca pTipoPeca);
 *  $FC Funcao: JOG Inserir peca no time B
 *
 *  $ED Descricao da funcao
-*     A funcao insere um tipo peca numa estrutura de tipo jogo.
+*     Insere um tipo peca numa estrutura de tipo jogo.
 *
 *  $EP Parametros
-*     pJOGO	     - Referencia para o jogo que sera criado.  
-*     pTipoPeca  - Ponteiro para a peca que sera inserida em jogo.
+*     pJogo      - Ponteiro para o jogo.     
+*     pPecaSetar  - Ponteiro para a peca que sera inserida em jogo.
 *
 *  $FV Valor retornado
 *     JOG_CondRetOK
+*     JOG_CondRetFaltouMemoria
 *     JOG_CondRetJogoNulo
+*     JOG_CondRetFimLista
 *
 *  $AE CondRet deve ter sido instanciado.
+*      pPecaSetar tem que ter estrutura valida e definida.
 *
 *  $AS Se CondRet = JOG_CondRetOK
 *	   Inseriu peca com sucesso.
 *
+*      Se CondRet = JOG_CondRetFaltouMemoria
+*      Peca nao foi inserida, faltou memoria.
+*
 *	   Se CondRet = JOG_CondRetJogoNulo
 *	   Peca nao foi inserida, jogo nulo.
 *
+*      Se CondRet = JOG_CondRetFimLista
+*      Peca nao foi inserida, pPecaSetar nulo.
+*
 ***********************************************************************/
 
-JOG_tpCondRet JOG_InserirPecaTimeB(JOG_tppJogo pJOGO , PEC_tppPeca pTipoPeca);
+JOG_tpCondRet JOG_InserirPecaTimeB(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar);
 
 
 /***********************************************************************
