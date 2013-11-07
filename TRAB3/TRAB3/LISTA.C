@@ -305,12 +305,13 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 
    LIS_tpCondRet LIS_ExcluirElemento( LIS_tppLista pLista )
    {
-
-      tpElemLista * pElem ;
-
+       
       #ifdef _DEBUG
          assert( pLista  != NULL ) ;
       #endif
+
+
+      tpElemLista * pElem ;
 
       if ( pLista->pElemCorr == NULL )
       {
