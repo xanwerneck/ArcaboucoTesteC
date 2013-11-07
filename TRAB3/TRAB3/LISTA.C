@@ -87,7 +87,8 @@
    static tpElemLista * CriarElemento( LIS_tppLista pLista ,
                                        void *       pValor  ) ;
 
-   /* Funcao desaloca cabeca de lista */
+   /* Funcao seta elementos de pLista cabeca como NULL e num elem = 0, 
+      ou seja tambem serve para criar elemento cabeca vazio */
    static void LimparCabeca( LIS_tppLista pLista ) ;
 
 /*************  Codigo das funcoes exportadas pelo modulo  *************/
@@ -97,8 +98,8 @@
 *  Funcao: LIS  &Criar lista
 *  ****/
 
-   LIS_tpCondRet LIS_CriarLista(
-             void   ( * ExcluirValor ) ( void * pDado ) , LIS_tppLista * pLista)
+   LIS_tpCondRet LIS_CriarLista( void (* ExcluirValor) (void * pDado) , 
+                               LIS_tppLista * pLista )
    {
 
       LIS_tpLista * pListaM = NULL ;
@@ -109,6 +110,7 @@
 		  return LIS_CondRetFaltouMemoria ;
       } /* if */
 
+      /* Funcao tambem serve para criar elemento cabeca */
       LimparCabeca( pListaM ) ;
 
       pListaM->ExcluirValor = ExcluirValor ;
@@ -152,12 +154,13 @@
 
    LIS_tpCondRet LIS_EsvaziarLista( LIS_tppLista pLista )
    {
-      #ifdef _DEBUG
-         assert( pLista != NULL ) ;
-      #endif
-
       tpElemLista * pElem ;
       tpElemLista * pProx ;
+
+      if ( pLista == NULL )
+      {
+         return LIS_CondRetListaVazia;
+      }
 
       pElem = pLista->pOrigemLista ;
       while ( pElem != NULL )

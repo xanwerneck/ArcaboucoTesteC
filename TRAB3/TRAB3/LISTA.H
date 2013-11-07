@@ -101,37 +101,51 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *     A tipagem e implicita.
 *     Nao existe identificador de tipo associado a lista.
 *
-*  $EP Parâmetros
-*     pLista  - ponteiro para o elemento do tipo de lista a ser alocado.
-*     ExcluirValor  - ponteiro para a funcao que processa a
-*                     exclusao do valor referenciado pelo elemento
-*                     a ser excluido.
+*  $EP Parametros
+*     pLista        - Ponteiro para o elemento do tipo de lista a ser 
+*                     alocado.
+*     ExcluirValor  - Ponteiro para a funcao que processa a exclusao do 
+*                     valor referenciado pelo elemento a ser excluido.
 *                     Ver descricao do modulo.
-*                     Esta funcao e criada no modulo que utiliza a lista.
 *
 *  $FV Valor retornado
-*     LIS_CondRetFaltouMemoria - Nao conseguiu criar a lista.
-*     LIS_CondRetOK - Conseguiu criar a lista com sucesso.
+*     LIS_CondRetFaltouMemoria
+*     LIS_CondRetOK
+*
+*  $AE CondRet deve ter sido instanciado
+*      ExcluirValor deve ser instanciado no modulo que utiliza essa funcao.
+*
+*  $AS Se CondRet = LIS_CondRetOK
+*    Lista criada com sucesso.
+*
+*    Se CondRet = LIS_CondRetFaltouMemoria
+*    Lista nao foi criada, nao foi possivel alocar memoria.
 *
 ***********************************************************************/
 
-   LIS_tpCondRet LIS_CriarLista(
-             void   ( * ExcluirValor ) ( void * pDado ) , LIS_tppLista * pLista ) ;
+  LIS_tpCondRet LIS_CriarLista( void (* ExcluirValor) (void * pDado) , 
+                               LIS_tppLista * pLista ) ;
 
 /***********************************************************************
 *
 *  $FC Funcao: LIS  &Destruir lista
 *
 *  $ED Descricao da funcao
-*     Destroi a lista fornecida.
-*     O parâmetro ponteiro para a lista nao e modificado.
-*     Se ocorrer algum erro durante a destruicao, a lista resultara
+*     Desaloca a lista fornecida.
+*     O parametro ponteiro para a lista nao e modificado.
+*     Se ocorrer algum erro durante a destruicao, a lista estara
 *     estruturalmente incorreta.
-*     Inicialmente a lista torna-se vazia para depois a liberacao.
-*     *Nao existe previsao para possiveis falhas de execucao.
+*     Inicialmente a lista torna-se vazia para depois haver a liberacao.
 *
 *  $FV Valor retornado
 *     LIS_CondRetOK    - destruiu sem problemas
+*
+*  $AE CondRet deve ter sido instanciado
+*
+*  $AS Se CondRet = LIS_CondRetOK
+*      Lista desalocada com sucesso.
+*
+*      Nao existe previsao para possiveis falhas de execucao.
 *
 ***********************************************************************/
 
@@ -143,14 +157,24 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *  $FC Funcao: LIS  &Esvaziar lista
 *
 *  $ED Descricao da funcao
-*     Elimina todos os elementos, sem contudo eliminar a lista
+*     Desaloca/libera todos os elementos, sem contudo desalocar a lista.
 *
-*  $EP Parâmetros
+*  $EP Parametros
 *     pLista - ponteiro para a lista a ser esvaziada.
-*     A lista fornecida nao devera esta vazia.
 *
 *  $FV Valor retornado
-*     LIS_CondRetOK - Elementos eliminados com sucesso.
+*     LIS_CondRetOK
+*     LIS_CondRetListaVazia
+*
+*  $AE CondRet deve ter sido instanciado
+*
+*  $AS Se CondRet = LIS_CondRetOK
+*      Elementos eliminados com sucesso.
+*
+*      Se CondRet = LIS_CondRetListaVazia
+*      Nao eliminou elemenetos, lista nula.
+*
+*      Nao existe previsao para possiveis falhas de execucao.
 *
 ***********************************************************************/
 
@@ -163,17 +187,26 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 *  $ED Descricao da funcao
 *     Insere novo elemento antes do elemento corrente.
-*     Caso a lista esteja vazia, insere o primeiro elemento da lista.
 *
-*  $EP Parâmetros
-*     pLista - ponteiro para a lista onde deve ser inserido o elemento
-*     pValor - ponteiro para o valor do novo elemento, tipo definido 
-               pelo usuario.
-*              Pode ser NULL
+*  $EP Parametros
+*     pLista - Ponteiro para a lista onde deve ser inserido o elemento
+*     pValor - Ponteiro para o valor do novo elemento, tipo definido 
+*               pelo usuario.
 *
 *  $FV Valor retornado
-*     LIS_CondRetOK - Se conseguiu inserir o elemento corretamente.
-*     LIS_CondRetFaltouMemoria - Elemento nao foi inserido.
+*     LIS_CondRetOK
+*     LIS_CondRetFaltouMemoria
+*
+*  $AE CondRet deve ter sido instanciado
+*      pValor pode ser NULL
+*
+*  $AS Se CondRet = LIS_CondRetOK
+*      Inseriu elemento na lista corretamente.
+*
+*      Se CondRet = LIS_CondRetFaltouMemoria
+*      Nao inseriu elemento, faltou memoria.
+*
+*     Caso a lista esteja vazia, insere no primeiro elemento da lista.
 *
 ***********************************************************************/
 
@@ -186,20 +219,30 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *  $FC Funcao: LIS  &Inserir elemento apos
 *
 *  $ED Descricao da funcao
-*     Insere novo elemento apas o elemento corrente.
-*     Caso a lista esteja vazia, insere o primeiro elemento da lista.
+*     Insere novo elemento apos o elemento corrente.
+*     Caso a lista esteja vazia, insere no primeiro elemento da lista.
 *
-*  $EP Parâmetros
-*     Parâmetros
-*        pLista - ponteiro para a lista onde deve ser inserido o elemento
-*        pValor - ponteiro para o valor do novo elemento, tipo definido 
+*  $EP Parametros
+*     Parametros
+*        pLista - Ponteiro para a lista onde deve ser inserido o elemento
+*        pValor - Ponteiro para o valor do novo elemento, tipo definido 
 *                 pelo usuario.
-*                 Pode ser NULL
 *           
 *
 *  $FV Valor retornado
-*        LIS_CondRetOK - Se conseguiu inserir o elemento corretamente.
-*        LIS_CondRetFaltouMemoria - Elemento nao foi inserido.
+*        LIS_CondRetOK
+*        LIS_CondRetFaltouMemoria
+*
+*  $AE CondRet deve ter sido instanciado
+*      pValor pode ser NULL
+*
+*  $AS Se CondRet = LIS_CondRetOK
+*      Inseriu elemento na lista corretamente.
+*
+*      Se CondRet = LIS_CondRetFaltouMemoria
+*      Nao inseriu elemento, faltou memoria.
+*
+*     Caso a lista esteja vazia, insere no primeiro elemento da lista.
 *
 ***********************************************************************/
 
@@ -217,7 +260,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *     Se nao existir e existir o elemento a direita, este se tornara corrente.
 *     Se este tambem nao existir a lista tornou-se vazia.
 *
-*  $EP Parâmetros
+*  $EP Parametros
 *     pLista    - Ponteiro para a lista na qual deve excluir o corrente.
 *
 *  $FV Valor retornado
@@ -237,7 +280,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *  $ED Descricao da funcao
 *     Obtem a referencia para o valor contido no elemento corrente da lista
 *
-*  $EP Parâmetros
+*  $EP Parametros
 *     pLista      - Ponteiro para a lista onde esta o corrente.
 *     pContListaM - Ponteiro ao qual sera atribuido o valor a ser retornado.
 *
@@ -258,7 +301,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *     Torna corrente o primeiro elemento da lista.
 *     Faz nada se a lista esta vazia.
 *
-*  $EP Parâmetros
+*  $EP Parametros
 *     pLista - ponteiro para a lista a manipular.
 *
 *  $FV Valor retornado
@@ -277,7 +320,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *     Torna corrente o elemento final da lista.
 *     Faz nada se a lista esta vazia.
 *
-*  $EP Parâmetros
+*  $EP Parametros
 *     pLista - ponteiro para a lista a manipular
 *
 *  $FV Valor retornado
@@ -300,7 +343,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *     direcao desejada
 *     Se numElem for zero somente verifica se a lista esta vazia
 *
-*  $EP Parâmetros
+*  $EP Parametros
 *     pLista  - ponteiro para a lista a ser manipulada
 *     numElem - o numero de elementos a andar
 *
@@ -324,7 +367,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *     Procura o elemento que referencia o valor dado.
 *     A funcao compara ponteiro e nao conteudo apontado com a funcao do usuario.
 *
-*  $EP Parâmetros
+*  $EP Parametros
 *     pLista       - Ponteiro para a lista onde procura.
 *     pValor       - Ponteiro para o valor procurado;
 *                    Pode ser NULL.
@@ -354,7 +397,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *     Faz uma verificacao se o ponteiro para origem da lista e NULL.
 *     Com isso a lista esta vazia.
 *
-*  $EP Parâmetros
+*  $EP Parametros
 *     pLista       - Ponteiro para a lista.
 *
 *  $FV Valor retornado
@@ -372,7 +415,7 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista) ;
 *  $ED Descricao da funcao
 *     Retorna o numero de elementos presentes na lista.
 *
-*  $EP Parâmetros
+*  $EP Parametros
 *     pLista       - Ponteiro para a lista.
 *
 *  $FV Valor retornado
