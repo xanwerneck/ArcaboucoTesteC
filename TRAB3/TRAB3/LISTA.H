@@ -331,8 +331,8 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *  $AS Se CondRet = LIS_CondRetOK
 *      Concluiu com sucesso.
 *
-*  $AS Se CondRet = LIS_CondRetListaVazia
-*      Corrente ja e elemento inicial.
+*      Se CondRet = LIS_CondRetListaVazia
+*      Lista vazia, nao ha elemento para retornar.
 *
 ***********************************************************************/
 
@@ -351,7 +351,18 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *     pLista - ponteiro para a lista a manipular
 *
 *  $FV Valor retornado
-*     LIS_CondRetOK - Foi ao final da lista.
+*     LIS_CondRetOK
+*     LIS_CondRetListaVazia
+*
+*  $AE CondRet deve ter sido instanciado
+*      Lista passada não pode ser nula.
+*      Se o corrente for nulo, ele ja e o elemento inicial.
+*
+*  $AS Se CondRet = LIS_CondRetOK
+*      Concluiu com sucesso.
+*
+*      Se CondRet = LIS_CondRetListaVazia
+*      Lista vazia, nao ha elemento para retornar.
 *
 ***********************************************************************/
 
@@ -363,22 +374,37 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *  $FC Funcao: LIS  &Avancar elemento
 *
 *  $ED Descricao da funcao
-*     Avanca o elemento corrente numElem elementos na lista
-*     Se numElem for positivo avanca em direcao ao final
-*     Se numElem for negativo avanca em direcao ao inicio
+*     Avanca o elemento corrente numElem elementos na lista.
+*     Se numElem for positivo avanca em direcao ao final.
+*     Se numElem for negativo avanca em direcao ao inicio.
 *     numElem pode ser maior do que o numero de elementos existentes na
-*     direcao desejada
-*     Se numElem for zero somente verifica se a lista esta vazia
+*     direcao desejada, fazendo entao o corrente apontar para o inicio 
+*     ou para o final da lista.
+*     Se numElem for zero somente verifica se a lista esta vazia.
 *
 *  $EP Parametros
-*     pLista  - ponteiro para a lista a ser manipulada
-*     numElem - o numero de elementos a andar
+*     pLista  - Ponteiro para a lista a ser manipulada.
+*     numElem - Numero de elementos a andar a partir do corrente.
 *
 *  $FV Valor retornado
-*     CondRetOK         - Se numElem elementos tiverem sido andados
-*     CondRetFimLista   - Se encontrou o fim da lista antes de andar numElem
-*                         elementos
-*     CondRetListaVazia - Se a lista esta vazia
+*     CondRetOK          
+*     CondRetFimLista    
+*     CondRetListaVazia 
+*
+*  $AE CondRet deve ter sido instanciado
+*      Lista passada não pode ser nula.
+*      numElem pode ser qualquer valor natural.
+*
+*  $AS Se CondRet = LIS_CondRetOK
+*      Concluiu com sucesso.
+*
+*      Se CondRet = CondRetFimLista
+*      Encontrou o fim da lista antes de andar numElem elementos.
+*      Setou corrente como final de lista (se numElem >0) 
+*      ou inicio de lista (se numElem <0).
+*
+*      Se CondRet = LIS_CondRetListaVazia
+*      Lista vazia, nao ha elemento para andar.
 *
 ***********************************************************************/
 
@@ -408,6 +434,21 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *     LIS_CondRetNaoAchou     - Se o ponteiro nao foi encontrado.
 *                               O elemento corrente continua o mesmo.
 *     LIS_CondRetListaVazia   - Se a lista estiver vazia.
+*
+*  $AE CondRet deve ter sido instanciado
+*      Lista passada não pode ser nula.
+*      numElem pode ser qualquer valor natural.
+*
+*  $AS Se CondRet = LIS_CondRetOK
+*      Concluiu com sucesso.
+*
+*      Se CondRet = CondRetFimLista
+*      Encontrou o fim da lista antes de andar numElem elementos.
+*      Setou corrente como final de lista (se numElem >0) 
+*      ou inicio de lista (se numElem <0).
+*
+*      Se CondRet = LIS_CondRetListaVazia
+*      Lista vazia, nao ha elemento para andar.
 *
 ***********************************************************************/
 
