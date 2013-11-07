@@ -813,6 +813,11 @@ GRA_tpCondRet GRA_PegaConteudo(GRA_tppGrafo pGrafo , void ** pConteudo)
 
 }
 
+GRA_tpCondRet GRA_ObterAresta()
+{
+
+}
+
 
 /*****  Código das funções encapsuladas pelo módulo  *****/
 

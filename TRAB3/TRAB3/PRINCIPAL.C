@@ -399,6 +399,7 @@ static void gravarArquivo( TAB_tppTabuleiro pTabuleiro , JOG_tppJogo pJogo , PEC
 	int Diag;
 	int Reta;
 	int Qtde;
+	char ToInt[20];
 
     fp = fopen ("Jogo.txt", "w+");
     if (fp == NULL) {
@@ -422,13 +423,18 @@ static void gravarArquivo( TAB_tppTabuleiro pTabuleiro , JOG_tppJogo pJogo , PEC
 			
 			strcpy (TipoPeca, "TIPOPECA ");
 			strcat (TipoPeca, (char *)&NomePecaFile);
-			strcat (TipoPeca, " ");
-			
-			strcat (TipoPeca, (char *)&Diag);
-			strcat (TipoPeca, " ");
-			strcat (TipoPeca, (char *)&Reta);
-			strcat (TipoPeca, " ");
-			strcat (TipoPeca, (char *)&Qtde);
+
+			strcat (TipoPeca, " ");			
+			sprintf(ToInt, "%d", Diag);
+			strcat (TipoPeca, ToInt);
+
+			strcat (TipoPeca, " ");			
+			sprintf(ToInt, "%d", Reta);
+			strcat (TipoPeca, ToInt);
+
+			strcat (TipoPeca, " ");			
+			sprintf(ToInt, "%d", Qtde);
+			strcat (TipoPeca, ToInt);
 
 			fputs(TipoPeca, fp);
 			fputs("\n", fp);

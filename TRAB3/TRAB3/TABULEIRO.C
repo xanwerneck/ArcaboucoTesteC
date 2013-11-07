@@ -154,12 +154,15 @@ TAB_tpCondRet TAB_AvancarCasas( TAB_tppTabuleiro pTabuleiro , int val )
 
 TAB_tpCondRet TAB_ObterConteudo( TAB_tppTabuleiro pTabuleiro , void ** pConteudo )
 {
+	JOG_tppPecaJogo pPeca; 
 
 	if(pTabuleiro == NULL){
 		return TAB_CondRetTabuleiroNulo;
 	}
 	
-	GRA_PegaConteudo(pTabuleiro->tpGrafo , (void**)&pConteudo);
+	GRA_PegaConteudo(pTabuleiro->tpGrafo , (void**)&pPeca);
+
+	*pConteudo = pPeca;
 
 	return TAB_CondRetOK;
 
@@ -350,6 +353,16 @@ TAB_tpCondRet TAB_AvancarTipoPeca(TAB_tppTabuleiro pTabuleiro , int val)
 	return TAB_CondRetOK;
 }
 
+TAB_tpCondRet TAB_Caminhar(TAB_tppTabuleiro pTabuleiro , char * Aresta  , void ** Vertice)
+{
+	if(pTabuleiro==NULL){
+		return TAB_CondRetTabuleiroNulo;
+	} /* if */
+
+	GRA_
+
+}
+
 void ExcluirInfo ( void * pValor )
 {
 
@@ -380,7 +393,7 @@ TAB_tpCondRet PreparaEstruturaMatriz( GRA_tppGrafo pGrafo  , int numElementos ){
 	{
 		"A1","A2","A3","A4","A5","A6","A7","A8","B1","B2","B3","B4","B5","B6","B7","B8","C1","C2","C3","C4","C5","C6","C7","C8","D1","D2","D3","D4","D5","D6","D7","D8","E1","E2","E3","E4","E5","E6","E7","E8","F1","F2","F3","F4","F5","F6","F7","F8","G1","G2","G3","G4","G5","G6","G7","G8","H1","H2","H3","H4","H5","H6","H7","H8"
 	};
-
+	
 	GRA_tppVerGrafo tpElem			 = CriarNo( pGrafo , IdVertices[0] );
 
 	if(tpElem == NULL)
@@ -410,6 +423,8 @@ TAB_tpCondRet PreparaEstruturaMatriz( GRA_tppGrafo pGrafo  , int numElementos ){
 						GRA_CriarAresta(IdVertices[0],IdVertices[1],pGrafo,"LESTE");
 						GRA_CriarAresta(IdVertices[0],IdVertices[8],pGrafo,"SUL");
 						GRA_CriarAresta(IdVertices[0],IdVertices[9],pGrafo,"SUDESTE");
+
+
 
 					}
 					if(i==0 && j==numElementos){
@@ -462,7 +477,7 @@ TAB_tpCondRet PreparaEstruturaMatriz( GRA_tppGrafo pGrafo  , int numElementos ){
 						GRA_CriarAresta(IdTmp,IdVertices[j-1],pGrafo,"OESTE");
 						GRA_CriarAresta(IdTmp,IdVertices[(j+numElementos) + 1],pGrafo,"SUL");
 						GRA_CriarAresta(IdTmp,IdVertices[(j+numElementos)],pGrafo,"SUDOESTE");
-
+						
 						CriarNo( pGrafo , IdVertices[j+1]);                    /* Cria no leste */
 						CriarNo( pGrafo , IdVertices[(j + numElementos) + 2]); /* Cria no sudeste */
 
@@ -481,12 +496,14 @@ TAB_tpCondRet PreparaEstruturaMatriz( GRA_tppGrafo pGrafo  , int numElementos ){
 						GRA_CriarAresta(IdTmp,IdVertices[(i - 1) * (numElementos + 1)],pGrafo,"NORTE");
 						GRA_CriarAresta(IdTmp,IdVertices[((i - 1) * (numElementos + 1)) + 1],pGrafo,"NORDESTE");
 						GRA_CriarAresta(IdTmp,IdVertices[(i * (numElementos + 1)) + 1],pGrafo,"LESTE");
-
+						
 						CriarNo( pGrafo , IdVertices[(numElementos * (i+1)) + (i+1)]); /* Cria sul */
 						CriarNo( pGrafo , IdVertices[(numElementos * (i+1)) + (i+2)]); /* Cria sudeste */
 
 						GRA_CriarAresta(IdTmp,IdVertices[(numElementos * (i+1)) + (i+1)],pGrafo,"SUL");
 						GRA_CriarAresta(IdTmp,IdVertices[(numElementos * (i+1)) + (i+2)],pGrafo,"SUDESTE");
+
+
 						
 					}
 					if(i==numElementos && (j!=numElementos || j!=0)){

@@ -227,6 +227,8 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 	int Qtde;
 
 	int QtdeTmp;
+
+	void ** Vertice;
 	
 	if(pJOGO == NULL)
 	{
@@ -241,23 +243,14 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 		
 		if(pPecaJogo != NULL){
 
-			PEC_ObterDadosTipoPeca(pPecaJogo->pTipoPeca , (void**)&Nome, (int *)&Diag, (int *)&Reta, (int *)&Qtde);
+			PEC_ObterDadosTipoPeca(pPecaJogo->pTipoPeca , (void**)&Nome, &Diag, &Reta, &Qtde);
 
 			if(Diag == 1){
-
+				
 				QtdeTmp = Qtde;
 				while(QtdeTmp > 0){
-					printf("Qtde");
-					QtdeTmp--;
-				}
-
-				/*
-				QtdeTmp = Qtde;
-				while(QtdeTmp > 0){
-					TAB_ObterCasa(pTabuleiro , (void**)&pCasa);
-					TAB_IrNoNordeste(pCasa);
+					TAB_Caminhar(pTabuleiro , "NORDESTE"  , (void**)&Vertice);
 					if(pPecaJogo != NULL){
-						TAB_ObterVertice(pTabuleiro , &Vertice);
 						JOG_InsereElemApos(pPecaJogo , Vertice);
 					}
 					QtdeTmp--;
@@ -292,7 +285,7 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 					}
 					QtdeTmp--;
 				}
-				*/
+				
 			}
 			if(Reta == 1){
 
