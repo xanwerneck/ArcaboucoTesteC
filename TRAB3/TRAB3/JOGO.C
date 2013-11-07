@@ -55,7 +55,7 @@ typedef struct JOG_tagListaPeca{
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: JOG Descritor do elemento peca para Tabuleiro
+*  $TC Tipo de dados: JOG Descritor do elemento peca para tabuleiro
 *
 *
 ***********************************************************************/
@@ -63,15 +63,15 @@ typedef struct JOG_tagListaPeca{
 typedef struct JOG_tagPecaJogo {
 
 	char Id;
-	/* Identificador da casa do tabuleiro onde a peca se 
+	/* Identificador da casa do tabuleiro, casa onde a peca se 
 	   encontra */
 
 	LIS_tppLista pListaDestino;
 	/* Ponteiro para lista de casas possiveis pelo movimento
-	   da peca que chegam ate ao Rei */		
+	   da peca, limitando-se as casas que chegam ate ao Rei */		
 
 	LIS_tppLista pListaCaminho;
-	/* Ponteiro para lista de casas possiveis pelo 
+	/* Ponteiro para lista de todas as casas possiveis pelo 
 	   movimento da peca */
 
 	PEC_tppPeca  pTipoPeca ;
@@ -81,8 +81,10 @@ typedef struct JOG_tagPecaJogo {
 
 /***** Prototipos das funcoes encapsuladas no modulo *****/
 
+   /* Funcao desaloca da memoria o jogo */
    static void ExcluirJogo( void * pPeca );
 
+   /* Funcao desaloca da memoria peca do jogo */
    static void ExcluirPecaJogo( void * pPeca );
 
 /*****  Codigo das funcoes exportadas pelo modulo  *****/
@@ -138,11 +140,20 @@ JOG_tpCondRet JOG_InserirPecaTimeA(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar)
 
 	JOG_tppPecaJogo mPeca = NULL ;
 
-
 	mPeca = (JOG_tppPecaJogo) malloc(sizeof(JOG_tpPecaJogo));
+	if(mPeca == NULL)
+	{
+		return JOG_CondRetFaltouMemoria;
+	} /* if */
+
 	if(pJOGO == NULL)
 	{
 		return JOG_CondRetJogoNulo ;
+	} /* if */
+
+	if (pPecaSetar == NULL)
+	{
+		return JOG_CondRetFimLista ;
 	} /* if */
 	
 	mPeca->pTipoPeca = pPecaSetar;
@@ -180,11 +191,20 @@ JOG_tpCondRet JOG_InserirPecaTimeB(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar)
 
 	JOG_tppPecaJogo mPeca = NULL ;
 
-
 	mPeca = (JOG_tppPecaJogo) malloc(sizeof(JOG_tpPecaJogo));
+	if(mPeca == NULL)
+	{
+		return JOG_CondRetFaltouMemoria;
+	} /* if */
+
 	if(pJOGO == NULL)
 	{
 		return JOG_CondRetJogoNulo ;
+	} /* if */
+
+	if (pPecaSetar == NULL)
+	{
+		return JOG_CondRetFimLista ;
 	} /* if */
 	
 	mPeca->pTipoPeca = pPecaSetar;
@@ -302,22 +322,33 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 
 	return JOG_CondRetOK;
 
-}
+} /* Fim funcao: JOG &Preenche caminho */
 
+
+/***************************************************************************
+*
+*  Funcao: JOG  &Insere elemento apos
+*  ****/
 JOG_tpCondRet JOG_InsereElemApos(JOG_tppPecaJogo pPeca , void * Conteudo)
 {
 	int Num;
-	if(pPeca == NULL){
-		return JOG_CondRetJogoNulo;
-	}
+
+	if(pPeca == NULL)
+	{
+		return JOG_CondRetFimLista;
+	} /* if */
 	
 	LIS_NumElem(pPeca->pListaCaminho , &Num);
 	printf("Numero de elementos %d" , Num);
 
-	LIS_InserirElementoApos(pPeca->pListaCaminho , Conteudo);
+	ListaRet = LIS_InserirElementoApos(pPeca->pListaCaminho , Conteudo);
+	if(ListaRet == LIS_CondRetFaltouMemoria)
+	{
+		return JOG_CondRetFaltouMemoria;
+	} /* if */
 
 	return JOG_CondRetOK;
-}
+} /* Fim funcao: JOG &Insere elemento apos */
 
 
 /***************************************************************************
@@ -325,7 +356,7 @@ JOG_tpCondRet JOG_InsereElemApos(JOG_tppPecaJogo pPeca , void * Conteudo)
 *  Funcao: JOG  &Avancar corrente do time
 *  ****/
 
-JOG_tpCondRet JOG_AvancarCorrrenteTime(JOG_tppJogo pJOGO , char Time , int val)
+JOG_tpCondRet JOG_AvancarCorrrenteTime(JOG_tppJogo pJOGO , char Time , int qtdPecas)
 {
 	if(pJOGO == NULL)
 	{
@@ -333,16 +364,20 @@ JOG_tpCondRet JOG_AvancarCorrrenteTime(JOG_tppJogo pJOGO , char Time , int val)
 	} /* if */
 
 	if(Time == 'A'){
-		ListaRet = LIS_AvancarElementoCorrente(pJOGO->pListaTimeA, val);
+		ListaRet = LIS_AvancarElementoCorrente(pJOGO->pListaTimeA, qtdPecas);
+		if((ListaRet == LIS_CondRetListaVazia) || (ListaRet == LIS_CondRetFimLista))
+		{
+			return JOG_CondRetFimLista;
+		} /* if */
 	}
 	else if(Time == 'B'){
-		ListaRet = LIS_AvancarElementoCorrente(pJOGO->pListaTimeB, val);
+		ListaRet = LIS_AvancarElementoCorrente(pJOGO->pListaTimeB, qtdPecas);
+		if((ListaRet == LIS_CondRetListaVazia) || (ListaRet == LIS_CondRetFimLista))
+		{
+			return JOG_CondRetFimLista;
+		} /* if */
 	} /* if */
-	
-	if(ListaRet == LIS_CondRetFimLista || LIS_CondRetListaVazia ){
-		return JOG_CondRetFimLista;
-	} /* if */
-	
+		
 	return JOG_CondRetOK;
 	
 } /* Fim funcao: JOG &Avancar corrente do time */
@@ -370,7 +405,7 @@ JOG_tpCondRet JOG_NumPecasTime(JOG_tppJogo pJOGO ,char Time, int * NumPecas)
 
 	return JOG_CondRetOK;
 
-} /* Fim funcao: JOG &Inserir peca no tima B */
+} /* Fim funcao: JOG &Numero de pecas do time */
 
 /***************************************************************************
 *
@@ -380,10 +415,12 @@ JOG_tpCondRet JOG_NumPecasTime(JOG_tppJogo pJOGO ,char Time, int * NumPecas)
 JOG_tpCondRet JOG_ObterTipoPeca(JOG_tppJogo pJOGO , char Time, void ** pTipo)
 {
 	JOG_tppPecaJogo pPecaJogo ;
+
 	if(pJOGO == NULL)
 	{
 		return JOG_CondRetJogoNulo ;
 	} /* if */
+		
 	if(Time == 'A'){
 		
 		ListaRet = LIS_ObterValor(pJOGO->pListaTimeA , (void**)&pPecaJogo);
