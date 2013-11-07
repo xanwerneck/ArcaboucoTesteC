@@ -2,7 +2,7 @@
 #define LISTA_
 /***************************************************************************
 *
-*  $MCD Módulo de definição: LIS  Lista duplamente encadeada
+*  $MCD Modulo de definicao: LIS  Lista duplamente encadeada
 *
 *  Arquivo gerado:              LISTA.H
 *  Letras identificadoras:      LIS
@@ -18,32 +18,32 @@
 *     Y       afv   xx/xx/2013  finalizacao do desenvolvimento do modulo
 *     1       afv   19/out/2013 inicio do desenvolvimento do modulo
 *
-*  $ED Descrição do módulo
-*     Implementa listas genéricas duplamente encadeadas.
-*     Podem existir n listas em operação simultaneamente.
-*     As listas possuem uma cabeça encapsulando o seu estado.
+*  $ED Descricao do modulo
+*     Implementa listas genericas duplamente encadeadas.
+*     Podem existir n listas em operacao simultaneamente.
+*     As listas possuem uma cabeca encapsulando o seu estado.
 *
-*     Cada lista é homogênea quanto ao tipo dos dados que armazena.
-*     Cada elemento da lista referencia o valor que contém.
+*     Cada lista e homogenea quanto ao tipo dos dados que armazena.
+*     Cada elemento da lista referencia o valor que contem.
 *
-*     Os ponteiros para os dados são copiados para elementos da lista.
-*     Não é copiado o valor apontado por estes ponteiros.
+*     Os ponteiros para os dados sao copiados para elementos da lista.
+*     Não e copiado o valor apontado por estes ponteiros.
 *
-*     O controle da destruição do valor de um elemento a ser excluído
-*     é realizado por uma função fornecida pelo usuário do módulo.
+*     O controle da destruicao do valor de um elemento a ser excluido
+*     e realizado por uma funcao fornecida pelo usuario do modulo.
 *
-*     Cada lista referencia uma função que determina como devem ser
+*     Cada lista referencia uma funcao que determina como devem ser
 *     desalocados os dados nela contidos.
 *
-*     A função de liberação dos valores contidos nos elementos deve
-*     assegurar a liberação de todos os espaços referenciados pelo
+*     A funcao de liberacao dos valores contidos nos elementos deve
+*     assegurar a liberacao de todos os espacos referenciados pelo
 *     valor contido em um elemento.
-*     Esta função é chamada antes de se desalocar um elemento
+*     Esta funcao e chamada antes de se desalocar um elemento
 *     de uma lista.
 *     Caso não seja necessário desalocar o valor referenciado pelo
-*     elemento, o ponteiro para a função de liberação poderá ser NULL .
-*     Caso o elemento da lista seja a única âncora do valor referenciado,
-*     esta função deve promover a destruição (free) desse valor e
+*     elemento, o ponteiro para a funcao de liberacao podera ser NULL .
+*     Caso o elemento da lista seja a unica ancora do valor referenciado,
+*     esta funcao deve promover a destruicao (free) desse valor e
 *     de todos os dados nele ancorados.
 *
 ***************************************************************************/
