@@ -2,27 +2,27 @@
 #define PECA_
 /***************************************************************************
 *
-*  $MCD Módulo de definição: PEC  Peça do tabuleiro
+*  $MCD Modulo de definicao: PEC  Peca do tabuleiro
 *
 *  Arquivo gerado:              PECA.H
 *  Letras identificadoras:      PEC
 *
-*  Projeto: INF 1301 - Verificador de Xeque-Mate
+*  Projeto: INF 1301 - Verificador de Xeque-mate
 *  Gestor:  Flavio Bevilacqua
 *  Autores: afv:  aw - Alexandre Werneck
 *                 fr - Fernanda C Ribeiro
 *			         vo - Vinicius de Luiz de Oliveira
 *
-*  $HA Histórico de evolução:
-*     Versão  Autor    Data     Observações
-*     Y       afv   xx/xx/2013  finalização do desenvolvimento do modulo
-*     1       afv   24/out/2013 início do desenvolvimento do módulo
+*  $HA Historico de evolucao:
+*     Versao  Autor    Data     Observacoes
+*     Y       afv   xx/xx/2013  finalizacao do desenvolvimento do modulo
+*     1       afv   24/out/2013 inicio do desenvolvimento do modulo
 *
-*  $ED Descrição do módulo
-*     O presente módulo implementa a criação e manipulação de estruturas 
-*     do tipo peça para tabuleiro.
-*	  Podem existir n tipos de peças em um tabuleiro simultaneamente.
-*     Além do tipo de peças, podem existir n peças de tipo repetido.
+*  $ED Descricao do modulo
+*     O presente modulo implementa a criacao e manipulacao de estruturas 
+*     do tipo peca para tabuleiro.
+*	  Podem existir n tipos de pecas em um tabuleiro simultaneamente.
+*     Alem do tipo de pecas, podem existir n pecas de tipo repetido.
 *
 ***************************************************************************/
  
@@ -32,19 +32,19 @@
    #define PECA_EXT extern
 #endif
 
-/***** Declarações exportadas pelo módulo *****/
+/***** Declaracoes exportadas pelo modulo *****/
 
-/* Tipo referência para uma peça */
+/* Tipo referencia para uma peca */
 typedef struct PEC_tagElemPeca * PEC_tppPeca ;
 
 
 /**************************************************************************
 *
-*  $TC Tipo de dados: PEC Condições de retorno
+*  $TC Tipo de dados: PEC Condicoes de retorno
 *
 *
-*  $ED Descrição do tipo
-*     Condições de retorno das funções da peça
+*  $ED Descricao do tipo
+*     Condicoes de retorno das funcoes da peca
 *
 **************************************************************************/
 
@@ -54,32 +54,32 @@ typedef enum {
 		   /* Concluiu corretamente */
 
 	 PEC_CondRetPecaNula = 1 ,
-	 	   /* Peça nula */
+	 	   /* Peca nula */
 
 	 PEC_CondRetFaltouMemoria = 9
-		   /* Faltou memória ao tentar criar um elemento de peça */
+		   /* Faltou memoria ao tentar criar um elemento de peca */
 
 } PEC_tpCondRet ;
 
 
 /***************************************************************************
 *
-*  $FC Função: PEC Criar peça
+*  $FC Funcao: PEC Criar peca
 *
-*  $ED Descrição da função
-*     Inicia uma peça com elementos diagonal, reta, quantidade e nome.
+*  $ED Descricao da funcao
+*     Inicia uma peca com elementos diagonal, reta, quantidade e nome.
 *
 *  $EP Parâmetros
-*     pPeca - Referência para a peça que será criada.
-*     Diag  - Se a peça pode se mover para diagonais;
-*             Valor igual a 1 se for possível esse tipo de movimento;
-*             Valor igual a 0 se não for possível;
-*     Reta  - Se a peça pode se mover horizontalmente e verticalmente;
-*             Valor igual a 1 se for possível esse tipo de movimento;
-*             Valor igual a 0 se não for possível;
-*     Qtde  - Número de casas que ele pode se movimentar para diagonal 
+*     pPeca - Referencia para a peca que sera criada.
+*     Diag  - Se a peca pode se mover para diagonais;
+*             Valor igual a 1 se for possivel esse tipo de movimento;
+*             Valor igual a 0 se nao for possivel;
+*     Reta  - Se a peca pode se mover horizontalmente e verticalmente;
+*             Valor igual a 1 se for possivel esse tipo de movimento;
+*             Valor igual a 0 se nao for possivel;
+*     Qtde  - Numero de casas que ele pode se movimentar para diagonal 
 *             ou horizontal/vertical;
-*     Nome  - String com o nome da peça que será criada;
+*     Nome  - String com o nome da peca que sera criada;
 *     
 *
 *  $FV Valor retornado
@@ -87,16 +87,16 @@ typedef enum {
 *     PEC_CondRetFaltouMemoria
 *
 *  $AE CondRet deve ter sido instanciado
-*      Diag é valor inteiro 0 ou 1;
-*      Reta é valor inteiro 0 ou 1;
-*      Qtde é valor inteiro entre 1 e 7;
+*      Diag e valor inteiro 0 ou 1;
+*      Reta e valor inteiro 0 ou 1;
+*      Qtde e valor inteiro entre 1 e 7;
 *      String com 2 caracteres;
 *
 *  $AS Se CondRet = PEC_CondRetOK
-*	   Peça criada com sucesso;
+*	   Peca criada com sucesso;
 *
 *	   Se CondRet = PEC_CondRetFaltouMemoria
-*	   Peça não foi criada por falta de memória;
+*	   Peca nao foi criada por falta de memoria;
 *
 **************************************************************************/
 
@@ -106,27 +106,27 @@ PEC_tpCondRet PEC_CriarPeca(PEC_tppPeca * pPeca, int Diag , int Reta ,
 
 /**************************************************************************
 *
-*  $FC Função: PEC Obter nome
+*  $FC Funcao: PEC Obter nome
 *
-*  $ED Descrição da função
-*     Retorna por parâmetro o peça nome.
+*  $ED Descricao da funcao
+*     Retorna por parâmetro o peca nome.
 *
 *  $EP Parâmetros
-*     pPeca - Referência para a peça da qual será retornado o valor.
-*     NomePeca - Ponteiro para o qual será retornado o nome da peça.
+*     pPeca - Referencia para a peca da qual sera retornado o valor.
+*     NomePeca - Ponteiro para o qual sera retornado o nome da peca.
 *
 *  $FV Valor retornado
 *     PEC_CondRetOK
 *     PEC_CondRetPecaNula
 *
 *  $AE CondRet deve ter sido instanciado
-*      Nome da peça tem que ser uma string não nula.
+*      Nome da peca tem que ser uma string nao nula.
 *
 *  $AS Se CondRet = PEC_CondRetOK
-*	   Obteve nome da peça com sucesso;
+*	   Obteve nome da peca com sucesso;
 *
 *	   Se CondRet = PEC_CondRetPecaNula
-*	   Peça nula, não retorna nada no NomePeca;
+*	   Peca nula, nao retorna nada no NomePeca;
 *
 ***********************************************************************/
 
@@ -135,27 +135,27 @@ PEC_tpCondRet PEC_ObterNome (PEC_tppPeca pPeca ,  void **NomePeca);
 
 /***********************************************************************
 *
-*  $FC Função: PEC Obter dados do tipo peça
+*  $FC Funcao: PEC Obter dados do tipo peca
 *
-*  $ED Descrição da função
+*  $ED Descricao da funcao
 *     Retorna por parâmetros o Nome, a Diag, a Reta e a Qtde de pPeca.
 *
 *  $EP Parâmetros
-*     pPeca - Referência para a peça da qual serão retornados 
+*     pPeca - Referencia para a peca da qual serao retornados 
 *             os elementos.
-*     Nome  - Ponteiro para o qual será retornado o peça Nome.
-*     Diag  - Ponteiro para o qual será retornado o peça Diag.
-*     Reta  - Ponteiro para o qual será retornado o peça Reta.
-*     Qtde  - Ponteiro para o qual será retornado o peça Qtde.
+*     Nome  - Ponteiro para o qual sera retornado o peca Nome.
+*     Diag  - Ponteiro para o qual sera retornado o peca Diag.
+*     Reta  - Ponteiro para o qual sera retornado o peca Reta.
+*     Qtde  - Ponteiro para o qual sera retornado o peca Qtde.
 *
 *  $FV Valor retornado
 *     PEC_CondRetOK
 *     PEC_CondRetPecaNula
 *
 *  $AE CondRet deve ter sido instanciado
-*      Nome da peça tem que ser uma string não nula.
-*      Diag, Reta e Qtde da variável de tipo PEC_tppPeca tem que
-*      não nulos, valores inteiros.
+*      Nome da peca tem que ser uma string nao nula.
+*      Diag, Reta e Qtde da variavel de tipo PEC_tppPeca tem que
+*      nao nulos, valores inteiros.
 *      Diag e Reta da pPeca valores inteiros entre 0 e 1;
 *      Qtde da pPeca valor inteiro entre 1 e 7;
 *
@@ -163,7 +163,7 @@ PEC_tpCondRet PEC_ObterNome (PEC_tppPeca pPeca ,  void **NomePeca);
 *	   Obteve Nome, Diag, Reta e Qtde com sucesso;
 *
 *	   Se CondRet = PEC_CondRetPecaNula
-*	   Peça nula, não pode retornar elementos da pPeca;
+*	   Peca nula, nao pode retornar elementos da pPeca;
 *
 ***********************************************************************/
 
@@ -173,7 +173,7 @@ PEC_tpCondRet PEC_ObterDadosTipoPeca (PEC_tppPeca pPeca , void ** Nome,
 
 #undef PECA_EXT
 
-/******** Fim do módulo de definição: PEC  Peca do tabuleiro **********/
+/******** Fim do modulo de definicao: PEC  Peca do tabuleiro **********/
 
 #else
 #endif

@@ -5,7 +5,7 @@
 *  Arquivo gerado:              JOGO.C
 *  Letras identificadoras:      JOG
 *
-*  Projeto: INF 1301 - Verificador de Xeque-Mate
+*  Projeto: INF 1301 - Verificador de Xeque-mate
 *  Gestor:  Flavio Bevilacqua
 *  Autores: afv:  aw - Alexandre Werneck
 *                 fr - Fernanda C Ribeiro
@@ -79,7 +79,7 @@ typedef struct JOG_tagPecaJogo {
 
 } JOG_tpPecaJogo ;
 
-/***** Prototipos das funcoes encapsuladas no modulo *****/
+/************* Prototipos das funcoes encapsuladas no modulo ***********/
 
    /* Funcao desaloca da memoria o jogo */
    static void ExcluirJogo( void * pPeca );
@@ -87,7 +87,7 @@ typedef struct JOG_tagPecaJogo {
    /* Funcao desaloca da memoria peca do jogo */
    static void ExcluirPecaJogo( void * pPeca );
 
-/*****  Codigo das funcoes exportadas pelo modulo  *****/
+/*************  Codigo das funcoes exportadas pelo modulo  *************/
 
 /************************************************************************
 *
@@ -568,7 +568,7 @@ JOG_tpCondRet JOG_ObterPecaJogo(JOG_tppJogo pJOGO , char Time, void ** pTipo)
 
 
 
-/*****  Codigo das funcoes encapsuladas no modulo  *****/
+/************  Codigo das funcoes encapsuladas no modulo  *************/
 
 
 /***********************************************************************

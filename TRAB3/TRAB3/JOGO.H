@@ -7,14 +7,14 @@
 *  Arquivo gerado:              JOGO.H
 *  Letras identificadoras:      JOG
 *
-*  Projeto: INF 1301 - Verificador de Xeque-Mate
+*  Projeto: INF 1301 - Verificador de Xeque-mate
 *  Gestor:  Flavio Bevilacqua
 *  Autores: afv:  aw - Alexandre Werneck
 *                 fr - Fernanda C Ribeiro
 *			      vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Historico de evolucao:
-*     Versão  Autor    Data     Observacoes
+*     Versao  Autor    Data     Observacoes
 *     Y       afv   xx/xx/2013  finalizacao do desenvolvimento do modulo
 *     1       afv   19/out/2013 inicio do desenvolvimento do modulo
 *
@@ -83,7 +83,7 @@ typedef enum {
 *  $ED Descricao da funcao
 *     Inicia um jogo vazio.
 *
-*  $EP Parâmetros
+*  $EP Parametros
 *     pJogo - Ponteiro para o jogo que sera criado.     
 *
 *  $FV Valor retornado
@@ -332,7 +332,7 @@ JOG_tpCondRet JOG_NumPecasTime(JOG_tppJogo pJOGO ,char Time, int * NumPecas);
 *
 *  $AE CondRet deve ter sido instanciado
 *      Time tem que ser um caracter 'A' ou 'B'.
-*      A lista do time do jogo em questão tem que ser válida.
+*      A lista do time do jogo em questao tem que ser valida.
 *
 *  $AS Se CondRet = JOG_CondRetOK
 *	   Retornou o tipo de peca do time com sucesso.
@@ -365,7 +365,7 @@ JOG_tpCondRet JOG_ObterTipoPeca(JOG_tppJogo pJOGO , char Time, void ** pTipo);
 *
 *  $AE CondRet deve ter sido instanciado
 *      Time tem que ser um caracter 'A' ou 'B'.
-*      A lista do time do jogo em questão tem que ser válida.
+*      A lista do time do jogo em questao tem que ser valida.
 *
 *  $AS Se CondRet = JOG_CondRetOK
 *	   Conseguiu com sucesso ir para inicio da lista de pecas do jogo 
@@ -401,13 +401,13 @@ JOG_tpCondRet JOG_IrInicioPecas(JOG_tppJogo pJOGO , char Time);
 *
 *  $AE CondRet deve ter sido instanciado
 *      Time tem que ser um caracter 'A' ou 'B'.
-*      A lista do time do jogo em questão tem que ser válida.
+*      A lista do time do jogo em questao tem que ser valida.
 *
 *  $AS Se CondRet = JOG_CondRetOK
 *	   retornou peca com sucesso.
 *
 *	   Se CondRet = JOG_CondRetJogoNulo
-*	   Não foi possivel obter peca, jogo nulo.
+*	   Nao foi possivel obter peca, jogo nulo.
 *
 ***********************************************************************/
 
