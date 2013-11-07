@@ -436,6 +436,7 @@ GRA_tpCondRet GRA_DestruirGrafo( GRA_tppGrafo pGrafo);
 GRA_tpCondRet GRA_ObterVertice(GRA_tppGrafo pGrafo , void ** pValor);
 
 GRA_tpCondRet GRA_IrInicio(GRA_tppGrafo pGrafo);
+
 GRA_tpCondRet GRA_BuscaIdVertice(GRA_tppGrafo pGrafo , char ** pValor);
 GRA_tpCondRet GRA_AvancarCorrenteVert(GRA_tppGrafo pGrafo , int val);
 GRA_tpCondRet GRA_NumeroVertices(GRA_tppGrafo pGrafo , int * val);
@@ -445,6 +446,15 @@ GRA_tpCondRet GRA_SetarCorrente(GRA_tppGrafo pGrafo , char * pValor);
 GRA_tpCondRet GRA_InsereConteudoVertice(GRA_tppGrafo pGrafo , void * pConteudo);
 
 GRA_tpCondRet GRA_PegaConteudo(GRA_tppGrafo pGrafo , void ** pConteudo);
+
+GRA_tpCondRet GRA_ObterArestaVertice(GRA_tppGrafo pGrafo , void ** rVertice , char * Aresta);
+
+GRA_tpCondRet GRA_IrInicioAresta(GRA_tppGrafo pGrafo);
+
+GRA_tpCondRet GRA_AvancarArestaVertice(GRA_tppGrafo pGrafo , int val);
+
+GRA_tpCondRet GRA_NumeroArestaVertice(GRA_tppGrafo pGrafo , int * Num);
+
 
 #undef GRAFO_EXT
 

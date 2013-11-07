@@ -246,71 +246,129 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 	int Reta;
 	int Qtde;
 
-	int QtdeTmp;
+	int QtdeTmp = 0;
 
 	void ** Vertice;
+
+	char * corrente;
 	
 	if(pJOGO == NULL)
 	{
 		return JOG_CondRetJogoNulo ;
 	}
-
-	TabRet = TAB_IrInicioCasas(pTabuleiro);
 	
+	TabRet = TAB_IrInicioCasas(pTabuleiro);
+
 	do{
 
 		TAB_ObterConteudo(pTabuleiro , (void**)&pPecaJogo);
 		
 		if(pPecaJogo != NULL){
 
+			TAB_ObterVerticeCorrente(pTabuleiro , (void**)&corrente);
+
 			PEC_ObterDadosTipoPeca(pPecaJogo->pTipoPeca , (void**)&Nome, &Diag, &Reta, &Qtde);
 
 			if(Diag == 1){
-				
+
 				QtdeTmp = Qtde;
 				while(QtdeTmp > 0){
-					TAB_Caminhar(pTabuleiro , "NORDESTE"  , (void**)&Vertice);
-					if(pPecaJogo != NULL){
+
+					TAB_ObterVerticeAresta(pTabuleiro  , (void**)&Vertice , "NORDESTE");
+					if(&Vertice != NULL){
+						printf("EXISTE");
+						JOG_InsereElemApos(pPecaJogo , Vertice);
+					}else{
+						printf("nulo");
+					}
+					QtdeTmp--;
+				}
+				TAB_SetarCorrente(pTabuleiro , corrente);
+
+				QtdeTmp = Qtde;
+				while(QtdeTmp > 0){
+					TAB_ObterVerticeAresta(pTabuleiro  , (void**)&Vertice , "NOROESTE");
+					if(&Vertice != NULL){
 						JOG_InsereElemApos(pPecaJogo , Vertice);
 					}
 					QtdeTmp--;
 				}
+				TAB_SetarCorrente(pTabuleiro , corrente);
+
 				QtdeTmp = Qtde;
 				while(QtdeTmp > 0){
-					TAB_ObterCasa(pTabuleiro , (void**)&pCasa);
-					TAB_IrNoNoroeste(pCasa);
-					if(pPecaJogo != NULL){
-						TAB_ObterVertice(pTabuleiro , &Vertice);
+					TAB_ObterVerticeAresta(pTabuleiro  , (void**)&Vertice , "SUDESTE");
+					if(&Vertice != NULL){
 						JOG_InsereElemApos(pPecaJogo , Vertice);
 					}
 					QtdeTmp--;
 				}
+				TAB_SetarCorrente(pTabuleiro , corrente);
+
 				QtdeTmp = Qtde;
 				while(QtdeTmp > 0){
-					TAB_ObterCasa(pTabuleiro , (void**)&pCasa);
-					TAB_IrNoSudeste(pCasa);
-					if(pPecaJogo != NULL){
-						TAB_ObterVertice(pTabuleiro , &Vertice);
+					TAB_ObterVerticeAresta(pTabuleiro  , (void**)&Vertice , "SUDOESTE");
+					if(&Vertice != NULL){
 						JOG_InsereElemApos(pPecaJogo , Vertice);
 					}
 					QtdeTmp--;
 				}
-				QtdeTmp = Qtde;
-				while(QtdeTmp > 0){
-					TAB_ObterCasa(pTabuleiro , (void**)&pCasa);
-					TAB_IrNoSudoeste(pCasa);
-					if(pPecaJogo != NULL){
-						TAB_ObterVertice(pTabuleiro , &Vertice);
-						JOG_InsereElemApos(pPecaJogo , Vertice);
-					}
-					QtdeTmp--;
-				}
+				TAB_SetarCorrente(pTabuleiro , corrente);
 				
 			}
 			if(Reta == 1){
 
+				QtdeTmp = Qtde;
+				while(QtdeTmp > 0){
+					TAB_ObterVerticeAresta(pTabuleiro  , (void**)&Vertice , "NORTE");
+					if(&Vertice != NULL){
+						JOG_InsereElemApos(pPecaJogo , Vertice);
+					}
+					QtdeTmp--;
+				}
+				TAB_SetarCorrente(pTabuleiro , corrente);
+
+				QtdeTmp = Qtde;
+				while(QtdeTmp > 0){
+					TAB_ObterVerticeAresta(pTabuleiro  , (void**)&Vertice , "SUL");
+					if(&Vertice != NULL){
+						JOG_InsereElemApos(pPecaJogo , Vertice);
+					}
+					QtdeTmp--;
+				}
+				TAB_SetarCorrente(pTabuleiro , corrente);
+
+				QtdeTmp = Qtde;
+				while(QtdeTmp > 0){
+					TAB_ObterVerticeAresta(pTabuleiro  , (void**)&Vertice , "LESTE");
+					if(&Vertice != NULL){
+						JOG_InsereElemApos(pPecaJogo , Vertice);
+					}
+					QtdeTmp--;
+				}
+				TAB_SetarCorrente(pTabuleiro , corrente);
+
+				QtdeTmp = Qtde;
+				while(QtdeTmp > 0){
+					TAB_ObterVerticeAresta(pTabuleiro  , (void**)&Vertice , "OESTE");
+					if(&Vertice != NULL){
+						JOG_InsereElemApos(pPecaJogo , Vertice);
+					}
+					QtdeTmp--;
+				}
+				TAB_SetarCorrente(pTabuleiro , corrente);
+
 			}
 
+			QtdeTmp = Reta = Qtde = Diag = 0;				
+
+			TAB_SetarCorrente(pTabuleiro , corrente);
+			
+			strcpy(corrente , "");
+
+			LIS_NumElem(pPecaJogo->pListaCaminho , &QtdeTmp);
+			printf("Numero de elem de arestas  %d" , QtdeTmp);
+			
 		}
 
 		TabRet = TAB_AvancarCasas(pTabuleiro , 1);
@@ -331,17 +389,14 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 *  ****/
 JOG_tpCondRet JOG_InsereElemApos(JOG_tppPecaJogo pPeca , void * Conteudo)
 {
-	int Num;
 
 	if(pPeca == NULL)
 	{
 		return JOG_CondRetFimLista;
 	} /* if */
-	
-	LIS_NumElem(pPeca->pListaCaminho , &Num);
-	printf("Numero de elementos %d" , Num);
 
 	ListaRet = LIS_InserirElementoApos(pPeca->pListaCaminho , Conteudo);
+
 	if(ListaRet == LIS_CondRetFaltouMemoria)
 	{
 		return JOG_CondRetFaltouMemoria;

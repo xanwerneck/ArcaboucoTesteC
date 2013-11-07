@@ -176,6 +176,9 @@ int main (void)
 				imprimeMenuEscolhaTime();
 				scanf ( "%d", &Time ) ;
 
+				/* Cria tipo REI */
+				TabRet = TAB_CriarTipoPeca(pTabuleiro , "REI" , 1 , 1 , 7 );
+
 				if(pTabuleiro==NULL){
 					puts ( "O tabuleiro precisa ser criado!" ) ; 
 					break ;
@@ -199,6 +202,10 @@ int main (void)
 					}
 				}
 
+				/* Inserir REI no time A */
+				TabRet = TAB_ProcuraPeca (pTabuleiro , "REI" , (void**)&pPecaBusca);
+				JogRet = JOG_InserirPecaTimeA(pJogo , pPecaBusca);
+
 				imprimeMenuEscolhaTime();
 				scanf ( "%d", &Time ) ;
 
@@ -219,6 +226,10 @@ int main (void)
 						NumPecas--;
 					}
 				}
+
+				/* Inserir REI no time B */
+				TabRet = TAB_ProcuraPeca (pTabuleiro , "REI" , (void**)&pPecaBusca);
+				JogRet = JOG_InserirPecaTimeB(pJogo , pPecaBusca);
 
 			
 				break;

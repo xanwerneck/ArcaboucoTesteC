@@ -716,10 +716,9 @@ GRA_tpCondRet GRA_IrInicio(GRA_tppGrafo pGrafo)
 
 	ListaRet = LIS_IrInicioLista(pGrafo->pListaVertices);
 
-	if(ListaRet == LIS_CondRetOK)
-	{
+	if(ListaRet == LIS_CondRetOK){
 		return GRA_CondRetOK;
-	}
+	} /* if */
 
 	return GRA_CondRetNaoAchou;
 }
@@ -727,6 +726,7 @@ GRA_tpCondRet GRA_IrInicio(GRA_tppGrafo pGrafo)
 GRA_tpCondRet GRA_BuscaIdVertice(GRA_tppGrafo pGrafo , char ** pValor)
 {
 	GRA_tppVerGrafo pVert;
+
 	if(pGrafo == NULL){
 		return GRA_CondRetGrafoNulo;
 	} /* if */
@@ -736,6 +736,19 @@ GRA_tpCondRet GRA_BuscaIdVertice(GRA_tppGrafo pGrafo , char ** pValor)
 	*pValor = pVert->pIdVertice;
 
 	return GRA_CondRetOK;
+}
+
+GRA_tpCondRet GRA_NumeroArestaVertice(GRA_tppGrafo pGrafo , int * Num)
+{
+
+	if(pGrafo == NULL){
+		return GRA_CondRetGrafoNulo;
+	} /* if */
+
+	LIS_NumElem(pGrafo->pCorrente->pVerSuc , Num);
+
+	return GRA_CondRetOK;
+
 }
 
 GRA_tpCondRet GRA_SetarCorrente(GRA_tppGrafo pGrafo , char * pValor)
@@ -813,11 +826,66 @@ GRA_tpCondRet GRA_PegaConteudo(GRA_tppGrafo pGrafo , void ** pConteudo)
 
 }
 
-GRA_tpCondRet GRA_ObterAresta()
+/**** CAMINHO DA ARESTA ****/
+GRA_tpCondRet GRA_IrInicioAresta(GRA_tppGrafo pGrafo)
 {
+
+	LIS_tppLista pLista;
+
+	pLista = pGrafo->pCorrente->pVerSuc;
+
+	LIS_IrInicioLista(pLista);
+
+	return GRA_CondRetOK;
 
 }
 
+GRA_tpCondRet GRA_ObterArestaVertice(GRA_tppGrafo pGrafo , void ** rVertice , char * Aresta)
+{
+
+	LIS_tppLista pLista;
+	GRA_tppArestaGrafo pAresta;
+
+	pLista = pGrafo->pCorrente->pVerAnt;
+
+	ListaRet = LIS_IrInicioLista(pLista);
+
+	if(ListaRet == LIS_CondRetListaVazia){
+		return GRA_CondRetListaNula;
+	}
+
+	*rVertice = NULL;
+
+	do{
+
+		LIS_ObterValor(pLista , (void**)&pAresta);
+
+		if(strcmp(pAresta->Nome ,Aresta)==0){
+			*rVertice = pAresta->pVerticeDest;
+			pGrafo->pCorrente = pAresta->pVerticeDest;
+		}
+
+		ListaRet = LIS_AvancarElementoCorrente(pLista , 1);
+
+	}while(ListaRet != LIS_CondRetFimLista);
+
+	return GRA_CondRetOK;
+
+}
+
+GRA_tpCondRet GRA_AvancarArestaVertice(GRA_tppGrafo pGrafo , int val)
+{
+
+	LIS_tppLista pLista;
+
+	pLista = pGrafo->pCorrente->pVerSuc;
+
+	LIS_AvancarElementoCorrente(pLista , val);
+
+	return GRA_CondRetOK;
+	
+}
+/**** FIM CAMINHO DA ARESTA ****/
 
 /*****  Código das funções encapsuladas pelo módulo  *****/
 

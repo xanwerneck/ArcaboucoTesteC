@@ -124,21 +124,19 @@ typedef struct TAB_tgEstCasa * TAB_tppEstCasa ;
 
 
    /** caminhos **/
-   TAB_tpCondRet TAB_IrNoNorte(TAB_tppEstCasa tpTab);
-   TAB_tpCondRet TAB_IrNoNordeste(TAB_tppEstCasa tpTab);
-   TAB_tpCondRet TAB_IrNoLeste(TAB_tppEstCasa tpTab);
-   TAB_tpCondRet TAB_IrNoSudeste(TAB_tppEstCasa tpTab);
-   TAB_tpCondRet TAB_IrNoSul(TAB_tppEstCasa tpTab);
-   TAB_tpCondRet TAB_IrNoSudoeste(TAB_tppEstCasa tpTab);
-   TAB_tpCondRet TAB_IrNoOeste(TAB_tppEstCasa tpTab);
-   TAB_tpCondRet TAB_IrNoNoroeste(TAB_tppEstCasa tpTab);
 
    TAB_tpCondRet TAB_IrInicioCasas( TAB_tppTabuleiro pTabuleiro  );
    TAB_tpCondRet TAB_AvancarCasas( TAB_tppTabuleiro pTabuleiro , int val );
    TAB_tpCondRet TAB_ObterConteudo( TAB_tppTabuleiro pTabuleiro , void ** pConteudo );
-   TAB_Caminhar(TAB_tppTabuleiro pTabuleiro , char * Aresta  , void ** Vertice);
-   TAB_tpCondRet TAB_ObterVertice(TAB_tppTabuleiro pTabuleiro , void ** Vertice);
 
+
+   TAB_tpCondRet TAB_IrInicioArestasCorrente(TAB_tppTabuleiro pTabuleiro);
+   TAB_tpCondRet TAB_ObterVerticeAresta(TAB_tppTabuleiro pTabuleiro , void ** Vertice , char * Aresta);
+   TAB_tpCondRet TAB_AvancarArestaCorrente(TAB_tppTabuleiro pTabuleiro , int val);
+
+   TAB_tpCondRet TAB_NumElementosArestasCorrente(TAB_tppTabuleiro pTabuleiro , int * Num);
+
+   TAB_tpCondRet TAB_ObterVerticeCorrente(TAB_tppTabuleiro pTabuleiro , void ** Id);
 
 #undef TABULEIRO_EXT
 

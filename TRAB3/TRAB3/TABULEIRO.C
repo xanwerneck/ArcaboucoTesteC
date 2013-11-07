@@ -113,7 +113,6 @@ TAB_tpCondRet TAB_CriarTabuleiro( TAB_tppTabuleiro * pTabuleiro ){
 
 TAB_tpCondRet TAB_SetarCorrente( TAB_tppTabuleiro pTabuleiro , char * NomeCasa )
 {
-	GRA_tppVerGrafo pVert;
 
 	if(pTabuleiro == NULL){
 		return TAB_CondRetTabuleiroNulo;
@@ -121,21 +120,28 @@ TAB_tpCondRet TAB_SetarCorrente( TAB_tppTabuleiro pTabuleiro , char * NomeCasa )
 
 	GrafRet = GRA_SetarCorrente(pTabuleiro->tpGrafo , NomeCasa);
 
-	GRA_ObterVertice(pTabuleiro->tpGrafo , (void**)&pVert);
-
 	return TAB_CondRetOK;
 
 }
 
 TAB_tpCondRet TAB_IrInicioCasas( TAB_tppTabuleiro pTabuleiro  )
 {
+
 	if(pTabuleiro == NULL){
+
 		return TAB_CondRetTabuleiroNulo;
+
 	}
 
-	GRA_IrInicio(pTabuleiro->tpGrafo);
+	GrafRet = GRA_IrInicio(pTabuleiro->tpGrafo);
+
+	if(GrafRet == GRA_CondRetOK){
+
+		return TAB_CondRetOK;
+
+	}
 	
-	return TAB_CondRetOK;
+	return TAB_CondRetNaoAchou;
 }
 
 TAB_tpCondRet TAB_AvancarCasas( TAB_tppTabuleiro pTabuleiro , int val )
@@ -353,15 +359,58 @@ TAB_tpCondRet TAB_AvancarTipoPeca(TAB_tppTabuleiro pTabuleiro , int val)
 	return TAB_CondRetOK;
 }
 
-TAB_tpCondRet TAB_Caminhar(TAB_tppTabuleiro pTabuleiro , char * Aresta  , void ** Vertice)
+/***** ARESTA ******/
+TAB_tpCondRet TAB_IrInicioArestasCorrente(TAB_tppTabuleiro pTabuleiro)
 {
+	GRA_IrInicioAresta(pTabuleiro->tpGrafo);
+
+	return TAB_CondRetOK;
+}
+
+TAB_tpCondRet TAB_ObterVerticeAresta(TAB_tppTabuleiro pTabuleiro  , void ** Vertice , char * Aresta)
+{
+	GRA_tppVerGrafo pVertice = NULL;
+
 	if(pTabuleiro==NULL){
 		return TAB_CondRetTabuleiroNulo;
 	} /* if */
+	
+	GRA_ObterArestaVertice(pTabuleiro->tpGrafo , (void**)&pVertice , Aresta);
 
-	GRA_
+	*Vertice = pVertice;
+
+	return TAB_CondRetOK;
 
 }
+
+TAB_tpCondRet TAB_ObterVerticeCorrente(TAB_tppTabuleiro pTabuleiro , void ** Id)
+{
+
+	char * IdVert;
+
+	GRA_BuscaIdVertice(pTabuleiro->tpGrafo , (char**)&IdVert);
+
+	*Id = IdVert;
+
+	return TAB_CondRetOK;
+}
+
+TAB_tpCondRet TAB_AvancarArestaCorrente(TAB_tppTabuleiro pTabuleiro , int val)
+{
+	GRA_AvancarArestaVertice(pTabuleiro->tpGrafo , val);
+
+	return TAB_CondRetOK;
+}
+
+TAB_tpCondRet TAB_NumElementosArestasCorrente(TAB_tppTabuleiro pTabuleiro , int * Num)
+{
+
+	GRA_NumeroArestaVertice(pTabuleiro->tpGrafo , Num);
+
+	return TAB_CondRetOK;
+}
+
+/***** ARESTA ******/
 
 void ExcluirInfo ( void * pValor )
 {

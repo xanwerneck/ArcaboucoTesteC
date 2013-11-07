@@ -207,7 +207,7 @@ JOG_tpCondRet JOG_InserirPecaTimeB(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar);
 *
 ***********************************************************************/
 
-JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO , char pTabuleiro);
+JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO , TAB_tppTabuleiro pTabuleiro);
 
 
 /***********************************************************************
