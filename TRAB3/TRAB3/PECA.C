@@ -58,13 +58,13 @@
 		  
    } PEC_tpElemPeca ;
 
-/***** Prototipos das funcoes encapsuladas no modulo *****/
+/************* Prototipos das funcoes encapsuladas no modulo ***********/
 
 
 
-/*****  Codigo das funcoes exportadas pelo modulo  *****/
+/*************  Codigo das funcoes exportadas pelo modulo  *************/
 
-/***************************************************************************
+/************************************************************************
 *
 *  Funcao: PEC  &Criar peca
 *  ****/
@@ -100,7 +100,7 @@ PEC_tpCondRet PEC_CriarPeca(PEC_tppPeca * pPeca, int Diag , int Reta ,
 	
 } /* Fim funcao: PEC &Criar Peca */
 
-/***************************************************************************
+/************************************************************************
 *
 *  Funcao: PEC  &Obter nome
 *  ****/
@@ -118,7 +118,7 @@ PEC_tpCondRet PEC_ObterNome (PEC_tppPeca pPeca ,  void ** NomePeca)
 	return PEC_CondRetOK;
 } /* Fim funcao: PEC &Obter nome */
 
-/***************************************************************************
+/************************************************************************
 *
 *  Funcao: PEC  &Obter dados do tipo peca
 *  ****/
@@ -141,8 +141,8 @@ PEC_tpCondRet PEC_ObterDadosTipoPeca (PEC_tppPeca pPeca , void ** Nome,
 } /* Fim funcao: PEC &Obter dados do tipo peca */
 
 
-/*****  Codigo das funcoes encapsuladas pelo modulo  *****/
+/************  Codigo das funcoes encapsuladas no modulo  *************/
 
 
-/********** Fim do modulo de implementacao: PEC  Peca do tabuleiro **********/
+/****** Fim do modulo de implementacao: PEC  Peca do tabuleiro ********/
 
