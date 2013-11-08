@@ -156,9 +156,8 @@ typedef struct GRA_tagGrafo {
 	static void DestruirMalloc(LIS_tppLista pLista);
 
 
-/*****  Codigo das funcoes exportadas pelo modulo  *****/
-
-
+/************* Codigo das funcoes exportadas pelo modulo ******************/
+	
 /***************************************************************************
 *
 *  Funcao: GRA  &Criar Grafo
@@ -195,7 +194,12 @@ GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo , void   ( * ExcluirValor ) 
 
 	
 	return GRA_CondRetOK;
-}
+} /* Fim funcao: GRA &Criar Grafo */
+
+/***************************************************************************
+*
+*  Funcao: GRA  &Obter vertice
+*  ****/
 
 GRA_tpCondRet GRA_ObterVertice(GRA_tppGrafo pGrafo , void ** pValor){
 	if(pGrafo == NULL)
@@ -204,7 +208,7 @@ GRA_tpCondRet GRA_ObterVertice(GRA_tppGrafo pGrafo , void ** pValor){
 	} /* if */
 	*pValor = pGrafo->pCorrente;
 	return GRA_CondRetOK;
-}
+} /* Fim funcao: GRA &Obter vertice */
 
 /***************************************************************************
 *
@@ -247,7 +251,7 @@ GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppGrafo pGrafo, char * String , char * i
 	return GRA_CondRetOK ;
 
 	
-}
+} /* Fim funcao: GRA &Criar Vertice Grafo */
 
 /***************************************************************************
 *
@@ -299,7 +303,7 @@ GRA_tpCondRet GRA_CriarAresta (char * pVertOrig , char * pVertDest , GRA_tppGraf
 		/* Inserir vertice na lista de antecessores do vertdestino */
 
 	return GRA_CondRetOK ;
-}
+} /* Fim funcao: GRA &Criar Aresta do vertice Grafo */
 
 /***************************************************************************
 *
@@ -341,7 +345,7 @@ GRA_tpCondRet GRA_InsereOrigem(GRA_tppGrafo pGrafo, char * IdVert)
 	pGrafo->pCorrente = VerCorr;
 
 	return GRA_CondRetOK ;
-}
+} /* Fim funcao: GRA &Insere vertice como origem do Grafo */
 
 /***************************************************************************
 *
@@ -412,7 +416,7 @@ GRA_tpCondRet GRA_ExcluirAresta(char * pVertOrig , char * pVertDest , GRA_tppGra
 
 
 	return GRA_CondRetOK;
-}
+} /* Fim funcao: GRA &Excluir Aresta */
 
 /***************************************************************************
 *
@@ -444,7 +448,7 @@ GRA_tpCondRet GRA_DefinirCorrente(GRA_tppGrafo pGrafo, char * IdVert)
 	} /* while */
 
 	return GRA_CondRetNaoAchou ;
-}
+} /* Fim funcao: GRA &Definir vertice corrente */
 
 
 /***************************************************************************
@@ -575,12 +579,12 @@ GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo)
 
 	return GRA_CondRetOK;
 	
-}
+} /* Fim funcao: GRA &Excluir vertice */
 
 
 /***************************************************************************
 *
-*  Funcao: GRA  &Obter valor do vertice corrente
+*  Funcao: GRA  &Checar nome vertice corrente
 *  ****/
 
 GRA_tpCondRet GRA_ChecarNomeVerticeCorrente(GRA_tppGrafo pGrafo , char * nomeForn)
@@ -610,7 +614,7 @@ GRA_tpCondRet GRA_ChecarNomeVerticeCorrente(GRA_tppGrafo pGrafo , char * nomeFor
 	} /* if */
 
 	return GRA_CondRetConteudoNulo ;
-}
+} /* Fim funcao: GRA &Checar nome vertice corrente */
 
 /***************************************************************************
 *
@@ -632,7 +636,7 @@ GRA_tpCondRet GRA_MudarNomeVerticeCorrente(GRA_tppGrafo pGrafo , char * nomeForn
 	} /* if */
 
 	return GRA_CondRetConteudoNulo;
-}
+} /* Fim funcao: GRA &Mudar valor do vertice corrente */
 
 /***************************************************************************
 *
@@ -651,7 +655,7 @@ GRA_tpCondRet GRA_ObterValorCorrente(GRA_tppGrafo pGrafo , void ** pValor)
 	*pValor = pGrafo->pCorrente->pConteudo;
 
 	return GRA_CondRetOK ;
-}
+} /* Fim funcao: GRA &Obter valor por referencia */
 
 /***************************************************************************
 *
@@ -698,7 +702,12 @@ GRA_tpCondRet GRA_DestruirGrafo(GRA_tppGrafo pGrafo)
 
 	return GRA_CondRetOK;
 
-}
+} /* Fim funcao: GRA &Destruir Grafo */
+
+/***************************************************************************
+*
+*  Funcao: GRA  &Avancar corrente
+*  ****/
 
 GRA_tpCondRet GRA_AvancarCorrente(GRA_tppGrafo pGrafo , int val)
 {
@@ -719,7 +728,12 @@ GRA_tpCondRet GRA_AvancarCorrente(GRA_tppGrafo pGrafo , int val)
 	pGrafo->pCorrente = pVert;
 
 	return GRA_CondRetOK ;
-}
+} /* Fim funcao: GRA &Avancar corrente */
+
+/***************************************************************************
+*
+*  Funcao: GRA  &Ir inicio
+*  ****/
 
 GRA_tpCondRet GRA_IrInicio(GRA_tppGrafo pGrafo)
 {
@@ -731,7 +745,12 @@ GRA_tpCondRet GRA_IrInicio(GRA_tppGrafo pGrafo)
 	} /* if */
 
 	return GRA_CondRetNaoAchou;
-}
+} /* Fim funcao: GRA &Ir inicio */
+
+/***************************************************************************
+*
+*  Funcao: GRA  &Buscar Id do vertice
+*  ****/
 
 GRA_tpCondRet GRA_BuscaIdVertice(GRA_tppGrafo pGrafo , char ** pValor)
 {
@@ -746,7 +765,13 @@ GRA_tpCondRet GRA_BuscaIdVertice(GRA_tppGrafo pGrafo , char ** pValor)
 	*pValor = pVert->pIdVertice;
 
 	return GRA_CondRetOK;
-}
+} /* Fim funcao: GRA &Buscar Id do vertice */
+
+
+/***************************************************************************
+*
+*  Funcao: GRA  &Numero de aresta do vertice
+*  ****/
 
 GRA_tpCondRet GRA_NumeroArestaVertice(GRA_tppGrafo pGrafo , int * Num)
 {
@@ -759,7 +784,13 @@ GRA_tpCondRet GRA_NumeroArestaVertice(GRA_tppGrafo pGrafo , int * Num)
 
 	return GRA_CondRetOK;
 
-}
+} /* Fim funcao: GRA &Numero de aresta do vertice */
+
+
+/***************************************************************************
+*
+*  Funcao: GRA  &Setar corrente
+*  ****/
 
 GRA_tpCondRet GRA_SetarCorrente(GRA_tppGrafo pGrafo , char * pValor)
 {
@@ -779,7 +810,13 @@ GRA_tpCondRet GRA_SetarCorrente(GRA_tppGrafo pGrafo , char * pValor)
 	}while(ListaRet!=LIS_CondRetFimLista);
 
 	return GRA_CondRetListaNula;
-}
+} /* Fim funcao: GRA &Setar corrente */
+
+
+/***************************************************************************
+*
+*  Funcao: GRA  &Avancar corrente do vertice
+*  ****/
 
 GRA_tpCondRet GRA_AvancarCorrenteVert(GRA_tppGrafo pGrafo , int val)
 {
@@ -792,7 +829,13 @@ GRA_tpCondRet GRA_AvancarCorrenteVert(GRA_tppGrafo pGrafo , int val)
 	}
 
 	return GRA_CondRetOK;
-}
+} /* Fim funcao: GRA &Avancar corrente do vertice */
+
+
+/***************************************************************************
+*
+*  Funcao: GRA  &Numero de vertices
+*  ****/
 
 GRA_tpCondRet GRA_NumeroVertices(GRA_tppGrafo pGrafo , int * val)
 {
@@ -806,7 +849,13 @@ GRA_tpCondRet GRA_NumeroVertices(GRA_tppGrafo pGrafo , int * val)
 	} /* if */
 	return GRA_CondRetNaoAchou;
 
-}
+} /* Fim funcao: GRA &Numero de vertices */
+
+
+/***************************************************************************
+*
+*  Funcao: GRA  &Insere conteudo do vertice
+*  ****/
 
 GRA_tpCondRet GRA_InsereConteudoVertice(GRA_tppGrafo pGrafo , void * pConteudo)
 {
@@ -818,7 +867,13 @@ GRA_tpCondRet GRA_InsereConteudoVertice(GRA_tppGrafo pGrafo , void * pConteudo)
 	pGrafo->pCorrente->pConteudo = pConteudo;
 
 	return GRA_CondRetOK;
-}
+} /* Fim funcao: GRA &Insere conteudo do vertice */
+
+
+/***************************************************************************
+*
+*  Funcao: GRA  &Pega conteudo
+*  ****/
 
 GRA_tpCondRet GRA_PegaConteudo(GRA_tppGrafo pGrafo , void ** pConteudo)
 {
@@ -834,9 +889,17 @@ GRA_tpCondRet GRA_PegaConteudo(GRA_tppGrafo pGrafo , void ** pConteudo)
 
 	return GRA_CondRetOK;
 
-}
+} /* Fim funcao: GRA &Pega conteudo */
 
 /**** CAMINHO DA ARESTA ****/
+
+
+
+/***************************************************************************
+*
+*  Funcao: GRA  &Ir inicio da aresta
+*  ****/
+
 GRA_tpCondRet GRA_IrInicioAresta(GRA_tppGrafo pGrafo)
 {
 
@@ -848,7 +911,13 @@ GRA_tpCondRet GRA_IrInicioAresta(GRA_tppGrafo pGrafo)
 
 	return GRA_CondRetOK;
 
-}
+} /* Fim funcao: GRA &Ir inicio da aresta */
+
+
+/***************************************************************************
+*
+*  Funcao: GRA  &Obter aresta do vertice
+*  ****/
 
 GRA_tpCondRet GRA_ObterArestaVertice(GRA_tppGrafo pGrafo , void ** rVertice , char * Aresta)
 {
@@ -881,7 +950,13 @@ GRA_tpCondRet GRA_ObterArestaVertice(GRA_tppGrafo pGrafo , void ** rVertice , ch
 
 	return GRA_CondRetOK;
 
-}
+} /* Fim funcao: GRA &Obter aresta do vertice */
+
+
+/***************************************************************************
+*
+*  Funcao: GRA  &Avancar Aresta do Vertice
+*  ****/
 
 GRA_tpCondRet GRA_AvancarArestaVertice(GRA_tppGrafo pGrafo , int val)
 {
@@ -894,7 +969,8 @@ GRA_tpCondRet GRA_AvancarArestaVertice(GRA_tppGrafo pGrafo , int val)
 
 	return GRA_CondRetOK;
 	
-}
+} /* Fim funcao: GRA &Avancar Aresta do Vertice */
+
 /**** FIM CAMINHO DA ARESTA ****/
 
 /*****  Codigo das funcoes encapsuladas pelo modulo  *****/
