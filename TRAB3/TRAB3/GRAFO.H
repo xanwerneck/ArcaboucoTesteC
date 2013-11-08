@@ -2,23 +2,21 @@
 #define GRAFO_
 /***************************************************************************
 *
-*  $MCD Modulo de definicao: Modulo grafo
+*  $MCD Modulo de definicao: GRA Modulo grafo
 *
 *  Arquivo gerado:              GRAFO.H
 *  Letras identificadoras:      GRA
 *
-*  Nome da base de software:    Exemplo de teste automatizado
-*  Arquivo da base de software: D:\AUTOTEST\PROJETOS\SIMPLES.BSW
-*
-*  Projeto: INF 1301 Automatizacao dos testes de modulos C
-*  Gestor:  LES/DI/PUC-Rio
-*  Autores: aw - Alexandre Werneck
-*           fr - Fernanda Camelo Ribeiro
-*			vo - Vinicius de Luiz de Oliveira
+*  Projeto: INF 1301 - Verificador de Xeque-mate
+*  Gestor:  Flavio Bevilacqua
+*  Autores: afv:  aw - Alexandre Werneck
+*                 fr - Fernanda C Ribeiro
+*                 vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Historico de evolucao:
 *     Versao  Autor    Data     Observacoes
-*       1.00   afv   09/out/2013 Inicio do desenvolvimento
+*     Y       afv   xx/xx/2013  finalizacao do desenvolvimento do modulo
+*     1       afv   19/out/2013 inicio do desenvolvimento do modulo
 *
 *  $ED Descricao do modulo
 *     Este modulo implementa a criacao e manipulacao de grafos dirigidos.
@@ -26,10 +24,8 @@
 *	  O modulo grafo possui cabeca apontando para uma lista de origens,
 *	  vertices e um ponteiro corrente que caminha pelo grafo apontando
 *     para vertice.
-*
 *	  A lista de origens referencia a origem de cada sub-grafo, caso
 *	  exista, no modulo grafo.
-*
 *	  A lista de vertices possui referencia para todos os vertices do
 *	  grafo.
 *
@@ -430,29 +426,334 @@ GRA_tpCondRet GRA_DefinirCorrente( GRA_tppGrafo pGrafo , char * IdVert);
 
 GRA_tpCondRet GRA_DestruirGrafo( GRA_tppGrafo pGrafo);
 
-/*
 
-*/
+
+/***********************************************************************
+*
+*  $FC Funcao: GRA Destruir grafo
+*
+*  $ED Descricao da funcao
+*      Destroi o grafo fornecido como parametro
+*     
+*
+*  $EP Parametros
+*      pGrafo    - Grafo a ser excluido
+*
+*  $FV Valor retornado
+*      GRA_CondRetGrafoNulo
+*      GRA_CondRetOK
+*
+*  $AE Grafo ja deve ter sido iniciado
+*      A lista de Origens e Vertices nao deve estar vazia
+*
+*  $AS Se CondRet = GRA_CondRetGrafoNulo
+*      O grafo fornecido nao foi criado ou esta nulo
+*
+*	   Se CondRet = GRA_CondRetOK
+*      Grafo excluido com sucesso
+*
+***********************************************************************/
 GRA_tpCondRet GRA_ObterVertice(GRA_tppGrafo pGrafo , void ** pValor);
 
+
+/***********************************************************************
+*
+*  $FC Funcao: GRA Destruir grafo
+*
+*  $ED Descricao da funcao
+*      Destroi o grafo fornecido como parametro
+*     
+*
+*  $EP Parametros
+*      pGrafo    - Grafo a ser excluido
+*
+*  $FV Valor retornado
+*      GRA_CondRetGrafoNulo
+*      GRA_CondRetOK
+*
+*  $AE Grafo ja deve ter sido iniciado
+*      A lista de Origens e Vertices nao deve estar vazia
+*
+*  $AS Se CondRet = GRA_CondRetGrafoNulo
+*      O grafo fornecido nao foi criado ou esta nulo
+*
+*	   Se CondRet = GRA_CondRetOK
+*      Grafo excluido com sucesso
+*
+***********************************************************************/
 GRA_tpCondRet GRA_IrInicio(GRA_tppGrafo pGrafo);
 
+
+/***********************************************************************
+*
+*  $FC Funcao: GRA Destruir grafo
+*
+*  $ED Descricao da funcao
+*      Destroi o grafo fornecido como parametro
+*     
+*
+*  $EP Parametros
+*      pGrafo    - Grafo a ser excluido
+*
+*  $FV Valor retornado
+*      GRA_CondRetGrafoNulo
+*      GRA_CondRetOK
+*
+*  $AE Grafo ja deve ter sido iniciado
+*      A lista de Origens e Vertices nao deve estar vazia
+*
+*  $AS Se CondRet = GRA_CondRetGrafoNulo
+*      O grafo fornecido nao foi criado ou esta nulo
+*
+*	   Se CondRet = GRA_CondRetOK
+*      Grafo excluido com sucesso
+*
+***********************************************************************/
 GRA_tpCondRet GRA_BuscaIdVertice(GRA_tppGrafo pGrafo , char ** pValor);
+
+
+/***********************************************************************
+*
+*  $FC Funcao: GRA Destruir grafo
+*
+*  $ED Descricao da funcao
+*      Destroi o grafo fornecido como parametro
+*     
+*
+*  $EP Parametros
+*      pGrafo    - Grafo a ser excluido
+*
+*  $FV Valor retornado
+*      GRA_CondRetGrafoNulo
+*      GRA_CondRetOK
+*
+*  $AE Grafo ja deve ter sido iniciado
+*      A lista de Origens e Vertices nao deve estar vazia
+*
+*  $AS Se CondRet = GRA_CondRetGrafoNulo
+*      O grafo fornecido nao foi criado ou esta nulo
+*
+*	   Se CondRet = GRA_CondRetOK
+*      Grafo excluido com sucesso
+*
+***********************************************************************/
 GRA_tpCondRet GRA_AvancarCorrenteVert(GRA_tppGrafo pGrafo , int val);
+
+
+/***********************************************************************
+*
+*  $FC Funcao: GRA Destruir grafo
+*
+*  $ED Descricao da funcao
+*      Destroi o grafo fornecido como parametro
+*     
+*
+*  $EP Parametros
+*      pGrafo    - Grafo a ser excluido
+*
+*  $FV Valor retornado
+*      GRA_CondRetGrafoNulo
+*      GRA_CondRetOK
+*
+*  $AE Grafo ja deve ter sido iniciado
+*      A lista de Origens e Vertices nao deve estar vazia
+*
+*  $AS Se CondRet = GRA_CondRetGrafoNulo
+*      O grafo fornecido nao foi criado ou esta nulo
+*
+*	   Se CondRet = GRA_CondRetOK
+*      Grafo excluido com sucesso
+*
+***********************************************************************/
 GRA_tpCondRet GRA_NumeroVertices(GRA_tppGrafo pGrafo , int * val);
 
+
+/***********************************************************************
+*
+*  $FC Funcao: GRA Destruir grafo
+*
+*  $ED Descricao da funcao
+*      Destroi o grafo fornecido como parametro
+*     
+*
+*  $EP Parametros
+*      pGrafo    - Grafo a ser excluido
+*
+*  $FV Valor retornado
+*      GRA_CondRetGrafoNulo
+*      GRA_CondRetOK
+*
+*  $AE Grafo ja deve ter sido iniciado
+*      A lista de Origens e Vertices nao deve estar vazia
+*
+*  $AS Se CondRet = GRA_CondRetGrafoNulo
+*      O grafo fornecido nao foi criado ou esta nulo
+*
+*	   Se CondRet = GRA_CondRetOK
+*      Grafo excluido com sucesso
+*
+***********************************************************************/
 GRA_tpCondRet GRA_SetarCorrente(GRA_tppGrafo pGrafo , char * pValor);
 
+
+/***********************************************************************
+*
+*  $FC Funcao: GRA Destruir grafo
+*
+*  $ED Descricao da funcao
+*      Destroi o grafo fornecido como parametro
+*     
+*
+*  $EP Parametros
+*      pGrafo    - Grafo a ser excluido
+*
+*  $FV Valor retornado
+*      GRA_CondRetGrafoNulo
+*      GRA_CondRetOK
+*
+*  $AE Grafo ja deve ter sido iniciado
+*      A lista de Origens e Vertices nao deve estar vazia
+*
+*  $AS Se CondRet = GRA_CondRetGrafoNulo
+*      O grafo fornecido nao foi criado ou esta nulo
+*
+*	   Se CondRet = GRA_CondRetOK
+*      Grafo excluido com sucesso
+*
+***********************************************************************/
 GRA_tpCondRet GRA_InsereConteudoVertice(GRA_tppGrafo pGrafo , void * pConteudo);
 
+
+/***********************************************************************
+*
+*  $FC Funcao: GRA Pega conteudo
+*
+*  $ED Descricao da funcao
+*      Retorna por parametro conteudo do pGrafo
+*     
+*
+*  $EP Parametros
+*      pGrafo    - Grafo cujo conteudo sera retornado.
+*      pConteudo - conteudo a ser retornado.
+*
+*  $FV Valor retornado
+*      GRA_CondRetGrafoNulo
+*      GRA_CondRetOK
+*
+*  $AE Grafo ja deve ter sido iniciado
+*      A lista de Origens e Vertices nao deve estar vazia
+*
+*  $AS Se CondRet = GRA_CondRetGrafoNulo
+*      O grafo fornecido nao foi criado ou esta nulo
+*
+*	   Se CondRet = GRA_CondRetOK
+*      Conteudo retornado com sucesso
+*
+***********************************************************************/
 GRA_tpCondRet GRA_PegaConteudo(GRA_tppGrafo pGrafo , void ** pConteudo);
 
+
+/***********************************************************************
+*
+*  $FC Funcao: GRA Obter aresta do vertice
+*
+*  $ED Descricao da funcao
+*      Retorna por paramentro a aresta do vertice do pGrafo ambos tambem 
+*      passado por parametro.
+*
+*  $EP Parametros
+*      pGrafo    - Grafo de cujo vertice sera retornado aresta.
+*
+*  $FV Valor retornado
+*      GRA_CondRetListaNula
+*      GRA_CondRetOK
+*
+*  $AE Grafo ja deve ter sido iniciado
+*      A lista de Origens e Vertices nao deve estar vazia
+*
+*  $AS Se CondRet = GRA_CondRetListaNula
+*      A lista do grafo fornecido nao foi criada ou esta nula
+*
+*	   Se CondRet = GRA_CondRetOK
+*      Aresta retornada com sucesso
+*
+***********************************************************************/
 GRA_tpCondRet GRA_ObterArestaVertice(GRA_tppGrafo pGrafo , void ** rVertice , char * Aresta);
 
+
+/***********************************************************************
+*
+*  $FC Funcao: GRA Ir inicio da aresta
+*
+*  $ED Descricao da funcao
+*      Faz o corrente da aresta do pGrafo apontar para o inicio.
+*     
+*
+*  $EP Parametros
+*      pGrafo    - Grafo cujo corrente da lista de arestas vai para o inicio.
+*
+*  $FV Valor retornado
+*      GRA_CondRetOK
+*
+*  $AE Grafo ja deve ter sido iniciado
+*      A lista de Origens e Vertices nao deve estar vazia
+*
+*  $AS Se CondRet = GRA_CondRetOK
+*      Foi para o inicio das arestas com sucesso
+*
+***********************************************************************/
 GRA_tpCondRet GRA_IrInicioAresta(GRA_tppGrafo pGrafo);
 
+
+/***********************************************************************
+*
+*  $FC Funcao: GRA Avancar Aresta do Vertice
+*
+*  $ED Descricao da funcao
+*      Avanca val aresta a partir do corrente.
+*     
+*
+*  $EP Parametros
+*      pGrafo    - Grafo cuja aresta sera avancada
+*
+*  $FV Valor retornado
+*      GRA_CondRetOK
+*
+*  $AE Grafo ja deve ter sido iniciado
+*      A lista de Origens e Vertices nao deve estar vazia.
+*
+*  $AS Se CondRet = GRA_CondRetOK
+*      Avancou arestas com sucesso com sucesso.
+*
+***********************************************************************/
 GRA_tpCondRet GRA_AvancarArestaVertice(GRA_tppGrafo pGrafo , int val);
 
+
+/***********************************************************************
+*
+*  $FC Funcao: GRA Numero de aresta do vertice 
+*
+*  $ED Descricao da funcao
+*      Retorna por parametro o numero de arestas do vertice do pGrafo
+*     
+*
+*  $EP Parametros
+*      pGrafo    - Grafo para retornar numero de arestas.
+*
+*  $FV Valor retornado
+*      GRA_CondRetGrafoNulo
+*      GRA_CondRetOK
+*
+*  $AE Grafo ja deve ter sido iniciado
+*      A lista de Origens e Vertices nao deve estar vazia
+*
+*  $AS Se CondRet = GRA_CondRetGrafoNulo
+*      O grafo fornecido nao foi criado ou esta nulo
+*
+*	   Se CondRet = GRA_CondRetOK
+*      Numero de arestas retornado com sucesso
+*
+***********************************************************************/
 GRA_tpCondRet GRA_NumeroArestaVertice(GRA_tppGrafo pGrafo , int * Num);
 
 
