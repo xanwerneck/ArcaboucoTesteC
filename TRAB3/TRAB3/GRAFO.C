@@ -4,18 +4,16 @@
 *  Arquivo gerado:              GRAFO.C
 *  Letras identificadoras:      GRA
 *
-*  Nome da base de software:    Exemplo de teste automatizado
-*  Arquivo da base de software: D:\AUTOTEST\PROJETOS\SIMPLES.BSW
-*
-*  Projeto: INF 1301 Automatizacao dos testes de modulos C
-*  Gestor:  LES/DI/PUC-Rio
-*  Autores: aw - Alexandre Werneck
-*           fr - Fernanda Camelo Ribeiro
-*			vo - Vinicius de Luiz de Oliveira
+*  Projeto: INF 1301 - Verificador de Xeque-mate
+*  Gestor:  Flavio Bevilacqua
+*  Autores: afv:  aw - Alexandre Werneck
+*                 fr - Fernanda C Ribeiro
+*                 vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Historico de evolucao:
 *     Versao  Autor    Data     Observacoes
-*       1.00   afv   19/out/2013 Inicio do desenvolvimento
+*     Y       afv   xx/xx/2013  finalizacao do desenvolvimento do modulo
+*     1       afv   19/out/2013 inicio do desenvolvimento do modulo
 *
 ***************************************************************************/
 
@@ -59,11 +57,6 @@ typedef struct tagArestaGrafo {
 *  $TC Tipo de dados: GRA Descritor do elemento vertice do grafo
 *
 *
-*  $ED Descricao do tipo
-*     Possui as referencias para lista de sucessores e antecessores
-*     Possui ponteiro para tipo VER_tppVertice
-*     Possui id como referencia do elemento vertice
-*
 ***********************************************************************/
 
 typedef struct tagVerticeGrafo {
@@ -90,12 +83,6 @@ typedef struct tagVerticeGrafo {
 *
 *  $TC Tipo de dados: GRA Descritor da cabeca do grafo
 *
-*
-*  $ED Descricao do tipo
-*     A cabeca do grafo indica o inicio do grafo, possui referencias para
-*     lista de origens e vertices do grafo, o no corrente referenciado
-*     na cabeca, permite apontar em qual vertice esta o elemento corrente.
-*
 ***********************************************************************/
 
 typedef struct GRA_tagGrafo {
@@ -107,7 +94,7 @@ typedef struct GRA_tagGrafo {
 		/* Ponteiro para lista com todos os vertices */
 
 	tpVerticeGrafo * pCorrente;
-		/* Ponteiro do Elemento vertice corrente */
+		/* Ponteiro para elemento vertice corrente */
 
 	void (*destruirValor)(void *pValor);
 		/* Ponteiro para implementacao do destruir grafo generico */
@@ -117,33 +104,67 @@ typedef struct GRA_tagGrafo {
 
 /************* Funcoes encapsuladas no modulo *************************/
 
-static void GRA_ExcluirdeVertices(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice);
+	/* Funcao libera pVertice da lista de vertices do pGrafo, 
+	   tratando o encadeamento */
+	static void GRA_ExcluirdeVertices(GRA_tppGrafo pGrafo , 
+		                              tpVerticeGrafo * pVertice);
  
-static void GRA_ExcluirdeOrigens(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice);
-
-static void GRA_CriaListaVertices( GRA_tppGrafo pGrafo ) ;
-
-static void GRA_CriaListaOrigens( GRA_tppGrafo pGrafo ) ;
-
-static void GRA_CriaListaSucessoresVertice(tpVerticeGrafo * pVertice) ;
-
-static void GRA_CriaListaAntecessoresVertice(tpVerticeGrafo * pVertice) ;
-
-static void GRA_excluirValorLista ( void * pValor ) ;
-
-static void GRA_excluirValorListaAresta ( void * pValor );
-
-static int GRA_comparaVerticeConteudo( void * pVerticeO , void * pValorO ) ;
-
-tpVerticeGrafo * GRA_BuscarVertice(GRA_tppGrafo pGrafo , char * Id) ;
-
-static void LiberarAresta(GRA_tppArestaGrafo pAres);
-
-static int ChecaArestaExiste(tpVerticeGrafo * pVertice , char * String, char * Dest);
-
-static int ChecaVerticeExiste(GRA_tppGrafo pGrafo, char * Vert);
-
-static void DestruirMalloc(LIS_tppLista pLista);
+	/* Funcao libera pVertice da lista de origens do pGrafo, 
+	   tratando o encadeamento */
+	static void GRA_ExcluirdeOrigens(GRA_tppGrafo pGrafo , 
+		                             tpVerticeGrafo * pVertice);
+ 
+	/* Funcao ""parei aqui"" */
+	static void GRA_CriaListaVertices( GRA_tppGrafo pGrafo ) ;
+ 
+	/* Funcao libera pVertice da lista de origens do pGrafo, 
+	   tratando o encadeamento */
+	static void GRA_CriaListaOrigens( GRA_tppGrafo pGrafo ) ;
+ 
+	/* Funcao libera pVertice da lista de origens do pGrafo, 
+	   tratando o encadeamento */
+	static void GRA_CriaListaSucessoresVertice(tpVerticeGrafo * pVertice) ;
+ 
+	/* Funcao libera pVertice da lista de origens do pGrafo, 
+	   tratando o encadeamento */
+	static void GRA_CriaListaAntecessoresVertice(tpVerticeGrafo * pVertice) ;
+ 
+	/* Funcao libera pVertice da lista de origens do pGrafo, 
+	   tratando o encadeamento */
+	static void GRA_excluirValorLista ( void * pValor ) ;
+ 
+	/* Funcao libera pVertice da lista de origens do pGrafo, 
+	   tratando o encadeamento */
+	static void GRA_excluirValorListaAresta ( void * pValor );
+ 
+	/* Funcao libera pVertice da lista de origens do pGrafo, 
+	   tratando o encadeamento */
+	static int GRA_comparaVerticeConteudo( void * pVerticeO , 
+		                                   void * pValorO     ) ;
+ 
+	/* Funcao libera pVertice da lista de origens do pGrafo, 
+	   tratando o encadeamento */
+	tpVerticeGrafo * GRA_BuscarVertice(GRA_tppGrafo pGrafo , 
+		                               char * Id             ) ;
+ 
+	/* Funcao libera pVertice da lista de origens do pGrafo, 
+	   tratando o encadeamento */
+	static void LiberarAresta(GRA_tppArestaGrafo pAres);
+ 
+	/* Funcao libera pVertice da lista de origens do pGrafo, 
+	   tratando o encadeamento */
+	static int ChecaArestaExiste (tpVerticeGrafo * pVertice , 
+		                         char * String, 
+								 char * Dest                 );
+ 
+	/* Funcao libera pVertice da lista de origens do pGrafo, 
+	   tratando o encadeamento */
+	static int ChecaVerticeExiste(GRA_tppGrafo pGrafo, 
+		                          char * Vert         );
+ 
+	/* Funcao libera pVertice da lista de origens do pGrafo, 
+	   tratando o encadeamento */
+	static void DestruirMalloc(LIS_tppLista pLista);
 
 
 /*****  Codigo das funcoes exportadas pelo modulo  *****/
