@@ -114,56 +114,45 @@ typedef struct GRA_tagGrafo {
 	static void GRA_ExcluirdeOrigens(GRA_tppGrafo pGrafo , 
 		                             tpVerticeGrafo * pVertice);
  
-	/* Funcao ""parei aqui"" */
+	/* Funcao aloca memoria para lista de vertices do pGrafo */
 	static void GRA_CriaListaVertices( GRA_tppGrafo pGrafo ) ;
  
-	/* Funcao libera pVertice da lista de origens do pGrafo, 
-	   tratando o encadeamento */
+	/* Funcao aloca memoria para lista de origens do pGrafo */
 	static void GRA_CriaListaOrigens( GRA_tppGrafo pGrafo ) ;
  
-	/* Funcao libera pVertice da lista de origens do pGrafo, 
-	   tratando o encadeamento */
+	/* Funcao aloca memoria para lista de sucessores do pGrafo */
 	static void GRA_CriaListaSucessoresVertice(tpVerticeGrafo * pVertice) ;
  
-	/* Funcao libera pVertice da lista de origens do pGrafo, 
-	   tratando o encadeamento */
+	/* Funcao aloca memoria para lista de antecessores do pGrafo */
 	static void GRA_CriaListaAntecessoresVertice(tpVerticeGrafo * pVertice) ;
  
-	/* Funcao libera pVertice da lista de origens do pGrafo, 
-	   tratando o encadeamento */
+	/* Funcao libera espaco alocado para  pValor */
 	static void GRA_excluirValorLista ( void * pValor ) ;
  
-	/* Funcao libera pVertice da lista de origens do pGrafo, 
-	   tratando o encadeamento */
-	static void GRA_excluirValorListaAresta ( void * pValor );
+	/* Funcao libera espaco alocado para  pAresta */
+	static void GRA_excluirValorListaAresta ( tpArestaGrafo * pAresta );
  
-	/* Funcao libera pVertice da lista de origens do pGrafo, 
-	   tratando o encadeamento */
+	/* Funcao compara corrente dos dois elementos passados por parametro */
 	static int GRA_comparaVerticeConteudo( void * pVerticeO , 
 		                                   void * pValorO     ) ;
  
-	/* Funcao libera pVertice da lista de origens do pGrafo, 
-	   tratando o encadeamento */
+	/* Funcao retorna o vertice do pGrafo correspondente ao Id  */
 	tpVerticeGrafo * GRA_BuscarVertice(GRA_tppGrafo pGrafo , 
 		                               char * Id             ) ;
  
-	/* Funcao libera pVertice da lista de origens do pGrafo, 
-	   tratando o encadeamento */
+	/* Funcao libera espaco alocado para pAres */
 	static void LiberarAresta(GRA_tppArestaGrafo pAres);
  
-	/* Funcao libera pVertice da lista de origens do pGrafo, 
-	   tratando o encadeamento */
+	/* Funcao checa se a aresta e valida */
 	static int ChecaArestaExiste (tpVerticeGrafo * pVertice , 
 		                         char * String, 
 								 char * Dest                 );
  
-	/* Funcao libera pVertice da lista de origens do pGrafo, 
-	   tratando o encadeamento */
+	/* Funcao checa se o vertice e valido */
 	static int ChecaVerticeExiste(GRA_tppGrafo pGrafo, 
 		                          char * Vert         );
  
-	/* Funcao libera pVertice da lista de origens do pGrafo, 
-	   tratando o encadeamento */
+	/* Funcao desaloca pLista */
 	static void DestruirMalloc(LIS_tppLista pLista);
 
 
