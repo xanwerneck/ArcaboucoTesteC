@@ -842,12 +842,8 @@ GRA_tpCondRet GRA_NumeroVertices(GRA_tppGrafo pGrafo , int * val)
 
 	ListaRet  = LIS_NumElem(pGrafo->pListaVertices , val);
 
-	if(ListaRet == LIS_CondRetOK){
 
-		return GRA_CondRetOK;
-
-	} /* if */
-	return GRA_CondRetNaoAchou;
+	return GRA_CondRetOK;
 
 } /* Fim funcao: GRA &Numero de vertices */
 
