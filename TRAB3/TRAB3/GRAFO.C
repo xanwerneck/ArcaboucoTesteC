@@ -810,9 +810,21 @@ GRA_tpCondRet GRA_InsereConteudoVertice(GRA_tppGrafo pGrafo , void * pConteudo)
 	return GRA_CondRetOK;
 }
 
+GRA_tpCondRet GRA_PegaConteudoCorrente(GRA_tppGrafo pGrafo , void ** pConteudo)
+{
+
+	if(pGrafo == NULL) {
+		return GRA_CondRetGrafoNulo;
+	} /* if */
+
+	*pConteudo = pGrafo->pCorrente->pConteudo;
+
+	return GRA_CondRetOK;
+}
+
 GRA_tpCondRet GRA_PegaConteudo(GRA_tppGrafo pGrafo , void ** pConteudo)
 {
-	GRA_tppVerGrafo pVert;
+	GRA_tppVerGrafo pVert = NULL;
 
 	if(pGrafo == NULL) {
 		return GRA_CondRetGrafoNulo;
@@ -846,7 +858,7 @@ GRA_tpCondRet GRA_ObterArestaVertice(GRA_tppGrafo pGrafo , void ** rVertice , ch
 	LIS_tppLista pLista;
 	GRA_tppArestaGrafo pAresta;
 
-	pLista = pGrafo->pCorrente->pVerAnt;
+	pLista = pGrafo->pCorrente->pVerSuc;
 
 	ListaRet = LIS_IrInicioLista(pLista);
 
@@ -859,10 +871,10 @@ GRA_tpCondRet GRA_ObterArestaVertice(GRA_tppGrafo pGrafo , void ** rVertice , ch
 	do{
 
 		LIS_ObterValor(pLista , (void**)&pAresta);
-
 		if(strcmp(pAresta->Nome ,Aresta)==0){
 			*rVertice = pAresta->pVerticeDest;
 			pGrafo->pCorrente = pAresta->pVerticeDest;
+			break;
 		}
 
 		ListaRet = LIS_AvancarElementoCorrente(pLista , 1);

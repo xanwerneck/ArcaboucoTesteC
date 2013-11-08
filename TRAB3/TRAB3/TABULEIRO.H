@@ -138,6 +138,8 @@ typedef struct TAB_tgEstCasa * TAB_tppEstCasa ;
 
    TAB_tpCondRet TAB_ObterVerticeCorrente(TAB_tppTabuleiro pTabuleiro , void ** Id);
 
+   TAB_tpCondRet TAB_ObterConteudoVertice(TAB_tppTabuleiro pTabuleiro  , void ** VertConteudo);
+
 #undef TABULEIRO_EXT
 
 /********** Fim do módulo de definição: LIS  Lista duplamente encadeada **********/

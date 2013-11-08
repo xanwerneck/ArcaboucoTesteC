@@ -383,14 +383,17 @@ TAB_tpCondRet TAB_ObterVerticeAresta(TAB_tppTabuleiro pTabuleiro  , void ** Vert
 
 }
 
-TAB_tpCondRet TAB_ObterVerticeCorrente(TAB_tppTabuleiro pTabuleiro , void ** Id)
+TAB_tpCondRet TAB_ObterConteudoVertice(TAB_tppTabuleiro pTabuleiro  , void ** VertConteudo)
 {
+	JOG_tppPecaJogo pPeca = NULL;
 
-	char * IdVert;
+	if(pTabuleiro==NULL){
+		return TAB_CondRetTabuleiroNulo;
+	} /* if */
 
-	GRA_BuscaIdVertice(pTabuleiro->tpGrafo , (char**)&IdVert);
-
-	*Id = IdVert;
+	GRA_PegaConteudoCorrente(pTabuleiro->tpGrafo , (void**)&pPeca);
+	
+	*VertConteudo = pPeca;
 
 	return TAB_CondRetOK;
 }
@@ -406,6 +409,19 @@ TAB_tpCondRet TAB_NumElementosArestasCorrente(TAB_tppTabuleiro pTabuleiro , int 
 {
 
 	GRA_NumeroArestaVertice(pTabuleiro->tpGrafo , Num);
+
+	return TAB_CondRetOK;
+}
+
+
+TAB_tpCondRet TAB_ObterVerticeCorrente(TAB_tppTabuleiro pTabuleiro , void ** Id)
+{
+
+	char * IdVert;
+
+	GRA_BuscaIdVertice(pTabuleiro->tpGrafo , (char**)&IdVert);
+
+	*Id = IdVert;
 
 	return TAB_CondRetOK;
 }

@@ -2,9 +2,6 @@
 *****************    AFV - Novembro 2013    ***********************
 TIPOPECA REI 1 1 7
 TIPOPECA REI 1 1 7
-TIPOPECA REI 1 1 7
-PECAS A AS
 PECAS A REI
-PECAS B DE
 PECAS B REI
 *****************       FIM DO ARQUIVO      ***********************

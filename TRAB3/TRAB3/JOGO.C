@@ -62,7 +62,7 @@ typedef struct JOG_tagListaPeca{
 
 typedef struct JOG_tagPecaJogo {
 
-	char Id;
+	char Time;
 	/* Identificador da casa do tabuleiro, casa onde a peca se 
 	   encontra */
 
@@ -156,6 +156,7 @@ JOG_tpCondRet JOG_InserirPecaTimeA(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar)
 		return JOG_CondRetFimLista ;
 	} /* if */
 	
+	mPeca->Time = 'A';
 	mPeca->pTipoPeca = pPecaSetar;
 
 	ListaRet = LIS_CriarLista(ExcluirPecaJogo , &mPeca->pListaCaminho);
@@ -207,6 +208,7 @@ JOG_tpCondRet JOG_InserirPecaTimeB(JOG_tppJogo pJOGO , PEC_tppPeca pPecaSetar)
 		return JOG_CondRetFimLista ;
 	} /* if */
 	
+	mPeca->Time = 'B';
 	mPeca->pTipoPeca = pPecaSetar;
 
 	ListaRet = LIS_CriarLista(ExcluirPecaJogo , &mPeca->pListaCaminho);
@@ -239,6 +241,7 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 {
 	
 	JOG_tppPecaJogo pPecaJogo;
+	JOG_tppPecaJogo pecaOcupada;
 	TAB_tpCondRet TabRet;
 
 	char * Nome;
@@ -273,13 +276,17 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 
 				QtdeTmp = Qtde;
 				while(QtdeTmp > 0){
-
 					TAB_ObterVerticeAresta(pTabuleiro  , (void**)&Vertice , "NORDESTE");
-					if(&Vertice != NULL){
-						printf("EXISTE");
-						JOG_InsereElemApos(pPecaJogo , Vertice);
+					if(Vertice != NULL){						
+						TAB_ObterConteudoVertice(pTabuleiro , (void**)&pecaOcupada);
+						if(pecaOcupada != NULL){							
+							if(pecaOcupada->Time == pPecaJogo->Time){
+								break;
+							}
+						}						
+						JOG_InsereElemApos(pPecaJogo ,Vertice);
 					}else{
-						printf("nulo");
+						break;
 					}
 					QtdeTmp--;
 				}
@@ -288,8 +295,16 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 				QtdeTmp = Qtde;
 				while(QtdeTmp > 0){
 					TAB_ObterVerticeAresta(pTabuleiro  , (void**)&Vertice , "NOROESTE");
-					if(&Vertice != NULL){
-						JOG_InsereElemApos(pPecaJogo , Vertice);
+					if(Vertice != NULL){						
+						TAB_ObterConteudoVertice(pTabuleiro , (void**)&pecaOcupada);
+						if(pecaOcupada != NULL){							
+							if(pecaOcupada->Time == pPecaJogo->Time){
+								break;
+							}
+						}						
+						JOG_InsereElemApos(pPecaJogo ,Vertice);
+					}else{
+						break;
 					}
 					QtdeTmp--;
 				}
@@ -298,8 +313,16 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 				QtdeTmp = Qtde;
 				while(QtdeTmp > 0){
 					TAB_ObterVerticeAresta(pTabuleiro  , (void**)&Vertice , "SUDESTE");
-					if(&Vertice != NULL){
-						JOG_InsereElemApos(pPecaJogo , Vertice);
+					if(Vertice != NULL){						
+						TAB_ObterConteudoVertice(pTabuleiro , (void**)&pecaOcupada);
+						if(pecaOcupada != NULL){							
+							if(pecaOcupada->Time == pPecaJogo->Time){
+								break;
+							}
+						}						
+						JOG_InsereElemApos(pPecaJogo ,Vertice);
+					}else{
+						break;
 					}
 					QtdeTmp--;
 				}
@@ -308,8 +331,16 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 				QtdeTmp = Qtde;
 				while(QtdeTmp > 0){
 					TAB_ObterVerticeAresta(pTabuleiro  , (void**)&Vertice , "SUDOESTE");
-					if(&Vertice != NULL){
-						JOG_InsereElemApos(pPecaJogo , Vertice);
+					if(Vertice != NULL){						
+						TAB_ObterConteudoVertice(pTabuleiro , (void**)&pecaOcupada);
+						if(pecaOcupada != NULL){							
+							if(pecaOcupada->Time == pPecaJogo->Time){
+								break;
+							}
+						}						
+						JOG_InsereElemApos(pPecaJogo ,Vertice);
+					}else{
+						break;
 					}
 					QtdeTmp--;
 				}
@@ -321,8 +352,16 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 				QtdeTmp = Qtde;
 				while(QtdeTmp > 0){
 					TAB_ObterVerticeAresta(pTabuleiro  , (void**)&Vertice , "NORTE");
-					if(&Vertice != NULL){
-						JOG_InsereElemApos(pPecaJogo , Vertice);
+					if(Vertice != NULL){						
+						TAB_ObterConteudoVertice(pTabuleiro , (void**)&pecaOcupada);
+						if(pecaOcupada != NULL){							
+							if(pecaOcupada->Time == pPecaJogo->Time){
+								break;
+							}
+						}						
+						JOG_InsereElemApos(pPecaJogo ,Vertice);
+					}else{
+						break;
 					}
 					QtdeTmp--;
 				}
@@ -331,8 +370,16 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 				QtdeTmp = Qtde;
 				while(QtdeTmp > 0){
 					TAB_ObterVerticeAresta(pTabuleiro  , (void**)&Vertice , "SUL");
-					if(&Vertice != NULL){
-						JOG_InsereElemApos(pPecaJogo , Vertice);
+					if(Vertice != NULL){						
+						TAB_ObterConteudoVertice(pTabuleiro , (void**)&pecaOcupada);
+						if(pecaOcupada != NULL){							
+							if(pecaOcupada->Time == pPecaJogo->Time){
+								break;
+							}
+						}						
+						JOG_InsereElemApos(pPecaJogo ,Vertice);
+					}else{
+						break;
 					}
 					QtdeTmp--;
 				}
@@ -341,8 +388,16 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 				QtdeTmp = Qtde;
 				while(QtdeTmp > 0){
 					TAB_ObterVerticeAresta(pTabuleiro  , (void**)&Vertice , "LESTE");
-					if(&Vertice != NULL){
-						JOG_InsereElemApos(pPecaJogo , Vertice);
+					if(Vertice != NULL){						
+						TAB_ObterConteudoVertice(pTabuleiro , (void**)&pecaOcupada);
+						if(pecaOcupada != NULL){							
+							if(pecaOcupada->Time == pPecaJogo->Time){
+								break;
+							}
+						}						
+						JOG_InsereElemApos(pPecaJogo ,Vertice);
+					}else{
+						break;
 					}
 					QtdeTmp--;
 				}
@@ -351,8 +406,16 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 				QtdeTmp = Qtde;
 				while(QtdeTmp > 0){
 					TAB_ObterVerticeAresta(pTabuleiro  , (void**)&Vertice , "OESTE");
-					if(&Vertice != NULL){
-						JOG_InsereElemApos(pPecaJogo , Vertice);
+					if(Vertice != NULL){						
+						TAB_ObterConteudoVertice(pTabuleiro , (void**)&pecaOcupada);
+						if(pecaOcupada != NULL){							
+							if(pecaOcupada->Time == pPecaJogo->Time){
+								break;
+							}
+						}						
+						JOG_InsereElemApos(pPecaJogo ,Vertice);
+					}else{
+						break;
 					}
 					QtdeTmp--;
 				}
@@ -360,14 +423,10 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 
 			}
 
-			QtdeTmp = Reta = Qtde = Diag = 0;				
-
-			TAB_SetarCorrente(pTabuleiro , corrente);
-			
-			strcpy(corrente , "");
+			QtdeTmp = Reta = Qtde = Diag = 0;	
 
 			LIS_NumElem(pPecaJogo->pListaCaminho , &QtdeTmp);
-			printf("Numero de elem de arestas  %d" , QtdeTmp);
+			printf("%s - Numero de elem de arestas  %d" , corrente ,QtdeTmp);
 			
 		}
 
