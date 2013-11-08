@@ -514,14 +514,15 @@ GRA_tpCondRet GRA_BuscaIdVertice(GRA_tppGrafo pGrafo , char ** pValor);
 
 /***********************************************************************
 *
-*  $FC Funcao: GRA Destruir grafo
+*  $FC Funcao: GRA Avancar corrente do vertice
 *
 *  $ED Descricao da funcao
-*      Destroi o grafo fornecido como parametro
+*      Avanca val vezes o elemento corrente do vertice.
 *     
 *
 *  $EP Parametros
-*      pGrafo    - Grafo a ser excluido
+*      pGrafo    - Ponteiro para o grafo.
+*      val       - Quantidade de vezes que ele avanca.
 *
 *  $FV Valor retornado
 *      GRA_CondRetGrafoNulo
@@ -542,27 +543,25 @@ GRA_tpCondRet GRA_AvancarCorrenteVert(GRA_tppGrafo pGrafo , int val);
 
 /***********************************************************************
 *
-*  $FC Funcao: GRA Destruir grafo
+*  $FC Funcao: GRA Numero de vertices
 *
 *  $ED Descricao da funcao
-*      Destroi o grafo fornecido como parametro
+*      Retorna por paramentro o numero de elementos da lista de vertices 
+*       do pGrafo.
 *     
 *
 *  $EP Parametros
 *      pGrafo    - Grafo a ser excluido
+*      val       - Ponteiro para o valor a ser retornado. 
 *
 *  $FV Valor retornado
-*      GRA_CondRetGrafoNulo
 *      GRA_CondRetOK
 *
 *  $AE Grafo ja deve ter sido iniciado
 *      A lista de Origens e Vertices nao deve estar vazia
 *
-*  $AS Se CondRet = GRA_CondRetGrafoNulo
-*      O grafo fornecido nao foi criado ou esta nulo
-*
-*	   Se CondRet = GRA_CondRetOK
-*      Grafo excluido com sucesso
+*  $AS Se CondRet = GRA_CondRetOK
+*      Retornou numero de vertices com sucesso.
 *
 ***********************************************************************/
 GRA_tpCondRet GRA_NumeroVertices(GRA_tppGrafo pGrafo , int * val);
@@ -570,14 +569,15 @@ GRA_tpCondRet GRA_NumeroVertices(GRA_tppGrafo pGrafo , int * val);
 
 /***********************************************************************
 *
-*  $FC Funcao: GRA Destruir grafo
+*  $FC Funcao: GRA Setar corrente
 *
 *  $ED Descricao da funcao
-*      Destroi o grafo fornecido como parametro
+*      Insere pValor no corrente do pGrafo.
 *     
 *
 *  $EP Parametros
-*      pGrafo    - Grafo a ser excluido
+*      pGrafo    - Grafo cujo corrente sera atualizado com pValor.
+*      pValor    - Ponteiro para o valor a ser inserido no pGrafo.
 *
 *  $FV Valor retornado
 *      GRA_CondRetGrafoNulo
@@ -590,7 +590,7 @@ GRA_tpCondRet GRA_NumeroVertices(GRA_tppGrafo pGrafo , int * val);
 *      O grafo fornecido nao foi criado ou esta nulo
 *
 *	   Se CondRet = GRA_CondRetOK
-*      Grafo excluido com sucesso
+*      pValor inserido com sucesso.
 *
 ***********************************************************************/
 GRA_tpCondRet GRA_SetarCorrente(GRA_tppGrafo pGrafo , char * pValor);
@@ -598,27 +598,28 @@ GRA_tpCondRet GRA_SetarCorrente(GRA_tppGrafo pGrafo , char * pValor);
 
 /***********************************************************************
 *
-*  $FC Funcao: GRA Destruir grafo
+*  $FC Funcao: GRA Insere conteudo do vertice
 *
 *  $ED Descricao da funcao
-*      Destroi o grafo fornecido como parametro
+*      Insere pConteudo em pGrafo
 *     
 *
 *  $EP Parametros
-*      pGrafo    - Grafo a ser excluido
+*      pGrafo    - Ponteiro para grafo cujo conteudo sera pConteudo.
+*      pConteudo - Ponteiro para elemento a ser inserido em pGrafo.
 *
 *  $FV Valor retornado
 *      GRA_CondRetGrafoNulo
 *      GRA_CondRetOK
 *
 *  $AE Grafo ja deve ter sido iniciado
-*      A lista de Origens e Vertices nao deve estar vazia
+*      A lista de Origens e Vertices nao deve estar vazia.
 *
 *  $AS Se CondRet = GRA_CondRetGrafoNulo
-*      O grafo fornecido nao foi criado ou esta nulo
+*      O grafo fornecido nao foi criado ou esta nulo.
 *
 *	   Se CondRet = GRA_CondRetOK
-*      Grafo excluido com sucesso
+*      pConteudo foi inserido com sucesso.
 *
 ***********************************************************************/
 GRA_tpCondRet GRA_InsereConteudoVertice(GRA_tppGrafo pGrafo , void * pConteudo);
