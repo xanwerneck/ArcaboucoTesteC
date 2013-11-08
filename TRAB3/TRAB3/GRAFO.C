@@ -1,5 +1,5 @@
 /***************************************************************************
-*  $MCI Módulo de implementação: Módulo GRAFO
+*  $MCI Modulo de implementacao: Modulo GRAFO
 *
 *  Arquivo gerado:              GRAFO.C
 *  Letras identificadoras:      GRA
@@ -7,15 +7,15 @@
 *  Nome da base de software:    Exemplo de teste automatizado
 *  Arquivo da base de software: D:\AUTOTEST\PROJETOS\SIMPLES.BSW
 *
-*  Projeto: INF 1301 Automatização dos testes de módulos C
+*  Projeto: INF 1301 Automatizacao dos testes de modulos C
 *  Gestor:  LES/DI/PUC-Rio
 *  Autores: aw - Alexandre Werneck
 *           fr - Fernanda Camelo Ribeiro
 *			vo - Vinicius de Luiz de Oliveira
 *
-*  $HA Histórico de evolução:
-*     Versão  Autor    Data     Observações
-*       1.00   afv   19/out/2013 Início do desenvolvimento
+*  $HA Historico de evolucao:
+*     Versao  Autor    Data     Observacoes
+*       1.00   afv   19/out/2013 Inicio do desenvolvimento
 *
 ***************************************************************************/
 
@@ -34,11 +34,11 @@ VER_tpCondRet ContVertRet;
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: GRA Descritor da aresta do vértice do grafo
+*  $TC Tipo de dados: GRA Descritor da aresta do vertice do grafo
 *
 *
-*  $ED Descrição do tipo
-*     Possui as referências para rótulo string e tpVerticeGrafo destino
+*  $ED Descricao do tipo
+*     Possui as referencias para rotulo string e tpVerticeGrafo destino
 *
 ***********************************************************************/
 
@@ -56,13 +56,13 @@ typedef struct tagArestaGrafo {
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: GRA Descritor do elemento vértice do grafo
+*  $TC Tipo de dados: GRA Descritor do elemento vertice do grafo
 *
 *
-*  $ED Descrição do tipo
-*     Possui as referências para lista de sucessores e antecessores
+*  $ED Descricao do tipo
+*     Possui as referencias para lista de sucessores e antecessores
 *     Possui ponteiro para tipo VER_tppVertice
-*     Possui id como referência do elemento vértice
+*     Possui id como referencia do elemento vertice
 *
 ***********************************************************************/
 
@@ -75,47 +75,47 @@ typedef struct tagVerticeGrafo {
 		/* Ponteiro para lista de sucessores */
 
 	void * pConteudo ;
-		/* Ponteiro para o conteúdo do vértice */
+		/* Ponteiro para o conteudo do vertice */
 
 	char pIdVertice[2];
-		/* Identificador do vértice */
+		/* Identificador do vertice */
 
 	void (*destruirValorV)(void *pValor);
-        /* Destruir Valor do conteúdo do vértice */
+        /* Destruir Valor do conteudo do vertice */
 	
 } tpVerticeGrafo ;
 
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: GRA Descritor da cabeça do grafo
+*  $TC Tipo de dados: GRA Descritor da cabeca do grafo
 *
 *
-*  $ED Descrição do tipo
-*     A cabeça do grafo indica o início do grafo, possui referências para
-*     lista de origens e vértices do grafo, o nó corrente referenciado
-*     na cabeça, permite apontar em qual vértice está o elemento corrente.
+*  $ED Descricao do tipo
+*     A cabeca do grafo indica o inicio do grafo, possui referencias para
+*     lista de origens e vertices do grafo, o no corrente referenciado
+*     na cabeca, permite apontar em qual vertice esta o elemento corrente.
 *
 ***********************************************************************/
 
 typedef struct GRA_tagGrafo {
 
 	LIS_tppLista pListaOrigens;
-		/* Ponteiro para lista de vértices de origens */
+		/* Ponteiro para lista de vertices de origens */
 
 	LIS_tppLista pListaVertices;
-		/* Ponteiro para lista com todos os vértices */
+		/* Ponteiro para lista com todos os vertices */
 
 	tpVerticeGrafo * pCorrente;
-		/* Ponteiro do Elemento vértice corrente */
+		/* Ponteiro do Elemento vertice corrente */
 
 	void (*destruirValor)(void *pValor);
-		/* Ponteiro para implementação do destruir grafo genérico */
+		/* Ponteiro para implementacao do destruir grafo generico */
 
 
 } GRA_tpGrafo ;
 
-/************* Funções encapsuladas no módulo *************************/
+/************* Funcoes encapsuladas no modulo *************************/
 
 static void GRA_ExcluirdeVertices(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice);
  
@@ -146,12 +146,12 @@ static int ChecaVerticeExiste(GRA_tppGrafo pGrafo, char * Vert);
 static void DestruirMalloc(LIS_tppLista pLista);
 
 
-/*****  Código das funções exportadas pelo módulo  *****/
+/*****  Codigo das funcoes exportadas pelo modulo  *****/
 
 
 /***************************************************************************
 *
-*  Função: GRA  &Criar Grafo
+*  Funcao: GRA  &Criar Grafo
 *  ****/
 
 GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo , void   ( * ExcluirValor ) ( void * pDado ) )
@@ -198,7 +198,7 @@ GRA_tpCondRet GRA_ObterVertice(GRA_tppGrafo pGrafo , void ** pValor){
 
 /***************************************************************************
 *
-*  Função: GRA  &Criar Vértice Grafo
+*  Funcao: GRA  &Criar Vertice Grafo
 *  ****/
 
 GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppGrafo pGrafo, char * String , char * id, void   ( * ExcluirValor ) ( void * pDado ))
@@ -229,7 +229,7 @@ GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppGrafo pGrafo, char * String , char * i
 	GRA_CriaListaAntecessoresVertice (pVert);
 	
 	LIS_InserirElementoApos(pGrafo->pListaVertices, pVert );
-		/* Insere vértice na lista de vértices do grafo */
+		/* Insere vertice na lista de vertices do grafo */
 
 	
 	pGrafo->pCorrente = pVert;
@@ -241,7 +241,7 @@ GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppGrafo pGrafo, char * String , char * i
 
 /***************************************************************************
 *
-*  Função: GRA  &Criar Aresta do vértice Grafo
+*  Funcao: GRA  &Criar Aresta do vertice Grafo
 *  ****/
 
 GRA_tpCondRet GRA_CriarAresta (char * pVertOrig , char * pVertDest , GRA_tppGrafo pGrafo, char * String)
@@ -293,7 +293,7 @@ GRA_tpCondRet GRA_CriarAresta (char * pVertOrig , char * pVertDest , GRA_tppGraf
 
 /***************************************************************************
 *
-*  Função: GRA  &Insere vértice como origem do Grafo
+*  Funcao: GRA  &Insere vertice como origem do Grafo
 *  ****/
 
 GRA_tpCondRet GRA_InsereOrigem(GRA_tppGrafo pGrafo, char * IdVert)
@@ -335,7 +335,7 @@ GRA_tpCondRet GRA_InsereOrigem(GRA_tppGrafo pGrafo, char * IdVert)
 
 /***************************************************************************
 *
-*  Função: GRA  &Excluir Aresta
+*  Funcao: GRA  &Excluir Aresta
 *  ****/
 
 GRA_tpCondRet GRA_ExcluirAresta(char * pVertOrig , char * pVertDest , GRA_tppGrafo pGrafo)
@@ -406,7 +406,7 @@ GRA_tpCondRet GRA_ExcluirAresta(char * pVertOrig , char * pVertDest , GRA_tppGra
 
 /***************************************************************************
 *
-*  Função: GRA  &Definir vértice corrente
+*  Funcao: GRA  &Definir vertice corrente
 *  ****/
 
 GRA_tpCondRet GRA_DefinirCorrente(GRA_tppGrafo pGrafo, char * IdVert)
@@ -439,7 +439,7 @@ GRA_tpCondRet GRA_DefinirCorrente(GRA_tppGrafo pGrafo, char * IdVert)
 
 /***************************************************************************
 *
-*  Função: GRA  &Excluir vértice
+*  Funcao: GRA  &Excluir vertice
 *  ****/
 
 
@@ -537,16 +537,16 @@ GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo)
 	} /* if */
 		
 	LIS_DestruirLista (pVertOrigem->pVerAnt);
-		/* Destroi a lista de antecessores após eliminar as referencias */
+		/* Destroi a lista de antecessores apos eliminar as referencias */
 
 	LIS_DestruirLista (pVertOrigem->pVerSuc);
-		/* Destroi a lista de antecessores após eliminar as referencias */
+		/* Destroi a lista de antecessores apos eliminar as referencias */
 
 	GRA_ExcluirdeVertices(pGrafo,pVertOrigem);
-		/* Destroi a referência da lista de origens  */
+		/* Destroi a referencia da lista de origens  */
 
 	GRA_ExcluirdeOrigens(pGrafo,pVertOrigem);
-		/* Destroi a referência da lista de vértices */
+		/* Destroi a referencia da lista de vertices */
 	
 	pGrafo->pCorrente->destruirValorV(pVertOrigem->pConteudo);
 
@@ -570,7 +570,7 @@ GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo)
 
 /***************************************************************************
 *
-*  Função: GRA  &Obter valor do vértice corrente
+*  Funcao: GRA  &Obter valor do vertice corrente
 *  ****/
 
 GRA_tpCondRet GRA_ChecarNomeVerticeCorrente(GRA_tppGrafo pGrafo , char * nomeForn)
@@ -604,7 +604,7 @@ GRA_tpCondRet GRA_ChecarNomeVerticeCorrente(GRA_tppGrafo pGrafo , char * nomeFor
 
 /***************************************************************************
 *
-*  Função: GRA  &Mudar valor do vértice corrente
+*  Funcao: GRA  &Mudar valor do vertice corrente
 *  ****/
 
 GRA_tpCondRet GRA_MudarNomeVerticeCorrente(GRA_tppGrafo pGrafo , char * nomeForn)
@@ -626,7 +626,7 @@ GRA_tpCondRet GRA_MudarNomeVerticeCorrente(GRA_tppGrafo pGrafo , char * nomeForn
 
 /***************************************************************************
 *
-*  Função: GRA  &Obter valor por referência
+*  Funcao: GRA  &Obter valor por referencia
 *  ****/
 
 GRA_tpCondRet GRA_ObterValorCorrente(GRA_tppGrafo pGrafo , void ** pValor)
@@ -645,7 +645,7 @@ GRA_tpCondRet GRA_ObterValorCorrente(GRA_tppGrafo pGrafo , void ** pValor)
 
 /***************************************************************************
 *
-*  Função: GRA  &Destruir Grafo
+*  Funcao: GRA  &Destruir Grafo
 *  ****/
 
 GRA_tpCondRet GRA_DestruirGrafo(GRA_tppGrafo pGrafo)
@@ -887,11 +887,11 @@ GRA_tpCondRet GRA_AvancarArestaVertice(GRA_tppGrafo pGrafo , int val)
 }
 /**** FIM CAMINHO DA ARESTA ****/
 
-/*****  Código das funções encapsuladas pelo módulo  *****/
+/*****  Codigo das funcoes encapsuladas pelo modulo  *****/
 
 /***********************************************************************
 *
-*  $FC Função: GRA  - &Limpa o conteúdo da lista de vértices do grafo 
+*  $FC Funcao: GRA  - &Limpa o conteudo da lista de vertices do grafo 
 *
 ***********************************************************************/
 
@@ -917,12 +917,12 @@ void GRA_ExcluirdeVertices(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 	} /* while */
 	
 
-} /* Fim função: GRA &Limpa o conteúdo da lista de vértices do grafo  */
+} /* Fim funcao: GRA &Limpa o conteudo da lista de vertices do grafo  */
 
 
 /***********************************************************************
 *
-*  $FC Função: GRA  - Limpa o conteúdo da lista de origens do grafo 
+*  $FC Funcao: GRA  - Limpa o conteudo da lista de origens do grafo 
 *
 ***********************************************************************/
 
@@ -949,11 +949,11 @@ void GRA_ExcluirdeOrigens(GRA_tppGrafo pGrafo , tpVerticeGrafo * pVertice)
 	} /* while */
 
 
-} /* Fim função: GRA &Limpa o conteúdo da lista de origens do grafo  */
+} /* Fim funcao: GRA &Limpa o conteudo da lista de origens do grafo  */
 
 /***************************************************************************
 *
-*  Função: GRA  &Criar Lista de origens Grafo
+*  Funcao: GRA  &Criar Lista de origens Grafo
 *
 *************************************************************************/
 
@@ -967,12 +967,12 @@ void GRA_CriaListaOrigens( GRA_tppGrafo pGrafo )
 
 	pGrafo->pListaOrigens = pListaOrig ;
 
-} /* Fim função: GRA  &Criar Lista de origens Grafo */
+} /* Fim funcao: GRA  &Criar Lista de origens Grafo */
 
 
 /***************************************************************************
 *
-*  Função: GRA  &Criar Lista de vértices Grafo
+*  Funcao: GRA  &Criar Lista de vertices Grafo
 *
 *************************************************************************/
 
@@ -986,12 +986,12 @@ void GRA_CriaListaVertices( GRA_tppGrafo pGrafo )
 
 	pGrafo->pListaVertices= pListaVert ;
 
-} /* Fim função: GRA  &Criar Lista de vértices Grafo */
+} /* Fim funcao: GRA  &Criar Lista de vertices Grafo */
 
 
 /***************************************************************************
 *
-*  Função: GRA  &Criar Lista de sucessores do vertice do Grafo
+*  Funcao: GRA  &Criar Lista de sucessores do vertice do Grafo
 *
 *************************************************************************/
 
@@ -1004,12 +1004,12 @@ void GRA_CriaListaSucessoresVertice(tpVerticeGrafo * pVertice)
 
 	pVertice->pVerSuc = pListaSuc ;
 
-} /* Fim função: GRA  &Criar Lista de sucessores do vertice do Grafo */
+} /* Fim funcao: GRA  &Criar Lista de sucessores do vertice do Grafo */
 
 
 /***************************************************************************
 *
-*  Função: GRA  &Criar Lista de antecessores do vertice do Grafo
+*  Funcao: GRA  &Criar Lista de antecessores do vertice do Grafo
 *
 *************************************************************************/
 
@@ -1022,12 +1022,12 @@ void GRA_CriaListaAntecessoresVertice(tpVerticeGrafo * pVertice)
 
 	pVertice->pVerAnt = pListaAnt ;
 
-} /* Fim função: GRA  &Criar Lista de antecessores do vertice do Grafo */
+} /* Fim funcao: GRA  &Criar Lista de antecessores do vertice do Grafo */
 
 
 /***************************************************************************
 *
-*  Função: GRA  &Excluir valor lista
+*  Funcao: GRA  &Excluir valor lista
 *
 ****************************************************************************/
 
@@ -1035,12 +1035,12 @@ void GRA_excluirValorLista ( void * pValor )
 {
 
 
-} /* Fim função: GRA  &Excluir valor lista */
+} /* Fim funcao: GRA  &Excluir valor lista */
 
 
 /***************************************************************************
 *
-*  Função: GRA  &Excluir valor lista do tipo Aresta
+*  Funcao: GRA  &Excluir valor lista do tipo Aresta
 *
 ****************************************************************************/
 
@@ -1049,12 +1049,12 @@ void GRA_excluirValorListaAresta ( tpArestaGrafo * pAresta )
 
 	free(pAresta);
 
-} /* Fim função: GRA  &Excluir valor lista */
+} /* Fim funcao: GRA  &Excluir valor lista */
 
 
 /***************************************************************************
 *
-*  Função: GRA  &Compara conteudo do vertice
+*  Funcao: GRA  &Compara conteudo do vertice
 *
 ****************************************************************************/
 
@@ -1087,11 +1087,11 @@ int GRA_comparaVerticeConteudo( void * pVerticeO , void * pValorO )
 	return 1;
 
 
-} /* Fim função: GRA  &Compara valores */
+} /* Fim funcao: GRA  &Compara valores */
 
 /***************************************************************************
 *
-*  Função: GRA  &Avancar Vertice corrente
+*  Funcao: GRA  &Avancar Vertice corrente
 *
 ****************************************************************************/
 
@@ -1113,12 +1113,12 @@ int AvancarVerticeCorrente (GRA_tppGrafo pGrafo , int numElem)
 	} /* if */
 
 	return 0 ;
-} /* Fim função: GRA  &Avancar Vertice corrente */
+} /* Fim funcao: GRA  &Avancar Vertice corrente */
 
 
 /***************************************************************************
 *
-*  Função: GRA  &Destruir valor do grafo
+*  Funcao: GRA  &Destruir valor do grafo
 *
 ****************************************************************************/
 
@@ -1140,13 +1140,13 @@ GRA_tpCondRet destruirValor(GRA_tppGrafo pGrafo)
 
 	return GRA_CondRetOK;
 
-} /* Fim função: GRA  &Destruir valor do grafo */
+} /* Fim funcao: GRA  &Destruir valor do grafo */
 
 
 
 /***************************************************************************
 *
-*  Função: GRA  &Buscar Vertice
+*  Funcao: GRA  &Buscar Vertice
 *
 ****************************************************************************/
 
@@ -1172,11 +1172,11 @@ tpVerticeGrafo * GRA_BuscarVertice(GRA_tppGrafo pGrafo , char * Id)
 
 	return NULL ;
 
-}  /* Fim função: GRA &Buscar Vertice */
+}  /* Fim funcao: GRA &Buscar Vertice */
 
 /***************************************************************************
 *
-*  Função: GRA  &Limpar conteúdo de aresta
+*  Funcao: GRA  &Limpar conteudo de aresta
 *
 ****************************************************************************/
 
@@ -1186,11 +1186,11 @@ void LiberarAresta(GRA_tppArestaGrafo pAres)
 	pAres->pVerticeDest = NULL;
 	free(pAres);
 	pAres = NULL;
-} /* Fim função: GRA &Limpar conteúdo de aresta */
+} /* Fim funcao: GRA &Limpar conteudo de aresta */
 
 /***************************************************************************
 *
-*  Função: GRA  &Checa se aresta existe
+*  Funcao: GRA  &Checa se aresta existe
 *
 ****************************************************************************/
 
@@ -1225,11 +1225,11 @@ int ChecaArestaExiste(tpVerticeGrafo * pVertice , char * String, char * Dest)
 	pAres = NULL;
 
 	return 0;
-} /* Fim função: GRA &Checa se aresta existe */
+} /* Fim funcao: GRA &Checa se aresta existe */
 
 /***************************************************************************
 *
-*  Função: GRA  &Checa se vértice existe
+*  Funcao: GRA  &Checa se vertice existe
 *
 ****************************************************************************/
 
@@ -1263,7 +1263,7 @@ int ChecaVerticeExiste(GRA_tppGrafo pGrafo, char * Vert)
 	pVertice = NULL;
 
 	return 0;
-} /* Fim função: GRA &Checa se vertice existe */
+} /* Fim funcao: GRA &Checa se vertice existe */
 
 
-/********** Fim do módulo de implementação: Módulo GRAFO **********/
+/********** Fim do modulo de implementacao: Modulo GRAFO **********/
