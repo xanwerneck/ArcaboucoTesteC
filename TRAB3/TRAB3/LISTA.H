@@ -255,19 +255,25 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *  $FC Funcao: LIS  &Excluir elemento
 *
 *  $ED Descricao da funcao
-*     Exclui o elemento corrente da lista dada.
-*     Se existir o elemento a esquerda do corrente, este sera o novo corrente.
-*     Se nao existir e existir o elemento a direita, este se tornara corrente.
-*     Se este tambem nao existir a lista tornou-se vazia.
+*     Exclui o elemento corrente da lista dada, tratando o encadeamento.
 *
 *  $EP Parametros
 *     pLista    - Ponteiro para a lista na qual deve excluir o corrente.
 *
 *  $FV Valor retornado
-*     LIS_CondRetOK - Se o elemento foi excluido com sucesso.
-*     LIS_CondRetListaVazia - Se a lista esta vazia.
-*     LIS_CondRetFaltouMemoria - Se nao conseguiu excluir o elemento.
+*     LIS_CondRetOK
+*     LIS_CondRetListaVazia
 *
+*  $AE CondRet deve ter sido instanciado
+*      Lista passada não pode ser nula.
+*
+*  $AS Se CondRet = LIS_CondRetOK
+*      Excluiu corrente com sucesso.
+*
+*      Se CondRet = LIS_CondRetListaVazia
+*      Nao excluiu corrente, corrente ja esta nulo.
+*
+*     Nao existe previsao para possiveis falhas de execucao.
 ***********************************************************************/
 
    LIS_tpCondRet LIS_ExcluirElemento( LIS_tppLista pLista ) ;
@@ -278,16 +284,27 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *  $FC Funcao: LIS  &Obter referencia para o valor contido no elemento
 *
 *  $ED Descricao da funcao
-*     Obtem a referencia para o valor contido no elemento corrente da lista
+*     Obtem a referencia para o valor contido no elemento corrente da 
+*      lista.
 *
 *  $EP Parametros
 *     pLista      - Ponteiro para a lista onde esta o corrente.
-*     pContListaM - Ponteiro ao qual sera atribuido o valor a ser retornado.
+*     pContListaM - Ponteiro ao qual sera atribuido o valor a ser 
+*                   retornado.
 *
 *  $FV Valor retornado
-*     LIS_CondRetOK           - Se o elemento corrente da lista existe, retorna.
-*     LIS_CondRetListaVazia   - Se a lista estiver vazia, nao e possivel retornar valor.
+*     LIS_CondRetOK          
+*     LIS_CondRetListaVazia 
 *
+*  $AE CondRet deve ter sido instanciado
+*      Lista passada não pode ser nula.
+*
+*  $AS Se CondRet = LIS_CondRetOK
+*      Retornou valor com sucesso.
+*
+*      Se CondRet = LIS_CondRetListaVazia
+*      Nao retornou valor, corrente nulo.
+* 
 ***********************************************************************/
 
   LIS_tpCondRet LIS_ObterValor( LIS_tppLista pLista , void **pContListaM ) ;
@@ -299,13 +316,23 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 *  $ED Descricao da funcao
 *     Torna corrente o primeiro elemento da lista.
-*     Faz nada se a lista esta vazia.
 *
 *  $EP Parametros
-*     pLista - ponteiro para a lista a manipular.
+*     pLista - Ponteiro para a lista.
 *
 *  $FV Valor retornado
-*     LIS_CondRetOK - Foi ao inicio da lista.
+*     LIS_CondRetOK
+*     LIS_CondRetListaVazia
+*
+*  $AE CondRet deve ter sido instanciado
+*      Lista passada não pode ser nula.
+*      Se o corrente for nulo, ele ja e o elemento inicial.
+*
+*  $AS Se CondRet = LIS_CondRetOK
+*      Concluiu com sucesso.
+*
+*      Se CondRet = LIS_CondRetListaVazia
+*      Lista vazia, nao ha elemento para retornar.
 *
 ***********************************************************************/
 
@@ -324,7 +351,18 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *     pLista - ponteiro para a lista a manipular
 *
 *  $FV Valor retornado
-*     LIS_CondRetOK - Foi ao final da lista.
+*     LIS_CondRetOK
+*     LIS_CondRetListaVazia
+*
+*  $AE CondRet deve ter sido instanciado
+*      Lista passada não pode ser nula.
+*      Se o corrente for nulo, ele ja e o elemento inicial.
+*
+*  $AS Se CondRet = LIS_CondRetOK
+*      Concluiu com sucesso.
+*
+*      Se CondRet = LIS_CondRetListaVazia
+*      Lista vazia, nao ha elemento para retornar.
 *
 ***********************************************************************/
 
@@ -336,22 +374,37 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *  $FC Funcao: LIS  &Avancar elemento
 *
 *  $ED Descricao da funcao
-*     Avanca o elemento corrente numElem elementos na lista
-*     Se numElem for positivo avanca em direcao ao final
-*     Se numElem for negativo avanca em direcao ao inicio
+*     Avanca o elemento corrente numElem elementos na lista.
+*     Se numElem for positivo avanca em direcao ao final.
+*     Se numElem for negativo avanca em direcao ao inicio.
 *     numElem pode ser maior do que o numero de elementos existentes na
-*     direcao desejada
-*     Se numElem for zero somente verifica se a lista esta vazia
+*     direcao desejada, fazendo entao o corrente apontar para o inicio 
+*     ou para o final da lista.
+*     Se numElem for zero somente verifica se a lista esta vazia.
 *
 *  $EP Parametros
-*     pLista  - ponteiro para a lista a ser manipulada
-*     numElem - o numero de elementos a andar
+*     pLista  - Ponteiro para a lista a ser manipulada.
+*     numElem - Numero de elementos a andar a partir do corrente.
 *
 *  $FV Valor retornado
-*     CondRetOK         - Se numElem elementos tiverem sido andados
-*     CondRetFimLista   - Se encontrou o fim da lista antes de andar numElem
-*                         elementos
-*     CondRetListaVazia - Se a lista esta vazia
+*     CondRetOK          
+*     CondRetFimLista    
+*     CondRetListaVazia 
+*
+*  $AE CondRet deve ter sido instanciado
+*      Lista passada não pode ser nula.
+*      numElem pode ser qualquer valor natural.
+*
+*  $AS Se CondRet = LIS_CondRetOK
+*      Concluiu com sucesso.
+*
+*      Se CondRet = CondRetFimLista
+*      Encontrou o fim da lista antes de andar numElem elementos.
+*      Setou corrente como final de lista (se numElem >0) 
+*      ou inicio de lista (se numElem <0).
+*
+*      Se CondRet = LIS_CondRetListaVazia
+*      Lista vazia, nao ha elemento para andar.
 *
 ***********************************************************************/
 
@@ -365,22 +418,36 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 *  $ED Descricao da funcao
 *     Procura o elemento que referencia o valor dado.
-*     A funcao compara ponteiro e nao conteudo apontado com a funcao do usuario.
+*     A funcao compara ponteiro e nao conteudo apontado com a 
+*     funcao passada pelo usuario.
 *
 *  $EP Parametros
-*     pLista       - Ponteiro para a lista onde procura.
-*     pValor       - Ponteiro para o valor procurado;
+*     pLista       - Ponteiro para a lista.
+*     pValor       - Ponteiro para o valor procurado.
 *                    Pode ser NULL.
 *     ComparaValor - Ponteiro para funcao de comparacao
-*                    de valores encontrados e procurados
+*                    de valores encontrados e procurados.
 *
 *  $FV Valor retornado
-*     LIS_CondRetOK  - Se encontrou;
-*                      O elemento corrente e o elemento encontrado.
+*     LIS_CondRetOK  
+*     LIS_CondRetNaoAchou     
+*     LIS_CondRetListaVazia   
 *
-*     LIS_CondRetNaoAchou     - Se o ponteiro nao foi encontrado.
-*                               O elemento corrente continua o mesmo.
-*     LIS_CondRetListaVazia   - Se a lista estiver vazia.
+*  $AE CondRet deve ter sido instanciado
+*      Lista passada não pode ser nula.
+*      pValor pode ser nulo.
+*      Funcao passada por parametro nao pode ser nula.
+*
+*  $AS Se CondRet = LIS_CondRetOK
+*      Concluiu com sucesso.
+*      O elemento corrente e o elemento encontrado.
+* 
+*      Se CondRet = LIS_CondRetNaoAchou
+*      O ponteiro nao foi encontrado.
+*      O elemento corrente continua o mesmo. 
+*
+*      Se CondRet = LIS_CondRetListaVazia
+*      Lista vazia, nao ha elemento comparar.
 *
 ***********************************************************************/
 
@@ -401,8 +468,17 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *     pLista       - Ponteiro para a lista.
 *
 *  $FV Valor retornado
-*     LIS_CondRetOK           - Se existe elemento na lista.
-*     LIS_CondRetListaVazia   - Se a lista estiver vazia e Origem e NULL.
+*     LIS_CondRetOK           
+*     LIS_CondRetListaVazia   
+*
+*  $AE CondRet deve ter sido instanciado
+*      Lista passada não pode ser nula.
+*
+*  $AS Se CondRet = LIS_CondRetOK
+*      Existe elemento na lista.
+*
+*      Se CondRet = LIS_CondRetListaVazia
+*      Lista vazia.
 *
 ***********************************************************************/
 
@@ -417,9 +493,17 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista) ;
 *
 *  $EP Parametros
 *     pLista       - Ponteiro para a lista.
-*
+*     numElem      - Ponteiro para atribuicao da quantidade de elementos 
+*                    da lista.
+* 
 *  $FV Valor retornado
-*     &numElem     - com o valor de pLista->numElem
+*     LIS_CondRetOK     
+*
+*  $AE CondRet deve ter sido instanciado
+*      Lista passada não pode ser nula.
+*
+*  $AS Se CondRet = LIS_CondRetOK
+*      Concluiu com sucesso.
 *
 ***********************************************************************/
 
