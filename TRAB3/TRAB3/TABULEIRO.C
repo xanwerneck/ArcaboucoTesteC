@@ -132,7 +132,6 @@ TAB_tpCondRet TAB_IrInicioCasas( TAB_tppTabuleiro pTabuleiro  )
 		return TAB_CondRetTabuleiroNulo;
 
 	}
-
 	GrafRet = GRA_IrInicio(pTabuleiro->tpGrafo);
 
 	if(GrafRet == GRA_CondRetOK){
@@ -194,40 +193,45 @@ TAB_tpCondRet TAB_InserirConteudoCasa(TAB_tppTabuleiro pTabuleiro , void * pPeca
 TAB_tpCondRet TAB_ApresentaTabuleiro( TAB_tppTabuleiro pTabuleiro ){
 
 	int cont = 0;
+	int contador = 0;
 	char * id = NULL;
 	char * NomeCasa = NULL;
-	int numElem = 0;
+	char NomeNaCasa[10];
+	char Time;
 	JOG_tppPecaJogo pPecaTab;
 
-	GrafRet = GRA_NumeroVertices(pTabuleiro->tpGrafo , &numElem);
-	if(GrafRet == GRA_CondRetOK ){
-		printf("Numero de Casas do Tabuleiro %d \n\n" , numElem);
-	} /* if */
+	char casas[7] = {'B' , 'C' , 'D' , 'E' , 'F' , 'G' , 'H'};
 
 	GrafRet = GRA_IrInicio(pTabuleiro->tpGrafo);
+
+	puts( "| - || 1 || 2 || 3 || 4 || 5 || 6 || 7 || 8 |" );
+
+	printf( "| A |" );
 
 	do{
 
 		cont++;
 
-		GRA_BuscaIdVertice( pTabuleiro->tpGrafo , &id );
-
 		GRA_PegaConteudo (pTabuleiro->tpGrafo , (void**)&pPecaTab);
 
 		if(pPecaTab != NULL){
-			printf( "| %s |" , "XX" );
+			JOG_ObterDadosPeca(pPecaTab , (void**)&NomeNaCasa , &Time);
+			printf( "|%c-%c|" , NomeNaCasa[0], Time );
 		}else{
-			printf( "| %s |" , id );
+			printf( "| - |" );
 		}
 		
-		if(cont == 8){
-			printf( "\n" );
-			cont=0;
+		if((cont % 8) == 0){
+			if(contador < 7)
+				printf( "\n| %c |" , casas[contador] );
+			contador++;
+			
 		}
 
 		GrafRet = GRA_AvancarCorrenteVert(pTabuleiro->tpGrafo , 1);
 
-	}while(GrafRet != GRA_CondRetFimLista);	
+	}while(GrafRet != GRA_CondRetFimLista);
+
 	printf("\n");
 	return TAB_CondRetOK;
 
@@ -333,12 +337,14 @@ TAB_tpCondRet TAB_IrInicioListaPecas(TAB_tppTabuleiro pTabuleiro)
 
 TAB_tpCondRet TAB_ObterTipoPeca(TAB_tppTabuleiro pTabuleiro , void ** pPeca)
 {
-
+	PEC_tppPeca tpPeca;
 	if(pTabuleiro==NULL){
 		return TAB_CondRetTabuleiroNulo;
 	}
 
-	ListaRet = LIS_ObterValor(pTabuleiro->pListaPecas , (void**)&pPeca);
+	ListaRet = LIS_ObterValor(pTabuleiro->pListaPecas , (void**)&tpPeca);
+
+	*pPeca = tpPeca;
 
 
 	if(ListaRet == LIS_CondRetListaVazia)
@@ -369,18 +375,30 @@ TAB_tpCondRet TAB_IrInicioArestasCorrente(TAB_tppTabuleiro pTabuleiro)
 
 TAB_tpCondRet TAB_ObterVerticeAresta(TAB_tppTabuleiro pTabuleiro  , void ** Vertice , char * Aresta)
 {
-	GRA_tppVerGrafo pVertice = NULL;
+	GRA_tppVerGrafo pVert = NULL;
 
 	if(pTabuleiro==NULL){
 		return TAB_CondRetTabuleiroNulo;
 	} /* if */
 	
-	GRA_ObterArestaVertice(pTabuleiro->tpGrafo , (void**)&pVertice , Aresta);
-
-	*Vertice = pVertice;
+	GRA_ObterArestaVertice(pTabuleiro->tpGrafo , (void**)&pVert , Aresta);
+	
+	*Vertice = pVert;
 
 	return TAB_CondRetOK;
 
+}
+
+TAB_tpCondRet TAB_PecaConteudoPeloVertice(void * Vertice  , void ** VertConteudo)
+{
+
+	if(Vertice==NULL){
+		return TAB_CondRetTabuleiroNulo;
+	} /* if */
+	
+	GRA_PegaConteudoPeloVertice(Vertice , (void**)&VertConteudo);
+
+	return TAB_CondRetOK;
 }
 
 TAB_tpCondRet TAB_ObterConteudoVertice(TAB_tppTabuleiro pTabuleiro  , void ** VertConteudo)
@@ -392,7 +410,7 @@ TAB_tpCondRet TAB_ObterConteudoVertice(TAB_tppTabuleiro pTabuleiro  , void ** Ve
 	} /* if */
 
 	GRA_PegaConteudoCorrente(pTabuleiro->tpGrafo , (void**)&pPeca);
-	
+
 	*VertConteudo = pPeca;
 
 	return TAB_CondRetOK;
@@ -414,14 +432,13 @@ TAB_tpCondRet TAB_NumElementosArestasCorrente(TAB_tppTabuleiro pTabuleiro , int 
 }
 
 
-TAB_tpCondRet TAB_ObterVerticeCorrente(TAB_tppTabuleiro pTabuleiro , void ** Id)
+TAB_tpCondRet TAB_ObterVerticeCorrente(TAB_tppTabuleiro pTabuleiro , char ** Id)
 {
+	char * Busca;
 
-	char * IdVert;
+	GRA_BuscaIdVertice(pTabuleiro->tpGrafo , &Busca);
 
-	GRA_BuscaIdVertice(pTabuleiro->tpGrafo , (char**)&IdVert);
-
-	*Id = IdVert;
+	*Id = Busca;
 
 	return TAB_CondRetOK;
 }
@@ -452,8 +469,6 @@ TAB_tpCondRet PreparaEstruturaMatriz( GRA_tppGrafo pGrafo  , int numElementos ){
 
 	int i = 0, j = 0;
 	
-	char * IdTmp;
-
 	char * IdVertices[64] = 
 	{
 		"A1","A2","A3","A4","A5","A6","A7","A8","B1","B2","B3","B4","B5","B6","B7","B8","C1","C2","C3","C4","C5","C6","C7","C8","D1","D2","D3","D4","D5","D6","D7","D8","E1","E2","E3","E4","E5","E6","E7","E8","F1","F2","F3","F4","F5","F6","F7","F8","G1","G2","G3","G4","G5","G6","G7","G8","H1","H2","H3","H4","H5","H6","H7","H8"
@@ -480,11 +495,10 @@ TAB_tpCondRet PreparaEstruturaMatriz( GRA_tppGrafo pGrafo  , int numElementos ){
 
 					if(i==0 && j==0){
 
-
 						CriarNo( pGrafo , IdVertices[1] );
 						CriarNo( pGrafo , IdVertices[8]);
 						CriarNo( pGrafo , IdVertices[9] );
-
+						
 						GRA_CriarAresta(IdVertices[0],IdVertices[1],pGrafo,"LESTE");
 						GRA_CriarAresta(IdVertices[0],IdVertices[8],pGrafo,"SUL");
 						GRA_CriarAresta(IdVertices[0],IdVertices[9],pGrafo,"SUDESTE");
@@ -493,38 +507,29 @@ TAB_tpCondRet PreparaEstruturaMatriz( GRA_tppGrafo pGrafo  , int numElementos ){
 
 					}
 					if(i==0 && j==numElementos){
-
 						GRA_AvancarCorrenteVert(pGrafo , 1);
-
-						GRA_BuscaIdVertice(pGrafo , (char**)&IdTmp);
-
-						GRA_CriarAresta(IdTmp,IdVertices[j-1],pGrafo,"OESTE");
-						GRA_CriarAresta(IdTmp,IdVertices[(j+numElementos) + 1],pGrafo,"SUL");
-						GRA_CriarAresta(IdTmp,IdVertices[j+numElementos],pGrafo,"SUDOESTE");
-
+						
+						GRA_CriarAresta(IdVertices[j],IdVertices[j-1],pGrafo,"OESTE");
+						GRA_CriarAresta(IdVertices[j],IdVertices[(j+numElementos) + 1],pGrafo,"SUL");
+						GRA_CriarAresta(IdVertices[j],IdVertices[j+numElementos],pGrafo,"SUDOESTE");
 
 					}
 					if(i==numElementos && j==0){
-						
 						GRA_AvancarCorrenteVert(pGrafo , 1);
 
-						GRA_BuscaIdVertice(pGrafo , (char**)&IdTmp);
-
-						GRA_CriarAresta(IdTmp,IdVertices[(i * numElementos)-1],pGrafo,"NORTE");
-						GRA_CriarAresta(IdTmp,IdVertices[i * numElementos],pGrafo,"NORDESTE");
-						GRA_CriarAresta(IdTmp,IdVertices[(i * (numElementos + 1))+1],pGrafo,"LESTE");
+						GRA_CriarAresta(IdVertices[(i *(numElementos+1))],IdVertices[(i * numElementos)-1],pGrafo,"NORTE");
+						GRA_CriarAresta(IdVertices[(i *(numElementos+1))],IdVertices[i * numElementos],pGrafo,"NORDESTE");
+						GRA_CriarAresta(IdVertices[(i *(numElementos+1))],IdVertices[(i * (numElementos + 1))+1],pGrafo,"LESTE");
 
 
 					}
 					if(i==numElementos && j==numElementos){
-						
-						GRA_AvancarCorrenteVert(pGrafo , 1);
 
-						GRA_BuscaIdVertice(pGrafo , (char**)&IdTmp);
+						GRA_CriarAresta(IdVertices[((numElementos+1)*(numElementos+1)) - 1],IdVertices[(i * (numElementos + 1))-1],pGrafo,"NORTE");
+						GRA_CriarAresta(IdVertices[((numElementos+1)*(numElementos+1)) - 1],IdVertices[(i * (numElementos + 1))-2],pGrafo,"NOROESTE");
+						GRA_CriarAresta(IdVertices[((numElementos+1)*(numElementos+1)) - 1],IdVertices[((numElementos + 1) * (numElementos + 1))-2],pGrafo,"OESTE");
 
-						GRA_CriarAresta(IdTmp,IdVertices[(i * (numElementos + 1))-1],pGrafo,"NORTE");
-						GRA_CriarAresta(IdTmp,IdVertices[(i * (numElementos + 1))-2],pGrafo,"NOROESTE");
-						GRA_CriarAresta(IdTmp,IdVertices[((numElementos + 1) * (numElementos + 1))-2],pGrafo,"OESTE");
+
 					}
 
 				}
@@ -534,67 +539,55 @@ TAB_tpCondRet PreparaEstruturaMatriz( GRA_tppGrafo pGrafo  , int numElementos ){
 
 
 					if(i==0 && (j!=numElementos || j!=0)){
-						
 						GRA_AvancarCorrenteVert(pGrafo , 1);
 
-						GRA_BuscaIdVertice(pGrafo , (char**)&IdTmp);
-
-						GRA_CriarAresta(IdTmp,IdVertices[j-1],pGrafo,"OESTE");
-						GRA_CriarAresta(IdTmp,IdVertices[(j+numElementos) + 1],pGrafo,"SUL");
-						GRA_CriarAresta(IdTmp,IdVertices[(j+numElementos)],pGrafo,"SUDOESTE");
+						GRA_CriarAresta(IdVertices[j],IdVertices[j-1],pGrafo,"OESTE");
+						GRA_CriarAresta(IdVertices[j],IdVertices[(j+numElementos) + 1],pGrafo,"SUL");
+						GRA_CriarAresta(IdVertices[j],IdVertices[(j+numElementos)],pGrafo,"SUDOESTE");
 						
 						CriarNo( pGrafo , IdVertices[j+1]);                    /* Cria no leste */
 						CriarNo( pGrafo , IdVertices[(j + numElementos) + 2]); /* Cria no sudeste */
 
-						GRA_CriarAresta(IdTmp,IdVertices[j+1],pGrafo,"LESTE");
-						GRA_CriarAresta(IdTmp,IdVertices[(j + numElementos) + 2],pGrafo,"SUDESTE");
+						GRA_CriarAresta(IdVertices[j],IdVertices[j+1],pGrafo,"LESTE");
+						GRA_CriarAresta(IdVertices[j],IdVertices[(j + numElementos) + 2],pGrafo,"SUDESTE");
 
 
 					}
 
 					if(j==0 && (i!=numElementos || i!=0)){
-
 						GRA_AvancarCorrenteVert(pGrafo , 1);
 
-						GRA_BuscaIdVertice(pGrafo , (char**)&IdTmp);
-
-						GRA_CriarAresta(IdTmp,IdVertices[(i - 1) * (numElementos + 1)],pGrafo,"NORTE");
-						GRA_CriarAresta(IdTmp,IdVertices[((i - 1) * (numElementos + 1)) + 1],pGrafo,"NORDESTE");
-						GRA_CriarAresta(IdTmp,IdVertices[(i * (numElementos + 1)) + 1],pGrafo,"LESTE");
+						GRA_CriarAresta(IdVertices[i * (numElementos + 1)],IdVertices[(i - 1) * (numElementos + 1)],pGrafo,"NORTE");
+						GRA_CriarAresta(IdVertices[i * (numElementos + 1)],IdVertices[((i - 1) * (numElementos + 1)) + 1],pGrafo,"NORDESTE");
+						GRA_CriarAresta(IdVertices[i * (numElementos + 1)],IdVertices[(i * (numElementos + 1)) + 1],pGrafo,"LESTE");
 						
 						CriarNo( pGrafo , IdVertices[(numElementos * (i+1)) + (i+1)]); /* Cria sul */
 						CriarNo( pGrafo , IdVertices[(numElementos * (i+1)) + (i+2)]); /* Cria sudeste */
 
-						GRA_CriarAresta(IdTmp,IdVertices[(numElementos * (i+1)) + (i+1)],pGrafo,"SUL");
-						GRA_CriarAresta(IdTmp,IdVertices[(numElementos * (i+1)) + (i+2)],pGrafo,"SUDESTE");
+						GRA_CriarAresta(IdVertices[i * (numElementos + 1)],IdVertices[(numElementos * (i+1)) + (i+1)],pGrafo,"SUL");
+						GRA_CriarAresta(IdVertices[i * (numElementos + 1)],IdVertices[(numElementos * (i+1)) + (i+2)],pGrafo,"SUDESTE");
 
 
 						
 					}
 					if(i==numElementos && (j!=numElementos || j!=0)){
-
 						GRA_AvancarCorrenteVert(pGrafo , 1);
 
-						GRA_BuscaIdVertice(pGrafo , (char**)&IdTmp);
-
-						GRA_CriarAresta(IdTmp,IdVertices[(i * (numElementos + 1) + (j+1))],pGrafo,"LESTE");
-						GRA_CriarAresta(IdTmp,IdVertices[((i - 1) * (numElementos + 1) + (j+1))],pGrafo,"NORDESTE");
-						GRA_CriarAresta(IdTmp,IdVertices[((i - 1) * (numElementos + 1) + j)],pGrafo,"NORTE");
-						GRA_CriarAresta(IdTmp,IdVertices[((i - 1) * (numElementos + 1) + (j-1))],pGrafo,"NOROESTE");
-						GRA_CriarAresta(IdTmp,IdVertices[(i * (numElementos + 1) + (j-1))],pGrafo,"OESTE");
+						GRA_CriarAresta(IdVertices[(i * (i + 1) + j)],IdVertices[(i * (numElementos + 1) + (j+1))],pGrafo,"LESTE");
+						GRA_CriarAresta(IdVertices[(i * (i + 1) + j)],IdVertices[((i - 1) * (numElementos + 1) + (j+1))],pGrafo,"NORDESTE");
+						GRA_CriarAresta(IdVertices[(i * (i + 1) + j)],IdVertices[((i - 1) * (numElementos + 1) + j)],pGrafo,"NORTE");
+						GRA_CriarAresta(IdVertices[(i * (i + 1) + j)],IdVertices[((i - 1) * (numElementos + 1) + (j-1))],pGrafo,"NOROESTE");
+						GRA_CriarAresta(IdVertices[(i * (i + 1) + j)],IdVertices[(i * (numElementos + 1) + (j-1))],pGrafo,"OESTE");
 
 					}
 					if(j==numElementos && (i!=numElementos || i!=0)){
-
 						GRA_AvancarCorrenteVert(pGrafo , 1);
 
-						GRA_BuscaIdVertice(pGrafo , (char**)&IdTmp);
-
-						GRA_CriarAresta(IdTmp,IdVertices[(i * (numElementos + 1) )- 1],pGrafo,"NORTE");
-						GRA_CriarAresta(IdTmp,IdVertices[((i+1) * (numElementos + 1) )+numElementos],pGrafo,"SUL");
-						GRA_CriarAresta(IdTmp,IdVertices[((i+1) * (numElementos + 1) )+(numElementos - 1)],pGrafo,"SUDOESTE");
-						GRA_CriarAresta(IdTmp,IdVertices[(i * (numElementos + 1) )+(numElementos-1)],pGrafo,"OESTE");
-						GRA_CriarAresta(IdTmp,IdVertices[(i * (numElementos + 1) )- 2],pGrafo,"NOROESTE");
+						GRA_CriarAresta(IdVertices[((i + 1) * (numElementos + 1)) - 1],IdVertices[(i * (numElementos + 1) )- 1],pGrafo,"NORTE");
+						GRA_CriarAresta(IdVertices[((i + 1) * (numElementos + 1)) - 1],IdVertices[((i+1) * (numElementos + 1) )+numElementos],pGrafo,"SUL");
+						GRA_CriarAresta(IdVertices[((i + 1) * (numElementos + 1)) - 1],IdVertices[((i+1) * (numElementos + 1) )+(numElementos - 1)],pGrafo,"SUDOESTE");
+						GRA_CriarAresta(IdVertices[((i + 1) * (numElementos + 1)) - 1],IdVertices[(i * (numElementos + 1) )+(numElementos-1)],pGrafo,"OESTE");
+						GRA_CriarAresta(IdVertices[((i + 1) * (numElementos + 1)) - 1],IdVertices[(i * (numElementos + 1) )- 2],pGrafo,"NOROESTE");
 
 					}
 
@@ -604,19 +597,17 @@ TAB_tpCondRet PreparaEstruturaMatriz( GRA_tppGrafo pGrafo  , int numElementos ){
 
 						GRA_AvancarCorrenteVert(pGrafo , 1);
 
-						GRA_BuscaIdVertice(pGrafo , (char**)&IdTmp);
-
-						GRA_CriarAresta(IdTmp,IdVertices[((i-1) * (numElementos + 1)) + j],pGrafo,"NORTE");
-						GRA_CriarAresta(IdTmp,IdVertices[((i+1) * (numElementos + 1)) + j],pGrafo,"SUL");
-						GRA_CriarAresta(IdTmp,IdVertices[(i * (numElementos + 1)) + (j+1)],pGrafo,"LESTE");
-						GRA_CriarAresta(IdTmp,IdVertices[(i * (numElementos + 1)) + (j-1)],pGrafo,"OESTE");
-						GRA_CriarAresta(IdTmp,IdVertices[((i-1) * (numElementos + 1)) + (j+1)],pGrafo,"NORDESTE");
-						GRA_CriarAresta(IdTmp,IdVertices[((i-1) * (numElementos + 1)) + (j-1)],pGrafo,"NOROESTE");
-						GRA_CriarAresta(IdTmp,IdVertices[((i+1) * (numElementos + 1)) + (j-1)],pGrafo,"SUDOESTE");
+						GRA_CriarAresta(IdVertices[(i * (numElementos + 1)) + j],IdVertices[((i-1) * (numElementos + 1)) + j],pGrafo,"NORTE");
+						GRA_CriarAresta(IdVertices[(i * (numElementos + 1)) + j],IdVertices[((i+1) * (numElementos + 1)) + j],pGrafo,"SUL");
+						GRA_CriarAresta(IdVertices[(i * (numElementos + 1)) + j],IdVertices[(i * (numElementos + 1)) + (j+1)],pGrafo,"LESTE");
+						GRA_CriarAresta(IdVertices[(i * (numElementos + 1)) + j],IdVertices[(i * (numElementos + 1)) + (j-1)],pGrafo,"OESTE");
+						GRA_CriarAresta(IdVertices[(i * (numElementos + 1)) + j],IdVertices[((i-1) * (numElementos + 1)) + (j+1)],pGrafo,"NORDESTE");
+						GRA_CriarAresta(IdVertices[(i * (numElementos + 1)) + j],IdVertices[((i-1) * (numElementos + 1)) + (j-1)],pGrafo,"NOROESTE");
+						GRA_CriarAresta(IdVertices[(i * (numElementos + 1)) + j],IdVertices[((i+1) * (numElementos + 1)) + (j-1)],pGrafo,"SUDOESTE");
 
 						CriarNo( pGrafo , IdVertices[((i+1) * (numElementos + 1)) + (j+1)]); /* Cria Sudeste */
 
-						GRA_CriarAresta(IdTmp, IdVertices[((i+1) * (numElementos + 1)) + (j+1)],pGrafo,"SUDESTE");
+						GRA_CriarAresta(IdVertices[(i * (numElementos + 1)) + j], IdVertices[((i+1) * (numElementos + 1)) + (j+1)],pGrafo,"SUDESTE");
 
 
 				}

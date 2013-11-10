@@ -1,7 +1,9 @@
 ***************** Verificador de XEQUE MATE ***********************
 *****************    AFV - Novembro 2013    ***********************
-TIPOPECA REI 1 1 7
-TIPOPECA REI 1 1 7
-PECAS A REI
-PECAS B REI
+TIPOPECA AS 1 1 3
+TIPOPECA REI 1 1 1
+PECAS A AS C5
+PECAS A REI D4
+PECAS B AS A2
+PECAS B REI F7
 *****************       FIM DO ARQUIVO      ***********************

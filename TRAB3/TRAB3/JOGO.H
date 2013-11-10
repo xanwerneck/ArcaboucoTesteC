@@ -414,6 +414,12 @@ JOG_tpCondRet JOG_IrInicioPecas(JOG_tppJogo pJOGO , char Time);
 JOG_tpCondRet JOG_ObterPecaJogo(JOG_tppJogo pJOGO , char Time, void ** pTipo);
 
 
+JOG_tpCondRet JOG_VerificaXequeMate(JOG_tppJogo pJogo, TAB_tppTabuleiro pTabuleiro);
+
+
+JOG_tpCondRet JOG_ObterDadosPeca(JOG_tppPecaJogo pPeca , void ** NomeNaCasa , char * Time);
+
+
 #undef JOGO_EXT
 
 /********** Fim do modulo de definicao: JOG  JOGO do tabuleiro **********/

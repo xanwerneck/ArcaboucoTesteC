@@ -425,6 +425,7 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista) ;
 
 LIS_tpCondRet LIS_NumElem( LIS_tppLista pLista , int * numElem );
 
+
 #undef LISTA_EXT
 
 /********** Fim do modulo de definicao: LIS  Lista duplamente encadeada **********/

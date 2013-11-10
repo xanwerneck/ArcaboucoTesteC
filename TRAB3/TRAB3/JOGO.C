@@ -32,8 +32,10 @@
 #include "LISTA.H"
 #include "PECA.H"
 #include "TABULEIRO.H"
+#include "GRAFO.H"
 
 LIS_tpCondRet ListaRet;
+LIS_tpCondRet ListaRetAresta;
 
 /***********************************************************************
 *
@@ -244,17 +246,22 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 	JOG_tppPecaJogo pecaOcupada;
 	TAB_tpCondRet TabRet;
 
-	char * Nome;
+	char Nome[10];
 	int Diag;
 	int Reta;
 	int Qtde;
 
 	int QtdeTmp = 0;
 
-	void ** Vertice;
+	int contador = 0;
 
-	char * corrente;
-	
+	int JaConheceRei = 0;
+	char SeRei[10];
+
+	GRA_tppVerGrafo Vertice;
+
+	char * corrente = NULL;
+
 	if(pJOGO == NULL)
 	{
 		return JOG_CondRetJogoNulo ;
@@ -265,30 +272,43 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 	do{
 
 		TAB_ObterConteudo(pTabuleiro , (void**)&pPecaJogo);
-		
-		if(pPecaJogo != NULL){
 
-			TAB_ObterVerticeCorrente(pTabuleiro , (void**)&corrente);
+		if(pPecaJogo != NULL){
+			
+			TAB_ObterVerticeCorrente(pTabuleiro , &corrente);
+
 
 			PEC_ObterDadosTipoPeca(pPecaJogo->pTipoPeca , (void**)&Nome, &Diag, &Reta, &Qtde);
+
 
 			if(Diag == 1){
 
 				QtdeTmp = Qtde;
 				while(QtdeTmp > 0){
 					TAB_ObterVerticeAresta(pTabuleiro  , (void**)&Vertice , "NORDESTE");
-					if(Vertice != NULL){						
-						TAB_ObterConteudoVertice(pTabuleiro , (void**)&pecaOcupada);
-						if(pecaOcupada != NULL){							
+					if(Vertice != NULL){				
+						TAB_ObterConteudoVertice(pTabuleiro , (void**)&pecaOcupada);							
+						if(pecaOcupada != NULL){
 							if(pecaOcupada->Time == pPecaJogo->Time){
 								break;
+							}else{
+								PEC_ObterNome(pecaOcupada->pTipoPeca , (void**)&SeRei);
+								if(strcmp(SeRei , "REI")==0){
+									LIS_InserirElementoApos(pPecaJogo->pListaDestino , (void*)&Vertice);
+									JaConheceRei = 1;
+								}
 							}
-						}						
-						JOG_InsereElemApos(pPecaJogo ,Vertice);
+						}								
+						JOG_InsereElemApos(pPecaJogo , Vertice);
+						if(JaConheceRei == 0)
+							LIS_InserirElementoApos(pPecaJogo->pListaDestino , (void*)&Vertice);
 					}else{
 						break;
 					}
 					QtdeTmp--;
+				}
+				if(JaConheceRei == 0){
+					LIS_EsvaziarLista(pPecaJogo->pListaDestino);
 				}
 				TAB_SetarCorrente(pTabuleiro , corrente);
 
@@ -297,34 +317,27 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 					TAB_ObterVerticeAresta(pTabuleiro  , (void**)&Vertice , "NOROESTE");
 					if(Vertice != NULL){						
 						TAB_ObterConteudoVertice(pTabuleiro , (void**)&pecaOcupada);
-						if(pecaOcupada != NULL){							
+						if(pecaOcupada != NULL){
 							if(pecaOcupada->Time == pPecaJogo->Time){
 								break;
+							}else{
+								PEC_ObterNome(pecaOcupada->pTipoPeca , (void**)&SeRei);
+								if(strcmp(SeRei , "REI")==0){
+									LIS_InserirElementoApos(pPecaJogo->pListaDestino , (void*)&Vertice);
+									JaConheceRei = 1;
+								}
 							}
-						}						
-						JOG_InsereElemApos(pPecaJogo ,Vertice);
+						}	
+						JOG_InsereElemApos(pPecaJogo , Vertice);
+						if(JaConheceRei == 0)
+							LIS_InserirElementoApos(pPecaJogo->pListaDestino , (void*)&Vertice);
 					}else{
 						break;
 					}
 					QtdeTmp--;
 				}
-				TAB_SetarCorrente(pTabuleiro , corrente);
-
-				QtdeTmp = Qtde;
-				while(QtdeTmp > 0){
-					TAB_ObterVerticeAresta(pTabuleiro  , (void**)&Vertice , "SUDESTE");
-					if(Vertice != NULL){						
-						TAB_ObterConteudoVertice(pTabuleiro , (void**)&pecaOcupada);
-						if(pecaOcupada != NULL){							
-							if(pecaOcupada->Time == pPecaJogo->Time){
-								break;
-							}
-						}						
-						JOG_InsereElemApos(pPecaJogo ,Vertice);
-					}else{
-						break;
-					}
-					QtdeTmp--;
+				if(JaConheceRei == 0){
+					LIS_EsvaziarLista(pPecaJogo->pListaDestino);
 				}
 				TAB_SetarCorrente(pTabuleiro , corrente);
 
@@ -333,16 +346,56 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 					TAB_ObterVerticeAresta(pTabuleiro  , (void**)&Vertice , "SUDOESTE");
 					if(Vertice != NULL){						
 						TAB_ObterConteudoVertice(pTabuleiro , (void**)&pecaOcupada);
-						if(pecaOcupada != NULL){							
+						if(pecaOcupada != NULL){
 							if(pecaOcupada->Time == pPecaJogo->Time){
 								break;
+							}else{
+								PEC_ObterNome(pecaOcupada->pTipoPeca , (void**)&SeRei);
+								if(strcmp(SeRei , "REI")==0){
+									LIS_InserirElementoApos(pPecaJogo->pListaDestino , (void*)&Vertice);
+									JaConheceRei = 1;
+								}
 							}
-						}						
-						JOG_InsereElemApos(pPecaJogo ,Vertice);
+						}							
+						JOG_InsereElemApos(pPecaJogo , Vertice);
+						if(JaConheceRei == 0)
+							LIS_InserirElementoApos(pPecaJogo->pListaDestino , (void*)&Vertice);
 					}else{
 						break;
 					}
 					QtdeTmp--;
+				}
+				if(JaConheceRei == 0){
+					LIS_EsvaziarLista(pPecaJogo->pListaDestino);
+				}
+				TAB_SetarCorrente(pTabuleiro , corrente);
+
+				QtdeTmp = Qtde;
+				while(QtdeTmp > 0){
+					TAB_ObterVerticeAresta(pTabuleiro  , (void**)&Vertice , "SUDESTE");
+					if(Vertice != NULL){						
+						TAB_ObterConteudoVertice(pTabuleiro , (void**)&pecaOcupada);
+						if(pecaOcupada != NULL){
+							if(pecaOcupada->Time == pPecaJogo->Time){
+								break;
+							}else{
+								PEC_ObterNome(pecaOcupada->pTipoPeca , (void**)&SeRei);
+								if(strcmp(SeRei , "REI")==0){
+									LIS_InserirElementoApos(pPecaJogo->pListaDestino , (void*)&Vertice);
+									JaConheceRei = 1;
+								}
+							}
+						}							
+						JOG_InsereElemApos(pPecaJogo , Vertice);
+						if(JaConheceRei == 0)
+							LIS_InserirElementoApos(pPecaJogo->pListaDestino , (void*)&Vertice);
+					}else{
+						break;
+					}
+					QtdeTmp--;
+				}
+				if(JaConheceRei == 0){
+					LIS_EsvaziarLista(pPecaJogo->pListaDestino);
 				}
 				TAB_SetarCorrente(pTabuleiro , corrente);
 				
@@ -354,16 +407,27 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 					TAB_ObterVerticeAresta(pTabuleiro  , (void**)&Vertice , "NORTE");
 					if(Vertice != NULL){						
 						TAB_ObterConteudoVertice(pTabuleiro , (void**)&pecaOcupada);
-						if(pecaOcupada != NULL){							
+						if(pecaOcupada != NULL){
 							if(pecaOcupada->Time == pPecaJogo->Time){
 								break;
+							}else{
+								PEC_ObterNome(pecaOcupada->pTipoPeca , (void**)&SeRei);
+								if(strcmp(SeRei , "REI")==0){
+									LIS_InserirElementoApos(pPecaJogo->pListaDestino , (void*)&Vertice);
+									JaConheceRei = 1;
+								}
 							}
-						}						
-						JOG_InsereElemApos(pPecaJogo ,Vertice);
+						}							
+						JOG_InsereElemApos(pPecaJogo , Vertice);
+						if(JaConheceRei == 0)
+							LIS_InserirElementoApos(pPecaJogo->pListaDestino , (void*)&Vertice);
 					}else{
 						break;
 					}
 					QtdeTmp--;
+				}
+				if(JaConheceRei == 0){
+					LIS_EsvaziarLista(pPecaJogo->pListaDestino);
 				}
 				TAB_SetarCorrente(pTabuleiro , corrente);
 
@@ -372,16 +436,27 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 					TAB_ObterVerticeAresta(pTabuleiro  , (void**)&Vertice , "SUL");
 					if(Vertice != NULL){						
 						TAB_ObterConteudoVertice(pTabuleiro , (void**)&pecaOcupada);
-						if(pecaOcupada != NULL){							
+						if(pecaOcupada != NULL){
 							if(pecaOcupada->Time == pPecaJogo->Time){
 								break;
+							}else{
+								PEC_ObterNome(pecaOcupada->pTipoPeca , (void**)&SeRei);
+								if(strcmp(SeRei , "REI")==0){
+									LIS_InserirElementoApos(pPecaJogo->pListaDestino , (void*)&Vertice);
+									JaConheceRei = 1;
+								}
 							}
-						}						
-						JOG_InsereElemApos(pPecaJogo ,Vertice);
+						}							
+						JOG_InsereElemApos(pPecaJogo , Vertice);
+						if(JaConheceRei == 0)
+							LIS_InserirElementoApos(pPecaJogo->pListaDestino , (void*)&Vertice);
 					}else{
 						break;
 					}
 					QtdeTmp--;
+				}
+				if(JaConheceRei == 0){
+					LIS_EsvaziarLista(pPecaJogo->pListaDestino);
 				}
 				TAB_SetarCorrente(pTabuleiro , corrente);
 
@@ -390,16 +465,27 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 					TAB_ObterVerticeAresta(pTabuleiro  , (void**)&Vertice , "LESTE");
 					if(Vertice != NULL){						
 						TAB_ObterConteudoVertice(pTabuleiro , (void**)&pecaOcupada);
-						if(pecaOcupada != NULL){							
+						if(pecaOcupada != NULL){
 							if(pecaOcupada->Time == pPecaJogo->Time){
 								break;
+							}else{
+								PEC_ObterNome(pecaOcupada->pTipoPeca , (void**)&SeRei);
+								if(strcmp(SeRei , "REI")==0){
+									LIS_InserirElementoApos(pPecaJogo->pListaDestino , (void*)&Vertice);
+									JaConheceRei = 1;
+								}
 							}
-						}						
-						JOG_InsereElemApos(pPecaJogo ,Vertice);
+						}							
+						JOG_InsereElemApos(pPecaJogo , Vertice);
+						if(JaConheceRei == 0)
+							LIS_InserirElementoApos(pPecaJogo->pListaDestino , (void*)&Vertice);
 					}else{
 						break;
 					}
 					QtdeTmp--;
+				}
+				if(JaConheceRei == 0){
+					LIS_EsvaziarLista(pPecaJogo->pListaDestino);
 				}
 				TAB_SetarCorrente(pTabuleiro , corrente);
 
@@ -408,30 +494,48 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 					TAB_ObterVerticeAresta(pTabuleiro  , (void**)&Vertice , "OESTE");
 					if(Vertice != NULL){						
 						TAB_ObterConteudoVertice(pTabuleiro , (void**)&pecaOcupada);
-						if(pecaOcupada != NULL){							
+						if(pecaOcupada != NULL){
 							if(pecaOcupada->Time == pPecaJogo->Time){
 								break;
+							}else{
+								PEC_ObterNome(pecaOcupada->pTipoPeca , (void**)&SeRei);
+								if(strcmp(SeRei , "REI")==0){
+									LIS_InserirElementoApos(pPecaJogo->pListaDestino , (void*)&Vertice);
+									JaConheceRei = 1;
+								}
 							}
-						}						
-						JOG_InsereElemApos(pPecaJogo ,Vertice);
+						}							
+						JOG_InsereElemApos(pPecaJogo , Vertice);
+						if(JaConheceRei == 0)
+							LIS_InserirElementoApos(pPecaJogo->pListaDestino , (void*)&Vertice);
 					}else{
 						break;
 					}
 					QtdeTmp--;
 				}
+				if(JaConheceRei == 0){
+					LIS_EsvaziarLista(pPecaJogo->pListaDestino);
+				}
 				TAB_SetarCorrente(pTabuleiro , corrente);
 
 			}
 
-			QtdeTmp = Reta = Qtde = Diag = 0;	
+			JaConheceRei = QtdeTmp = Reta = Qtde = Diag = 0;	
+			
+			QtdeTmp = 0;
 
 			LIS_NumElem(pPecaJogo->pListaCaminho , &QtdeTmp);
-			printf("%s - Numero de elem de arestas  %d" , corrente ,QtdeTmp);
-			
+			printf("Num elem CAMINHO %d \n" , QtdeTmp);
+
+			QtdeTmp = 0;
+
+			LIS_NumElem(pPecaJogo->pListaDestino , &QtdeTmp);
+			printf("Num elem DESTINO %d \n" , QtdeTmp);
+
 		}
 
 		TabRet = TAB_AvancarCasas(pTabuleiro , 1);
-
+		
 	}while(TabRet != TAB_CondRetFimLista);
 
 	
@@ -441,6 +545,109 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 
 } /* Fim funcao: JOG &Preenche caminho */
 
+int VerificaPecasCaminho(JOG_tppJogo pJogo ,TAB_tppTabuleiro pTabuleiro  , char * pPeca , char ** PecaCausadora)
+{
+	JOG_tppPecaJogo pPecaJogo;
+	TAB_tpCondRet TabRet;
+	GRA_tppVerGrafo Vertice = NULL;
+	char NomePeca[10];
+	char * NomeCasa = NULL;
+	int EncontrouRei = 0;
+
+	TabRet = TAB_IrInicioCasas(pTabuleiro);
+	do{
+		TAB_ObterConteudo(pTabuleiro , (void**)&pPecaJogo);
+
+		if(pPecaJogo != NULL){
+			PEC_ObterNome(pPecaJogo->pTipoPeca , (void**)&NomePeca);
+			if(pPecaJogo->Time == 'A'){
+				ListaRet = LIS_IrInicioLista(pPecaJogo->pListaCaminho);
+				do{
+					LIS_ObterValor(pPecaJogo->pListaCaminho , (void**)&Vertice);
+
+					GRA_ResgatarIdVertice(Vertice , &NomeCasa);
+
+					if(strcmp(pPeca,NomeCasa)==0){
+						strcpy((char *)PecaCausadora , NomePeca);
+						printf("Esta no caminho do REI\n");
+						EncontrouRei = 1;
+					}
+
+					ListaRet = LIS_AvancarElementoCorrente(pPecaJogo->pListaCaminho , 1);
+
+				}while(ListaRet != LIS_CondRetFimLista);
+			}
+		}
+		TabRet = TAB_AvancarCasas(pTabuleiro , 1);
+
+	}while(TabRet != TAB_CondRetFimLista);
+
+	return EncontrouRei;
+}
+
+JOG_tpCondRet JOG_VerificaXequeMate(JOG_tppJogo pJogo, TAB_tppTabuleiro pTabuleiro)
+{
+	char * pPeca;
+	char PecaCausadora[10];
+	int Pecas2Caminho = 0;
+
+	/*Obter REI do time A */
+	JOG_ObterCasaRei(pTabuleiro , &pPeca);
+	
+	/* Vai em busca do REI */
+	Pecas2Caminho = VerificaPecasCaminho(pJogo, pTabuleiro, pPeca , (char**)&PecaCausadora);
+
+	if(Pecas2Caminho == 1)
+		printf("Peca Causadora %s \n" , PecaCausadora);
+
+	strcpy(PecaCausadora , "");
+	
+
+	return JOG_CondRetOK;
+
+}
+
+JOG_tpCondRet JOG_ObterCasaRei(TAB_tppTabuleiro pTabuleiro , char ** pPecaO)
+{
+	char NomePeca[10];
+	char * NomeCasa = NULL;
+	JOG_tppPecaJogo pPecaJogo;
+	TAB_tpCondRet TabRet;
+
+	TabRet = TAB_IrInicioCasas(pTabuleiro);
+	do{
+		TAB_ObterConteudo(pTabuleiro , (void**)&pPecaJogo);
+
+
+		if(pPecaJogo != NULL){
+
+			PEC_ObterNome(pPecaJogo->pTipoPeca , (void**)&NomePeca);
+			if(pPecaJogo->Time == 'B' && strcmp(NomePeca , "REI")==0){
+				TAB_ObterVerticeCorrente(pTabuleiro , (char**)&NomeCasa);
+				*pPecaO = NomeCasa;
+				break;
+			}
+		}
+		TabRet = TAB_AvancarCasas(pTabuleiro , 1);
+
+	}while(TabRet != TAB_CondRetFimLista);
+
+	return JOG_CondRetOK;
+}
+
+JOG_tpCondRet JOG_ObterDadosPeca(JOG_tppPecaJogo pPeca , void ** NomeNaCasa , char * Time)
+{
+
+	char NomePeca[10];
+
+	PEC_ObterNome(pPeca->pTipoPeca , (void**)&NomePeca);
+
+	strcpy((char *)NomeNaCasa , NomePeca);
+
+	*Time = pPeca->Time;
+
+	return JOG_CondRetOK;
+}
 
 /***************************************************************************
 *
@@ -453,8 +660,9 @@ JOG_tpCondRet JOG_InsereElemApos(JOG_tppPecaJogo pPeca , void * Conteudo)
 	{
 		return JOG_CondRetFimLista;
 	} /* if */
-
+	
 	ListaRet = LIS_InserirElementoApos(pPeca->pListaCaminho , Conteudo);
+
 
 	if(ListaRet == LIS_CondRetFaltouMemoria)
 	{
@@ -657,8 +865,8 @@ JOG_tpCondRet JOG_ObterPecaJogo(JOG_tppJogo pJOGO , char Time, void ** pTipo)
 
 	void ExcluirPecaJogo( void * pPeca )
 	{
-
-		free ( (void *) pPeca);
+		
+		
 
 	} /* Fim funcao: JOG -Excluir peca do jogo */
 

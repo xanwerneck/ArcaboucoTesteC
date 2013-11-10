@@ -21,9 +21,6 @@
     <ClInclude Include="GRAFO.H">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PRINCIPAL.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TABULEIRO.H">
       <Filter>Header Files</Filter>
     </ClInclude>

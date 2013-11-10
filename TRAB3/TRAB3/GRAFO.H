@@ -457,6 +457,10 @@ GRA_tpCondRet GRA_NumeroArestaVertice(GRA_tppGrafo pGrafo , int * Num);
 
 GRA_tpCondRet GRA_PegaConteudoCorrente(GRA_tppGrafo pGrafo , void ** pConteudo);
 
+GRA_tpCondRet GRA_PegaConteudoPeloVertice(void * Vertice , void ** pConteudo);
+
+GRA_tpCondRet GRA_ResgatarIdVertice(GRA_tppVerGrafo pVertice, char ** IdVertice);
+
 #undef GRAFO_EXT
 
 /********** Fim do módulo de definição: Módulo grafo **********/

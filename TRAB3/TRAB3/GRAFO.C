@@ -753,17 +753,21 @@ GRA_tpCondRet GRA_NumeroArestaVertice(GRA_tppGrafo pGrafo , int * Num)
 
 GRA_tpCondRet GRA_SetarCorrente(GRA_tppGrafo pGrafo , char * pValor)
 {
+
 	GRA_tppVerGrafo mVert;
+
 	ListaRet = LIS_IrInicioLista(pGrafo->pListaVertices);
+
 	do{
 
 		LIS_ObterValor(pGrafo->pListaVertices , (void**)&mVert);
 
-		if(strcmp(mVert->pIdVertice , pValor)==0){
-			pGrafo->pCorrente = mVert;
-			return GRA_CondRetOK;
+		if(mVert != NULL){
+			if(strcmp(mVert->pIdVertice , pValor)==0){
+				pGrafo->pCorrente = mVert;
+				return GRA_CondRetOK;
+			}
 		}
-
 		ListaRet = LIS_AvancarElementoCorrente(pGrafo->pListaVertices , 1);
 
 	}while(ListaRet!=LIS_CondRetFimLista);
@@ -812,16 +816,30 @@ GRA_tpCondRet GRA_InsereConteudoVertice(GRA_tppGrafo pGrafo , void * pConteudo)
 
 GRA_tpCondRet GRA_PegaConteudoCorrente(GRA_tppGrafo pGrafo , void ** pConteudo)
 {
+	GRA_tppVerGrafo  Vert = NULL;
 
 	if(pGrafo == NULL) {
 		return GRA_CondRetGrafoNulo;
 	} /* if */
 
-	*pConteudo = pGrafo->pCorrente->pConteudo;
+	LIS_ObterValor(pGrafo->pListaVertices , (void**)&Vert);
+
+	*pConteudo = Vert->pConteudo;
 
 	return GRA_CondRetOK;
 }
+GRA_tpCondRet GRA_PegaConteudoPeloVertice(void * Vertice , void ** pConteudo)
+{
 
+	GRA_tppVerGrafo pVert;
+	
+	pVert = (GRA_tppVerGrafo)Vertice;
+
+	*pConteudo = pVert->pConteudo;
+
+	return GRA_CondRetOK;
+
+}
 GRA_tpCondRet GRA_PegaConteudo(GRA_tppGrafo pGrafo , void ** pConteudo)
 {
 	GRA_tppVerGrafo pVert = NULL;
@@ -833,6 +851,15 @@ GRA_tpCondRet GRA_PegaConteudo(GRA_tppGrafo pGrafo , void ** pConteudo)
 	LIS_ObterValor(pGrafo->pListaVertices , (void**)&pVert);
 
 	*pConteudo = pVert->pConteudo;
+
+	return GRA_CondRetOK;
+
+}
+
+GRA_tpCondRet GRA_ResgatarIdVertice(GRA_tppVerGrafo pVertice, char ** IdVertice)
+{
+
+	*IdVertice = pVertice->pIdVertice;
 
 	return GRA_CondRetOK;
 
@@ -856,9 +883,12 @@ GRA_tpCondRet GRA_ObterArestaVertice(GRA_tppGrafo pGrafo , void ** rVertice , ch
 {
 
 	LIS_tppLista pLista;
+	GRA_tppVerGrafo pCorr;
 	GRA_tppArestaGrafo pAresta;
 
-	pLista = pGrafo->pCorrente->pVerSuc;
+	LIS_ObterValor(pGrafo->pListaVertices , (void**)&pCorr);
+
+	pLista = pCorr->pVerSuc;
 
 	ListaRet = LIS_IrInicioLista(pLista);
 
@@ -866,14 +896,13 @@ GRA_tpCondRet GRA_ObterArestaVertice(GRA_tppGrafo pGrafo , void ** rVertice , ch
 		return GRA_CondRetListaNula;
 	}
 
-	*rVertice = NULL;
-
 	do{
 
 		LIS_ObterValor(pLista , (void**)&pAresta);
+
 		if(strcmp(pAresta->Nome ,Aresta)==0){
 			*rVertice = pAresta->pVerticeDest;
-			pGrafo->pCorrente = pAresta->pVerticeDest;
+			GRA_SetarCorrente(pGrafo , pAresta->pVerticeDest->pIdVertice);
 			break;
 		}
 

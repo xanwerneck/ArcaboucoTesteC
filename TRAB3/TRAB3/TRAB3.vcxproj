@@ -78,7 +78,6 @@
     <ClInclude Include="JOGO.H" />
     <ClInclude Include="LISTA.H" />
     <ClInclude Include="PECA.H" />
-    <ClInclude Include="PRINCIPAL.H" />
     <ClInclude Include="TABULEIRO.H" />
     <ClInclude Include="VERTICE.H" />
   </ItemGroup>

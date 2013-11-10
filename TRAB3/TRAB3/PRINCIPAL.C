@@ -22,6 +22,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <conio.h>
+#include <Windows.h>
 
 #include "TABULEIRO.H"
 #include "JOGO.H"
@@ -29,13 +30,23 @@
 
 #define MAX_NOME 10
 
+#define PRETO 0 
+#define AZUL  1 
+#define VERDE 2 
+
 /************  Protótipo das funções encapsuladas no módulo  *************/
 
 static void imprimeMenuPrincipal ( void ) ;
 
 static void imprimeMenuEscolhaTime ( void ) ;
 
-static void gravarArquivo( TAB_tppTabuleiro pTabuleiro , JOG_tppJogo pJogo , PEC_tppPeca pPecaFile );
+static void gravarArquivo( TAB_tppTabuleiro pTabuleiro , JOG_tppJogo pJogo );
+
+static void AbrirArquivo( TAB_tppTabuleiro * pTabuleiro , JOG_tppJogo * pJogo );
+
+static void SetColor(char cor);
+
+char * LimparEspacos(char * input);   
 
 /************* Função responsável pela execução da aplicação ***************/
 
@@ -50,9 +61,9 @@ int main (void)
 	char NomePeca[MAX_NOME];
 	char NomePosicao[2];
 	char * NomeBusca;
-	int Diagonal;
-	int Reta;
-	int QtdeMov;
+	int Diagonal = -1;
+	int Reta = -1;
+	int QtdeMov = -1;
 
 	/* Disposicao */
 	int NumPecas;
@@ -105,9 +116,15 @@ int main (void)
 					break ;
 				}
 
-				TabRet = TAB_ApresentaTabuleiro(pTabuleiro);
+				SetColor('a');
 
-				puts ( "Percurso no Tabuleiro" ) ;
+				puts ( "*********************************************" ) ;
+
+				TabRet = TAB_ApresentaTabuleiro(pTabuleiro);
+			
+				puts ( "*********************************************\n" ) ;
+
+				SetColor('w');
 			
 				break;
 
@@ -123,26 +140,34 @@ int main (void)
 				printf("Informe o nome da peca:");
 				scanf ( "%s", &NomePeca ) ;
 
-				printf("Sua peca anda para DIAGONAL? (1 - Sim | 0 - Nao):");
-				scanf ( "%d", &Diagonal ) ;
-				if(Diagonal > 1){
-					puts("Informacao errada!");
+				while(Diagonal != 0 && Diagonal != 1){
+					printf("Sua peca anda para DIAGONAL? (1 - Sim | 0 - Nao):");
+					scanf ( "%d", &Diagonal ) ;
+					if(Diagonal > 1){
+						puts("Informacao errada!");
+					}
 				}
 
-				printf("Sua peca anda em linha RETA? (1 - Sim | 0 - Nao):");
-				scanf ( "%d", &Reta ) ;
-				if(Reta > 1){
-					puts("Informacao errada!");
+				while(Reta != 0 && Reta != 1){
+					printf("Sua peca anda em linha RETA? (1 - Sim | 0 - Nao):");
+					scanf ( "%d", &Reta ) ;
+					if(Reta > 1){
+						puts("Informacao errada!");
+					}
 				}
 
-				printf("Qual a quantidade de casas que sua peca anda? ");
-				scanf ( "%d", &QtdeMov ) ;
-				if(QtdeMov > 7){
-					puts("Informacao inconsistente!");
+				while(QtdeMov < 0 || QtdeMov > 8){
+					printf("Qual a quantidade de casas que sua peca anda? ");
+					scanf ( "%d", &QtdeMov ) ;
+					if(QtdeMov < 0 || QtdeMov > 8){
+						puts("Informacao inconsistente!");
+					}
 				}
 				
 				TabRet = TAB_CriarTipoPeca(pTabuleiro , NomePeca , Diagonal , Reta , QtdeMov );
 				
+				Diagonal = Reta = QtdeMov = -1;
+
 				strcpy(NomePeca , "");
 
 				puts ( "Peca criada \n" ) ;
@@ -173,11 +198,17 @@ int main (void)
 
 				JOG_CriarJogo(&pJogo);
 
-				imprimeMenuEscolhaTime();
-				scanf ( "%d", &Time ) ;
+				Time = 0;
+				while(Time != 1 && Time != 2){
+					imprimeMenuEscolhaTime();
+					scanf ( "%d", &Time ) ;
+					if(Time != 1 && Time != 2){
+						puts ( "Time invalido!" ) ;
+					}
+				}
 
 				/* Cria tipo REI */
-				TabRet = TAB_CriarTipoPeca(pTabuleiro , "REI" , 1 , 1 , 7 );
+				TabRet = TAB_CriarTipoPeca(pTabuleiro , "REI" , 1 , 1 , 1 );
 
 				if(pTabuleiro==NULL){
 					puts ( "O tabuleiro precisa ser criado!" ) ; 
@@ -197,17 +228,29 @@ int main (void)
 					if(TabRet != TAB_CondRetOK){
 						puts("Peca nao localizada\n");
 					}else{
-						JogRet = JOG_InserirPecaTimeA(pJogo , pPecaBusca);
+						if(Time == 1){
+							JogRet = JOG_InserirPecaTimeA(pJogo , pPecaBusca);
+						}else{
+							JogRet = JOG_InserirPecaTimeB(pJogo , pPecaBusca);
+						}
 						NumPecas--;
 					}
 				}
 
 				/* Inserir REI no time A */
 				TabRet = TAB_ProcuraPeca (pTabuleiro , "REI" , (void**)&pPecaBusca);
-				JogRet = JOG_InserirPecaTimeA(pJogo , pPecaBusca);
 
-				imprimeMenuEscolhaTime();
-				scanf ( "%d", &Time ) ;
+				if(Time == 1){
+					JogRet = JOG_InserirPecaTimeA(pJogo , pPecaBusca);
+					Time = 2;
+					puts ( "\n************************ Time BRANCO selecionado ****************************\n" ) ;
+				}else{
+					JogRet = JOG_InserirPecaTimeB(pJogo , pPecaBusca);
+					Time = 1;
+					puts ( "\n************************ Time PRETO selecionado ****************************\n" ) ;
+				}
+
+				
 
 				printf ( "Informe o numero de pecas do time %d : " , Time ) ;
 				scanf ("%d" , &NumPecas);
@@ -222,14 +265,23 @@ int main (void)
 					if(TabRet != TAB_CondRetOK){
 						puts("Peca nao localizada\n");
 					}else{
-						JogRet = JOG_InserirPecaTimeB(pJogo , pPecaBusca);
+						if(Time == 1){
+							JogRet = JOG_InserirPecaTimeA(pJogo , pPecaBusca);
+						}else{
+							JogRet = JOG_InserirPecaTimeB(pJogo , pPecaBusca);
+						}
 						NumPecas--;
 					}
 				}
 
 				/* Inserir REI no time B */
 				TabRet = TAB_ProcuraPeca (pTabuleiro , "REI" , (void**)&pPecaBusca);
-				JogRet = JOG_InserirPecaTimeB(pJogo , pPecaBusca);
+				
+				if(Time == 1){
+					JogRet = JOG_InserirPecaTimeA(pJogo , pPecaBusca);
+				}else{
+					JogRet = JOG_InserirPecaTimeB(pJogo , pPecaBusca);
+				}
 
 			
 				break;
@@ -314,16 +366,34 @@ int main (void)
 				}
 
 				JOG_PreencheCaminho(pJogo , pTabuleiro );
-
+				
 				
 				break;
 
+		/* XEQUE MATE */
+		case 7: /* Verificar XEQUE MATE. */
+
+			puts ( " Voce escolheu: 7 - Verificar XEQUE MATE." ) ;
+
+			JOG_VerificaXequeMate(pJogo, pTabuleiro);
+			
+			break;
+
 		/* Salvar partida */
-		case 7: /* Salvar atual configuração do jogo. */
+		case 8: /* Salvar atual configuração do jogo. */
 
-			puts ( " Voce escolheu: 7 - Salvar JOGO." ) ;
+			puts ( " Voce escolheu: 8 - Salvar JOGO." ) ;
 
-			gravarArquivo(pTabuleiro , pJogo , pPecaBusca);
+			gravarArquivo(pTabuleiro , pJogo);
+			
+			break;
+
+		/* Abrir partida */
+		case 9: /* Abre configuração salva do Jogo. */
+
+			puts ( " Voce escolheu: 9 - Abrir JOGO." ) ;
+
+			AbrirArquivo(&pTabuleiro , &pJogo);
 			
 			break;
 
@@ -368,7 +438,9 @@ static void imprimeMenuPrincipal ( void )
 	puts ( "* 4- Apresenta tipos de peca.                                     *" ) ;
 	puts ( "* 5- Montar time.                                                 *" ) ;
 	puts ( "* 6- Dispor pecas.                                                *" ) ;
-	puts ( "* 7- Armazenar partida.                                           *" ) ;
+	puts ( "* 7- Verificar XequeMate.                                         *" ) ;
+	puts ( "* 8- Armazenar partida.                                           *" ) ;
+	puts ( "* 9- Abrir partida salva.                                         *" ) ;
 	puts ( "* 10- Fechar aplicacao.                                           *" ) ;
 	puts ( "*                                                                 *" ) ;
 	puts ( "*******************************************************************" ) ;
@@ -396,21 +468,26 @@ static void apresentaTipoPeca( void )
 
 }
 
-static void gravarArquivo( TAB_tppTabuleiro pTabuleiro , JOG_tppJogo pJogo , PEC_tppPeca pTipoPecaFile  )
+static void gravarArquivo( TAB_tppTabuleiro pTabuleiro , JOG_tppJogo pJogo )
 {
 	
 	FILE *fp;
 	char TipoPeca[250];
 	TAB_tpCondRet TabRetorno;
-	JOG_tpCondRet JogRet;
-
+	PEC_tppPeca pTipoPecaFile ;
+	TAB_tpCondRet TabRet;
+	JOG_tppPecaJogo pPecaJ;
 	
 	/* Detalhes da peca */
-	char  * NomePecaFile;
+	char  NomePecaFile[MAX_NOME];
 	int Diag;
 	int Reta;
 	int Qtde;
-	char ToInt[20];
+	char ToInt[MAX_NOME];
+
+	char NomeNaCasa[MAX_NOME];
+	char Time;
+	char * Id = NULL;
 
     fp = fopen ("Jogo.txt", "w+");
     if (fp == NULL) {
@@ -450,6 +527,9 @@ static void gravarArquivo( TAB_tppTabuleiro pTabuleiro , JOG_tppJogo pJogo , PEC
 			fputs(TipoPeca, fp);
 			fputs("\n", fp);
 
+			strcpy(NomePecaFile , "");
+			Diag = Reta = Qtde = 0;
+
 			TabRetorno = TAB_AvancarTipoPeca(pTabuleiro , 1);
 
 
@@ -458,48 +538,223 @@ static void gravarArquivo( TAB_tppTabuleiro pTabuleiro , JOG_tppJogo pJogo , PEC
 
 	/* Grava as pecas dos times */
 	/* Time A */
-	JogRet = JOG_IrInicioPecas(pJogo , 'A');
+	TabRet = TAB_IrInicioCasas(pTabuleiro);
 
-	if(JogRet != JOG_CondRetJogoNulo){
+	do{
+		TAB_ObterConteudo(pTabuleiro , (void**)&pPecaJ);
 
-		do{
+		if(pPecaJ != NULL){
+			TAB_ObterVerticeCorrente(pTabuleiro , (char**)&Id);
 
-			JOG_ObterTipoPeca(pJogo , 'A' , (void**)&pTipoPecaFile);
+			JOG_ObterDadosPeca(pPecaJ , (void**)&NomeNaCasa , &Time);
+			if(Time == 'A'){
+				strcpy (TipoPeca, "PECAS A ");
+				strcat (TipoPeca,  (char *)&NomeNaCasa);
+				strcat (TipoPeca,  " ");
+				strcat (TipoPeca,  Id);
+				fputs(TipoPeca, fp);
+				fputs("\n", fp);
+			}
+		}
+		TabRet = TAB_AvancarCasas(pTabuleiro , 1);
 
-			PEC_ObterNome(pTipoPecaFile , (void**)&NomePecaFile);
-
-			strcpy (TipoPeca, "PECAS A ");
-			strcat (TipoPeca,  (char *)&NomePecaFile);
-			fputs(TipoPeca, fp);
-			fputs("\n", fp);
-
-			JogRet = JOG_AvancarCorrrenteTime(pJogo , 'A' , 1);
-
-		}while (JogRet != JOG_CondRetFimLista);
-	}
+	}while(TabRet != TAB_CondRetFimLista);
 
 	/* Time B */
-	JogRet = JOG_IrInicioPecas(pJogo , 'B');
+	TabRet = TAB_IrInicioCasas(pTabuleiro);
 
-	if(JogRet != JOG_CondRetJogoNulo){
+	do{
+		TAB_ObterConteudo(pTabuleiro , (void**)&pPecaJ);
 
-		do{
+		if(pPecaJ != NULL){
+			TAB_ObterVerticeCorrente(pTabuleiro , (char**)&Id);
 
-			JOG_ObterTipoPeca(pJogo , 'B' , (void**)&pTipoPecaFile);
+			JOG_ObterDadosPeca(pPecaJ , (void**)&NomeNaCasa , &Time);
+			if(Time == 'B'){
+				strcpy (TipoPeca, "PECAS B ");
+				strcat (TipoPeca,  (char *)&NomeNaCasa);
+				strcat (TipoPeca,  " ");
+				strcat (TipoPeca,  Id);
+				fputs(TipoPeca, fp);
+				fputs("\n", fp);
+			}
+		}
+		TabRet = TAB_AvancarCasas(pTabuleiro , 1);
 
-			PEC_ObterNome(pTipoPecaFile , (void**)&NomePecaFile);
+	}while(TabRet != TAB_CondRetFimLista);
 
-			strcpy (TipoPeca, "PECAS B ");
-			strcat (TipoPeca,  (char *)&NomePecaFile);
-			fputs(TipoPeca, fp);
-			fputs("\n", fp);
-
-			JogRet = JOG_AvancarCorrrenteTime(pJogo , 'B' , 1);
-
-		}while (JogRet != JOG_CondRetFimLista);
-	}
-
-	fputs ("*****************       FIM DO ARQUIVO      ***********************" , fp);
     printf ("Jogo salvo com sucesso.\n");
     fclose (fp);
+}
+
+
+static void AbrirArquivo( TAB_tppTabuleiro * pTabuleiro , JOG_tppJogo * pJogo )
+{
+	FILE *fp;
+	TAB_tpCondRet TabRet;
+	char Linha[256];
+	char * LinhaTmp;
+	int LinhaArq = 0;
+	char * Tipo;
+	int ContadorLinha = 0;
+	char TipoParam[MAX_NOME];
+
+	/*Sobre tipo peca */
+	char NomePeca[MAX_NOME];
+	int  Diag;
+	int  Reta;
+	int  Qtde;
+
+	/* Sobre pecas */
+	char Time;
+	char NomePecaP[MAX_NOME];
+	char Posicao[2];
+	PEC_tppPeca pPecaBusca;
+	JOG_tppPecaJogo pPecaBuscaJogo;
+
+	TabRet = TAB_CriarTabuleiro(pTabuleiro);
+	if(TabRet == TAB_CondRetFaltouMemoria){
+		printf("Impossivel criar Tabuleiro!");
+		exit;
+	}
+
+	JOG_CriarJogo(pJogo);
+
+	fp = fopen ("Jogo.txt", "r");	
+
+    while (!feof(fp)){
+		fgets(Linha, sizeof(Linha), fp);
+		if(LinhaArq != 0 && LinhaArq != 1){
+			Tipo = strtok(Linha, " ");
+			while(Tipo!=NULL){
+				if(ContadorLinha == 0){
+					printf("TIPO %s" , Tipo);
+					if(strcmp(Tipo , "TIPOPECA")==0){
+						strcpy(TipoParam , Tipo); 
+					}else if(strcmp(Tipo , "PECAS")==0){
+						strcpy(TipoParam , Tipo);
+					}
+				}else{
+					if(strcmp(TipoParam , "TIPOPECA")==0){
+						if(ContadorLinha == 1){
+							strcpy(NomePeca , Tipo);
+						}
+						if(ContadorLinha == 2){
+							Diag = atoi(Tipo);
+						}
+						if(ContadorLinha == 3){
+							Reta = atoi(Tipo);
+						}
+						if(ContadorLinha == 4){
+							Qtde = atoi(Tipo);
+						}
+						
+					}
+					else if(strcmp(TipoParam , "PECAS")==0){
+						
+						if(ContadorLinha == 1){
+							Time = Tipo[0];
+						}
+						if(ContadorLinha == 2){
+							strcpy(NomePecaP , Tipo);
+						}
+						if(ContadorLinha == 3){
+							strcpy(Posicao , Tipo);
+						}
+					}
+				}
+				Tipo = strtok(NULL, " ");
+				ContadorLinha++;
+			}
+
+			if(strcmp(TipoParam , "TIPOPECA")==0 && ContadorLinha == 5){
+				printf("Diag %d " , Diag);
+				TabRet = TAB_CriarTipoPeca(*pTabuleiro , NomePeca , Diag , Reta , Qtde );
+			}
+			if(strcmp(TipoParam , "PECAS")==0 && ContadorLinha == 4){
+								
+				TabRet = TAB_ProcuraPeca(*pTabuleiro , NomePecaP , (void**)&pPecaBusca);
+
+				if(Time == 'A'){
+							JOG_InserirPecaTimeA(*pJogo , pPecaBusca);
+
+							JOG_ObterPecaJogo(*pJogo , 'A' , (void**)&pPecaBuscaJogo);
+
+							TAB_SetarCorrente(*pTabuleiro , LimparEspacos(Posicao));
+
+							TAB_InserirConteudoCasa(*pTabuleiro , pPecaBuscaJogo );
+
+				}
+				if(Time == 'B'){
+							JOG_InserirPecaTimeB(*pJogo , pPecaBusca);
+
+							JOG_ObterPecaJogo(*pJogo , 'B' , (void**)&pPecaBuscaJogo);
+
+							TAB_SetarCorrente(*pTabuleiro , LimparEspacos(Posicao));
+
+							TAB_InserirConteudoCasa(*pTabuleiro , pPecaBuscaJogo );
+				}
+
+			}
+			ContadorLinha=0;
+		}		
+		LinhaArq++;   
+		
+    }
+
+    JOG_PreencheCaminho(*pJogo , *pTabuleiro );
+
+
+	fclose (fp);
+}
+
+/***********************************************************************
+*
+* Função: static void SetColor(char cor)
+*
+***********************************************************************/
+
+static void SetColor(char cor)
+{
+	int newColor;
+	HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+	switch(cor)
+	{
+	case 'a':	
+		newColor = (3 * 16) + 15;
+		break;
+
+	case 'v': 	
+		newColor = (12 * 16) + 15;
+		break;
+
+	case 'c':	
+		newColor = (7 * 16) + 0;
+		break;
+
+	case 'w':	
+		newColor = (0 * 16) + 7;
+		break;
+
+	case 'e':	
+		newColor = (14 * 16) + 0;
+		break;
+	}
+	SetConsoleTextAttribute(consoleHandle, newColor);
+	
+}/* Fim da função: static void SetColor(char cor) */ 
+
+char * LimparEspacos(char * input)                                         
+{
+	int i , j;
+    char * output=input;
+    for (i = 0, j = 0; i<strlen(input); i++,j++)          
+    {
+        if (input[i]!='\n' && input[i]!=' ')                           
+            output[j]=input[i];                     
+		else
+            j--;                                     
+    }
+    output[j]=0;
+    return output;
 }
