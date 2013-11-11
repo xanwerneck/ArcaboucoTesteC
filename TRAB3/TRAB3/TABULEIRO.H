@@ -50,8 +50,8 @@ typedef struct TAB_tagTabuleiro * TAB_tppTabuleiro ;
 
    typedef enum {
 
-         TAB_CondRetOK = 0,
-            /* Executou correto */
+      TAB_CondRetOK = 0,
+            /* Concluiu corretamente */
 
 		 TAB_TimeAVazio = 1 ,
             /* Time A vazio */
@@ -88,22 +88,27 @@ typedef struct TAB_tagTabuleiro * TAB_tppTabuleiro ;
 *  $FC Funcao: TAB Criar tabuleiro
 *
 *  $ED Descricao da funcao
-*     Inicia um tabuleiro vazio, sem peças.
+*     Cria um tabuleiro vazio, sem pecas. 
+*     Inicializa tabuleiro com estruturas de grafo e lista de pecas 
+*      vazias.
+*     Inicializa estrutura de grafo como matriz 8x8.
 *
 *  $EP Parametros
-*     pTabuleiro  - Ponteiro de referência para tabuleiro.
+*     pTabuleiro  - Ponteiro de referencia para tabuleiro.
 *
 *  $FV Valor retornado
 *     TAB_CondRetOK
 *     TAB_CondRetFaltouMemoria
 *
-*  $AE CondRet deve ter sido instanciado
+*  $AE 'CondRet' deve ter sido instanciado
 *
 *  $AS Se CondRet = TAB_CondRetOK
-*     Concluiu funcao com sucesso.
+*         pTabuleiro inicializado.
+*         Concluiu funcao com sucesso.
 *
 *     Se CondRet = TAB_CondRetFaltouMemoria
-*     Impossivel criar elemento, faltou memoria.
+*        pTabuleiro nao foi inicializado.
+*        Impossivel criar elemento, faltou memoria.
 *
 ***********************************************************************/
 
@@ -142,7 +147,7 @@ typedef struct TAB_tagTabuleiro * TAB_tppTabuleiro ;
 *     pTabuleiro  - Ponteiro de referência para tabuleiro.
 *     Nome        - Nome do tipo de peça.
 *     Diagonal    - Possibilidade de ir para a diagonal.
-*     Reta        - Possibilidade de ir para a reta.
+*     Reta        - Possibilidade de ir para a vertical e horizontal.
 *     QtdeMov     - Quantidade de casas que se pode andar.
 *
 *  $FV Valor retornado
