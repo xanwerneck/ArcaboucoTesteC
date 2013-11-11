@@ -80,7 +80,7 @@ typedef enum {
 *             Valor igual a 0 se nao for possivel.
 *     Qtde  - Numero de casas que ele pode se movimentar para diagonal 
 *             ou horizontal/vertical;
-*     Nome  - Nome do tipo de peça.
+*     Nome  - Nome do tipo de peca.
 *     
 *
 *  $FV Valor retornado

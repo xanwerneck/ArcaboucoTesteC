@@ -98,7 +98,7 @@ PEC_tpCondRet PEC_CriarPeca(PEC_tppPeca * pPeca, int Diag , int Reta ,
 	
 	return PEC_CondRetOK;
 	
-} /* Fim funcao: PEC &Criar Peca */
+} /* Fim funcao: PEC &Criar tipo de peca */
 
 /************************************************************************
 *
