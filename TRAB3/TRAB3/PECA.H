@@ -11,7 +11,7 @@
 *  Gestor:  Flavio Bevilacqua
 *  Autores: afv:  aw - Alexandre Werneck
 *                 fr - Fernanda C Ribeiro
-*			         vo - Vinicius de Luiz de Oliveira
+*			      vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Historico de evolucao:
 *     Versao  Autor    Data     Observacoes
@@ -19,9 +19,9 @@
 *     1       afv   24/out/2013 inicio do desenvolvimento do modulo
 *
 *  $ED Descricao do modulo
-*     O presente modulo implementa a criacao e manipulacao de estruturas 
+*      O presente modulo implementa a criacao e manipulacao de estruturas 
 *     do tipo peca para tabuleiro.
-*	  Podem existir n tipos de pecas em um tabuleiro simultaneamente.
+*	   Podem existir n tipos de pecas em um tabuleiro simultaneamente.
 *     Alem do tipo de pecas, podem existir n pecas de tipo repetido.
 *
 ***************************************************************************/
@@ -57,7 +57,7 @@ typedef enum {
 	 	   /* Peca nula */
 
 	 PEC_CondRetFaltouMemoria = 9
-		   /* Faltou memoria ao tentar criar um elemento de peca */
+		   /* Faltou memoria ao criar um elemento de peca */
 
 } PEC_tpCondRet ;
 
