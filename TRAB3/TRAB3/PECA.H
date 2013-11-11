@@ -64,39 +64,42 @@ typedef enum {
 
 /***************************************************************************
 *
-*  $FC Funcao: PEC Criar peca
+*  $FC Funcao: PEC Criar tipo de peca
 *
 *  $ED Descricao da funcao
-*     Inicia uma peca com elementos diagonal, reta, quantidade e nome.
+*     Cria um tipo de peca com diagonal, reta, quantidade e nome ja 
+*      inicializados.
 *
 *  $EP Parâmetros
-*     pPeca - Referencia para a peca que sera criada.
-*     Diag  - Se a peca pode se mover para diagonais;
-*             Valor igual a 1 se for possivel esse tipo de movimento;
-*             Valor igual a 0 se nao for possivel;
-*     Reta  - Se a peca pode se mover horizontalmente e verticalmente;
-*             Valor igual a 1 se for possivel esse tipo de movimento;
-*             Valor igual a 0 se nao for possivel;
+*     pPeca - Ponteiro de referencia para tipo de peca.
+*     Diag  - Possibilidade de ir para a diagonal.
+*             Valor igual a 1 se for possivel.
+*             Valor igual a 0 se nao for possivel.
+*     Reta  - Possibilidade de ir para a vertical e horizontal.
+*             Valor igual a 1 se for possivel.
+*             Valor igual a 0 se nao for possivel.
 *     Qtde  - Numero de casas que ele pode se movimentar para diagonal 
 *             ou horizontal/vertical;
-*     Nome  - String com o nome da peca que sera criada;
+*     Nome  - Nome do tipo de peça.
 *     
 *
 *  $FV Valor retornado
 *     PEC_CondRetOK
 *     PEC_CondRetFaltouMemoria
 *
-*  $AE CondRet deve ter sido instanciado
-*      Diag e valor inteiro 0 ou 1;
-*      Reta e valor inteiro 0 ou 1;
-*      Qtde e valor inteiro entre 1 e 7;
-*      String com 2 caracteres;
+*  $AE 'CondRet' deve ter sido instanciado
+*      'Diag' eh valor inteiro 0 ou 1.
+*      'Reta' eh valor inteiro 0 ou 1.
+*      'Qtde' eh valor inteiro entre 1 e 7.
+*      'Nome' eh string com no maximo 4 caracteres.
 *
-*  $AS Se CondRet = PEC_CondRetOK
-*	   Peca criada com sucesso;
+*  $AS Se CondRet = PEC_CondRetOK:
+*         pPeca inicializada.
+*	      Concluiu funcao com sucesso.
 *
-*	   Se CondRet = PEC_CondRetFaltouMemoria
-*	   Peca nao foi criada por falta de memoria;
+*	   Se CondRet = PEC_CondRetFaltouMemoria:
+*         pPeca nao foi inicializada.
+*	      Impossivel criar elemento, faltou memoria.
 *
 **************************************************************************/
 
