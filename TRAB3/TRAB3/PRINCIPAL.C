@@ -439,7 +439,6 @@ int main (void)
 			
 			break;
 
-<<<<<<< HEAD
 		/* Fechar programa */
 		case 10: /* Sair do programa. */
 			exit(1);
@@ -492,13 +491,6 @@ int main (void)
 			JOG_PreencheCaminho(pJogo , pTabuleiro );
 
 			/* Usuário com caracter não esperado */
-=======
-		/* Fecha aá¹•licacao */
-		case 10:
-			exit(1);
-
-			/* UsuÃ¡rio com caracter nÃ£o esperado */
->>>>>>> 794a489874c8b02e3c382daa3bc77ca2c64861ad
 		default: puts ( "Favor entre com uma das opcoes abaixo." ) ; 
 				 break ;
 
