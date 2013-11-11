@@ -136,52 +136,74 @@ TAB_tpCondRet TAB_CriarTabuleiro( TAB_tppTabuleiro * pTabuleiro ){
 
 } /* Fim funcao: TAB &Criar tabuleiro */
 
+/************************************************************************
+*
+*  Funcao: TAB  &Setar corrente
+*  ****/
 
 TAB_tpCondRet TAB_SetarCorrente( TAB_tppTabuleiro pTabuleiro , char * NomeCasa )
 {
 
 	if(pTabuleiro == NULL){
 		return TAB_CondRetTabuleiroNulo;
-	}
+	} /* if */
 
 	GrafRet = GRA_SetarCorrente(pTabuleiro->tpGrafo , NomeCasa);
 
+	if (GrafRet == GRA_CondRetListaNula){
+		return TAB_CondRetTabuleiroListaNula ;
+	} /* if */
+
 	return TAB_CondRetOK;
 
-}
+} /* Fim funcao: TAB &Setar corrente */
+
+/************************************************************************
+*
+*  Funcao: TAB  &Ir inicio das casas
+*  ****/
 
 TAB_tpCondRet TAB_IrInicioCasas( TAB_tppTabuleiro pTabuleiro  )
 {
 
 	if(pTabuleiro == NULL){
-
 		return TAB_CondRetTabuleiroNulo;
+	} /* if */
 
-	}
 	GrafRet = GRA_IrInicio(pTabuleiro->tpGrafo);
-
 	if(GrafRet == GRA_CondRetOK){
-
 		return TAB_CondRetOK;
-
-	}
+	} /* if */
 	
 	return TAB_CondRetNaoAchou;
-}
 
+} /* Fim funcao: TAB &Ir inicio das casas */
+
+
+/************************************************************************
+*
+*  Funcao: TAB  &Avancar casas
+*  ****/
 TAB_tpCondRet TAB_AvancarCasas( TAB_tppTabuleiro pTabuleiro , int val )
 {
 	if(pTabuleiro == NULL){
 		return TAB_CondRetTabuleiroNulo;
-	}
+	} /* if */
 
 	GrafRet = GRA_AvancarCorrenteVert(pTabuleiro->tpGrafo , val);
-
 	if(GrafRet == GRA_CondRetOK){
 		return TAB_CondRetOK;
-	}
+	} /* if */
+
 	return TAB_CondRetFimLista;
-}
+
+} /* Fim funcao: TAB  &Avancar casas */
+
+
+/************************************************************************
+*
+*  Funcao: TAB  &Obter conteudo tabuleiro
+*  ****/
 
 TAB_tpCondRet TAB_ObterConteudo( TAB_tppTabuleiro pTabuleiro , void ** pConteudo )
 {
@@ -189,33 +211,44 @@ TAB_tpCondRet TAB_ObterConteudo( TAB_tppTabuleiro pTabuleiro , void ** pConteudo
 
 	if(pTabuleiro == NULL){
 		return TAB_CondRetTabuleiroNulo;
-	}
+	} /* if */
 	
-	GRA_PegaConteudo(pTabuleiro->tpGrafo , (void**)&pPeca);
+	GrafRet = GRA_PegaConteudo(pTabuleiro->tpGrafo , (void**)&pPeca);
+	if (GrafRet == GRA_CondRetOK){
+		*pConteudo = pPeca;
+		return TAB_CondRetOK;
+	} /* if */
 
-	*pConteudo = pPeca;
+	return TAB_CondRetNaoAchou;
 
-	return TAB_CondRetOK;
+} /* Fim funcao: TAB  &Obter conteudo tabuleiro */
 
-}
 
+/************************************************************************
+*
+*  Funcao: TAB  &Inserir conteudo na casa do tabuleiro
+*  ****/
 
 TAB_tpCondRet TAB_InserirConteudoCasa(TAB_tppTabuleiro pTabuleiro , void * pPeca)
 {
-
 	if(pTabuleiro == NULL){
 		return TAB_CondRetTabuleiroNulo;
-	}
+	} /* if */
 
 	GrafRet = GRA_InsereConteudoVertice(pTabuleiro->tpGrafo , pPeca);
 
 	if(GrafRet == GRA_CondRetOK){
 		return TAB_CondRetOK;
-	}
+	} /* if */
 
 	return TAB_CondRetNaoAchou;
-}
 
+} /* Fim funcao: TAB  &Inserir conteudo na casa do tabuleiro */
+
+/************************************************************************
+*
+*  Funcao: TAB  &Apresenta tabuleiro
+*  ****/
 TAB_tpCondRet TAB_ApresentaTabuleiro( TAB_tppTabuleiro pTabuleiro ){
 
 	char * IdVertices[64] = 
@@ -265,7 +298,7 @@ TAB_tpCondRet TAB_ApresentaTabuleiro( TAB_tppTabuleiro pTabuleiro ){
 
 	return TAB_CondRetOK;
 
-}
+} /* Fim funcao: TAB  &Apresenta tabuleiro */
 
 TAB_tpCondRet TAB_CriarTipoPeca(TAB_tppTabuleiro pTabuleiro , char * Nome , int Diagonal , int Reta , int QtdeMov)
 {
