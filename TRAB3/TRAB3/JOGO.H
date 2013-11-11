@@ -69,7 +69,13 @@ typedef enum {
 
 	 JOG_CondRetFimLista = 2 ,
 		   /* Final de lista */
-		   
+
+	 JOG_CondRetXequeMateN = 3 ,
+	       /* Nao esta em Xeque Mate */
+
+	 JOG_CondRetXequeMateS = 4 ,
+		  /* Esta em Xeque Mate */	   
+
 	 JOG_CondRetFaltouMemoria = 9
 		   /* Faltou memoria ao tentar criar um elemento jogo */
 
@@ -414,10 +420,14 @@ JOG_tpCondRet JOG_IrInicioPecas(JOG_tppJogo pJOGO , char Time);
 JOG_tpCondRet JOG_ObterPecaJogo(JOG_tppJogo pJOGO , char Time, void ** pTipo);
 
 
-JOG_tpCondRet JOG_VerificaXequeMate(JOG_tppJogo pJogo, TAB_tppTabuleiro pTabuleiro);
+JOG_tpCondRet JOG_VerificaXequeMate(JOG_tppJogo pJogo, TAB_tppTabuleiro pTabuleiro, char ** CasaCausa);
 
 
 JOG_tpCondRet JOG_ObterDadosPeca(JOG_tppPecaJogo pPeca , void ** NomeNaCasa , char * Time);
+
+
+JOG_tpCondRet JOG_VerificaSairXequeMate(JOG_tppJogo pJogo, TAB_tppTabuleiro pTabuleiro , char * CasaDestino);
+
 
 
 #undef JOGO_EXT

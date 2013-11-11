@@ -141,6 +141,21 @@ PEC_tpCondRet PEC_ObterDadosTipoPeca (PEC_tppPeca pPeca , void ** Nome,
 } /* Fim funcao: PEC &Obter dados do tipo peca */
 
 
+PEC_tpCondRet PEC_ModificarPeca(PEC_tppPeca pPeca , int Diag , int Reta , int Qtde)
+{
+
+	if(pPeca == NULL)
+	{
+		return PEC_CondRetPecaNula ;
+	} /* if */
+
+	pPeca->diagonal = Diag;
+	pPeca->reta     = Reta;
+	pPeca->qtde     = Qtde;
+
+	return PEC_CondRetOK;
+}
+
 /************  Codigo das funcoes encapsuladas no modulo  *************/
 
 

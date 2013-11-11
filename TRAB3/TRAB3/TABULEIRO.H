@@ -37,10 +37,6 @@
 
 typedef struct TAB_tagTabuleiro * TAB_tppTabuleiro ;
 
-typedef struct tpElemCasa * TAB_ElemCasa ;
-
-typedef struct TAB_tgEstCasa * TAB_tppEstCasa ;
-
 /***********************************************************************
 *
 *  $TC Tipo de dados: TAB Condições de retorno

@@ -70,10 +70,15 @@ int main (void)
 	int NumPecasA;
 	int NumPecasB;
 
+	/*Xeque Mate */
+	char * CasaCausadora = NULL;
+	char SairDoXeque;
+
 	TAB_tpCondRet TabRet;
 	TAB_tppTabuleiro pTabuleiro;
 
 	JOG_tpCondRet JogRet;
+	JOG_tpCondRet JogRetXeque;
 	JOG_tppJogo   pJogo;
 
 	JOG_tppPecaJogo pPecaBuscaJogo;
@@ -375,8 +380,45 @@ int main (void)
 
 			puts ( " Voce escolheu: 7 - Verificar XEQUE MATE." ) ;
 
-			JOG_VerificaXequeMate(pJogo, pTabuleiro);
-			
+			JogRet = JOG_VerificaXequeMate(pJogo, pTabuleiro , &CasaCausadora);
+
+
+			if(JogRet == JOG_CondRetXequeMateS){
+				SetColor('v');
+				puts ("*********************************");
+				puts ("Esta em Xeque Mate               ");
+				puts ("                                 ");
+				puts ("*********************************");
+				SetColor('w');
+
+				printf("Deseja tentar sair do XEQUE ? (S - Sim | N - Nao)");
+				scanf ( "%s", &SairDoXeque ) ;
+				
+				if(SairDoXeque == 'S' || SairDoXeque == 's'){
+					
+					JogRetXeque = JOG_VerificaSairXequeMate(pJogo  , pTabuleiro , CasaCausadora);
+
+					if(JogRetXeque == JOG_CondRetXequeMateN){
+						SetColor('v');
+						puts ("Continua em XEQUE MATE!               ");
+						SetColor('w');
+					}else{
+						SetColor('e');
+						puts ("E possivel sair do XEQUE MATE!              ");
+						SetColor('w');
+					}
+
+				}
+
+			}else{
+				SetColor('e');
+				puts ("*********************************");
+				puts ("Nao esta em Xeque Mate           ");
+				puts ("                                 ");
+				puts ("*********************************");
+				SetColor('w');
+			}
+
 			break;
 
 		/* Salvar partida */
@@ -397,9 +439,56 @@ int main (void)
 			
 			break;
 
-
-		case 10:
+		/* Fechar programa */
+		case 10: /* Sair do programa. */
 			exit(1);
+
+		/* Modificar peca */
+		case 11: /* Modificar configuracao da peca */
+
+			pPecaBusca = NULL;
+
+			printf( "Informe o nome da peca : " );
+			scanf ( "%s", &NomePeca ) ;
+
+			TAB_ProcuraPeca (pTabuleiro , NomePeca , (void**)&pPecaBusca);
+			
+
+			while(Diagonal != 0 && Diagonal != 1){
+				printf("Sua peca anda para DIAGONAL? (1 - Sim | 0 - Nao):");
+				scanf ( "%d", &Diagonal ) ;
+				if(Diagonal > 1){
+					puts("Informacao errada!");
+				}
+			}
+
+			while(Reta != 0 && Reta != 1){
+				printf("Sua peca anda em linha RETA? (1 - Sim | 0 - Nao):");
+				scanf ( "%d", &Reta ) ;
+				if(Reta > 1){
+					puts("Informacao errada!");
+				}
+			}
+
+			while(QtdeMov < 0 || QtdeMov > 8){
+				printf("Qual a quantidade de casas que sua peca anda? ");
+				scanf ( "%d", &QtdeMov ) ;
+				if(QtdeMov < 0 || QtdeMov > 8){
+					puts("Informacao inconsistente!");
+				}
+			}
+
+			PecaRet = PEC_ModificarPeca(pPecaBusca , Diagonal , Reta , QtdeMov );
+
+			if(PecaRet == PEC_CondRetOK){
+				puts("Peca atualizada com sucesso!");
+			}
+
+			Diagonal = Reta = QtdeMov = -1;
+
+			strcpy(NomePeca , "");
+
+			JOG_PreencheCaminho(pJogo , pTabuleiro );
 
 			/* Usuário com caracter não esperado */
 		default: puts ( "Favor entre com uma das opcoes abaixo." ) ; 
@@ -443,6 +532,8 @@ static void imprimeMenuPrincipal ( void )
 	puts ( "* 9- Abrir partida salva.                                         *" ) ;
 	puts ( "* 10- Fechar aplicacao.                                           *" ) ;
 	puts ( "*                                                                 *" ) ;
+	puts ( "**********             FUNCOES AUXILIARES               ***********" ) ;
+	puts ( "* 11- Configurar Peca.                                            *" ) ;
 	puts ( "*******************************************************************" ) ;
 
 }
@@ -593,7 +684,6 @@ static void AbrirArquivo( TAB_tppTabuleiro * pTabuleiro , JOG_tppJogo * pJogo )
 	FILE *fp;
 	TAB_tpCondRet TabRet;
 	char Linha[256];
-	char * LinhaTmp;
 	int LinhaArq = 0;
 	char * Tipo;
 	int ContadorLinha = 0;

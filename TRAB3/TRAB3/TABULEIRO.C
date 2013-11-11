@@ -51,8 +51,6 @@ LIS_tpCondRet ListaRet;
    typedef struct TAB_tagTabuleiro {
 
          GRA_tppGrafo   tpGrafo;
-		
-		 TAB_tppEstCasa tpEstCasa;
 
 		 LIS_tppLista   pListaPecas;
 
@@ -192,6 +190,11 @@ TAB_tpCondRet TAB_InserirConteudoCasa(TAB_tppTabuleiro pTabuleiro , void * pPeca
 
 TAB_tpCondRet TAB_ApresentaTabuleiro( TAB_tppTabuleiro pTabuleiro ){
 
+	char * IdVertices[64] = 
+	{
+		"A1","A2","A3","A4","A5","A6","A7","A8","B1","B2","B3","B4","B5","B6","B7","B8","C1","C2","C3","C4","C5","C6","C7","C8","D1","D2","D3","D4","D5","D6","D7","D8","E1","E2","E3","E4","E5","E6","E7","E8","F1","F2","F3","F4","F5","F6","F7","F8","G1","G2","G3","G4","G5","G6","G7","G8","H1","H2","H3","H4","H5","H6","H7","H8"
+	};
+
 	int cont = 0;
 	int contador = 0;
 	char * id = NULL;
@@ -208,9 +211,9 @@ TAB_tpCondRet TAB_ApresentaTabuleiro( TAB_tppTabuleiro pTabuleiro ){
 
 	printf( "| A |" );
 
-	do{
+	while(cont < 64){
 
-		cont++;
+		GRA_SetarCorrente(pTabuleiro->tpGrafo , IdVertices[cont]);
 
 		GRA_PegaConteudo (pTabuleiro->tpGrafo , (void**)&pPecaTab);
 
@@ -220,19 +223,18 @@ TAB_tpCondRet TAB_ApresentaTabuleiro( TAB_tppTabuleiro pTabuleiro ){
 		}else{
 			printf( "| - |" );
 		}
-		
+		cont++;
 		if((cont % 8) == 0){
 			if(contador < 7)
 				printf( "\n| %c |" , casas[contador] );
 			contador++;
 			
 		}
-
-		GrafRet = GRA_AvancarCorrenteVert(pTabuleiro->tpGrafo , 1);
-
-	}while(GrafRet != GRA_CondRetFimLista);
-
+		
+	}
+	
 	printf("\n");
+
 	return TAB_CondRetOK;
 
 }
@@ -257,7 +259,7 @@ TAB_tpCondRet TAB_CriarTipoPeca(TAB_tppTabuleiro pTabuleiro , char * Nome , int 
 TAB_tpCondRet TAB_ApresentaTipoPecas(TAB_tppTabuleiro pTabuleiro)
 {
 	PEC_tppPeca pPeca;
-	char * NomePeca;
+	char NomePeca[MAX_NOME];
 	if(pTabuleiro==NULL){
 		return TAB_CondRetTabuleiroNulo;
 	}
@@ -270,11 +272,12 @@ TAB_tpCondRet TAB_ApresentaTipoPecas(TAB_tppTabuleiro pTabuleiro)
 	if(ListaRet == LIS_CondRetListaVazia)
 		return TAB_TimeAVazio;
 	do{
+
 		LIS_ObterValor(pTabuleiro->pListaPecas , (void**)&pPeca);
 
 		PEC_ObterNome (pPeca , (void**)&NomePeca);
-		printf("Nome Peca: %s \n" , &NomePeca );
 
+		printf("Nome Peca: %s \n" , &NomePeca );
 
 		ListaRet = LIS_AvancarElementoCorrente(pTabuleiro->pListaPecas , 1);
 
