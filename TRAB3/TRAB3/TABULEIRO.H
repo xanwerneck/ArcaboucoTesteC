@@ -50,8 +50,8 @@ typedef struct TAB_tagTabuleiro * TAB_tppTabuleiro ;
 
    typedef enum {
 
-         TAB_CondRetOK = 0,
-            /* Executou correto */
+      TAB_CondRetOK = 0,
+            /* Concluiu corretamente */
 
 		 TAB_TimeAVazio = 1 ,
             /* Time A vazio */
