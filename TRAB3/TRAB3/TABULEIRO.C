@@ -1,22 +1,20 @@
 /***************************************************************************
 *
-*  $MCD Módulo de definição: TAB  Tabuleiro de Xadrez
+*  $MCD Módulo de definição: TAB  Tabuleiro de xadrez
 *
 *  Arquivo gerado:              TABULEIRO.C
 *  Letras identificadoras:      TAB
 *
-*  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
-*  Arquivo da base de software: D:\AUTOTEST\PROJETOS\SIMPLES.BSW
+*  Projeto: INF 1301 - Verificador de Xeque-mate
+*  Gestor:  Flavio Bevilacqua
+*  Autores: afv:  aw - Alexandre Werneck
+*                 fr - Fernanda C Ribeiro
+*			         vo - Vinicius de Luiz de Oliveira
 *
-*  Projeto: INF 1301 Automatização dos testes de módulos C
-*  Gestor:  LES/DI/PUC-Rio
-*  Autores: aw - Alexandre Werneck
-*           fr - Fernanda Camelo Ribeiro
-*			vo - Vinicius de Luiz de Oliveira
-*
-*  $HA Histórico de evolução:
-*     Versão  Autor    Data     Observações
-*     1       afv   19/out/2013 início desenvolvimento
+*  $HA Historico de evolucao:
+*     Versao  Autor    Data     Observacoes
+*     Y       afv   xx/xx/2013  finalizacao do desenvolvimento do modulo
+*     1       afv   19/out/2013 inicio do desenvolvimento do modulo
 *
 ***************************************************************************/
 
@@ -43,7 +41,7 @@ LIS_tpCondRet ListaRet;
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: TAB Descritor do Tabuleiro
+*  $TC Tipo de dados: TAB Descritor do tabuleiro
 *
 *
 ***********************************************************************/
@@ -51,13 +49,15 @@ LIS_tpCondRet ListaRet;
    typedef struct TAB_tagTabuleiro {
 
          GRA_tppGrafo   tpGrafo;
+		/* Ponteiro para tipo grafo que representa o tabuleiro */
 
 		 LIS_tppLista   pListaPecas;
-
+		/* Ponteiro para lista de pecas */
+		 
    } TAB_tpTabuleiro ;
 
 
-/***** Protótipos das funções encapsuladas no módulo *****/
+/************* Prototipos das funcoes encapsuladas no modulo ***********/
 
    static void ExcluirInfo ( void * pValor );
    
@@ -69,8 +69,12 @@ LIS_tpCondRet ListaRet;
 
    static void ExcluirValorNo( void * pValor );
 
-/*****  Código das funções exportadas pelo módulo  *****/
+/*************  Codigo das funcoes exportadas pelo modulo  *************/
 
+/************************************************************************
+*
+*  Funcao: TAB &Criar tabuleiro
+*  ****/
 
 TAB_tpCondRet TAB_CriarTabuleiro( TAB_tppTabuleiro * pTabuleiro ){
 
@@ -86,18 +90,24 @@ TAB_tpCondRet TAB_CriarTabuleiro( TAB_tppTabuleiro * pTabuleiro ){
 		return TAB_CondRetFaltouMemoria ;
 	} /* if */
 
-	GRA_CriarGrafo( &pGrafo , ExcluirInfo);
+	GrafRet = GRA_CriarGrafo( &pGrafo , ExcluirInfo);
+	if (GrafRet == GRA_CondRetFaltouMemoria ){
+		return TAB_CondRetFaltouMemoria ;
+	} /* if */
+
 
 	PreparaEstruturaMatriz( pGrafo , 8);
 
-	LIS_CriarLista(ExcluirPeca , &ListaPecas);
+	ListaRet = LIS_CriarLista(ExcluirPeca , &ListaPecas);
+	if (ListaRet == LIS_CondRetFaltouMemoria ){
+		return TAB_CondRetFaltouMemoria ;
+	} /* if */
 
 	mTab->tpGrafo      = pGrafo;
 
 	mTab->pListaPecas  = ListaPecas;
 
-	(*pTabuleiro) = (TAB_tpTabuleiro *) malloc (sizeof(TAB_tppTabuleiro));
-	
+	(*pTabuleiro) = (TAB_tpTabuleiro *) malloc (sizeof(TAB_tppTabuleiro));	
 	if( (*pTabuleiro) == NULL)
 	{
 		return TAB_CondRetFaltouMemoria ;
@@ -106,7 +116,7 @@ TAB_tpCondRet TAB_CriarTabuleiro( TAB_tppTabuleiro * pTabuleiro ){
 	(*pTabuleiro) = mTab ;
 
 	return TAB_CondRetOK;
-}
+} /* Fim funcao: TAB &Criar tabuleiro */
 
 
 TAB_tpCondRet TAB_SetarCorrente( TAB_tppTabuleiro pTabuleiro , char * NomeCasa )
