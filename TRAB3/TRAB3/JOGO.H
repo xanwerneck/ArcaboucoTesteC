@@ -429,6 +429,8 @@ JOG_tpCondRet JOG_ObterDadosPeca(JOG_tppPecaJogo pPeca , void ** NomeNaCasa , ch
 JOG_tpCondRet JOG_VerificaSairXequeMate(JOG_tppJogo pJogo, TAB_tppTabuleiro pTabuleiro , char * CasaDestino);
 
 
+JOG_tpCondRet JOG_DestruirJogo(JOG_tppJogo pJogo);
+
 
 #undef JOGO_EXT
 

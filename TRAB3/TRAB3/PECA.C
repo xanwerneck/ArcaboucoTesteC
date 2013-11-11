@@ -156,6 +156,24 @@ PEC_tpCondRet PEC_ModificarPeca(PEC_tppPeca pPeca , int Diag , int Reta , int Qt
 	return PEC_CondRetOK;
 }
 
+PEC_tpCondRet PEC_DestroiPeca(PEC_tppPeca pPeca)
+{
+
+	if(pPeca == NULL)
+	{
+		return PEC_CondRetPecaNula ;
+	} /* if */
+
+	pPeca->diagonal = 0;
+	pPeca->reta     = 0;
+	pPeca->qtde     = 0;
+	strcpy(pPeca->Nome , "");
+	
+	free(pPeca);
+
+	return PEC_CondRetOK;
+}
+
 /************  Codigo das funcoes encapsuladas no modulo  *************/
 
 

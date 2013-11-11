@@ -258,8 +258,16 @@ TAB_tpCondRet TAB_CriarTipoPeca(TAB_tppTabuleiro pTabuleiro , char * Nome , int 
 
 TAB_tpCondRet TAB_ApresentaTipoPecas(TAB_tppTabuleiro pTabuleiro)
 {
+
 	PEC_tppPeca pPeca;
+
+	/* Caracteristicas das PECAS */
 	char NomePeca[MAX_NOME];
+	int Diag;
+	int Reta;
+	int Qtde;
+
+
 	if(pTabuleiro==NULL){
 		return TAB_CondRetTabuleiroNulo;
 	}
@@ -267,23 +275,30 @@ TAB_tpCondRet TAB_ApresentaTipoPecas(TAB_tppTabuleiro pTabuleiro)
 		return TAB_CondRetTabuleiroListaNula;
 	}
 	
-	printf("Lista de tipo de pecas \n");
+	printf("\n MAPA DE MOVIMENTOS \n");
 	ListaRet = LIS_IrInicioLista(pTabuleiro->pListaPecas);
+
+	printf("\n");
+	printf("( Em Diagonal e Reta: 1 = Sim | 0 = Nao )\n");
+	printf("******************************************************************* \n");
+
 	if(ListaRet == LIS_CondRetListaVazia)
 		return TAB_TimeAVazio;
 	do{
 
 		LIS_ObterValor(pTabuleiro->pListaPecas , (void**)&pPeca);
 
-		PEC_ObterNome (pPeca , (void**)&NomePeca);
+		PEC_ObterDadosTipoPeca (pPeca , (void**)&NomePeca , &Diag , &Reta , &Qtde);
 
-		printf("Nome Peca: %s \n" , &NomePeca );
+		printf("Nome Peca: %s Diagonal => %d Reta => %d Quantidade => %d \n" , &NomePeca , Diag , Reta , Qtde );
 
 		ListaRet = LIS_AvancarElementoCorrente(pTabuleiro->pListaPecas , 1);
 
 
 	}while(ListaRet != LIS_CondRetFimLista);
 
+	printf("******************************************************************* \n");
+	printf("\n");
 	
 	return TAB_CondRetOK;
 
@@ -365,6 +380,30 @@ TAB_tpCondRet TAB_AvancarTipoPeca(TAB_tppTabuleiro pTabuleiro , int val)
 	if(ListaRet == LIS_CondRetFimLista){
 		return TAB_CondRetFimLista;
 	} /* if */
+	return TAB_CondRetOK;
+}
+
+TAB_tpCondRet TAB_FinalizarPartida(TAB_tppTabuleiro pTabuleiro)
+{
+	PEC_tppPeca pPeca;
+	if(pTabuleiro==NULL){
+		return TAB_CondRetTabuleiroNulo;
+	} /* if */
+
+	ListaRet = LIS_IrInicioLista(pTabuleiro->pListaPecas);
+	do{
+		LIS_ObterValor(pTabuleiro->pListaPecas , (void**)&pPeca);
+
+		PEC_DestroiPeca(pPeca);
+
+		ListaRet = LIS_AvancarElementoCorrente(pTabuleiro->pListaPecas , 1);
+
+	}while(ListaRet != LIS_CondRetFimLista);
+
+	free(pTabuleiro->pListaPecas);
+
+	GRA_DestruirGrafo(pTabuleiro->tpGrafo);
+
 	return TAB_CondRetOK;
 }
 
@@ -643,8 +682,7 @@ GRA_tppVerGrafo CriarNo( GRA_tppGrafo pGrafo , char * Id )
 
 void ExcluirValorNo( void * pValor )
 {
-
-    free( ( void * ) pValor ) ;
+	   
 
 }
 

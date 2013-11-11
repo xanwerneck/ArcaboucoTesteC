@@ -562,16 +562,6 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 
 			JaConheceRei = QtdeTmp = Reta = Qtde = Diag = 0;	
 			
-			QtdeTmp = 0;
-
-			LIS_NumElem(pPecaJogo->pListaCaminho , &QtdeTmp);
-			printf("Num elem CAMINHO %d \n" , QtdeTmp);
-
-			QtdeTmp = 0;
-
-			LIS_NumElem(pPecaJogo->pListaDestino , &QtdeTmp);
-			printf("Num elem DESTINO %d \n" , QtdeTmp);
-
 		}
 
 		TabRet = TAB_AvancarCasas(pTabuleiro , 1);
@@ -717,8 +707,48 @@ JOG_tpCondRet JOG_ObterDadosPeca(JOG_tppPecaJogo pPeca , void ** NomeNaCasa , ch
 	return JOG_CondRetOK;
 }
 
+JOG_tpCondRet JOG_DestruirJogo(JOG_tppJogo pJogo)
+{
+	JOG_tppPecaJogo pPecaBusca;
+
+	ListaRet = LIS_IrInicioLista(pJogo->pListaTimeA);
+	do{
+		LIS_ObterValor(pJogo->pListaTimeA , (void**)&pPecaBusca);
+
+		pPecaBusca->Time = '\0';
+		LIS_EsvaziarLista(pPecaBusca->pListaCaminho);
+		LIS_EsvaziarLista(pPecaBusca->pListaDestino);
+		pPecaBusca->pTipoPeca = NULL;
+
+		free(pPecaBusca);
+
+		ListaRet = LIS_AvancarElementoCorrente(pJogo->pListaTimeA , 1);
+
+	}while(ListaRet != LIS_CondRetFimLista);
+
+	ListaRet = LIS_IrInicioLista(pJogo->pListaTimeB);
+	do{
+		LIS_ObterValor(pJogo->pListaTimeB , (void**)&pPecaBusca);
+
+		pPecaBusca->Time = '\0';
+		LIS_DestruirLista(pPecaBusca->pListaCaminho);
+		LIS_DestruirLista(pPecaBusca->pListaDestino);
+		pPecaBusca->pTipoPeca = NULL;
+
+		free(pPecaBusca);
+
+		ListaRet = LIS_AvancarElementoCorrente(pJogo->pListaTimeB , 1);
+
+	}while(ListaRet != LIS_CondRetFimLista);
+
+	LIS_DestruirLista(pJogo->pListaTimeA);
+
+	LIS_DestruirLista(pJogo->pListaTimeB);
+
+	return JOG_CondRetOK;
+}
+
 /***************************************************************************
-*
 *  Funcao: JOG  &Insere elemento apos
 *  ****/
 JOG_tpCondRet JOG_InsereElemApos(JOG_tppPecaJogo pPeca , void * Conteudo)
@@ -910,14 +940,13 @@ JOG_tpCondRet JOG_ObterPecaJogo(JOG_tppJogo pJOGO , char Time, void ** pTipo)
 *  $FC Funcao: JOG  -Excluir jogo
 *
 *  $ED Descricao da funcao
-*      Libera o espaco alocado na memoria para o jogo.
+*      Funcao nao pode liberar espaco pois tem referencias em outros lugares.
 *
 ***********************************************************************/
 
 	void ExcluirJogo( void * pPeca )
 	{
 
-		free ( (void *) pPeca);
 
 	} /* Fim funcao: JOG -Excluir jogo */
 
@@ -926,7 +955,7 @@ JOG_tpCondRet JOG_ObterPecaJogo(JOG_tppJogo pJOGO , char Time, void ** pTipo)
 *  $FC Funcao: JOG  -Excluir peca do jogo
 *
 *  $ED Descricao da funcao
-*      Libera o espaco alocado na memoria para a peca do jogo.
+*      Funcao nao pode liberar espaco pois tem referencias em outros lugares.
 *
 ***********************************************************************/
 

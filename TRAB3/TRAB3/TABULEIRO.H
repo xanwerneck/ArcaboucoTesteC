@@ -599,6 +599,33 @@ typedef struct TAB_tagTabuleiro * TAB_tppTabuleiro ;
 ***********************************************************************/
    TAB_tpCondRet TAB_PecaConteudoPeloVertice(void * Vertice  , void ** VertConteudo);
    
+/***********************************************************************
+*
+*  $FC Funcao: TAB Destroi o tabuleiro
+*
+*  $ED Descricao da funcao
+*     Elimina a lista de pecas e destroi a estrutura grafo
+*
+*  $EP Parametros
+*     pTabuleiro  - Ponteiro de referência para tabuleiro.
+*
+*  $FV Valor retornado
+*     TAB_CondRetOK
+*     TAB_CondRetTabuleiroNulo
+*
+*  $AE CondRet deve ter sido instanciado
+*
+*  $AS Se CondRet = TAB_CondRetOK
+*     Concluiu funcao com sucesso.
+*
+*     Se CondRet = TAB_CondRetFaltouMemoria
+*     Tabuleiro já esta nulo.
+*
+***********************************************************************/
+	TAB_tpCondRet TAB_FinalizarPartida(TAB_tppTabuleiro pTabuleiro);
+
+
+
 
 #undef TABULEIRO_EXT
 

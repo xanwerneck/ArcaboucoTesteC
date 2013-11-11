@@ -174,6 +174,8 @@ PEC_tpCondRet PEC_ObterDadosTipoPeca (PEC_tppPeca pPeca , void ** Nome,
 
 PEC_tpCondRet PEC_ModificarPeca(PEC_tppPeca pPeca , int Diag , int Reta , int Qtde);
 
+PEC_tpCondRet PEC_DestroiPeca(PEC_tppPeca pPeca);
+
 #undef PECA_EXT
 
 /******** Fim do modulo de definicao: PEC  Peca do tabuleiro **********/

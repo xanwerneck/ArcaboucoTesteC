@@ -1,10 +1,24 @@
 ***************** Verificador de XEQUE MATE ***********************
 *****************    AFV - Novembro 2013    ***********************
-TIPOPECA PEAO 1 1 2
-TIPOPECA CAVALO 0 1 5
+TIPOPECA Cavalo 1 0 3
+TIPOPECA Rainha 1 1 7
+TIPOPECA Bispo 0 1 5
+TIPOPECA Macaco 1 1 2
 TIPOPECA REI 1 1 1
-PECAS A REI A1
-PECAS A CAVALO C2
-PECAS A PEAO C3
-PECAS B REI D4
-PECAS B PEAO D5
+PECAS A Cavalo A1
+PECAS A Rainha B2
+PECAS A REI B7
+PECAS A Cavalo C3
+PECAS A Bispo D4
+PECAS A Bispo E5
+PECAS A Macaco F6
+PECAS A Rainha G7
+PECAS A Macaco H8
+PECAS B Rainha A3
+PECAS B Rainha B5
+PECAS B Macaco C2
+PECAS B Macaco D7
+PECAS B Bispo E8
+PECAS B Cavalo F4
+PECAS B REI G3
+PECAS B Cavalo G6
