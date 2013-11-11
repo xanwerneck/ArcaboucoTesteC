@@ -1,22 +1,20 @@
 /***************************************************************************
 *
-*  $MCD Módulo de definição: TAB  Tabuleiro de Xadrez
+*  $MCD Modulo de definicao: TAB  Tabuleiro de Xadrez
 *
 *  Arquivo gerado:              TABULEIRO.C
 *  Letras identificadoras:      TAB
 *
-*  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
-*  Arquivo da base de software: D:\AUTOTEST\PROJETOS\SIMPLES.BSW
+*  Projeto: INF 1301 - Verificador de Xeque-mate
+*  Gestor:  Flavio Bevilacqua
+*  Autores: afv:  aw - Alexandre Werneck
+*                 fr - Fernanda C Ribeiro
+*                 vo - Vinicius de Luiz de Oliveira
 *
-*  Projeto: INF 1301 Automatização dos testes de módulos C
-*  Gestor:  LES/DI/PUC-Rio
-*  Autores: aw - Alexandre Werneck
-*           fr - Fernanda Camelo Ribeiro
-*			vo - Vinicius de Luiz de Oliveira
-*
-*  $HA Histórico de evolução:
-*     Versão  Autor    Data     Observações
-*     1       afv   19/out/2013 início desenvolvimento
+*  $HA Historico de evolucao:
+*     Versao  Autor    Data     Observacoes
+*     Y       afv   xx/xx/2013  finalizacao do desenvolvimento do modulo
+*     1       afv   19/out/2013 inicio do desenvolvimento do modulo
 *
 ***************************************************************************/
 
@@ -43,34 +41,55 @@ LIS_tpCondRet ListaRet;
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: TAB Descritor do Tabuleiro
+*  $TC Tipo de dados: TAB Descritor do tabuleiro
 *
+*  $ED Descricao do tipo
+*     Contem referencia para estrutura do tipo grafo que representa o 
+*      tabuleiro de xadrez vazio e referencia para a estrutura de pecas 
+*      que estao no tabuleiro.
 *
 ***********************************************************************/
 
    typedef struct TAB_tagTabuleiro {
 
          GRA_tppGrafo   tpGrafo;
+		/* Ponteiro para estrutura de grafo que representa o 
+		    tabuleiro de xadrez */
 
 		 LIS_tppLista   pListaPecas;
+		/* Ponteiro para estrutura de lista de pecas que representa as 
+		    pecas que serao inseridas no tabuleiro. */
 
    } TAB_tpTabuleiro ;
 
 
-/***** Protótipos das funções encapsuladas no módulo *****/
+/************* Funcoes encapsuladas no modulo *************************/
 
+   /* Funcao libera espaco alocado na memoria para o elemento do 
+      paramentro */
    static void ExcluirInfo ( void * pValor );
-   
+
+   /* Funcao libera espaco alocado na memoria para o elemento do 
+      paramentro */
    static void ExcluirPeca( void * pPeca );
 
+   /* Funcao cria tipo grafo como uma matriz nxn para inicializar o 
+      tabuleiro */
    static TAB_tpCondRet PreparaEstruturaMatriz( GRA_tppGrafo pGrafo  , int numElementos ) ;
 
+   /* Funcao cria no vazio de vertice de grafo */
    static GRA_tppVerGrafo CriarNo( GRA_tppGrafo pGrafo , char * Id ) ;
 
+   /* Funcao libera espaco alocado na memoria para o elemento do 
+      paramentro */
    static void ExcluirValorNo( void * pValor );
 
-/*****  Código das funções exportadas pelo módulo  *****/
+/************* Codigo das funcoes exportadas pelo modulo ******************/
 
+/************************************************************************
+*
+*  Funcao: TAB  &Criar tabuleiro
+*  ****/
 
 TAB_tpCondRet TAB_CriarTabuleiro( TAB_tppTabuleiro * pTabuleiro ){
 
@@ -79,25 +98,33 @@ TAB_tpCondRet TAB_CriarTabuleiro( TAB_tppTabuleiro * pTabuleiro ){
 	TAB_tppTabuleiro mTab;
 
 	mTab = ( TAB_tppTabuleiro ) malloc ( sizeof ( TAB_tpTabuleiro ) );
-			/* Malloc para gerar um ponteiro de matriz */
-		   
+			/* Malloc para gerar um ponteiro de tabuleiro */		   
 	if(mTab == NULL)
 	{
 		return TAB_CondRetFaltouMemoria ;
 	} /* if */
 
-	GRA_CriarGrafo( &pGrafo , ExcluirInfo);
+	GrafRet = GRA_CriarGrafo( &pGrafo , ExcluirInfo);
+	if(GrafRet == GRA_CondRetFaltouMemoria)
+	{
+		return TAB_CondRetFaltouMemoria ;
+	} /* if */
+
 
 	PreparaEstruturaMatriz( pGrafo , 8);
 
-	LIS_CriarLista(ExcluirPeca , &ListaPecas);
+	ListaRet = LIS_CriarLista(ExcluirPeca , &ListaPecas);
+	if(GrafRet == LIS_CondRetFaltouMemoria)
+	{
+		return TAB_CondRetFaltouMemoria ;
+	} /* if */
+
 
 	mTab->tpGrafo      = pGrafo;
 
 	mTab->pListaPecas  = ListaPecas;
 
-	(*pTabuleiro) = (TAB_tpTabuleiro *) malloc (sizeof(TAB_tppTabuleiro));
-	
+	(*pTabuleiro) = (TAB_tpTabuleiro *) malloc (sizeof(TAB_tppTabuleiro));	
 	if( (*pTabuleiro) == NULL)
 	{
 		return TAB_CondRetFaltouMemoria ;
@@ -106,54 +133,77 @@ TAB_tpCondRet TAB_CriarTabuleiro( TAB_tppTabuleiro * pTabuleiro ){
 	(*pTabuleiro) = mTab ;
 
 	return TAB_CondRetOK;
-}
 
+} /* Fim funcao: TAB &Criar tabuleiro */
+
+/************************************************************************
+*
+*  Funcao: TAB  &Setar corrente
+*  ****/
 
 TAB_tpCondRet TAB_SetarCorrente( TAB_tppTabuleiro pTabuleiro , char * NomeCasa )
 {
 
 	if(pTabuleiro == NULL){
 		return TAB_CondRetTabuleiroNulo;
-	}
+	} /* if */
 
 	GrafRet = GRA_SetarCorrente(pTabuleiro->tpGrafo , NomeCasa);
 
+	if (GrafRet == GRA_CondRetListaNula){
+		return TAB_CondRetTabuleiroListaNula ;
+	} /* if */
+
 	return TAB_CondRetOK;
 
-}
+} /* Fim funcao: TAB &Setar corrente */
+
+/************************************************************************
+*
+*  Funcao: TAB  &Ir inicio das casas
+*  ****/
 
 TAB_tpCondRet TAB_IrInicioCasas( TAB_tppTabuleiro pTabuleiro  )
 {
 
 	if(pTabuleiro == NULL){
-
 		return TAB_CondRetTabuleiroNulo;
+	} /* if */
 
-	}
 	GrafRet = GRA_IrInicio(pTabuleiro->tpGrafo);
-
 	if(GrafRet == GRA_CondRetOK){
-
 		return TAB_CondRetOK;
-
-	}
+	} /* if */
 	
 	return TAB_CondRetNaoAchou;
-}
 
+} /* Fim funcao: TAB &Ir inicio das casas */
+
+
+/************************************************************************
+*
+*  Funcao: TAB  &Avancar casas
+*  ****/
 TAB_tpCondRet TAB_AvancarCasas( TAB_tppTabuleiro pTabuleiro , int val )
 {
 	if(pTabuleiro == NULL){
 		return TAB_CondRetTabuleiroNulo;
-	}
+	} /* if */
 
 	GrafRet = GRA_AvancarCorrenteVert(pTabuleiro->tpGrafo , val);
-
 	if(GrafRet == GRA_CondRetOK){
 		return TAB_CondRetOK;
-	}
+	} /* if */
+
 	return TAB_CondRetFimLista;
-}
+
+} /* Fim funcao: TAB  &Avancar casas */
+
+
+/************************************************************************
+*
+*  Funcao: TAB  &Obter conteudo tabuleiro
+*  ****/
 
 TAB_tpCondRet TAB_ObterConteudo( TAB_tppTabuleiro pTabuleiro , void ** pConteudo )
 {
@@ -161,33 +211,44 @@ TAB_tpCondRet TAB_ObterConteudo( TAB_tppTabuleiro pTabuleiro , void ** pConteudo
 
 	if(pTabuleiro == NULL){
 		return TAB_CondRetTabuleiroNulo;
-	}
+	} /* if */
 	
-	GRA_PegaConteudo(pTabuleiro->tpGrafo , (void**)&pPeca);
+	GrafRet = GRA_PegaConteudo(pTabuleiro->tpGrafo , (void**)&pPeca);
+	if (GrafRet == GRA_CondRetOK){
+		*pConteudo = pPeca;
+		return TAB_CondRetOK;
+	} /* if */
 
-	*pConteudo = pPeca;
+	return TAB_CondRetNaoAchou;
 
-	return TAB_CondRetOK;
+} /* Fim funcao: TAB  &Obter conteudo tabuleiro */
 
-}
 
+/************************************************************************
+*
+*  Funcao: TAB  &Inserir conteudo na casa do tabuleiro
+*  ****/
 
 TAB_tpCondRet TAB_InserirConteudoCasa(TAB_tppTabuleiro pTabuleiro , void * pPeca)
 {
-
 	if(pTabuleiro == NULL){
 		return TAB_CondRetTabuleiroNulo;
-	}
+	} /* if */
 
 	GrafRet = GRA_InsereConteudoVertice(pTabuleiro->tpGrafo , pPeca);
 
 	if(GrafRet == GRA_CondRetOK){
 		return TAB_CondRetOK;
-	}
+	} /* if */
 
 	return TAB_CondRetNaoAchou;
-}
 
+} /* Fim funcao: TAB  &Inserir conteudo na casa do tabuleiro */
+
+/************************************************************************
+*
+*  Funcao: TAB  &Apresenta tabuleiro
+*  ****/
 TAB_tpCondRet TAB_ApresentaTabuleiro( TAB_tppTabuleiro pTabuleiro ){
 
 	char * IdVertices[64] = 
@@ -237,7 +298,7 @@ TAB_tpCondRet TAB_ApresentaTabuleiro( TAB_tppTabuleiro pTabuleiro ){
 
 	return TAB_CondRetOK;
 
-}
+} /* Fim funcao: TAB  &Apresenta tabuleiro */
 
 TAB_tpCondRet TAB_CriarTipoPeca(TAB_tppTabuleiro pTabuleiro , char * Nome , int Diagonal , int Reta , int QtdeMov)
 {
@@ -492,14 +553,14 @@ void ExcluirInfo ( void * pValor )
 
     free( ( void * ) pValor ) ;
 
-} /* Fim função: TST -Excluir informacao */
+} /* Fim funcao: TST -Excluir informacao */
 
 void ExcluirPeca( void * pPeca )
 {
 
 	free ( (void *) pPeca);
 
-} /* Fim função: TST -Excluir peca */
+} /* Fim funcao: TST -Excluir peca */
 
 
 /**** Novas funcoes da estrutura CASA ******/
@@ -517,11 +578,10 @@ TAB_tpCondRet PreparaEstruturaMatriz( GRA_tppGrafo pGrafo  , int numElementos ){
 	};
 	
 	GRA_tppVerGrafo tpElem			 = CriarNo( pGrafo , IdVertices[0] );
-
 	if(tpElem == NULL)
 	{
 		return TAB_CondRetFaltouMemoria ;
-	}
+	} /* if */
 	
 	numElementos = numElementos - 1;
 
@@ -532,7 +592,7 @@ TAB_tpCondRet PreparaEstruturaMatriz( GRA_tppGrafo pGrafo  , int numElementos ){
 		for(j=0;j<=numElementos;j++){	
 
 			
-					/* testa a condicão para 3 adjacentes */
+					/* testa a condicao para 3 adjacentes */
 				if((i==0 || i==numElementos) && (j==0 || j==numElementos)){
 
 					if(i==0 && j==0){
@@ -576,7 +636,7 @@ TAB_tpCondRet PreparaEstruturaMatriz( GRA_tppGrafo pGrafo  , int numElementos ){
 
 				}
 
-					 /* testa a condição para 5 adjacentes */
+					 /* testa a condicao para 5 adjacentes */
 				else if(i==0 || i==numElementos || j==0 || j==numElementos){
 
 
@@ -675,7 +735,7 @@ GRA_tppVerGrafo CriarNo( GRA_tppGrafo pGrafo , char * Id )
 	  
       return pVertice ;
 
-   } /* Fim função: ARV Criar nó da árvore */
+   } /* Fim funcao: ARV Criar no da arvore */
 
 
 
@@ -686,5 +746,4 @@ void ExcluirValorNo( void * pValor )
 
 }
 
-/********** Fim do módulo de implementação: LIS  Lista duplamente encadeada **********/
-
+/********** Fim do modulo de implementacao: LIS  Lista duplamente encadeada **********/
