@@ -66,7 +66,7 @@
 
 /************************************************************************
 *
-*  Funcao: PEC Criar tipo de peca
+*  Funcao: PEC &Criar tipo de peca
 *  ****/
 
 PEC_tpCondRet PEC_CriarPeca(PEC_tppPeca * pPeca, int Diag , int Reta , 
