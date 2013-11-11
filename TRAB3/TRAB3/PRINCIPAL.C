@@ -1,5 +1,5 @@
 /***************************************************************************
-*  $MCI MÛdulo de implementaÁ„o: PRI Principal
+*  $MCI M√≥dulo de implementa√ß√£o: PRI Principal
 *
 *  Arquivo gerado:              PRINCIPAL.C
 *  Letras identificadoras:      PRI
@@ -9,11 +9,11 @@
 *  Gestor:  Flavio Bevilacqua
 *  Autores: afv
 *
-*  $HA HistÛrico de evoluÁ„o:
-*     Vers„o  Autor    Data     ObservaÁıes
-*     Y       afv   xx/xx/2013  finalizaÁ„o do desenvolvimento do modulo
-*     X       afv   xx/xx/2013  continuaÁ„o do desenvolvimento do modulo
-*     1       afv   24/out/2013 inÌcio do desenvolvimento do mÛdulo
+*  $HA Hist√≥rico de evolu√ß√£o:
+*     Vers√£o  Autor    Data     Observa√ß√µes
+*     Y       afv   xx/xx/2013  finaliza√ß√£o do desenvolvimento do modulo
+*     X       afv   xx/xx/2013  continua√ß√£o do desenvolvimento do modulo
+*     1       afv   24/out/2013 in√≠cio do desenvolvimento do m√≥dulo
 *
 ***************************************************************************/
 
@@ -34,7 +34,7 @@
 #define AZUL  1 
 #define VERDE 2 
 
-/************  ProtÛtipo das funÁıes encapsuladas no mÛdulo  *************/
+/************  Prot√≥tipo das fun√ß√µes encapsuladas no m√≥dulo  *************/
 
 static void imprimeMenuPrincipal ( void ) ;
 
@@ -48,7 +48,7 @@ static void SetColor(char cor);
 
 char * LimparEspacos(char * input);   
 
-/************* FunÁ„o respons·vel pela execuÁ„o da aplicaÁ„o ***************/
+/************* Fun√ß√£o respons√°vel pela execu√ß√£o da aplica√ß√£o ***************/
 
 int main (void)
 {
@@ -98,7 +98,7 @@ int main (void)
 		{
 		
 		/* Cria tabuleiro */
-		case 1:	/* Criando um segundo tabuleiro, o primeiro È destruÌdo. */
+		case 1:	/* Criando um segundo tabuleiro, o primeiro √© destru√≠do. */
 				
 				puts ( " Voce escolheu: 1- Criar tabuleiro." ) ;
 
@@ -422,7 +422,7 @@ int main (void)
 			break;
 
 		/* Salvar partida */
-		case 8: /* Salvar atual configuraÁ„o do jogo. */
+		case 8: /* Salvar atual configura√ß√£o do jogo. */
 
 			puts ( " Voce escolheu: 8 - Salvar JOGO." ) ;
 
@@ -431,7 +431,7 @@ int main (void)
 			break;
 
 		/* Abrir partida */
-		case 9: /* Abre configuraÁ„o salva do Jogo. */
+		case 9: /* Abre configura√ß√£o salva do Jogo. */
 
 			puts ( " Voce escolheu: 9 - Abrir JOGO." ) ;
 
@@ -439,6 +439,7 @@ int main (void)
 			
 			break;
 
+<<<<<<< HEAD
 		/* Fechar programa */
 		case 10: /* Sair do programa. */
 			exit(1);
@@ -491,6 +492,13 @@ int main (void)
 			JOG_PreencheCaminho(pJogo , pTabuleiro );
 
 			/* Usu·rio com caracter n„o esperado */
+=======
+		/* Fecha a·πïlicacao */
+		case 10:
+			exit(1);
+
+			/* Usu√°rio com caracter n√£o esperado */
+>>>>>>> 794a489874c8b02e3c382daa3bc77ca2c64861ad
 		default: puts ( "Favor entre com uma das opcoes abaixo." ) ; 
 				 break ;
 
@@ -502,15 +510,15 @@ int main (void)
 }
 
 
-/*****  CÛdigo das funÁıes encapsuladas no mÛdulo  *****/
+/*****  C√≥digo das fun√ß√µes encapsuladas no m√≥dulo  *****/
 
 
 /***********************************************************************
 *
-*  $FC FunÁ„o: PRI  - Imprimir Menu
+*  $FC Fun√ß√£o: PRI  - Imprimir menu principal
 *
-*  $ED DescriÁ„o da funÁ„o
-*     Imprime o menu para a aplicaÁ„o.
+*  $ED Descri√ß√£o da fun√ß√£o
+*     Imprime o menu principal para a aplica√ß√£o.
 *
 ***********************************************************************/
 
@@ -538,6 +546,16 @@ static void imprimeMenuPrincipal ( void )
 
 }
 
+
+/***********************************************************************
+*
+*  $FC Fun√ß√£o: PRI  - Imprimi menu de escolha de time
+*
+*  $ED Descri√ß√£o da fun√ß√£o
+*     Imprime o menu principal para a aplica√ß√£o.
+*
+***********************************************************************/
+
 static void imprimeMenuEscolhaTime ( void ) 
 {
 	puts ( "*******************************************************************" ) ;
@@ -550,6 +568,15 @@ static void imprimeMenuEscolhaTime ( void )
 
 }
 
+
+/***********************************************************************
+*
+*  $FC Fun√ß√£o: PRI  -Apresenta tipo de pe√ßa
+*
+*  $ED Descri√ß√£o da fun√ß√£o
+*     Imprime o menu de apresentacao de pe√ßa.
+*
+***********************************************************************/
 static void apresentaTipoPeca( void )
 {
 
@@ -559,6 +586,15 @@ static void apresentaTipoPeca( void )
 
 }
 
+
+/***********************************************************************
+*
+*  $FC Fun√ß√£o: PRI  - Salvar tabuleiro em arquivo texto
+*
+*  $ED Descri√ß√£o da fun√ß√£o
+*     Cria um arquivo de texto com as configura√ß√µes do tabuleiro.
+*
+***********************************************************************/
 static void gravarArquivo( TAB_tppTabuleiro pTabuleiro , JOG_tppJogo pJogo )
 {
 	
@@ -679,6 +715,15 @@ static void gravarArquivo( TAB_tppTabuleiro pTabuleiro , JOG_tppJogo pJogo )
 }
 
 
+
+/***********************************************************************
+*
+*  $FC Fun√ß√£o: PRI  - Abrir tabuleiro salvo em arquivo texto
+*
+*  $ED Descri√ß√£o da fun√ß√£o
+*     Abre o arquivo de texto salvo com as configura√ß√µes do tabuleiro.
+*
+***********************************************************************/
 static void AbrirArquivo( TAB_tppTabuleiro * pTabuleiro , JOG_tppJogo * pJogo )
 {
 	FILE *fp;
@@ -798,9 +843,13 @@ static void AbrirArquivo( TAB_tppTabuleiro * pTabuleiro , JOG_tppJogo * pJogo )
 	fclose (fp);
 }
 
+
 /***********************************************************************
 *
-* FunÁ„o: static void SetColor(char cor)
+*  $FC Fun√ß√£o: PRI  - Seta cor
+*
+*  $ED Descri√ß√£o da fun√ß√£o
+*     Define uma cor para o tabuleiro a ser mostrado ao usuario.
 *
 ***********************************************************************/
 
@@ -832,7 +881,7 @@ static void SetColor(char cor)
 	}
 	SetConsoleTextAttribute(consoleHandle, newColor);
 	
-}/* Fim da funÁ„o: static void SetColor(char cor) */ 
+}/* Fim da fun√ß√£o: static void SetColor(char cor) */ 
 
 char * LimparEspacos(char * input)                                         
 {
