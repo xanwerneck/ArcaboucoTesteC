@@ -13,7 +13,7 @@
 *
 *  $HA Historico de evolucao:
 *     Versao  Autor    Data     Observacoes
-*     1       afv   11/nov/2013 inicio do desenvolvimento do modulo
+*     1       afv   11/nov/2013  Inicio do desenvolvimento do modulo
 *
 ***************************************************************************/
 
@@ -35,7 +35,6 @@
 #define MAX_NOME 10
 
 GRA_tpCondRet GrafRet;
-
 LIS_tpCondRet ListaRet;
 
 /***********************************************************************
@@ -56,14 +55,13 @@ LIS_tpCondRet ListaRet;
 		    tabuleiro de xadrez */
 
 		 LIS_tppLista   pListaPecas;
-		/* Ponteiro para estrutura de lista de pecas que representa as 
-		    pecas que serao inseridas no tabuleiro. */
+		/* Ponteiro para estrutura de lista de pecas que representa os 
+		    tipos de pecas. */
 
    } TAB_tpTabuleiro ;
 
 
 /************* Funcoes encapsuladas no modulo *************************/
-
    /* Funcao libera espaco alocado na memoria para o elemento do 
       paramentro */
    static void ExcluirInfo ( void * pValor );
@@ -81,7 +79,8 @@ LIS_tpCondRet ListaRet;
 
    /* Funcao libera espaco alocado na memoria para o elemento do 
       paramentro */
-   static void ExcluirValorNo( void * pValor );
+   static void ExcluirValorNo( void * pValor );   
+
 
 /************* Codigo das funcoes exportadas pelo modulo ******************/
 
@@ -103,27 +102,27 @@ TAB_tpCondRet TAB_CriarTabuleiro( TAB_tppTabuleiro * pTabuleiro ){
 		return TAB_CondRetFaltouMemoria ;
 	} /* if */
 
+
 	GrafRet = GRA_CriarGrafo( &pGrafo , ExcluirInfo);
 	if(GrafRet == GRA_CondRetFaltouMemoria)
 	{
 		return TAB_CondRetFaltouMemoria ;
 	} /* if */
 
-
 	PreparaEstruturaMatriz( pGrafo , 8);
 
 	ListaRet = LIS_CriarLista(ExcluirPeca , &ListaPecas);
-	if(GrafRet == LIS_CondRetFaltouMemoria)
+	if(ListaRet == LIS_CondRetFaltouMemoria)
 	{
 		return TAB_CondRetFaltouMemoria ;
 	} /* if */
-
 
 	mTab->tpGrafo      = pGrafo;
 
 	mTab->pListaPecas  = ListaPecas;
 
 	(*pTabuleiro) = (TAB_tpTabuleiro *) malloc (sizeof(TAB_tppTabuleiro));	
+	
 	if( (*pTabuleiro) == NULL)
 	{
 		return TAB_CondRetFaltouMemoria ;
@@ -132,7 +131,6 @@ TAB_tpCondRet TAB_CriarTabuleiro( TAB_tppTabuleiro * pTabuleiro ){
 	(*pTabuleiro) = mTab ;
 
 	return TAB_CondRetOK;
-
 } /* Fim funcao: TAB &Criar tabuleiro */
 
 /************************************************************************
@@ -145,7 +143,7 @@ TAB_tpCondRet TAB_SetarCorrente( TAB_tppTabuleiro pTabuleiro , char * NomeCasa )
 
 	if(pTabuleiro == NULL){
 		return TAB_CondRetTabuleiroNulo;
-	} /* if */
+	}
 
 	GrafRet = GRA_SetarCorrente(pTabuleiro->tpGrafo , NomeCasa);
 
@@ -155,7 +153,7 @@ TAB_tpCondRet TAB_SetarCorrente( TAB_tppTabuleiro pTabuleiro , char * NomeCasa )
 
 	return TAB_CondRetOK;
 
-} /* Fim funcao: TAB &Setar corrente */
+}/* Fim funcao: TAB &Setar corrente */
 
 /************************************************************************
 *
@@ -199,6 +197,7 @@ TAB_tpCondRet TAB_AvancarCasas( TAB_tppTabuleiro pTabuleiro , int val )
 } /* Fim funcao: TAB  &Avancar casas */
 
 
+
 /************************************************************************
 *
 *  Funcao: TAB  &Obter conteudo tabuleiro
@@ -223,11 +222,6 @@ TAB_tpCondRet TAB_ObterConteudo( TAB_tppTabuleiro pTabuleiro , void ** pConteudo
 } /* Fim funcao: TAB  &Obter conteudo tabuleiro */
 
 
-/************************************************************************
-*
-*  Funcao: TAB  &Inserir conteudo na casa do tabuleiro
-*  ****/
-
 TAB_tpCondRet TAB_InserirConteudoCasa(TAB_tppTabuleiro pTabuleiro , void * pPeca)
 {
 	if(pTabuleiro == NULL){
@@ -244,10 +238,12 @@ TAB_tpCondRet TAB_InserirConteudoCasa(TAB_tppTabuleiro pTabuleiro , void * pPeca
 
 } /* Fim funcao: TAB  &Inserir conteudo na casa do tabuleiro */
 
+
 /************************************************************************
 *
 *  Funcao: TAB  &Apresenta tabuleiro
 *  ****/
+
 TAB_tpCondRet TAB_ApresentaTabuleiro( TAB_tppTabuleiro pTabuleiro ){
 
 	char * IdVertices[64] = 
@@ -299,6 +295,10 @@ TAB_tpCondRet TAB_ApresentaTabuleiro( TAB_tppTabuleiro pTabuleiro ){
 
 } /* Fim funcao: TAB  &Apresenta tabuleiro */
 
+/************************************************************************
+*
+*  Funcao: TAB  &Criar tipo de peca
+*  ****/
 TAB_tpCondRet TAB_CriarTipoPeca(TAB_tppTabuleiro pTabuleiro , char * Nome , int Diagonal , int Reta , int QtdeMov)
 {
 
@@ -314,8 +314,13 @@ TAB_tpCondRet TAB_CriarTipoPeca(TAB_tppTabuleiro pTabuleiro , char * Nome , int 
 	} /* if */
 
 	return TAB_CondRetOK;
-}
+} /* Fim funcao: TAB  &Criar tipo de peca */
 
+
+/************************************************************************
+*
+*  Funcao: TAB  &Apresentar tipo de pecas
+*  ****/
 TAB_tpCondRet TAB_ApresentaTipoPecas(TAB_tppTabuleiro pTabuleiro)
 {
 
@@ -343,7 +348,7 @@ TAB_tpCondRet TAB_ApresentaTipoPecas(TAB_tppTabuleiro pTabuleiro)
 	printf("******************************************************************* \n");
 
 	if(ListaRet == LIS_CondRetListaVazia)
-		return TAB_CondRetListaVazia;
+		return TAB_TimeAVazio;
 	do{
 
 		LIS_ObterValor(pTabuleiro->pListaPecas , (void**)&pPeca);
@@ -362,7 +367,12 @@ TAB_tpCondRet TAB_ApresentaTipoPecas(TAB_tppTabuleiro pTabuleiro)
 	
 	return TAB_CondRetOK;
 
-}
+} /* Fim funcao: TAB  &Apresentar tipo de pecas */
+
+/************************************************************************
+*
+*  Funcao: TAB  &Procura peca
+*  ****/
 
 TAB_tpCondRet TAB_ProcuraPeca(TAB_tppTabuleiro pTabuleiro , char * NomeBuscado , void ** PecaBuscada)
 {
@@ -379,7 +389,7 @@ TAB_tpCondRet TAB_ProcuraPeca(TAB_tppTabuleiro pTabuleiro , char * NomeBuscado ,
 	
 	if(ListaRet == LIS_CondRetListaVazia)
 	
-		return TAB_CondRetListaVazia;
+		return TAB_CondRetFaltouMemoria;
 
 	do{
 		LIS_ObterValor(pTabuleiro->pListaPecas , (void**)&pPeca);
@@ -399,19 +409,30 @@ TAB_tpCondRet TAB_ProcuraPeca(TAB_tppTabuleiro pTabuleiro , char * NomeBuscado ,
 	
 	return TAB_CondRetNaoAchou;
 
-} /* if */
+} /* Fim funcao: TAB  &Procura peca */
+
+/************************************************************************
+*
+*  Funcao: TAB  &Ir inicio da lista de pecas
+*  ****/
 
 TAB_tpCondRet TAB_IrInicioListaPecas(TAB_tppTabuleiro pTabuleiro)
 {
 	if(pTabuleiro==NULL){
 		return TAB_CondRetTabuleiroNulo;
-	}
+	} /* if */
 
 	ListaRet = LIS_IrInicioLista(pTabuleiro->pListaPecas);
 	if(ListaRet == LIS_CondRetListaVazia)
 		return TAB_CondRetListaVazia;
 	return TAB_CondRetOK;
-}
+
+} /* Fim funcao: TAB  &Ir inicio da lista de pecas */
+
+/************************************************************************
+*
+*  Funcao: TAB  &Obter tipo da peca
+*  ****/
 
 TAB_tpCondRet TAB_ObterTipoPeca(TAB_tppTabuleiro pTabuleiro , void ** pPeca)
 {
@@ -429,7 +450,12 @@ TAB_tpCondRet TAB_ObterTipoPeca(TAB_tppTabuleiro pTabuleiro , void ** pPeca)
 		return TAB_CondRetListaVazia;
 
 	return TAB_CondRetOK;
-}
+} /* Fim funcao: TAB  &Obter tipo da peca */
+
+/************************************************************************
+*
+*  Funcao: TAB  &Avancar no tipo de peca
+*  ****/
 
 TAB_tpCondRet TAB_AvancarTipoPeca(TAB_tppTabuleiro pTabuleiro , int val)
 {
@@ -441,7 +467,120 @@ TAB_tpCondRet TAB_AvancarTipoPeca(TAB_tppTabuleiro pTabuleiro , int val)
 		return TAB_CondRetFimLista;
 	} /* if */
 	return TAB_CondRetOK;
-}
+
+} /* Fim funcao: TAB  &Avancar no tipo de peca */
+ 
+
+/************************************************************************
+*
+*  Funcao: TAB  &Ir inicio das arestas
+*  ****/
+TAB_tpCondRet TAB_IrInicioArestasCorrente(TAB_tppTabuleiro pTabuleiro)
+{
+	GRA_IrInicioAresta(pTabuleiro->tpGrafo);
+
+	return TAB_CondRetOK;
+
+} /* Fim funcao: TAB  &Ir inicio das arestas */
+
+/************************************************************************
+*
+*  Funcao: TAB  &Obter vertice a partir da aresta
+*  ****/
+TAB_tpCondRet TAB_ObterVerticeAresta(TAB_tppTabuleiro pTabuleiro  , void ** Vertice , char * Aresta)
+{
+	GRA_tppVerGrafo pVert = NULL;
+
+	if(pTabuleiro==NULL){
+		return TAB_CondRetTabuleiroNulo;
+	} /* if */
+	
+	GRA_ObterArestaVertice(pTabuleiro->tpGrafo , (void**)&pVert , Aresta);
+	
+	*Vertice = pVert;
+
+	return TAB_CondRetOK;
+
+} /* Fim funcao: TAB  &Obter vertice a partir da aresta */
+
+/************************************************************************
+*
+*  Funcao: TAB  &Obter conteudo a partir do vertice pela aresta
+*  ****/
+TAB_tpCondRet TAB_PecaConteudoPeloVertice(void * Vertice  , void ** VertConteudo)
+{
+
+	if(Vertice==NULL){
+		return TAB_CondRetTabuleiroNulo;
+	} /* if */
+	
+	GRA_PegaConteudoPeloVertice(Vertice , (void**)&VertConteudo);
+
+	return TAB_CondRetOK;
+} /* Fim funcao: TAB  &Obter conteudo a partir do vertice pela aresta */
+
+/************************************************************************
+*
+*  Funcao: TAB  &Obter conteudo a partir do vertice do jogo
+*  ****/
+TAB_tpCondRet TAB_ObterConteudoVertice(TAB_tppTabuleiro pTabuleiro  , void ** VertConteudo)
+{
+	JOG_tppPecaJogo pPeca = NULL;
+
+	if(pTabuleiro==NULL){
+		return TAB_CondRetTabuleiroNulo;
+	} /* if */
+
+	GRA_PegaConteudoCorrente(pTabuleiro->tpGrafo , (void**)&pPeca);
+
+	*VertConteudo = pPeca;
+
+	return TAB_CondRetOK;
+
+} /* Fim funcao: TAB  &Obter conteudo a partir do vertice do jogo */
+
+/************************************************************************
+*
+*  Funcao: TAB  &Avancar aresta corrente
+*  ****/
+TAB_tpCondRet TAB_AvancarArestaCorrente(TAB_tppTabuleiro pTabuleiro , int val)
+{
+	GRA_AvancarArestaVertice(pTabuleiro->tpGrafo , val);
+
+	return TAB_CondRetOK;
+} /* Fim funcao: TAB &Avancar aresta corrente*/
+
+/************************************************************************
+*
+*  Funcao: TAB  &Numero de arestas no vertice corrente
+*  ****/
+TAB_tpCondRet TAB_NumElementosArestasCorrente(TAB_tppTabuleiro pTabuleiro , int * Num)
+{
+
+	GRA_NumeroArestaVertice(pTabuleiro->tpGrafo , Num);
+
+	return TAB_CondRetOK;
+} /* Fim funcao: TAB &Numero de arestas no vertice corrente */
+
+/************************************************************************
+*
+*  Funcao: TAB  &Obter ID do vertice corrente
+*  ****/
+TAB_tpCondRet TAB_ObterVerticeCorrente(TAB_tppTabuleiro pTabuleiro , char ** Id)
+{
+	char * Busca;
+
+	GRA_BuscaIdVertice(pTabuleiro->tpGrafo , &Busca);
+
+	*Id = Busca;
+
+	return TAB_CondRetOK;
+} /* Fim funcao: TAB &Obter ID do vertice corrente */
+
+/************************************************************************
+*
+*  Funcao: TAB  &Finalizar partida
+*  ****/
 
 TAB_tpCondRet TAB_FinalizarPartida(TAB_tppTabuleiro pTabuleiro)
 {
@@ -465,107 +604,13 @@ TAB_tpCondRet TAB_FinalizarPartida(TAB_tppTabuleiro pTabuleiro)
 	GRA_DestruirGrafo(pTabuleiro->tpGrafo);
 
 	return TAB_CondRetOK;
-}
-
-/***** ARESTA ******/
-TAB_tpCondRet TAB_IrInicioArestasCorrente(TAB_tppTabuleiro pTabuleiro)
-{
-	GRA_IrInicioAresta(pTabuleiro->tpGrafo);
-
-	return TAB_CondRetOK;
-}
-
-TAB_tpCondRet TAB_ObterVerticeAresta(TAB_tppTabuleiro pTabuleiro  , void ** Vertice , char * Aresta)
-{
-	GRA_tppVerGrafo pVert = NULL;
-
-	if(pTabuleiro==NULL){
-		return TAB_CondRetTabuleiroNulo;
-	} /* if */
-	
-	GRA_ObterArestaVertice(pTabuleiro->tpGrafo , (void**)&pVert , Aresta);
-	
-	*Vertice = pVert;
-
-	return TAB_CondRetOK;
-
-}
-
-TAB_tpCondRet TAB_PecaConteudoPeloVertice(void * Vertice  , void ** VertConteudo)
-{
-
-	if(Vertice==NULL){
-		return TAB_CondRetTabuleiroNulo;
-	} /* if */
-	
-	GRA_PegaConteudoPeloVertice(Vertice , (void**)&VertConteudo);
-
-	return TAB_CondRetOK;
-}
-
-TAB_tpCondRet TAB_ObterConteudoVertice(TAB_tppTabuleiro pTabuleiro  , void ** VertConteudo)
-{
-	JOG_tppPecaJogo pPeca = NULL;
-
-	if(pTabuleiro==NULL){
-		return TAB_CondRetTabuleiroNulo;
-	} /* if */
-
-	GRA_PegaConteudoCorrente(pTabuleiro->tpGrafo , (void**)&pPeca);
-
-	*VertConteudo = pPeca;
-
-	return TAB_CondRetOK;
-}
-
-TAB_tpCondRet TAB_AvancarArestaCorrente(TAB_tppTabuleiro pTabuleiro , int val)
-{
-	GRA_AvancarArestaVertice(pTabuleiro->tpGrafo , val);
-
-	return TAB_CondRetOK;
-}
-
-TAB_tpCondRet TAB_NumElementosArestasCorrente(TAB_tppTabuleiro pTabuleiro , int * Num)
-{
-
-	GRA_NumeroArestaVertice(pTabuleiro->tpGrafo , Num);
-
-	return TAB_CondRetOK;
-}
+} /* Fim funcao: TAB  &Finalizar partida */
 
 
-TAB_tpCondRet TAB_ObterVerticeCorrente(TAB_tppTabuleiro pTabuleiro , char ** Id)
-{
-	char * Busca;
-
-	GRA_BuscaIdVertice(pTabuleiro->tpGrafo , &Busca);
-
-	*Id = Busca;
-
-	return TAB_CondRetOK;
-}
-
-/***** ARESTA ******/
-
-void ExcluirInfo ( void * pValor )
-{
-
-    free( ( void * ) pValor ) ;
-
-} /* Fim funcao: TST -Excluir informacao */
-
-void ExcluirPeca( void * pPeca )
-{
-
-	free ( (void *) pPeca);
-
-} /* Fim funcao: TST -Excluir peca */
-
-
-/**** Novas funcoes da estrutura CASA ******/
-
-
-/***** PREPARA ESTRUTURA TABULEIRO *****/
+/************************************************************************
+*
+*  Funcao: TAB  &Prepara a estrutura do tabuleiro
+*  ****/
 
 TAB_tpCondRet PreparaEstruturaMatriz( GRA_tppGrafo pGrafo  , int numElementos ){
 
@@ -577,10 +622,11 @@ TAB_tpCondRet PreparaEstruturaMatriz( GRA_tppGrafo pGrafo  , int numElementos ){
 	};
 	
 	GRA_tppVerGrafo tpElem			 = CriarNo( pGrafo , IdVertices[0] );
+
 	if(tpElem == NULL)
 	{
 		return TAB_CondRetFaltouMemoria ;
-	} /* if */
+	}
 	
 	numElementos = numElementos - 1;
 
@@ -591,7 +637,7 @@ TAB_tpCondRet PreparaEstruturaMatriz( GRA_tppGrafo pGrafo  , int numElementos ){
 		for(j=0;j<=numElementos;j++){	
 
 			
-					/* testa a condicao para 3 adjacentes */
+					/* testa a condicão para 3 adjacentes */
 				if((i==0 || i==numElementos) && (j==0 || j==numElementos)){
 
 					if(i==0 && j==0){
@@ -635,7 +681,7 @@ TAB_tpCondRet PreparaEstruturaMatriz( GRA_tppGrafo pGrafo  , int numElementos ){
 
 				}
 
-					 /* testa a condicao para 5 adjacentes */
+					 /* testa a condição para 5 adjacentes */
 				else if(i==0 || i==numElementos || j==0 || j==numElementos){
 
 
@@ -719,25 +765,33 @@ TAB_tpCondRet PreparaEstruturaMatriz( GRA_tppGrafo pGrafo  , int numElementos ){
 	 
 	return TAB_CondRetOK;
 
-}
+} /* Fim funcao: TAB  &Prepara a estrutura do tabuleiro */
 
+/*****  Código das funções encapsuladas pelo módulo  *****/
 
-/***** CRIAR NO *****/
+/***********************************************************************
+*
+*  $FC Função: GRA  - &Criar no do tipo vertice 
+*
+***********************************************************************/
 
 GRA_tppVerGrafo CriarNo( GRA_tppGrafo pGrafo , char * Id )
-   {
-	  GRA_tppVerGrafo pVertice;
+{
+	GRA_tppVerGrafo pVertice;
 	  
-	  GRA_CriaVerticeGrafo(pGrafo , NULL , Id , ExcluirValorNo);
+	GRA_CriaVerticeGrafo(pGrafo , NULL , Id , ExcluirValorNo);
 
-	  GRA_ObterVertice(pGrafo, (void**)&pVertice) ;
+	GRA_ObterVertice(pGrafo, (void**)&pVertice) ;
 	  
-      return pVertice ;
+    return pVertice ;
 
-   } /* Fim funcao: ARV Criar no da arvore */
+} /* Fim função: Criar nó */
 
-
-
+/***********************************************************************
+*
+*  $FC Função: GRA  - &Excluir no sem desalocar o ponteiro
+*
+***********************************************************************/
 
 void ExcluirValorNo( void * pValor )
 {
@@ -745,4 +799,30 @@ void ExcluirValorNo( void * pValor )
 
 }
 
-/********** Fim do modulo de implementacao: LIS  Lista duplamente encadeada **********/
+/***********************************************************************
+*
+*  $FC Função: GRA  - &Excluir no
+*
+***********************************************************************/
+
+void ExcluirInfo ( void * pValor )
+{
+
+    free( ( void * ) pValor ) ;
+
+} /* Fim função: TST -Excluir no */
+
+/***********************************************************************
+*
+*  $FC Função: GRA  - &Excluir no de peca
+*
+***********************************************************************/
+void ExcluirPeca( void * pPeca )
+{
+
+	free ( (void *) pPeca);
+
+} /* Fim função: TST -Excluir no de peca */
+
+/********** Fim do módulo de implementação: Módulo TABULEIRO **********/
+
