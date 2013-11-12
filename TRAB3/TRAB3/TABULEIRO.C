@@ -13,8 +13,7 @@
 *
 *  $HA Historico de evolucao:
 *     Versao  Autor    Data     Observacoes
-*     Y       afv   xx/xx/2013  finalizacao do desenvolvimento do modulo
-*     1       afv   19/out/2013 inicio do desenvolvimento do modulo
+*     1       afv   11/nov/2013 inicio do desenvolvimento do modulo
 *
 ***************************************************************************/
 
@@ -213,7 +212,7 @@ TAB_tpCondRet TAB_ObterConteudo( TAB_tppTabuleiro pTabuleiro , void ** pConteudo
 		return TAB_CondRetTabuleiroNulo;
 	} /* if */
 	
-	GrafRet = GRA_PegaConteudo(pTabuleiro->tpGrafo , (void**)&pPeca);
+	GrafRet = GRA_PegaConteudoCorrente(pTabuleiro->tpGrafo , (void**)&pPeca);
 	if (GrafRet == GRA_CondRetOK){
 		*pConteudo = pPeca;
 		return TAB_CondRetOK;
@@ -276,7 +275,7 @@ TAB_tpCondRet TAB_ApresentaTabuleiro( TAB_tppTabuleiro pTabuleiro ){
 
 		GRA_SetarCorrente(pTabuleiro->tpGrafo , IdVertices[cont]);
 
-		GRA_PegaConteudo (pTabuleiro->tpGrafo , (void**)&pPecaTab);
+		GRA_PegaConteudoCorrente (pTabuleiro->tpGrafo , (void**)&pPecaTab);
 
 		if(pPecaTab != NULL){
 			JOG_ObterDadosPeca(pPecaTab , (void**)&NomeNaCasa , &Time);
@@ -344,7 +343,7 @@ TAB_tpCondRet TAB_ApresentaTipoPecas(TAB_tppTabuleiro pTabuleiro)
 	printf("******************************************************************* \n");
 
 	if(ListaRet == LIS_CondRetListaVazia)
-		return TAB_TimeAVazio;
+		return TAB_CondRetListaVazia;
 	do{
 
 		LIS_ObterValor(pTabuleiro->pListaPecas , (void**)&pPeca);
@@ -380,7 +379,7 @@ TAB_tpCondRet TAB_ProcuraPeca(TAB_tppTabuleiro pTabuleiro , char * NomeBuscado ,
 	
 	if(ListaRet == LIS_CondRetListaVazia)
 	
-		return TAB_CondRetFaltouMemoria;
+		return TAB_CondRetListaVazia;
 
 	do{
 		LIS_ObterValor(pTabuleiro->pListaPecas , (void**)&pPeca);

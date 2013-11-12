@@ -15,8 +15,7 @@
 *
 *  $HA Historico de evolucao:
 *     Versao  Autor    Data     Observacoes
-*     Y       afv   xx/xx/2013  finalizacao do desenvolvimento do modulo
-*     1       afv   24/out/2013 inicio do desenvolvimento do modulo
+*     1       afv   11/nov/2013 inicio do desenvolvimento do modulo
 *
 *  $ED Descricao do modulo
 *      O presente modulo implementa a criacao e manipulacao de estruturas 
@@ -174,9 +173,62 @@ PEC_tpCondRet PEC_ObterDadosTipoPeca (PEC_tppPeca pPeca , void ** Nome,
                                      int * Diag , int * Reta , 
                                      int * Qtde);
 
-
+/***********************************************************************
+*
+*  $FC Funcao: PEC Modificar Peca
+*
+*  $ED Descricao da funcao
+*     Modifica a configuracao do tipo de peca
+*
+*  $EP Parâmetros
+*     pPeca - Referencia para a peca a ser modificada
+*     Diag  - Novo valor para diagonal.
+*     Reta  - Novo valor para reta.
+*     Qtde  - Novo valor para quantidade de casas.
+*
+*  $FV Valor retornado
+*     PEC_CondRetOK
+*     PEC_CondRetPecaNula
+*
+*  $AE CondRet deve ter sido instanciado
+*      Ponteiro para peca nao nula.
+*      Diag, Reta e Qtde contendo valores validos.
+*      Diag e Reta da pPeca valores inteiros entre 0 e 1;
+*      Qtde da pPeca valor inteiro entre 1 e 7;
+*
+*  $AS Se CondRet = PEC_CondRetOK
+*	   Peca modificada com sucesso.
+*
+*	   Se CondRet = PEC_CondRetPecaNula
+*	   Peca nula, nao pode modificar a peca.
+*
+***********************************************************************/
 PEC_tpCondRet PEC_ModificarPeca(PEC_tppPeca pPeca , int Diag , int Reta , int Qtde);
 
+/***********************************************************************
+*
+*  $FC Funcao: PEC Destroi a Peca
+*
+*  $ED Descricao da funcao
+*     Destroi a peca fornecida
+*
+*  $EP Parâmetros
+*     pPeca - Referencia para a peca a ser excluida.
+*
+*  $FV Valor retornado
+*     PEC_CondRetOK
+*     PEC_CondRetPecaNula
+*
+*  $AE CondRet deve ter sido instanciado
+*      Ponteiro para peca nao nula.
+*
+*  $AS Se CondRet = PEC_CondRetOK
+*	   Peca destruida com sucesso.
+*
+*	   Se CondRet = PEC_CondRetPecaNula
+*	   Peca nula fornecida, nao e possivel excluir.
+*
+***********************************************************************/
 PEC_tpCondRet PEC_DestroiPeca(PEC_tppPeca pPeca);
 
 #undef PECA_EXT

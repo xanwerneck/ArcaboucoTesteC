@@ -9,12 +9,11 @@
 *  Gestor:  Flavio Bevilacqua
 *  Autores: afv:  aw - Alexandre Werneck
 *                 fr - Fernanda C Ribeiro
-*			         vo - Vinicius de Luiz de Oliveira
+*			      vo - Vinicius de Luiz de Oliveira
 *
 *  $HA Historico de evolucao:
 *     Versao  Autor    Data     Observacoes
-*     Y       afv   xx/xx/2013  finalizacao do desenvolvimento do modulo
-*     1       afv   24/out/2013 inicio do desenvolvimento do modulo
+*     1       afv   11/nov/2013 inicio do desenvolvimento do modulo
 *
 ***************************************************************************/
 
@@ -28,8 +27,6 @@
 #define PECA_OWN
 #include "PECA.H"
 #undef PECA_OWN
-
-#include "LISTA.H"
 
 #define MAX_NOME 10
 
@@ -140,6 +137,10 @@ PEC_tpCondRet PEC_ObterDadosTipoPeca (PEC_tppPeca pPeca , void ** Nome,
 
 } /* Fim funcao: PEC &Obter dados do tipo peca */
 
+/************************************************************************
+*
+*  Funcao: PEC  &Modificar configuracao da peca
+*  ****/
 
 PEC_tpCondRet PEC_ModificarPeca(PEC_tppPeca pPeca , int Diag , int Reta , int Qtde)
 {
@@ -154,7 +155,13 @@ PEC_tpCondRet PEC_ModificarPeca(PEC_tppPeca pPeca , int Diag , int Reta , int Qt
 	pPeca->qtde     = Qtde;
 
 	return PEC_CondRetOK;
-}
+
+}  /* Fim funcao: PEC &Modificar configuracao da peca */
+
+/************************************************************************
+*
+*  Funcao: PEC  &Destroi tipo de peca
+*  ****/
 
 PEC_tpCondRet PEC_DestroiPeca(PEC_tppPeca pPeca)
 {
@@ -172,7 +179,8 @@ PEC_tpCondRet PEC_DestroiPeca(PEC_tppPeca pPeca)
 	free(pPeca);
 
 	return PEC_CondRetOK;
-}
+
+}  /* Fim funcao: PEC &Destroi tipo de peca */
 
 /************  Codigo das funcoes encapsuladas no modulo  *************/
 

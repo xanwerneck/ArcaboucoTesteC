@@ -24,9 +24,6 @@
     <ClInclude Include="TABULEIRO.H">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VERTICE.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PECA.H">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -45,9 +42,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TABULEIRO.C">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VERTICE.C">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PECA.C">

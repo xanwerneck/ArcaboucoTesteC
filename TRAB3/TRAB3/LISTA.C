@@ -13,8 +13,8 @@
 *
 *  $HA Historico de evolucao:
 *     Versao  Autor    Data     Observacoes
-*     Y       afv   xx/xx/2013  finalizacao do desenvolvimento do modulo
 *     1       afv   19/out/2013 inicio do desenvolvimento do modulo
+*     2       afv   11/nov/2013 adaptacao do modulo para tabuleiro
 *
 ***************************************************************************/
 

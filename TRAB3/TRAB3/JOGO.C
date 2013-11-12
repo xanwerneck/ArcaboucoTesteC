@@ -13,8 +13,7 @@
 *
 *  $HA Historico de evolucao:
 *     Versao  Autor    Data     Observacoes
-*     Y       afv   xx/xx/2013  finalizacao do desenvolvimento do modulo
-*     1       afv   19/out/2013 inicio do desenvolvimento do modulo
+*     1       afv   11/nov/2013 inicio do desenvolvimento do modulo
 *
 ***********************************************************************/
 
@@ -28,11 +27,6 @@
 #define JOGO_OWN
 #include "JOGO.H"
 #undef JOGO_OWN
-
-#include "LISTA.H"
-#include "PECA.H"
-#include "TABULEIRO.H"
-#include "GRAFO.H"
 
 #define MAX_NOME 10
 
@@ -67,8 +61,7 @@ typedef struct JOG_tagListaPeca{
 typedef struct JOG_tagPecaJogo {
 
 	char Time;
-	/* Identificador da casa do tabuleiro, casa onde a peca se 
-	   encontra */
+	/* Identificador do time */
 
 	LIS_tppLista pListaDestino;
 	/* Ponteiro para lista de casas possiveis pelo movimento
@@ -248,7 +241,7 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 	JOG_tppPecaJogo pecaOcupada;
 	TAB_tpCondRet TabRet;
 
-	char Nome[10];
+	char Nome[MAX_NOME];
 	int Diag;
 	int Reta;
 	int Qtde;
@@ -258,7 +251,7 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 	int contador = 0;
 
 	int JaConheceRei = 0;
-	char SeRei[10];
+	char SeRei[MAX_NOME];
 
 	int NumElemL  ;
 
@@ -575,54 +568,15 @@ JOG_tpCondRet JOG_PreencheCaminho(JOG_tppJogo pJOGO, TAB_tppTabuleiro pTabuleiro
 
 } /* Fim funcao: JOG &Preenche caminho */
 
-
-int VerificaPecasCaminho(JOG_tppJogo pJogo ,TAB_tppTabuleiro pTabuleiro  , char * pPeca , char ** PecaCausadora , char ** CasaCausadora , char Time)
-{
-	JOG_tppPecaJogo pPecaJogo;
-	TAB_tpCondRet TabRet;
-	GRA_tppVerGrafo Vertice = NULL;
-	char NomePeca[10];
-	char NomeCausa[2];
-	char * NomeCasa = NULL;
-	int EncontrouRei = 0;
-
-	TabRet = TAB_IrInicioCasas(pTabuleiro);
-	do{
-		TAB_ObterConteudo(pTabuleiro , (void**)&pPecaJogo);
-
-		if(pPecaJogo != NULL){
-			PEC_ObterNome(pPecaJogo->pTipoPeca , (void**)&NomePeca);
-			TAB_ObterVerticeCorrente(pTabuleiro , (char**)&NomeCausa);
-			if(pPecaJogo->Time == Time){
-				ListaRet = LIS_IrInicioLista(pPecaJogo->pListaCaminho);
-				do{
-					LIS_ObterValor(pPecaJogo->pListaCaminho , (void**)&Vertice);
-
-					GRA_ResgatarIdVertice(Vertice , &NomeCasa);
-
-					if(strcmp(pPeca,NomeCasa)==0){
-						strcpy((char *)PecaCausadora , NomePeca);
-						strcpy((char *)CasaCausadora , NomeCausa);
-						printf("Encontrada no caminho a peca ' %s ' localizada em: | %s | \n" , NomePeca , *CasaCausadora);
-						EncontrouRei = 1;
-					}
-
-					ListaRet = LIS_AvancarElementoCorrente(pPecaJogo->pListaCaminho , 1);
-
-				}while(ListaRet != LIS_CondRetFimLista);
-			}
-		}
-		TabRet = TAB_AvancarCasas(pTabuleiro , 1);
-
-	}while(TabRet != TAB_CondRetFimLista);
-
-	return EncontrouRei;
-}
+/***************************************************************************
+*
+*  Funcao: JOG  &Verifica Xeque
+*  ****/
 
 JOG_tpCondRet JOG_VerificaXequeMate(JOG_tppJogo pJogo, TAB_tppTabuleiro pTabuleiro , char ** CasaCausa)
 {
 	char * pPeca;
-	char PecaCausadora[10];
+	char PecaCausadora[MAX_NOME];
 	char CasaCausadora[2];
 	int Pecas2Caminho = 0;
 
@@ -642,15 +596,18 @@ JOG_tpCondRet JOG_VerificaXequeMate(JOG_tppJogo pJogo, TAB_tppTabuleiro pTabulei
 	strcpy(PecaCausadora , "");
 
 	return JOG_CondRetXequeMateN;
+ 
+} /* Fim funcao: JOG &Verifica Xeque */
 
-}
-
-/*** SAIR DO XEQUE MATE ******/
+/***************************************************************************
+*
+*  Funcao: JOG  &Tentar sair do Xeque Mate
+*  ****/
 
 JOG_tpCondRet JOG_VerificaSairXequeMate(JOG_tppJogo pJogo, TAB_tppTabuleiro pTabuleiro , char * CasaDestino)
 {
 
-	char PecaCausadora[10];
+	char PecaCausadora[MAX_NOME];
 	char * CasaComedora;
 	int Pecas2Caminho = 0;
 
@@ -663,11 +620,16 @@ JOG_tpCondRet JOG_VerificaSairXequeMate(JOG_tppJogo pJogo, TAB_tppTabuleiro pTab
 
 	return JOG_CondRetXequeMateN;
 
-}
+} /* Fim funcao: JOG &Tentar sair do Xeque Mate */
+
+/***************************************************************************
+*
+*  Funcao: JOG  &Obter casa do rei
+*  ****/
 
 JOG_tpCondRet JOG_ObterCasaRei(TAB_tppTabuleiro pTabuleiro , char ** pPecaO)
 {
-	char NomePeca[10];
+	char NomePeca[MAX_NOME];
 	char * NomeCasa = NULL;
 	JOG_tppPecaJogo pPecaJogo;
 	TAB_tpCondRet TabRet;
@@ -691,12 +653,16 @@ JOG_tpCondRet JOG_ObterCasaRei(TAB_tppTabuleiro pTabuleiro , char ** pPecaO)
 	}while(TabRet != TAB_CondRetFimLista);
 
 	return JOG_CondRetOK;
-}
+} /* Fim funcao: JOG &Obter casa do rei */
 
+/***************************************************************************
+*
+*  Funcao: JOG  &Obter dados de uma peca
+*  ****/
 JOG_tpCondRet JOG_ObterDadosPeca(JOG_tppPecaJogo pPeca , void ** NomeNaCasa , char * Time)
 {
 
-	char NomePeca[10];
+	char NomePeca[MAX_NOME];
 
 	PEC_ObterNome(pPeca->pTipoPeca , (void**)&NomePeca);
 
@@ -705,8 +671,12 @@ JOG_tpCondRet JOG_ObterDadosPeca(JOG_tppPecaJogo pPeca , void ** NomeNaCasa , ch
 	*Time = pPeca->Time;
 
 	return JOG_CondRetOK;
-}
+} /* Fim funcao: JOG &Obter dados de uma peca */
 
+/***************************************************************************
+*
+*  Funcao: JOG  &Destruir Jogo
+*  ****/
 JOG_tpCondRet JOG_DestruirJogo(JOG_tppJogo pJogo)
 {
 	JOG_tppPecaJogo pPecaBusca;
@@ -746,10 +716,12 @@ JOG_tpCondRet JOG_DestruirJogo(JOG_tppJogo pJogo)
 	LIS_DestruirLista(pJogo->pListaTimeB);
 
 	return JOG_CondRetOK;
-}
+
+} /* Fim funcao: JOG &Destruir Jogo */
 
 /***************************************************************************
 *  Funcao: JOG  &Insere elemento apos
+*
 *  ****/
 JOG_tpCondRet JOG_InsereElemApos(JOG_tppPecaJogo pPeca , void * Conteudo)
 {
@@ -934,38 +906,79 @@ JOG_tpCondRet JOG_ObterPecaJogo(JOG_tppJogo pJOGO , char Time, void ** pTipo)
 
 /************  Codigo das funcoes encapsuladas no modulo  *************/
 
-
 /***********************************************************************
 *
 *  $FC Funcao: JOG  -Excluir jogo
 *
-*  $ED Descricao da funcao
-*      Funcao nao pode liberar espaco pois tem referencias em outros lugares.
-*
 ***********************************************************************/
 
-	void ExcluirJogo( void * pPeca )
-	{
+void ExcluirJogo( void * pPeca )
+{
 
 
-	} /* Fim funcao: JOG -Excluir jogo */
+} /* Fim funcao: JOG -Excluir jogo */
 
 /***********************************************************************
 *
 *  $FC Funcao: JOG  -Excluir peca do jogo
 *
-*  $ED Descricao da funcao
-*      Funcao nao pode liberar espaco pois tem referencias em outros lugares.
-*
 ***********************************************************************/
 
-	void ExcluirPecaJogo( void * pPeca )
-	{
+void ExcluirPecaJogo( void * pPeca )
+{
 		
 		
 
-	} /* Fim funcao: JOG -Excluir peca do jogo */
+} /* Fim funcao: JOG -Excluir peca do jogo */
 
+/***********************************************************************
+*
+*  $FC Funcao: JOG  -Verifica pecas no caminho
+*
+***********************************************************************/
+ int VerificaPecasCaminho(JOG_tppJogo pJogo ,TAB_tppTabuleiro pTabuleiro  , char * pPeca , char ** PecaCausadora , char ** CasaCausadora , char Time)
+{
+	JOG_tppPecaJogo pPecaJogo;
+	TAB_tpCondRet TabRet;
+	GRA_tppVerGrafo Vertice = NULL;
+	char NomePeca[MAX_NOME];
+	char NomeCausa[2];
+	char * NomeCasa = NULL;
+	int EncontrouRei = 0;
+
+	TabRet = TAB_IrInicioCasas(pTabuleiro);
+	do{
+		TAB_ObterConteudo(pTabuleiro , (void**)&pPecaJogo);
+
+		if(pPecaJogo != NULL){
+			PEC_ObterNome(pPecaJogo->pTipoPeca , (void**)&NomePeca);
+			TAB_ObterVerticeCorrente(pTabuleiro , (char**)&NomeCausa);
+			if(pPecaJogo->Time == Time){
+				ListaRet = LIS_IrInicioLista(pPecaJogo->pListaCaminho);
+				do{
+					LIS_ObterValor(pPecaJogo->pListaCaminho , (void**)&Vertice);
+
+					GRA_ResgatarIdVertice(Vertice , &NomeCasa);
+
+					if(strcmp(pPeca,NomeCasa)==0){
+						strcpy((char *)PecaCausadora , NomePeca);
+						strcpy((char *)CasaCausadora , NomeCausa);
+						printf("Encontrada no caminho a peca ' %s ' localizada em: | %s | \n" , NomePeca , *CasaCausadora);
+						EncontrouRei = 1;
+					}
+
+					ListaRet = LIS_AvancarElementoCorrente(pPecaJogo->pListaCaminho , 1);
+
+				}while(ListaRet != LIS_CondRetFimLista);
+			}
+		}
+		TabRet = TAB_AvancarCasas(pTabuleiro , 1);
+
+	}while(TabRet != TAB_CondRetFimLista);
+
+	return EncontrouRei;
+
+} /* Fim funcao: JOG -Verificar pecas no caminho */
 
 /********** Fim do modulo de implementacao: JOG  Lista duplamente encadeada **********/
 

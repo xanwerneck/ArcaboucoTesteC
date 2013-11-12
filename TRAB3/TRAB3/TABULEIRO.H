@@ -15,15 +15,13 @@
 *
 *  $HA Historico de evolucao:
 *     Versao  Autor    Data     Observacoes
-*     Y       afv   xx/xx/2013  finalizacao do desenvolvimento do modulo
-*     1       afv   19/out/2013 inicio do desenvolvimento do modulo
+*     1       afv   11/nov/2013 inicio do desenvolvimento do modulo
 *
 *  $ED Descrição do módulo
 *     Este modulo implementa a criacao e manipulacao de tabuleiro de xadrez.
-*     Só pode existir um tabuleiro por vez.
 *     Este modulo apresenta, alem de funcoes de manipulacao de tabuleiro, 
-*    algumas funcoes de manipulacao de pecas com relacao a casa do 
-*    tabuleiro onde a mesma esta situada.
+*     algumas funcoes de manipulacao de pecas com relacao a casa do 
+*     tabuleiro onde a mesma esta situada.
 *
 ***************************************************************************/
  
@@ -92,6 +90,8 @@ typedef struct TAB_tagTabuleiro * TAB_tppTabuleiro ;
 *     Inicializa tabuleiro com estruturas de grafo e lista de pecas 
 *      vazias.
 *     Inicializa estrutura de grafo como matriz 8x8.
+*     Cada casa do tabuleiro é um vértice do grafo e cada
+*     aresta define o caminho possivel da casa.
 *
 *  $EP Parametros
 *     pTabuleiro  - Ponteiro de referencia para tabuleiro.
@@ -155,9 +155,15 @@ typedef struct TAB_tagTabuleiro * TAB_tppTabuleiro ;
 *     TAB_CondRetTabuleiroNulo
 *
 *  $AE CondRet deve ter sido instanciado
+*      'Diag' = valor inteiro 0 ou 1.
+*      'Reta' = valor inteiro 0 ou 1.
+*      'Qtde' = valor inteiro entre 1 e 7.
+*      'Nome' = string com no maximo 10 caracteres.
 *
 *  $AS Se CondRet = TAB_CondRetOK
 *     Concluiu funcao com sucesso.
+*     Criado um tipo de peca
+*     Tipo de peca criado incluido na lista de pecas do tabuleiro.
 *
 *     Se CondRet = TAB_CondRetTabuleiroNulo
 *     Impossivel criar elemento, tabuleiro nulo.
@@ -168,7 +174,7 @@ typedef struct TAB_tagTabuleiro * TAB_tppTabuleiro ;
 
 /***********************************************************************
 *
-*  $FC Funcao: TAB Apresentar tipo de peças
+*  $FC Funcao: TAB Apresentar tipo de peças - Mapa de Movimentos
 *
 *  $ED Descricao da funcao
 *     Apresenta configuração dos tipos de peças criadas.
@@ -183,6 +189,8 @@ typedef struct TAB_tagTabuleiro * TAB_tppTabuleiro ;
 *     TAB_TimeAVazio
 *
 *  $AE CondRet deve ter sido instanciado
+*      Tabuleiro nao deve estar nulo.
+*      Devem existir tipos de pecas criadas.
 *
 *  $AS Se CondRet = TAB_CondRetOK
 *     Concluiu funcao com sucesso.
@@ -193,26 +201,31 @@ typedef struct TAB_tagTabuleiro * TAB_tppTabuleiro ;
 *     Se CondRet = TAB_CondRetTabuleiroListaNula
 *     Impossivel apresentar peças, lista de peças nula.
 *
-*     Se CondRet = TAB_TimeAVazio
+*     Se CondRet = TAB_CondRetListaVazia
 *     Impossivel apresentar peças, lista de peças vazia.
 *
 ***********************************************************************/
 
    TAB_tpCondRet TAB_ApresentaTipoPecas(TAB_tppTabuleiro pTabuleiro) ;
 
+   /*********** PAREI AQUI *///////////
 /***********************************************************************
 *
-*  $FC Funcao: TAB Criar tabuleiro
+*  $FC Funcao: TAB Procurar peca
 *
 *  $ED Descricao da funcao
-*     Inicia um tabuleiro vazio, sem peças.
+*     Procurar peca no tabuleiro com o nome fornecido.
 *
 *  $EP Parametros
 *     pTabuleiro  - Ponteiro de referência para tabuleiro.
+*     NomeBuscado - Nome da peca para buscada
+*     PecaBuscada - Ponteiro contendo a referencia da peca buscada.
 *
 *  $FV Valor retornado
 *     TAB_CondRetOK
-*     TAB_CondRetFaltouMemoria
+*     TAB_CondRetListaVazia
+*     TAB_CondRetTabuleiroNulo
+*     TAB_CondRetNaoAchou
 *
 *  $AE CondRet deve ter sido instanciado
 *

@@ -79,7 +79,6 @@
     <ClInclude Include="LISTA.H" />
     <ClInclude Include="PECA.H" />
     <ClInclude Include="TABULEIRO.H" />
-    <ClInclude Include="VERTICE.H" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GRAFO.C" />
@@ -88,7 +87,6 @@
     <ClCompile Include="PECA.C" />
     <ClCompile Include="PRINCIPAL.C" />
     <ClCompile Include="TABULEIRO.C" />
-    <ClCompile Include="VERTICE.C" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

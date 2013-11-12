@@ -1,5 +1,6 @@
 #if ! defined( GRAFO_ )
 #define GRAFO_
+
 /***************************************************************************
 *
 *  $MCD Modulo de definicao: GRA Modulo grafo
@@ -15,8 +16,8 @@
 *
 *  $HA Historico de evolucao:
 *     Versao  Autor    Data     Observacoes
-*     Y       afv   xx/xx/2013  finalizacao do desenvolvimento do modulo
 *     1       afv   19/out/2013 inicio do desenvolvimento do modulo
+*     2       afv   11/nov/2013 adaptacao do modulo para tabuleiro
 *
 *  $ED Descricao do modulo
 *     Este modulo implementa a criacao e manipulacao de grafos dirigidos.
@@ -38,8 +39,6 @@
 #endif
 
 #include "LISTA.H"
-#include "TABULEIRO.H"
-#include "MATRIZ.H"
 
 /***** Declaracoes exportadas pelo modulo *****/
 
@@ -195,76 +194,6 @@ GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppGrafo pGrafo, char * String , char * i
 
 GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo);
 
-
-/***********************************************************************
-*
-*  $FC Funcao: GRA Obter valor do vertice corrente
-*
-*  $ED Descricao da funcao
-*      Checa se a string fornecida e igual a do elemento
-*      vertice corrente no grafo.     
-*
-*  $EP Parametros
-*      pGrafo - Ponteiro para o grafo que contem o corrente
-*      nomeForn - String de comparacao     
-*
-*  $FV Valor retornado
-*      GRA_CondRetGrafoNulo
-*      GRA_CondRetConteudoNulo
-*      GRA_CondRetOK
-*
-*  $AE Grafo deve estar iniciado
-*      Corrente nao pode estar apontando para NULL
-*      String fornecida nao vazia
-*      Grafo nao vazio, ou seja, sem vertices
-*
-*  $AS Se CondRet = GRA_CondRetGrafoNulo 
-*      Grafo fornecido nao criado
-*
-*	   Se CondRet = GRA_CondRetConteudoNulo
-*      Valor nao encontrado ou string fornecida vazia
-*
-*	   Se CondRet = GRA_CondRetOK
-*      Valor fornecido igual ao do vertice corrente
-*
-***********************************************************************/
-
-GRA_tpCondRet GRA_ChecarNomeVerticeCorrente (GRA_tppGrafo pGrafo , char * nomeForn) ;
-
-/***********************************************************************
-*
-*  $FC Funcao: GRA Mudar valor do vertice corrente
-*
-*  $ED Descricao da funcao
-*     Recebe uma string como segundo parametro e altera o valor
-*     do conteudo do vertice corrente do grafo.
-*
-*  $EP Parametros
-*     pGrafo - Ponteiro para o grafo
-*     nomeForn - String a ser usada como novo valor para o conteudo do vertice
-*
-*  $FV Valor retornado
-*      GRA_CondRetVerticeNulo
-*      GRA_CondRetConteudoNulo
-*      GRA_CondRetOK
-*
-*  $AE Grafo deve estar iniciado
-*      Corrente nao pode estar apontando para NULL
-*      String fornecida nao vazia
-*      Grafo nao vazio, ou seja, sem vertices
-*
-*  $AS Se CondRet = GRA_CondRetGrafoNulo 
-*      Grafo fornecido nao criado
-*
-*	   Se CondRet = GRA_CondRetConteudoNulo
-*	   String fornecida vazia
-*
-*	   Se CondRet = GRA_CondRetOK
-*      Valor do conteudo do vertice corrente do grafo alterado
-*
-***********************************************************************/
-
-GRA_tpCondRet GRA_MudarNomeVerticeCorrente (GRA_tppGrafo pGrafo , char * nomeForn) ;
 
 /***********************************************************************
 *
@@ -553,7 +482,7 @@ GRA_tpCondRet GRA_AvancarCorrenteVert(GRA_tppGrafo pGrafo , int val);
 *     
 *
 *  $EP Parametros
-*      pGrafo    - Grafo a ser excluido
+*      pGrafo    - Grafo a ser manipulado
 *      val       - Ponteiro para o valor a ser retornado. 
 *
 *  $FV Valor retornado
@@ -653,7 +582,7 @@ GRA_tpCondRet GRA_InsereConteudoVertice(GRA_tppGrafo pGrafo , void * pConteudo);
 *      Conteudo retornado com sucesso
 *
 ***********************************************************************/
-GRA_tpCondRet GRA_PegaConteudo(GRA_tppGrafo pGrafo , void ** pConteudo);
+GRA_tpCondRet GRA_PegaConteudoCorrente(GRA_tppGrafo pGrafo , void ** pConteudo);
 
 
 /***********************************************************************
@@ -759,11 +688,78 @@ GRA_tpCondRet GRA_AvancarArestaVertice(GRA_tppGrafo pGrafo , int val);
 ***********************************************************************/
 GRA_tpCondRet GRA_NumeroArestaVertice(GRA_tppGrafo pGrafo , int * Num);
 
-GRA_tpCondRet GRA_PegaConteudoCorrente(GRA_tppGrafo pGrafo , void ** pConteudo);
-
+/***********************************************************************
+*
+*  $FC Funcao: GRA Pega conteudo pelo vertice 
+*
+*  $ED Descricao da funcao
+*      Retorna por parametro a peca localizada num vertice.
+*     
+*
+*  $EP Parametros
+*      Vertice    - Ponteiro para um vertice valido.
+*      pConteudo  - Ponteiro de ponteiro a receber o conteudo do vertice.
+*
+*  $FV Valor retornado
+*      GRA_CondRetOK
+*
+*  $AE Grafo ja deve ter sido iniciado
+*      Vertice nao deve estar nulo
+*
+*  $AS Se CondRet = GRA_CondRetOK
+*      Conteudo retorna com o ponteiro da estrutura referenciada
+*
+***********************************************************************/
 GRA_tpCondRet GRA_PegaConteudoPeloVertice(void * Vertice , void ** pConteudo);
 
+/***********************************************************************
+*
+*  $FC Funcao: GRA Resgata o ID do vertice
+*
+*  $ED Descricao da funcao
+*      Retorna por parametro o ID da casa vertice.
+*     
+*
+*  $EP Parametros
+*      Vertice    - Ponteiro para um vertice valido.
+*      IdVertice  - Ponteiro de ponteiro para Id a receber o Id do vertice
+*
+*  $FV Valor retornado
+*      GRA_CondRetOK
+*
+*  $AE Grafo ja deve ter sido iniciado
+*      Vertice nao deve estar nulo
+*
+*  $AS Se CondRet = GRA_CondRetOK
+*      IdVertice retorna com o Id do vertice
+*
+***********************************************************************/
 GRA_tpCondRet GRA_ResgatarIdVertice(GRA_tppVerGrafo pVertice, char ** IdVertice);
+
+/***********************************************************************
+*
+*  $FC Funcao: GRA Pega conteudo pelo vertice corrente do Grafo
+*
+*  $ED Descricao da funcao
+*      Retorna por parametro a peca localizada num vertice.
+*     
+*
+*  $EP Parametros
+*      pGrafo    - Ponteiro para um grafo valido.
+*      pConteudo  - Ponteiro de ponteiro a receber o conteudo do vertice corrente.
+*
+*  $FV Valor retornado
+*      GRA_CondRetOK
+*
+*  $AE Grafo ja deve ter sido iniciado
+*      Vertice corrente nao deve estar nulo
+*
+*  $AS Se CondRet = GRA_CondRetOK
+*      Conteudo retorna com o ponteiro da estrutura referenciada
+*
+***********************************************************************/
+GRA_tpCondRet GRA_ObterValorCorrente(GRA_tppGrafo pGrafo , void ** pValor);
+
 
 #undef GRAFO_EXT
 

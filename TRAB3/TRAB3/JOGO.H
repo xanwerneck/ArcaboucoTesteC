@@ -15,8 +15,7 @@
 *
 *  $HA Historico de evolucao:
 *     Versao  Autor    Data     Observacoes
-*     Y       afv   xx/xx/2013  finalizacao do desenvolvimento do modulo
-*     1       afv   19/out/2013 inicio do desenvolvimento do modulo
+*     1       afv   11/nov/2013 inicio do desenvolvimento do modulo
 *
 *  $ED Descricao do modulo
 *     O presente modulo implementa a criacao e manipulacao de estruturas 
@@ -38,8 +37,10 @@
    #define JOGO_EXT extern
 #endif
 
+#include "LISTA.H"
 #include "PECA.H"
 #include "TABULEIRO.H"
+#include "GRAFO.H"
 
 /***** Declaracoes exportadas pelo modulo *****/
 
@@ -419,16 +420,113 @@ JOG_tpCondRet JOG_IrInicioPecas(JOG_tppJogo pJOGO , char Time);
 
 JOG_tpCondRet JOG_ObterPecaJogo(JOG_tppJogo pJOGO , char Time, void ** pTipo);
 
-
+/***********************************************************************
+*
+*  $FC Funcao: JOG Verificar Xeque Mate
+*
+*  $ED Descricao da funcao
+*     Verifica a situacao de Xeque.
+*
+*  $EP Parametros
+*     pJOGO    - Ponteiro para o jogo.    
+*     pTabuleiro  - Ponteiro para o tabuleiro.
+*     CasaCausa    - Ponteiro para casa a retornar com a casa causadora.
+*
+*  $FV Valor retornado
+*     JOG_CondRetXequeMateS
+*     JOG_CondRetXequeMateN
+*
+*  $AE pJogo deve ter sido iniciado
+*      Os times devem estar montados
+*      As pecas devem estar dispostas no tabuleiro
+*      pTabuleiro não pode estar nulo
+*
+*  $AS Se CondRet = JOG_CondRetXequeMateS
+*	   Esta em Xeque o REI do time B.
+*
+*	   Se CondRet = JOG_CondRetXequeMateN
+*	   Nao esta em Xeque o REI do time B.
+*
+***********************************************************************/
 JOG_tpCondRet JOG_VerificaXequeMate(JOG_tppJogo pJogo, TAB_tppTabuleiro pTabuleiro, char ** CasaCausa);
 
-
+/***********************************************************************
+*
+*  $FC Funcao: JOG Verificar Xeque Mate
+*
+*  $ED Descricao da funcao
+*     Verifica a situacao de Xeque.
+*
+*  $EP Parametros
+*     pPeca    - Ponteiro para peca nao nula.  
+*     NomeNaCasa  - Ponteiro para o nome a ser recebido.
+*     Time    - Ponteiro para o time em qual peca esta a buscada.
+*
+*  $FV Valor retornado
+*     JOG_CondRetOK
+*
+*  $AE pPeca nao pode estar nula
+*
+*  $AS Se CondRet = JOG_CondRetOK
+*	   NomeNaCasa - Contem o nome do tipo da peca do time fornecido.
+*
+***********************************************************************/
 JOG_tpCondRet JOG_ObterDadosPeca(JOG_tppPecaJogo pPeca , void ** NomeNaCasa , char * Time);
 
-
+/***********************************************************************
+*
+*  $FC Funcao: JOG Verificar Sair Xeque Mate
+*
+*  $ED Descricao da funcao
+*     Verifica a situacao de saida do Xeque.
+*
+*  $EP Parametros
+*     pJOGO    - Ponteiro para o jogo.    
+*     pTabuleiro  - Ponteiro para o tabuleiro.
+*     CasaDestino    - Localizacao no tabuleiro do REI ameacado.
+*
+*  $FV Valor retornado
+*     JOG_CondRetXequeMateS
+*     JOG_CondRetXequeMateN
+*
+*  $AE pJogo deve ter sido iniciado
+*      Os times devem estar montados
+*      As pecas devem estar dispostas no tabuleiro
+*      A configuracao da partida deve colocar o REI em XEQUE
+*      pTabuleiro não pode estar nulo
+*
+*  $AS Se CondRet = JOG_CondRetXequeMateS
+*	   Rei pode sair do Xeque.
+*
+*	   Se CondRet = JOG_CondRetXequeMateN
+*	   Nao pode sair do Xeque.
+*
+***********************************************************************/
 JOG_tpCondRet JOG_VerificaSairXequeMate(JOG_tppJogo pJogo, TAB_tppTabuleiro pTabuleiro , char * CasaDestino);
 
-
+/***********************************************************************
+*
+*  $FC Funcao: JOG Destruir Jogo
+*
+*  $ED Descricao da funcao
+*     Destroi as referencias de pecas e configuracoes dos times.
+*
+*  $EP Parametros
+*     pJOGO    - Ponteiro para o jogo.    
+*
+*  $FV Valor retornado
+*     JOG_CondRetXequeMateS
+*     JOG_CondRetXequeMateN
+*
+*  $AE pJogo deve ter sido iniciado
+*      Os times devem estar montados
+*      As pecas devem estar dispostas no tabuleiro
+*      pTabuleiro não pode estar nulo
+*
+*  $AS Se CondRet = JOG_CondRetOK
+*	   Jogo foi destruído com sucesso.
+*
+***********************************************************************/
 JOG_tpCondRet JOG_DestruirJogo(JOG_tppJogo pJogo);
 
 

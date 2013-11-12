@@ -12,8 +12,8 @@
 *
 *  $HA Historico de evolucao:
 *     Versao  Autor    Data     Observacoes
-*     Y       afv   xx/xx/2013  finalizacao do desenvolvimento do modulo
 *     1       afv   19/out/2013 inicio do desenvolvimento do modulo
+*     2       afv   11/nov/2013 adaptacao do modulo para tabuleiro
 *
 ***************************************************************************/
 
@@ -25,10 +25,9 @@
 #include "GRAFO.H"
 #undef GRAFO_OWN
 
-#include "VERTICE.H"
 
 LIS_tpCondRet ListaRet , ListaRetCaminho;
-VER_tpCondRet ContVertRet;
+
 
 /***********************************************************************
 *
@@ -132,10 +131,6 @@ typedef struct GRA_tagGrafo {
 	/* Funcao libera espaco alocado para  pAresta */
 	static void GRA_excluirValorListaAresta ( tpArestaGrafo * pAresta );
  
-	/* Funcao compara corrente dos dois elementos passados por parametro */
-	static int GRA_comparaVerticeConteudo( void * pVerticeO , 
-		                                   void * pValorO     ) ;
- 
 	/* Funcao retorna o vertice do pGrafo correspondente ao Id  */
 	tpVerticeGrafo * GRA_BuscarVertice(GRA_tppGrafo pGrafo , 
 		                               char * Id             ) ;
@@ -151,9 +146,6 @@ typedef struct GRA_tagGrafo {
 	/* Funcao checa se o vertice e valido */
 	static int ChecaVerticeExiste(GRA_tppGrafo pGrafo, 
 		                          char * Vert         );
- 
-	/* Funcao desaloca pLista */
-	static void DestruirMalloc(LIS_tppLista pLista);
 
 
 /************* Codigo das funcoes exportadas pelo modulo ******************/
@@ -530,62 +522,6 @@ GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo)
 
 /***************************************************************************
 *
-*  Funcao: GRA  &Checar nome vertice corrente
-*  ****/
-
-GRA_tpCondRet GRA_ChecarNomeVerticeCorrente(GRA_tppGrafo pGrafo , char * nomeForn)
-{
-
-	VER_tppVerticeCont valorElem ;
-
-	if(pGrafo == NULL){
-
-		return GRA_CondRetGrafoNulo;
-
-	} /* if */
-	if(pGrafo->pCorrente == NULL){
-
-		return GRA_CondRetConteudoNulo ;
-
-	} /* if */
-	
-	valorElem = (VER_tppVerticeCont)pGrafo->pCorrente->pConteudo ;
-	
-	ContVertRet = VER_ObterValor((VER_tppVerticeCont)pGrafo->pCorrente->pConteudo , nomeForn) ;
-
-	if(ContVertRet == VER_CondRetOK){
-
-		return GRA_CondRetOK ;
- 
-	} /* if */
-
-	return GRA_CondRetConteudoNulo ;
-} /* Fim funcao: GRA &Checar nome vertice corrente */
-
-/***************************************************************************
-*
-*  Funcao: GRA  &Mudar valor do vertice corrente
-*  ****/
-
-GRA_tpCondRet GRA_MudarNomeVerticeCorrente(GRA_tppGrafo pGrafo , char * nomeForn)
-{
-	
-	if(pGrafo == NULL){
-
-		return GRA_CondRetVerticeNulo;
-
-	} /* if */
-	if(VER_MudarNomeVertice((VER_tppVerticeCont)pGrafo->pCorrente->pConteudo , nomeForn)==0){
-
-		return GRA_CondRetOK ;
-
-	} /* if */
-
-	return GRA_CondRetConteudoNulo;
-} /* Fim funcao: GRA &Mudar valor do vertice corrente */
-
-/***************************************************************************
-*
 *  Funcao: GRA  &Obter valor por referencia
 *  ****/
 
@@ -612,7 +548,6 @@ GRA_tpCondRet GRA_DestruirGrafo(GRA_tppGrafo pGrafo)
 {
 
 	int numElem = 0;
-	tpVerticeGrafo * pVert ;
 
 	if(pGrafo==NULL){
 
@@ -828,7 +763,14 @@ GRA_tpCondRet GRA_PegaConteudoCorrente(GRA_tppGrafo pGrafo , void ** pConteudo)
 	*pConteudo = Vert->pConteudo;
 
 	return GRA_CondRetOK;
-}
+
+} /* Fim funcao: GRA &Pega conteudo */
+
+/***************************************************************************
+*
+*  Funcao: GRA  &Pega conteudo pelo vertice
+*  ****/
+
 GRA_tpCondRet GRA_PegaConteudoPeloVertice(void * Vertice , void ** pConteudo)
 {
 
@@ -840,22 +782,12 @@ GRA_tpCondRet GRA_PegaConteudoPeloVertice(void * Vertice , void ** pConteudo)
 
 	return GRA_CondRetOK;
 
-}
-GRA_tpCondRet GRA_PegaConteudo(GRA_tppGrafo pGrafo , void ** pConteudo)
-{
-	GRA_tppVerGrafo pVert = NULL;
-
-	if(pGrafo == NULL) {
-		return GRA_CondRetGrafoNulo;
-	} /* if */
-
-	LIS_ObterValor(pGrafo->pListaVertices , (void**)&pVert);
-
-	*pConteudo = pVert->pConteudo;
-
-	return GRA_CondRetOK;
-
 } /* Fim funcao: GRA &Pega conteudo */
+
+/***************************************************************************
+*
+*  Funcao: GRA  &Pega id do vertice
+*  ****/
 
 GRA_tpCondRet GRA_ResgatarIdVertice(GRA_tppVerGrafo pVertice, char ** IdVertice)
 {
@@ -864,11 +796,7 @@ GRA_tpCondRet GRA_ResgatarIdVertice(GRA_tppVerGrafo pVertice, char ** IdVertice)
 
 	return GRA_CondRetOK;
 
-}
-
-/**** CAMINHO DA ARESTA ****/
-
-
+} /* Fim funcao: GRA &Pega id do vertice*/
 
 /***************************************************************************
 *
@@ -948,7 +876,6 @@ GRA_tpCondRet GRA_AvancarArestaVertice(GRA_tppGrafo pGrafo , int val)
 	
 } /* Fim funcao: GRA &Avancar Aresta do Vertice */
 
-/**** FIM CAMINHO DA ARESTA ****/
 
 /*****  Codigo das funcoes encapsuladas pelo modulo  *****/
 
@@ -1113,43 +1040,6 @@ void GRA_excluirValorListaAresta ( tpArestaGrafo * pAresta )
 
 } /* Fim funcao: GRA  -Excluir valor lista do tipo Aresta */
 
-
-/***************************************************************************
-*
-*  Funcao: GRA  -Compara conteudo do vertice
-*
-****************************************************************************/
-
-int GRA_comparaVerticeConteudo( void * pVerticeO , void * pValorO )
-{
-
-	int ret = 0;
-	char * Corrente ;
-	char * Buscado ;
-	tpVerticeGrafo * pValorVert ;
-    LIS_tppLista pVerticeLista ;
-
-	Corrente = "";
-	Buscado  = "";
-	
-	pVerticeLista = ( LIS_tppLista ) pVerticeO ;
-    
-	LIS_ObterValor (pVerticeLista , (void**)&pValorVert);
-
-
-	VER_RetornaValor ((VER_tppVerticeCont)pValorVert->pConteudo , Corrente) ;
-
-	VER_RetornaValor ((VER_tppVerticeCont)pValorO , Buscado) ;
-	
-	if(strcmp(Corrente , Buscado) == 0){
-
-		return 0;
-	} /* if */
-
-	return 1;
-
-
-} /* Fim funcao: GRA  -Compara conteudo do vertice */
 
 /***************************************************************************
 *

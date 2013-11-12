@@ -1,13 +1,22 @@
-﻿Build started 11/11/2013 19:45:35.
+﻿Build started 11/11/2013 23:15:58.
      1>Project "C:\Users\Alexandre Werneck\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB3\TRAB3\TRAB3.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release\TRAB3.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TC /analyze- /errorReport:prompt GRAFO.C PRINCIPAL.C
-         GRAFO.C
-     1>GRAFO.C(239): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-     1>GRAFO.C(524): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-     1>GRAFO.C(615): warning C4101: 'pVert' : unreferenced local variable
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TC /analyze- /errorReport:prompt JOGO.C PECA.C PRINCIPAL.C TABULEIRO.C
+         JOGO.C
+     1>JOGO.C(584): warning C4013: 'JOG_ObterCasaRei' undefined; assuming extern returning int
+     1>JOGO.C(587): warning C4013: 'VerificaPecasCaminho' undefined; assuming extern returning int
+     1>JOGO.C(589): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>JOGO.C(596): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>JOGO.C(669): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>JOGO.C(964): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>JOGO.C(965): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+         PECA.C
+     1>PECA.C(85): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>PECA.C(112): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>PECA.C(131): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>PECA.C(177): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
          PRINCIPAL.C
      1>PRINCIPAL.C(113): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(304) : see declaration of 'scanf'
@@ -94,6 +103,7 @@
      1>PRINCIPAL.C(1015): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(197) : see declaration of 'strtok'
      1>PRINCIPAL.C(1103): warning C4018: '<' : signed/unsigned mismatch
+         TABULEIRO.C
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Alexandre Werneck\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB3\Release\TRAB3.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\TRAB3.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Alexandre Werneck\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB3\Release\TRAB3.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Alexandre Werneck\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB3\Release\TRAB3.lib" /MACHINE:X86 Release\GRAFO.obj
          Release\JOGO.obj
@@ -101,7 +111,6 @@
          Release\PECA.obj
          Release\PRINCIPAL.obj
          Release\TABULEIRO.obj
-         Release\VERTICE.obj
          Generating code
          Finished generating code
          TRAB3.vcxproj -> C:\Users\Alexandre Werneck\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB3\Release\TRAB3.exe
@@ -114,4 +123,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.10
+Time Elapsed 00:00:02.60
