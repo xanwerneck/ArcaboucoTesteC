@@ -98,7 +98,7 @@ typedef enum {
 		#ifdef _DEBUG
 			/* Tipos de informações para registro em modo de depuração */
 		,
-		GRF_CondRetErroEstrutura = 20 
+		GRA_CondRetErroEstrutura = 20 
 		   /* Tipo de parametro para erro de estrutura */
 
 		#endif

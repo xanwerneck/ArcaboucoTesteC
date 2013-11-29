@@ -32,7 +32,6 @@
    #include "CESPDIN.H"
    #include "CONTA.H"
    #include "GENERICO.H"
-   #include "structGrafo.def"
    #include "IdTiposEspaco.def"
 #endif
 
@@ -56,6 +55,13 @@ typedef struct tagArestaGrafo {
 
 	GRA_tppVerGrafo pVerticeDest;
 		/* Ponteiro do Elemento tpVerticeGrafo destino */
+
+	#ifdef _DEBUG
+
+		GRA_tppVerGrafo pVerticeOrig;
+		/* Ponteiro do Elemento tpVerticeGrafo origem */
+
+	#endif
 
 	
 } tpArestaGrafo ;
@@ -87,8 +93,14 @@ typedef struct tagVerticeGrafo {
 
 	#ifdef _DEBUG
 
-		int TipoVertice ;
-		/* Armazena um identificador para o tipo de informação encapsulada */
+	    GRA_tppGrafo ptCabeca ;
+			/* Armazena um identificador para o tipo de informação encapsulada */
+
+		int qtArestas ;
+		   /* Armazena a quantidade de arestas */
+
+		int qtAntecessores;
+		    /* Armazena a quantidade de antecessores */
 
 	#endif
 	
@@ -119,6 +131,13 @@ typedef struct GRA_tagGrafo {
 
         int qtVertices ;
             /* Armazena a quantidade de vertices */
+
+		int qtOrigens ;
+            /* Armazena a quantidade de vertices */
+
+		int qtArestas ;
+		    /* Armazena a quantidade total de arestas do grafo */
+
     #endif
 
 
@@ -179,6 +198,12 @@ typedef struct GRA_tagGrafo {
 	static int ChecaVerticeExiste(GRA_tppGrafo pGrafo, 
 		                          char * Vert         );
 
+	#ifdef _DEBUG
+
+		/* Funcao checa sucessores do vertice diferentes de NULL */
+		static int VerificaSucessoresVertice(GRA_tppVerGrafo pVertice);
+
+	#endif
 
 /************* Codigo das funcoes exportadas pelo modulo ******************/
 	
@@ -219,6 +244,8 @@ GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo , void   ( * ExcluirValor ) 
          CED_DefinirTipoEspaco( pGrafo , GRA_TipoEspacoCabeca ) ;
 
          mGrafo->qtVertices = 0;
+		 mGrafo->qtOrigens  = 0;
+		 mGrafo->qtArestas  = 0;
 
     #endif
 
@@ -235,12 +262,18 @@ GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo , void   ( * ExcluirValor ) 
 
 GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppGrafo pGrafo, char * String , char * id, void   ( * ExcluirValor ) ( void * pDado ))
 {
-
 	GRA_tppVerGrafo pVert;
 	int ret = 0;
 
 	if(pGrafo==NULL){
+
+		#ifdef _DEBUG
+			TST_NotificarFalha( "Tentou verificar GRAFO inexistente." ) ;
+            return GRA_CondRetErroEstrutura ;
+		#endif
+		
 		return GRA_CondRetGrafoNulo ;
+
 	} /* if */
 	
 	ret = ChecaVerticeExiste(pGrafo, id);
@@ -268,7 +301,11 @@ GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppGrafo pGrafo, char * String , char * i
 
 	#ifdef _DEBUG
 
-         pGrafo->qtVertices++;
+		CED_DefinirTipoEspaco( pGrafo , GRA_TipoEspacoVertice ) ;	
+
+        pGrafo->qtVertices++;
+
+		pGrafo->pCorrente->ptCabeca = pGrafo;
 
     #endif
 
@@ -318,6 +355,10 @@ GRA_tpCondRet GRA_CriarAresta (char * pVertOrig , char * pVertDest , GRA_tppGraf
 	pAres->Nome = String;
 	pAres->pVerticeDest = pVertD;
 
+	#ifdef _DEBUG
+		pAres->pVerticeOrig = pVertO;
+	#endif
+
 	pGrafo->pCorrente = pVertO;
 	LIS_InserirElementoApos(pGrafo->pCorrente->pVerSuc , pAres);
 		/* Inserir aresta na lista de sucessores do vertorigem */
@@ -325,6 +366,16 @@ GRA_tpCondRet GRA_CriarAresta (char * pVertOrig , char * pVertDest , GRA_tppGraf
 	pGrafo->pCorrente = pVertD;
 	LIS_InserirElementoApos(pGrafo->pCorrente->pVerAnt , pVertO);
 		/* Inserir vertice na lista de antecessores do vertdestino */
+
+	#ifdef _DEBUG
+
+		CED_DefinirTipoEspaco( pAres , GRA_TipoEspacoAresta ) ;
+
+		pVertO->qtArestas++;
+
+		pVertD->qtAntecessores++;
+
+    #endif
 
 	return GRA_CondRetOK ;
 } /* Fim funcao: GRA &Criar Aresta do vertice Grafo */
@@ -368,6 +419,12 @@ GRA_tpCondRet GRA_InsereOrigem(GRA_tppGrafo pGrafo, char * IdVert)
 
 	pGrafo->pCorrente = VerCorr;
 
+	#ifdef _DEBUG	
+
+		pGrafo->qtOrigens++;
+
+    #endif
+
 	return GRA_CondRetOK ;
 } /* Fim funcao: GRA &Insere vertice como origem do Grafo */
 
@@ -406,6 +463,10 @@ GRA_tpCondRet GRA_ExcluirAresta(char * pVertOrig , char * pVertDest , GRA_tppGra
 
 			LIS_ExcluirElemento(pVertO->pVerSuc);
 
+			#ifdef _DEBUG
+				pVertO->qtArestas--;
+			#endif
+
 			break;
 
 		} /* if */
@@ -427,6 +488,10 @@ GRA_tpCondRet GRA_ExcluirAresta(char * pVertOrig , char * pVertDest , GRA_tppGra
 		if(strcmp(pVertO->pIdVertice, pVertOrig)==0){
 
 			LIS_ExcluirElemento(pVertD->pVerAnt);
+
+			#ifdef _DEBUG
+				pVertD->qtAntecessores--;
+			#endif
 
 			break;
 
@@ -533,8 +598,16 @@ GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo)
 	GRA_ExcluirdeVertices(pGrafo,pVertOrigem);
 		/* Destroi a referencia da lista de origens  */
 
+	#ifdef _DEBUG
+         pGrafo->qtVertices--;
+    #endif
+
 	GRA_ExcluirdeOrigens(pGrafo,pVertOrigem);
 		/* Destroi a referencia da lista de vertices */
+
+	#ifdef _DEBUG
+		pGrafo->qtOrigens--;
+    #endif
 
 
 	ListaRet = LIS_IrInicioLista(pGrafo->pListaVertices);
@@ -544,10 +617,6 @@ GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo)
 	}
 	
 	free (pVertOrigem);
-
-	#ifdef _DEBUG
-         pGrafo->qtVertices--;
-      #endif
 	
 	strcpy(pVertOrigem->pIdVertice , "");
 	pVertOrigem->pConteudo = NULL;
@@ -607,9 +676,17 @@ GRA_tpCondRet GRA_DestruirGrafo(GRA_tppGrafo pGrafo)
 
 	LIS_DestruirLista(pGrafo->pListaVertices);
 
+	#ifdef _DEBUG
+		pGrafo->qtOrigens  = 0;
+		pGrafo->qtVertices = 0;
+		pGrafo->qtArestas  = 0;
+    #endif
+
 	pGrafo  = NULL;
 
 	free(pGrafo);
+
+
 
 	return GRA_CondRetOK;
 
@@ -860,6 +937,7 @@ GRA_tpCondRet GRA_AvancarArestaVertice(GRA_tppGrafo pGrafo , int val)
 	
 } /* Fim funcao: GRA &Avancar Aresta do Vertice */
 
+
 #ifdef _DEBUG
 
 /***************************************************************************
@@ -875,7 +953,7 @@ GRA_tpCondRet GRA_DeturparGrafo(GRA_tppGrafo pGrafo,  GRA_tpTiposDeturpacao Modo
          case DeturpaEliminaCorr :
 			 {
 				 
-				GRA_ExcluirVerticeCorrente(pGrafo);
+				free(pGrafo->pCorrente);
 
 				break;
 
@@ -884,25 +962,35 @@ GRA_tpCondRet GRA_DeturparGrafo(GRA_tppGrafo pGrafo,  GRA_tpTiposDeturpacao Modo
 		 case DeturpaSucessorVertice:
 			{
 				GRA_tppVerGrafo pVertice;
-				GRA_tppVerGrafo pVerticeDet;
+				GRA_tppArestaGrafo pAresta;
+
+				LIS_IrInicioLista(pGrafo->pListaVertices);
+
 				LIS_ObterValor(pGrafo->pListaVertices, (void**)&pVertice);
 
-				LIS_ObterValor(pVertice->pVerSuc, (void**)&pVerticeDet);
+				LIS_IrInicioLista(pVertice->pVerSuc);
 
-				pVerticeDet = NULL;
+				LIS_ObterValor(pVertice->pVerSuc, (void**)&pAresta);
+
+				pAresta->pVerticeDest = NULL;
 
 				break;
 
 			}
 		 case DeturpaAntecessorVertice:
 			 {
-				 GRA_tppVerGrafo pVertice;
-				 GRA_tppVerGrafo pVerticeDet;
-				 LIS_ObterValor(pGrafo->pListaVertices, (void**)&pVertice);
+				GRA_tppVerGrafo pVertice;
+				GRA_tppVerGrafo pVerticeAnt;
 
-				 LIS_ObterValor(pVertice->pVerAnt, (void**)&pVerticeDet);
+				LIS_IrInicioLista(pGrafo->pListaVertices);
 
-				 pVerticeDet = NULL;
+				LIS_ObterValor(pGrafo->pListaVertices, (void**)&pVertice);
+
+				LIS_IrInicioLista(pVertice->pVerAnt);
+
+				LIS_ObterValor(pVertice->pVerSuc, (void**)&pVerticeAnt);
+
+				pVerticeAnt = NULL;
 
 				 break;
 			 }
@@ -994,35 +1082,39 @@ GRA_tpCondRet GRA_DeturparGrafo(GRA_tppGrafo pGrafo,  GRA_tpTiposDeturpacao Modo
 
 GRA_tpCondRet GRA_VerificarGrafo(GRA_tppGrafo pGrafo)
 {
+	GRA_tppVerGrafo pVertice;
+	GRA_tppArestaGrafo pAresta;
+	GRA_tppVerGrafo pVerticeAnt;
 
-	if ( pGrafo == NULL )
+	int retorno = 0;
+
+	/* Verifica condicao 1 */
+	if ( pGrafo->pCorrente == NULL )
     {
-		CNT_CONTAR( "CabecaGrafoInvalida" ) ;
-		TST_NotificarFalha( "Tentou verificar cabeça inexistente." ) ;
-		return GRF_CondRetErroEstrutura ;
+		CNT_CONTAR( "CorrenteNulo" ) ;
+		TST_NotificarFalha( "Tentou verificar corrente nao existente" ) ;
+		return GRA_CondRetErroEstrutura ;
     } /* if */
 	
-    if ( ! CED_VerificarEspaco( pGrafo , NULL ))
+	if (LIS_IrInicioLista(pGrafo->pListaVertices) == LIS_CondRetOK)
     {
-		CNT_CONTAR( "ErroEspacoGrafo" ) ;
-		TST_NotificarFalha( "Controle do espaço acusou erro." ) ;
-		return GRF_CondRetErroEstrutura ;
+		do{
+			LIS_ObterValor(pGrafo->pListaVertices, (void**)&pVertice);
+			retorno = VerificaSucessoresVertice(pVertice);
+
+			if(retorno == 1){
+				CNT_CONTAR( "SucessorNulo" ) ;
+				TST_NotificarFalha( "Tentou verificar corrente nao existente" ) ;
+				return GRA_CondRetErroEstrutura ;
+			}
+
+			ListaRet = LIS_AvancarElementoCorrente(pGrafo->pListaVertices, 1);
+
+		}while(ListaRet != LIS_CondRetFimLista);
     } /* if */
 
-    if ( TST_CompararInt( GRA_TipoEspacoCabeca ,
-        CED_ObterTipoEspaco( pGrafo ) ,
-        "Tipo do espaço de dados não é cabeça de árvore." ) != TST_CondRetOK )
-    {
-		CNT_CONTAR( "ErroTipoCabeca" ) ;
-		return GRF_CondRetErroEstrutura ;
-    } /* if */
+	
 
-	if ( pGrafo->pListaVertices == NULL )
-    {
-		CNT_CONTAR( "ListaVerticeNaoExiste" ) ;
-		TST_NotificarFalha( "Lista de vertice não existe." ) ;
-		return GRF_CondRetErroEstrutura ;
-    } /* if */
 	
 } /* Fim funcao: GRA &Verificar Grafo */
 
@@ -1369,5 +1461,34 @@ int ChecaVerticeExiste(GRA_tppGrafo pGrafo, char * Vert)
 	return 0;
 } /* Fim funcao: GRA -Checa se vertice existe */
 
+#ifdef _DEBUG
+
+/***************************************************************************
+*
+*  Funcao: GRA  -Checa sucessores do vertice
+*
+****************************************************************************/
+
+static int VerificaSucessoresVertice(GRA_tppVerGrafo pVertice)
+{
+	GRA_tppArestaGrafo pAres;
+	LIS_IrInicioLista(pVertice->pVerSuc);
+
+	do{
+
+		LIS_ObterValor(pVertice->pVerSuc, (void**)&pAres);
+
+		if(pAres->pVerticeDest ==NULL){
+			return 1;
+		}
+
+		ListaRetCaminho = LIS_AvancarElementoCorrente(pVertice->pVerSuc, 1);
+
+	}while(ListaRetCaminho != LIS_CondRetFimLista);
+
+	return 0;
+} /* Fim funcao: GRA -Checa sucessores do vertice */
+
+#endif
 
 /********** Fim do modulo de implementacao: Modulo GRAFO **********/

@@ -184,12 +184,11 @@
    LIS_tpCondRet LIS_InserirElementoAntes( LIS_tppLista pLista ,
                                            void * pValor        )
    {
+	   tpElemLista * pElem ;
 
       #ifdef _DEBUG
          assert( pLista != NULL ) ;
       #endif
-
-      tpElemLista * pElem ;
 
 
 		/* Criar elemento a inserir antes */
@@ -234,12 +233,11 @@
                                           void * pValor        )
       
    {
+	    tpElemLista * pElem ;
 
       #ifdef _DEBUG
          assert( pLista != NULL ) ;
       #endif
-
-      tpElemLista * pElem ;
 
       /* Criar elemento a inerir apos */
 
@@ -305,13 +303,11 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 
    LIS_tpCondRet LIS_ExcluirElemento( LIS_tppLista pLista )
    {
-       
+       tpElemLista * pElem ;
+
       #ifdef _DEBUG
          assert( pLista  != NULL ) ;
       #endif
-
-
-      tpElemLista * pElem ;
 
       if ( pLista->pElemCorr == NULL )
       {
@@ -438,14 +434,13 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
                                               int numElem )
    {
 
-      #ifdef _DEBUG
-         assert( pLista != NULL ) ;
-      #endif
-
-      int i ;
+	  int i ;
 
       tpElemLista * pElem ;
 
+      #ifdef _DEBUG
+         assert( pLista != NULL ) ;
+      #endif
 
       /* Tratar lista vazia */
 
@@ -515,12 +510,13 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
                                     int ( * ComparaValor ) ( void * pValorCorr , void * pValorBuscado ) )
    {
 
-      #ifdef _DEBUG
+      tpElemLista * pElem ;
+
+	  #ifdef _DEBUG
          assert( pLista  != NULL ) ;
       #endif
          
-      tpElemLista * pElem ;
-
+      
 
       if ( pLista->pElemCorr == NULL ){
          return LIS_CondRetListaVazia ;

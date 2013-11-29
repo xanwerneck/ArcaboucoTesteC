@@ -29,7 +29,6 @@
 #include    "LerParm.h"
 
 #include	"GRAFO.H"
-#include    "VERTICE.H"
 #include    "LISTA.H"
 
 /***********************************************************************
@@ -117,9 +116,9 @@ static void TES_excluirConteudo ( void * pValor );
 	  GRA_tpCondRet CondRetObtido   = GRA_CondRetOK ;
       GRA_tpCondRet CondRetEsperada = GRA_CondRetFaltouMemoria ;
 
-      char ValorDado     = '\0' ;
-	  char ValorOrig     = '\0' ;
-	  char ValorDest     = '\0' ;
+      char * ValorDado     = '\0' ;
+	  char * ValorOrig     = '\0' ;
+	  char * ValorDest     = '\0' ;
 
 	  char StringDado[DIM_VALOR];
 
@@ -162,7 +161,7 @@ static void TES_excluirConteudo ( void * pValor );
                return TST_CondRetParm ;
             } /* if */
 
-			CondRetObtido = GRA_CriaVerticeGrafo( vtGrafo[ inxGrafo ] , StringDado , ValorDado , TES_excluirConteudo );
+			CondRetObtido = GRA_CriaVerticeGrafo( vtGrafo[ inxGrafo ] , StringDado , ValorDado , TES_excluirInfo );
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao criar vertice no grafo." );
@@ -205,41 +204,7 @@ static void TES_excluirConteudo ( void * pValor );
                                     "Retorno errado ao excluir vértice." );
 
 		} /* fim ativa: Testar GRA Excluir vértice */
-
 		
-		
-		/* Testar GRA Obter valor do vértice corrente */
-
-		else if(strcmp (ComandoTeste, OBTER_VALOR_VERT_CMD) == 0)
-		{
-			NumLidos = LER_LerParametros ( "isi" , &inxGrafo , &StringDado , &CondRetEsperada );
-			if(NumLidos != 3){
-				return TST_CondRetParm;
-			}
-			
-			CondRetObtido = GRA_ChecarNomeVerticeCorrente( vtGrafo[inxGrafo] , StringDado );
-
-			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao obter valor do vértice corrente." );
-
-		} /* fim ativa: Testar GRA Obter valor do vértice corrente */
-
-		/* Testar GRA Mudar valor do vértice corrente */
-
-		else if(strcmp (ComandoTeste, MUDAR_VALOR_VERT_CMD) == 0)
-		{
-			NumLidos = LER_LerParametros ( "isi" , &inxGrafo , &StringDado , &CondRetEsperada );
-			if(NumLidos != 3){
-				return TST_CondRetParm;
-			}
-			
-			CondRetObtido = GRA_MudarNomeVerticeCorrente( vtGrafo[inxGrafo] , StringDado );
-
-			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao obter valor do vértice corrente." );
-
-		} /* fim ativa: Testar GRA Mudar valor do vértice corrente */
-
 
 		/* Testar GRA Inserir vértice no início da lista de origens */
 
@@ -366,19 +331,6 @@ void TES_excluirInfo ( void * pValor )
     free( ( void * ) pValor ) ;
 
 } /* Fim função: TST -Excluir informacao */
-
-/***********************************************************************
-*
-*  $FC Função: TES -Excluir conteudo alocado vértice do grafo
-*
-***********************************************************************/
-
-void TES_excluirConteudo ( void * pValor )
-{
-
-	VER_DestruirVertice ((VER_tppVerticeCont *) pValor);
-
-}
 
 
 /********** Fim do módulo de implementação: Módulo de teste específico **********/

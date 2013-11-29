@@ -83,8 +83,6 @@
     <ClInclude Include="TST_ESPC.H" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CESPDIN.C" />
-    <ClCompile Include="CONTA.C" />
     <ClCompile Include="GRAFO.C" />
     <ClCompile Include="LISTA.C" />
     <ClCompile Include="TESTGRA.C" />
@@ -94,7 +92,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="IdTiposEspaco.def" />
-    <None Include="structGrafo.def" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

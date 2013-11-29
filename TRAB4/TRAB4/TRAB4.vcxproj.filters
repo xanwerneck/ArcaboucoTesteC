@@ -47,21 +47,12 @@
     <ClCompile Include="TESTGRA.C">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CESPDIN.C">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CONTA.C">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="ArcaboucoTeste.lib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="IdTiposEspaco.def">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="structGrafo.def">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>
