@@ -1,4 +1,0 @@
-***************** Verificador de XEQUE MATE ***********************
-*****************    AFV - Novembro 2013    ***********************
-TIPOPECA CAVALO 1 1 3
-TIPOPECA DAMA 1 1 3

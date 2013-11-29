@@ -713,6 +713,7 @@ typedef struct TAB_tagTabuleiro * TAB_tppTabuleiro ;
 *  $FV Valor retornado
 *     TAB_CondRetOK
 *     TAB_CondRetTabuleiroNulo
+*     TAB_CondRetListaVazia
 *
 *  $AE CondRet deve ter sido instanciado
 *
@@ -721,6 +722,9 @@ typedef struct TAB_tagTabuleiro * TAB_tppTabuleiro ;
 *
 *     Se CondRet = TAB_CondRetFaltouMemoria
 *     Tabuleiro já esta nulo.
+*
+*     Se CondRet = TAB_CondRetListaVazia
+*     Tabuleiro nao possui tipos de pecas criadas.
 *
 ***********************************************************************/
 	TAB_tpCondRet TAB_FinalizarPartida(TAB_tppTabuleiro pTabuleiro);

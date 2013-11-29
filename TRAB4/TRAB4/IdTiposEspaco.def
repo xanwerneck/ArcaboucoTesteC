@@ -1,0 +1,37 @@
+#if ! defined( TIPOS_ESPACO_ )
+#define TIPOS_ESPACO_
+/***************************************************************************
+*
+*  $MCD Arquivo de definição: TiposEspacos.def
+*
+*  Projeto: INF 1301 - Estrutura de teste - Arcabouço de Testes
+*  Gestor:  Flavio Bevilacqua
+*  Autores: afv:  aw - Alexandre Werneck
+*                 fr - Fernanda C Ribeiro
+*                 vo - Vinicius de Luiz de Oliveira
+*
+*  $ED Descrição do arquivo
+*     Este arquivo contém todos os identificadores do possíveis tipos de espaços
+*     de dados a serem utilizados na instrumentação do módulo.
+*
+***************************************************************************/
+
+typedef enum
+{
+   CED_ID_TIPO_VALOR_NULO = 1 ,
+
+   GRA_TipoEspacoCabeca = 2 , 
+   
+   GRA_TipoEspacoVertice = 3 ,
+   
+   GRA_TipoEspacoAresta = 4 ,
+
+   CED_ID_TIPO_ILEGAL = 999 
+
+} CED_tpIdTipoEspaco ;
+
+
+
+/********** Fim do arquivo de definição: TiposEspacos.def  **********/
+
+#endif

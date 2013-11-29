@@ -84,6 +84,9 @@ typedef struct JOG_tagPecaJogo {
    /* Funcao desaloca da memoria peca do jogo */
    static void ExcluirPecaJogo( void * pPeca );
 
+   /* Funcao verificar se existem pecas no caminho da peca fornecida */
+   static int VerificaPecasCaminho(JOG_tppJogo pJogo ,TAB_tppTabuleiro pTabuleiro  , char * pPeca , char ** PecaCausadora , char ** CasaCausadora , char Time);
+
 /*************  Codigo das funcoes exportadas pelo modulo  *************/
 
 /************************************************************************
@@ -589,7 +592,7 @@ JOG_tpCondRet JOG_VerificaXequeMate(JOG_tppJogo pJogo, TAB_tppTabuleiro pTabulei
 	strcpy((char *)CasaCausa , CasaCausadora);
 
 	if(Pecas2Caminho == 1){
-		printf("Peca Causadora %s \n" , PecaCausadora);
+		printf(" EXISTE PECA CAUSANDO XEQUE \n");
 		return JOG_CondRetXequeMateS;
 	}
 
@@ -955,21 +958,22 @@ void ExcluirPecaJogo( void * pPeca )
 			TAB_ObterVerticeCorrente(pTabuleiro , (char**)&NomeCausa);
 			if(pPecaJogo->Time == Time){
 				ListaRet = LIS_IrInicioLista(pPecaJogo->pListaCaminho);
-				do{
-					LIS_ObterValor(pPecaJogo->pListaCaminho , (void**)&Vertice);
+				if(ListaRet == LIS_CondRetOK){
+					do{
+						LIS_ObterValor(pPecaJogo->pListaCaminho , (void**)&Vertice);
 
-					GRA_ResgatarIdVertice(Vertice , &NomeCasa);
+						GRA_ResgatarIdVertice(Vertice , &NomeCasa);
 
-					if(strcmp(pPeca,NomeCasa)==0){
-						strcpy((char *)PecaCausadora , NomePeca);
-						strcpy((char *)CasaCausadora , NomeCausa);
-						printf("Encontrada no caminho a peca ' %s ' localizada em: | %s | \n" , NomePeca , *CasaCausadora);
-						EncontrouRei = 1;
-					}
+						if(strcmp(pPeca,NomeCasa)==0){
+							EncontrouRei = 1;
+						}
 
-					ListaRet = LIS_AvancarElementoCorrente(pPecaJogo->pListaCaminho , 1);
+						ListaRet = LIS_AvancarElementoCorrente(pPecaJogo->pListaCaminho , 1);
 
-				}while(ListaRet != LIS_CondRetFimLista);
+						NomeCasa = NULL;
+
+					}while(ListaRet != LIS_CondRetFimLista);
+				}
 			}
 		}
 		TabRet = TAB_AvancarCasas(pTabuleiro , 1);

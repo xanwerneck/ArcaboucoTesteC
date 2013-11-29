@@ -588,8 +588,11 @@ TAB_tpCondRet TAB_FinalizarPartida(TAB_tppTabuleiro pTabuleiro)
 	if(pTabuleiro==NULL){
 		return TAB_CondRetTabuleiroNulo;
 	} /* if */
-
 	ListaRet = LIS_IrInicioLista(pTabuleiro->pListaPecas);
+	if(ListaRet == LIS_CondRetListaVazia){
+		return TAB_CondRetListaVazia;
+	}
+
 	do{
 		LIS_ObterValor(pTabuleiro->pListaPecas , (void**)&pPeca);
 
