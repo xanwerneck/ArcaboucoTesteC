@@ -1,0 +1,35 @@
+////////////////////////////////////////////////
+//
+// Arquivo de declaração de contadores para deturpacao
+// Conta módulo Grafo marcado com deturpacao e verificacao
+//
+///////////////////////////////////////////////
+    
+	GRA_CriarVerticeGrafo
+	GRA_CriarGrafo
+	GRA_CriarArestaGrafo
+	GRA_ChecarNomeVerticeCorrente
+	GRA_InserirOrigem
+	GRA_ExcluirAresta
+	GRA_DefinirCorrente
+	GRA_ExcluirVerticeCorrente
+	GRA_DestruirGrafo
+	GRA_DeturpaCorrente
+	GRA_DeturpaNullSucessor
+	GRA_DeturpaNullAntecessor
+	GRA_DeturpaLixoSucessor
+	GRA_DeturpaLixoAntecessor
+	GRA_DeturpaNullConteudo
+	GRA_DeturpaAlteraTipo
+	GRA_DeturpaIsolaVertice
+	GRA_DeturpaNullCorrente
+	GRA_DeturpaNullOrigem
+	VGRA_GrafoInexistente
+	VGRA_CorrenteEliminado
+	VGRA_VerticeSucNulo
+	VGRA_VerticeAntNulo
+	VGRA_VerticeContNulo
+	VGRA_VerticeTipoErrado
+	VGRA_VerticeQtdeInvalida
+	VGRA_VerticeOrigemQtdeInvalida
+	VGRA_VerticeCorrNulo

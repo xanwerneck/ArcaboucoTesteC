@@ -213,6 +213,21 @@ static void TES_excluirConteudo ( void * pValor );
 
 		} /* fim ativa: Testar GRA Excluir vértice */
 		
+		/* Testar GRA Obter valor do vértice corrente */
+
+		else if(strcmp (ComandoTeste, OBTER_VALOR_VERT_CMD) == 0)
+		{
+			NumLidos = LER_LerParametros ( "isi" , &inxGrafo , &StringDado , &CondRetEsperada );
+			if(NumLidos != 3){
+				return TST_CondRetParm;
+			}
+			
+			CondRetObtido = GRA_ChecarNomeVerticeCorrente( vtGrafo[inxGrafo] , StringDado );
+
+			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao obter valor do vértice corrente." );
+
+		} /* fim ativa: Testar GRA Obter valor do vértice corrente */
 
 		/* Testar GRA Inserir vértice no início da lista de origens */
 
@@ -302,7 +317,7 @@ static void TES_excluirConteudo ( void * pValor );
 			 {
 				 NumLidos = LER_LerParametros( "ii" , &inxGrafo , &CondRetEsperada ) ;
 
-				if ( ( NumLidos != 1 ) || ( inxGrafo < 0 ) || ( inxGrafo >= DIM_VT_GRAFO ))
+				if ( ( NumLidos != 2 ) || ( inxGrafo < 0 ) || ( inxGrafo >= DIM_VT_GRAFO ))
 				{
 				   return TST_CondRetParm ;
 				} /* if */
@@ -319,9 +334,9 @@ static void TES_excluirConteudo ( void * pValor );
 		  #ifdef _DEBUG
 			 else if ( strcmp( ComandoTeste , DETURPAR_GRA_CMD ) == 0 )
 			 {
-				NumLidos = LER_LerParametros( "ii" , &inxGrafo, &indDeturpa ) ;
+				NumLidos = LER_LerParametros( "iii" , &inxGrafo, &indDeturpa , &CondRetEsperada ) ;
 
-				if ( ( NumLidos != 2 )
+				if ( ( NumLidos != 3 )
 				  || ( inxGrafo < 0 ) || ( inxGrafo >= DIM_VT_GRAFO ))
 				{
 				   return TST_CondRetParm ;

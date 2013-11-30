@@ -49,10 +49,21 @@
 =declararparm	aresFG	 string  "FG"
 =declararparm	aresFA	 string  "FA"
 
+=declararparm   DeturpaEliminaCorr    int 1
+=declararparm   DeturpaNullSucessor   int 2
+=declararparm   DeturpaNullAntecessor int 3
+=declararparm   DeturpaLixoSucessor   int 4
+=declararparm   DeturpaLixoAntecessor int 5
+=declararparm   DeturpaNullConteudo   int 6
+=declararparm   DeturpaAlteraTipo     int 7
+=declararparm   DeturpaIsolaVertice   int 8
+=declararparm   DeturpaNullCorrente   int 9
+=declararparm   DeturpaNullOrigem     int 10
+
 
 == Iniciar contagem
-=inicializarcontadores  "ResultadoContador"
-=lercontadores          "GrafoContador"
+=inicializarcontadores  "ResultadoDeturpa"
+=lercontadores          "GrafoDeturpa"
 =iniciarcontagem
 
 == Criar vertice 1
@@ -65,10 +76,11 @@
 =criargrafo		grafo0   OK
 
 ==obter valor vertice grafo
-=obtervalorvertcorr     grafo0   nome6      ConteudoNulo
+=obtervalorvertcorr     grafo0   nome6   ConteudoNulo
 
 == Criar vertice 0
 =criarverticegrafo	grafo0	 nome0 	casa0 	OK
+
 
 == Criar vertice 1
 =criarverticegrafo	grafo0	 nome1 	casa1 	OK
@@ -167,15 +179,6 @@
 ==excluir vertice
 =excluirvertice     grafo0   OK
 
-==destruir grafo
-=destruirgrafo      grafo0   OK
-
-== Criar grafo 0
-=criargrafo		    grafo0   OK
-
-==destruir grafo
-=destruirgrafo      grafo0   OK
-
 == Criar grafo 0
 =criargrafo		    grafo1   OK
 
@@ -187,6 +190,24 @@
 
 ==destruir grafo
 =destruirgrafo      grafo2   OK
+
+==vertice em origem
+=inserirvertorigens grafo0   casa3  OK
+
+==deturpargrafo  grafo0 DeturpaEliminaCorr      OK
+==deturpargrafo  grafo0 DeturpaNullAntecessor   OK
+=deturpargrafo  grafo0 DeturpaNullSucessor     OK
+==deturpargrafo  grafo0 DeturpaLixoSucessor     OK
+==deturpargrafo  grafo0 DeturpaLixoAntecessor   OK
+==deturpargrafo  grafo0 DeturpaNullConteudo     OK
+==deturpargrafo  grafo0 DeturpaAlteraTipo       OK
+==deturpargrafo  grafo0 DeturpaIsolaVertice     OK
+==deturpargrafo  grafo0 DeturpaNullCorrente     OK
+==deturpargrafo  grafo0 DeturpaNullOrigem       OK
+
+==verificargrafo grafo0 OK
+
+==verificargrafo grafo2 OK
 
 == Terminar controlar contadores
 =pararcontagem

@@ -1,0 +1,36 @@
+//////////////////////////////////////////////////////////////////////
+// Contadores acumulados, gerado: 2013/11/30-16:40:56
+//////////////////////////////////////////////////////////////////////
+
+GRA_ChecarNomeVerticeCorrente\=18
+GRA_CriarArestaGrafo\=72
+GRA_CriarGrafo\=27
+GRA_CriarVerticeGrafo\=63
+GRA_DefinirCorrente\=54
+GRA_DestruirGrafo\=18
+GRA_DeturpaAlteraTipo\=2
+GRA_DeturpaCorrente\=3
+GRA_DeturpaIsolaVertice\=3
+GRA_DeturpaLixoAntecessor\=0
+GRA_DeturpaLixoSucessor\=0
+GRA_DeturpaNullAntecessor\=2
+GRA_DeturpaNullConteudo\=3
+GRA_DeturpaNullCorrente\=0
+GRA_DeturpaNullOrigem\=3
+GRA_DeturpaNullSucessor\=1
+GRA_ExcluirAresta\=45
+GRA_ExcluirVerticeCorrente\=54
+GRA_InserirOrigem\=36
+VGRA_CorrenteEliminado\=0
+VGRA_GrafoInexistente\=3
+VGRA_VerticeAntNulo\=0
+VGRA_VerticeContNulo\=0
+VGRA_VerticeCorrNulo\=0
+VGRA_VerticeOrigemQtdeInvalida\=1
+VGRA_VerticeQtdeInvalida\=3
+VGRA_VerticeSucNulo\=0
+VGRA_VerticeTipoErrado\=0
+
+//////////////////////////////////////////////////////////////////////
+// Fim arquivo de contadores acumulados
+//////////////////////////////////////////////////////////////////////

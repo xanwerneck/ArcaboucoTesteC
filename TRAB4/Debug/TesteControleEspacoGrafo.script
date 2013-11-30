@@ -1,0 +1,173 @@
+// Script:    TesteControleEspacoGrafo.script
+// Autor:     afv
+// Data:      02/dex/2013
+// Propósito: Script para testar o controle de espaços dinâmicos em grafos de estruturas.
+//
+
+== Iniciar contagem
+=inicializarcontadores  ""
+=lercontadores          "Grafo"
+=iniciarcontagem
+
+
+== Inicializar Grafos
+=declararparm  grf0     int 0
+=declararparm  grf1     int 1
+=declararparm  grf2     int 2
+=declararparm  grf3     int 3
+=declararparm  grf4     int 4
+=declararparm  grf5     int 5
+=declararparm  grf6     int 6
+=declararparm  grf7     int 7
+=declararparm  grf8     int 8
+=declararparm  grf9     int 9
+
+
+== Declarar as condicoes de retorno
+=declararparm  OK          int 0
+=declararparm  NaoAchou    int 1 
+=declararparm  FaltouMem   int 2
+=declararparm  NaoGrafo    int 3
+=declararparm  NaoExiste   int 4
+=declararparm  NaoAresta   int 5
+=declararparm  IsAresta    int 6
+=declararparm  ParmInval   int 7
+=declararparm  ErroEstrut  int 8
+
+=declararparm  RgTodos     int 1
+=declararparm  RgAtivo     int 2
+=declararparm  RgInativo   int 3
+
+
+== Inicializar valores
+=declararparm  NomeA    string   "Homer"
+=declararparm  NomeB    string   "Marge"
+=declararparm  NomeC    string   "Bart"
+=declararparm  NomeD    string   "Mr. Burns"
+=declararparm  EndA     string   "Rua Marquês de São Vicente, 225, Gávea"
+=declararparm  EndB     string   "Rua do Zé, 123, Springfield"
+=declararparm  TelA     string   "12345678"
+=declararparm  TelB     string   "87654321"
+
+
+// Início dos testes
+
+== Verificar grafo inexistente - Falha Esperada
+=grfverificargrafo      grf0     ErroEstrut
+=recuperar
+
+== Criar o grafo 0
+=obternumeroespacosalocados   0
+=grfcriargrafo    grf0
+
+== Teste de Memoria 1 (Criar grafo 1)
+=obternumeroespacosalocados   2
+=limitarnumeroespacos   0
+=grfcriargrafo          grf1  FaltouMem
+=grfverificargrafo      grf1  
+=grfdestruirgrafo       grf1
+=eliminarlimitesespaco
+
+== Teste de Memoria 2 (Criar grafo 1 e vértice)
+=obternumeroespacosalocados   2
+=limitarnumeroespacos   10
+=grfcriargrafo          grf1
+=obternumeroespacosalocados   4
+=grfcriarvertice  grf0  NomeA    EndA     TelA     OK
+=eliminarlimitesespaco
+=grfverificargrafo      grf1  OK
+=obternumeroespacosalocados   10
+=grfdestruirgrafo       grf1
+
+== Destruir grafo 0
+=grfdestruirgrafo       grf0
+
+== Cria 10 grafos
+=grfcriargrafo    grf0
+=grfcriargrafo    grf1
+=grfcriargrafo    grf2
+=grfcriargrafo    grf3
+=grfcriargrafo    grf4
+=grfcriargrafo    grf5
+=grfcriargrafo    grf6
+=grfcriargrafo    grf7
+=grfcriargrafo    grf8
+=grfcriargrafo    grf9
+
+== Criar um vértice em cada grafo
+=grfcriarvertice  grf0  NomeA    EndB     TelB     OK
+=grfcriarvertice  grf1  NomeB    EndB     TelB     OK
+=grfcriarvertice  grf2  NomeC    EndB     TelB     OK
+=grfcriarvertice  grf3  NomeD    EndB     TelB     OK
+=grfcriarvertice  grf4  NomeA    EndB     TelB     OK
+=grfcriarvertice  grf5  NomeB    EndB     TelB     OK
+=grfcriarvertice  grf6  NomeC    EndB     TelB     OK
+=grfcriarvertice  grf7  NomeD    EndB     TelB     OK
+=grfcriarvertice  grf8  NomeA    EndB     TelB     OK
+=grfcriarvertice  grf9  NomeB    EndB     TelB     OK
+
+== Checando se os vértices foram criados corretamente
+=grfobtervalor   grf0  NomeA    OK
+=grfobtervalor   grf1  NomeB    OK
+=grfobtervalor   grf2  NomeC    OK
+=grfobtervalor   grf3  NomeD    OK
+=grfobtervalor   grf4  NomeA    OK
+=grfobtervalor   grf5  NomeB    OK
+=grfobtervalor   grf6  NomeC    OK
+=grfobtervalor   grf7  NomeD    OK
+=grfobtervalor   grf8  NomeA    OK
+=grfobtervalor   grf9  NomeB    OK
+
+== Verificando todos os espaços alocados
+=verificartodosespacos  RgTodos
+
+== Testa se o número de espaços alocados está correto
+=obternumeroespacosalocados   80
+
+== Testa quantos espaços alocados estão ativos
+=obternumeroregra    RgAtivo     80
+
+== Testa quantos espaços alocados estão inativos
+=obternumeroregra    RgInativo   0
+
+== Exibir todos os espaços
+=exibirtodosespacos     RgTodos
+
+== Destruindo todos os grafos
+=grfdestruirgrafo grf0
+=grfobtervalor    grf0  NomeA    NaoGrafo
+=grfdestruirgrafo grf1
+=grfobtervalor    grf1  NomeB    NaoGrafo
+=grfdestruirgrafo grf2
+=grfobtervalor    grf2  NomeC    NaoGrafo
+=grfdestruirgrafo grf3
+=grfobtervalor    grf3  NomeD    NaoGrafo
+=grfdestruirgrafo grf4
+=grfobtervalor    grf4  NomeA    NaoGrafo
+=grfdestruirgrafo grf5
+=grfobtervalor    grf5  NomeB    NaoGrafo
+=grfdestruirgrafo grf6
+=grfobtervalor    grf6  NomeC    NaoGrafo
+=grfdestruirgrafo grf7
+=grfobtervalor    grf7  NomeD    NaoGrafo
+=grfdestruirgrafo grf8
+=grfobtervalor    grf8  NomeA    NaoGrafo
+=grfdestruirgrafo grf9
+=grfobtervalor    grf9  NomeB    NaoGrafo
+
+== Verificando todos os espaços alocados
+=verificartodosespacos  RgTodos
+
+== Testa se o número de espaços alocados está correto
+=obternumeroespacosalocados   0
+
+== Exibir todos os espaços
+=exibirtodosespacos     RgTodos
+
+== Terminar controlar contadores
+=pararcontagem
+
+== Terminar contagem
+=terminarcontadores
+
+//fim

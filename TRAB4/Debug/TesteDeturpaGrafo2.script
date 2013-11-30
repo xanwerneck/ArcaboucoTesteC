@@ -1,0 +1,86 @@
+// Script:    TesteGrafo.script
+// Autor:     lms - Lucas Martins Souza
+// Data:      12/dez/2010
+// Propósito: Script para testar a construção de grafos de estruturas.
+//
+
+== Iniciar contadores de passagem
+=inicializarcontadores  "."
+=lercontadores          "Grafo"
+=iniciarcontagem
+
+
+== Inicializar Grafos
+=declararparm  grf6     int 6
+=declararparm  grf7     int 7
+
+
+== Declarar as condicoes de retorno
+=declararparm  OK          int 0
+=declararparm  NaoAchou    int 1 
+=declararparm  Memoria     int 2
+=declararparm  NaoGrafo    int 3
+=declararparm  NaoExiste   int 4
+=declararparm  NaoAresta   int 5
+=declararparm  IsAresta    int 6
+=declararparm  ParmInval   int 7
+
+
+== Inicializar valores
+=declararparm  NomeA    string   "Homer"
+=declararparm  NomeB    string   "Marge"
+=declararparm  NomeC    string   "Bart"
+=declararparm  NomeD    string   "Mr. Burns"
+=declararparm  EndA     string   "Rua Marquês de São Vicente, 225, Gávea"
+=declararparm  EndB     string   "Rua do Zé, 123, Springfield"
+=declararparm  TelA     string   "12345678"
+=declararparm  TelB     string   "87654321"
+
+== Criar grafos
+=grfcriargrafo    grf6
+=grfcriargrafo    grf7
+
+== Criar vértices no grafo e obter seus valores
+=grfcriarvertice  grf6  NomeC    EndB     TelB     OK
+=grfcriarvertice  grf7  NomeD    EndB     TelB     OK
+=grfcriarvertice  grf7  NomeD    EndB     TelB     OK
+=grfcriarvertice  grf7  NomeD    EndB     TelB     OK
+
+
+// Início dos testes
+== Tipo do espaço de cabeça diferente
+
+=grfdeturpar            grf6  7
+=grfverificargrafo      grf6  8     
+=recuperar 
+=AceitaFalhasAcumuladas       1
+
+== Destruir a grafo
+=grfdestruirgrafo       grf6
+=grfverificarmemoria   
+
+==  Passar a cabeça desalocada
+
+=grfdeturpar            grf7  8
+=grfverificargrafo      grf7  8    
+=recuperar  
+=AceitaFalhasAcumuladas       1
+
+== Destruir a grafo
+=grfdestruirgrafo       grf7       // Voa por que o código tenta usar free() em uma lista que tem como ponteiro NULL.
+=grfverificarmemoria  
+
+
+
+== Terminar controlar contadores
+=pararcontagem
+=verificarcontagens    0
+
+== Terminar contagem
+=terminarcontadores
+
+
+// fim
+
+
+
