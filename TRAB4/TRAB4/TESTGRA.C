@@ -31,12 +31,16 @@
 #include	"GRAFO.H"
 #include    "LISTA.H"
 
+#ifdef _DEBUG
+   #include "CESPDIN.H"
+#endif
+
 /***********************************************************************
 * Operações em Grafo
 *
 ***********************************************************************/
 static const char CRIAR_GRAFO_CMD			[ ] = "=criargrafo"           ;
-static const char CRIAR_VERTIVE_GRAFO_CMD	[ ] = "=criarverticegrafo"    ;
+static const char CRIAR_VERTICE_GRAFO_CMD	[ ] = "=criarverticegrafo"    ;
 static const char CRIA_ARESTA_CMD       	[ ] = "=criararesta"          ;
 static const char EXCLUIR_VERT_CMD   		[ ] = "=excluirvertice"       ;
 static const char EXCLUIR_ARES_CMD   		[ ] = "=excluiraresta"        ;
@@ -116,15 +120,19 @@ static void TES_excluirConteudo ( void * pValor );
 	  GRA_tpCondRet CondRetObtido   = GRA_CondRetOK ;
       GRA_tpCondRet CondRetEsperada = GRA_CondRetFaltouMemoria ;
 
-      char * ValorDado     = '\0' ;
-	  char * ValorOrig     = '\0' ;
-	  char * ValorDest     = '\0' ;
+      char ValorDado     = '\0' ;
+	  char ValorOrig     = '\0' ;
+	  char ValorDest     = '\0' ;
 
 	  char StringDado[DIM_VALOR];
 
 	  int inxGrafo     = -1 ,
           NumLidos     = -1 ,
 		  i            = 0  ;
+
+	  #ifdef _DEBUG
+			int indDeturpa = 0;
+	  #endif
 	  
 		/* Testar GRA Criar grafo */
 
@@ -151,7 +159,7 @@ static void TES_excluirConteudo ( void * pValor );
 
 		/* Testar GRA Criar vertice para grafo */
 
-		else if( strcmp( ComandoTeste , CRIAR_VERTIVE_GRAFO_CMD ) == 0 )
+		else if( strcmp( ComandoTeste , CRIAR_VERTICE_GRAFO_CMD ) == 0 )
 		{
 
 			NumLidos = LER_LerParametros ( "isci" , &inxGrafo , &StringDado , &ValorDado , &CondRetEsperada );
@@ -278,7 +286,55 @@ static void TES_excluirConteudo ( void * pValor );
 
 		} /* fim ativa: Testar GRA Destruir Grafo */
 
+			/* Testar VerificarMemoria */
+		  #ifdef _DEBUG
+			 else if ( strcmp( ComandoTeste , VER_MEMO_GRA_CMD ) == 0 )
+			 {
+				CED_ExibirTodosEspacos( CED_ExibirTodos ) ;        
+				return TST_CondRetOK ;
+
+			 } /* fim ativa: VerificarMemoria */
+		   #endif 
+
+			/* Verificacao do Grafo */
+		  #ifdef _DEBUG
+			 else if ( strcmp( ComandoTeste , VERIFICAR_GRA_CMD ) == 0 )
+			 {
+				 NumLidos = LER_LerParametros( "ii" , &inxGrafo , &CondRetEsperada ) ;
+
+				if ( ( NumLidos != 1 ) || ( inxGrafo < 0 ) || ( inxGrafo >= DIM_VT_GRAFO ))
+				{
+				   return TST_CondRetParm ;
+				} /* if */
 				
+				CondRetObtido = GRA_VerificarGrafo( vtGrafo[ inxGrafo ] );
+
+				return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao verificar grafo" );
+
+			 } /* fim ativa: Verificacao do Grafo */
+		   #endif 
+				
+				/* Testar Deturpar */
+		  #ifdef _DEBUG
+			 else if ( strcmp( ComandoTeste , DETURPAR_GRA_CMD ) == 0 )
+			 {
+				NumLidos = LER_LerParametros( "ii" , &inxGrafo, &indDeturpa ) ;
+
+				if ( ( NumLidos != 2 )
+				  || ( inxGrafo < 0 ) || ( inxGrafo >= DIM_VT_GRAFO ))
+				{
+				   return TST_CondRetParm ;
+				} /* if */
+
+				CondRetObtido = GRA_DeturparGrafo ( vtGrafo[ inxGrafo ], (GRA_tpTiposDeturpacao)indDeturpa ) ; 
+
+				return TST_CompararInt( CondRetEsperada , CondRetObtido ,
+                                    "Retorno errado ao verificar grafo" );
+
+			 } /* fim ativa: Deturpar */
+		   #endif
+
 
       return TST_CondRetNaoConhec ;
 
@@ -328,7 +384,7 @@ static void TES_excluirConteudo ( void * pValor );
 void TES_excluirInfo ( void * pValor )
 {
 
-    free( ( void * ) pValor ) ;
+    
 
 } /* Fim função: TST -Excluir informacao */
 

@@ -1,9 +1,30 @@
-﻿Build started 29/11/2013 17:17:14.
+﻿Build started 30/11/2013 01:33:16.
      1>Project "C:\Users\Alexandre Werneck\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB4\TRAB4\TRAB4.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Touching "Release\TRAB4.unsuccessfulbuild".
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TC /analyze- /errorReport:prompt TESTGRA.C
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TC /analyze- /errorReport:prompt GRAFO.C TESTGRA.C
+         GRAFO.C
+     1>GRAFO.C(464): warning C4047: 'function' : 'const char *' differs in levels of indirection from 'char'
+     1>GRAFO.C(464): warning C4024: 'strcmp' : different types for formal and actual parameter 1
+     1>GRAFO.C(464): warning C4047: 'function' : 'const char *' differs in levels of indirection from 'char'
+     1>GRAFO.C(464): warning C4024: 'strcmp' : different types for formal and actual parameter 2
+     1>GRAFO.C(492): warning C4047: 'function' : 'const char *' differs in levels of indirection from 'char'
+     1>GRAFO.C(492): warning C4024: 'strcmp' : different types for formal and actual parameter 1
+     1>GRAFO.C(492): warning C4047: 'function' : 'const char *' differs in levels of indirection from 'char'
+     1>GRAFO.C(492): warning C4024: 'strcmp' : different types for formal and actual parameter 2
+     1>GRAFO.C(625): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>GRAFO.C(625): warning C4047: 'function' : 'char *' differs in levels of indirection from 'char'
+     1>GRAFO.C(625): warning C4024: 'strcpy' : different types for formal and actual parameter 1
+     1>GRAFO.C(757): warning C4047: '=' : 'char *' differs in levels of indirection from 'char'
+     1>GRAFO.C(799): warning C4047: 'function' : 'const char *' differs in levels of indirection from 'char'
+     1>GRAFO.C(799): warning C4024: 'strcmp' : different types for formal and actual parameter 1
+     1>GRAFO.C(913): warning C4047: 'function' : 'char *' differs in levels of indirection from 'char'
+     1>GRAFO.C(913): warning C4024: 'GRA_SetarCorrente' : different types for formal and actual parameter 2
+     1>GRAFO.C(1154): warning C4047: 'function' : 'const char *' differs in levels of indirection from 'char'
+     1>GRAFO.C(1154): warning C4024: 'strcmp' : different types for formal and actual parameter 1
+     1>GRAFO.C(1154): warning C4047: 'function' : 'const char *' differs in levels of indirection from 'char'
+     1>GRAFO.C(1154): warning C4024: 'strcmp' : different types for formal and actual parameter 2
          TESTGRA.C
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Alexandre Werneck\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB4\Release\TRAB4.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\TRAB4.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Alexandre Werneck\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB4\Release\TRAB4.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Alexandre Werneck\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB4\Release\TRAB4.lib" /MACHINE:X86 Release\GRAFO.obj
@@ -23,4 +44,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:08.57
+Time Elapsed 00:00:01.05

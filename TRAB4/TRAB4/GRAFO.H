@@ -210,7 +210,7 @@ GRA_tpCondRet GRA_CriarGrafo (GRA_tppGrafo * pGrafo, void   ( * ExcluirValor ) (
 *
 ***********************************************************************/
 
-GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppGrafo pGrafo, char * String , char * id , void   ( * ExcluirValor ) ( void * pDado ));
+GRA_tpCondRet GRA_CriaVerticeGrafo(GRA_tppGrafo pGrafo, void * Conteudo , char id , void   ( * ExcluirValor ) ( void * pDado ));
 
 
 /***********************************************************************
@@ -257,7 +257,7 @@ GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo);
 *
 *  $EP Parametros
 *      pGrafo - Ponteiro para o grafo contendo o vertice corrente
-*      IdVert - Char contendo o conteudo de ID do vertice corrente     
+*      IdVert - Char de ID do vertice corrente     
 *
 *  $FV Valor retornado
 *      GRA_CondRetNaoAchou
@@ -274,7 +274,7 @@ GRA_tpCondRet GRA_ExcluirVerticeCorrente(GRA_tppGrafo pGrafo);
 *
 ***********************************************************************/
 
-GRA_tpCondRet GRA_InsereOrigem(GRA_tppGrafo pGrafo, char * IdVert);
+GRA_tpCondRet GRA_InsereOrigem(GRA_tppGrafo pGrafo, char IdVert);
 
 
 /***********************************************************************
@@ -314,7 +314,7 @@ GRA_tpCondRet GRA_InsereOrigem(GRA_tppGrafo pGrafo, char * IdVert);
 *
 ***********************************************************************/
 
-GRA_tpCondRet GRA_CriarAresta (char * pVertOrig , char * pVertDest , GRA_tppGrafo pGrafo, char * String);
+GRA_tpCondRet GRA_CriarAresta (char pVertOrig , char pVertDest , GRA_tppGrafo pGrafo, char * String);
 
 /***********************************************************************
 *
@@ -345,7 +345,7 @@ GRA_tpCondRet GRA_CriarAresta (char * pVertOrig , char * pVertDest , GRA_tppGraf
 *
 ***********************************************************************/
 
-GRA_tpCondRet GRA_ExcluirAresta (char * pVertOrig , char * pVertDest , GRA_tppGrafo pGrafo);
+GRA_tpCondRet GRA_ExcluirAresta (char pVertOrig , char pVertDest , GRA_tppGrafo pGrafo);
 
 /***********************************************************************
 *
@@ -375,7 +375,7 @@ GRA_tpCondRet GRA_ExcluirAresta (char * pVertOrig , char * pVertDest , GRA_tppGr
 *
 ***********************************************************************/
 
-GRA_tpCondRet GRA_DefinirCorrente( GRA_tppGrafo pGrafo , char * IdVert);
+GRA_tpCondRet GRA_DefinirCorrente( GRA_tppGrafo pGrafo , char IdVert);
 
 
 /***********************************************************************
@@ -702,6 +702,13 @@ GRA_tpCondRet GRA_NumeroArestaVertice(GRA_tppGrafo pGrafo , int * Num);
 ***********************************************************************/
 GRA_tpCondRet GRA_ObterValorCorrente(GRA_tppGrafo pGrafo , void ** pValor);
 
+#ifdef _DEBUG
+
+	GRA_tpCondRet GRA_VerificarGrafo(GRA_tppGrafo pGrafo);
+
+	GRA_tpCondRet GRA_DeturparGrafo(GRA_tppGrafo pGrafo,  GRA_tpTiposDeturpacao ModoDeturpar );
+
+#endif
 
 #undef GRAFO_EXT
 

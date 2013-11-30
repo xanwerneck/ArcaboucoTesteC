@@ -1,0 +1,100 @@
+
+!!! Inicio dos testes
+!!!      Construto sob teste: TRAB4
+!!!      Script de teste:     TestaContador.script
+
+!!!    0  Linha:     1  // Script:    TestaGrafo.script 
+!!!    0  Linha:     2  // Autor:     AFV 
+!!!    0  Linha:     3  // Data:      19/out/2013 
+!!!    0  Linha:     4  // Propósito: Testar Grafo 
+!!!    0  Linha:     5  // 
+    7  == Inicializar valores para grafo
+   52  == Iniciar contagem
+cc>    1  Linha:    54   Não abriu o arquivo "..\src\Grafo.count"
+>>>    2  Linha:    54  Número de erros de leitura errado. Deveria ser: 0  É: 1
+>>>    3  Linha:    55  Não é comando recuperar:  =iniciarcontagem
+   57  == Criar vertice 1
+>>>    4  Linha:    58  Tentou verificar GRAFO inexistente. 
+>>>    5  Linha:    58  Retorno errado ao criar vertice no grafo. Deveria ser: 5  É: 20
+   60  ==Criar Aresta BA
+   63  == Criar grafo 0
+   66  == Verificar contadores, 1 deles já contou
+>>>    6  Linha:    67  Número de contadores zero errado. Deveria ser: 1  É: 0
+>>>    7  Linha:    68  Não é comando recuperar:  =contagemcontador   "GRA_CriarGrafo"  1
+>>>    8  Linha:    69  Comando de teste ignorado:  =AceitaFalhasAcumuladas 1
+   71  == Criar vertice 1
+>>>    9  Linha:    72  Retorno errado ao criar vertice no grafo. Deveria ser: 5  É: 0
+   74  ==Criar Aresta BA
+>>>   10  Linha:    75  Retorno errado ao criar aresta. Deveria ser: 5  É: 6
+   77  == Criar grafo 0
+>>>   11  Linha:    78  Erro nos parâmetros do comando:  =criargrafo		grafo0   OK
+   80  ==obter valor vertice grafo
+>>>   12  Linha:    81  Comando não conhecido:  =obtervalorvertcorr     grafo0   nome6      ConteudoNulo
+   83  == Criar vertice 0
+   86  == Criar vertice 1
+>>>   13  Linha:    87  Retorno errado ao criar vertice no grafo. Deveria ser: 0  É: 10
+   89  == Criar vertice 1
+   92  == Criar vertice 2
+   95  == Criar vertice 3
+   98  == Criar vertice 4
+  101  == Criar vertice 5
+  104  == Criar vertice 6
+  107  ==obter valor vertice grafo
+>>>   14  Linha:   108  Comando não conhecido:  =obtervalorvertcorr     grafo0   nome6 OK
+  110  ==Criar Aresta BA
+  112  ==Criar Aresta CA
+  114  ==Criar Aresta AD
+  116  ==Criar Aresta AD
+  118  ==Criar Aresta AE
+  120  ==Criar Aresta EB
+  122  ==Criar Aresta EC
+  124  ==Criar Aresta DE
+  126  ==Criar Aresta FG
+  131  ==vertice em origem
+  134  ==vertice em origem
+  137  ==vertice em origem
+  140  == Excluir Aresta
+  144  ==definir corrente
+  147  ==excluir vertice
+>>>   15  Linha:   148  Retorno errado ao excluir vértice. Deveria ser: 0  É: -858993460
+  150  ==definir corrente
+  153  ==excluir vertice
+>>>   16  Linha:   154  Retorno errado ao excluir vértice. Deveria ser: 0  É: -858993460
+  156  ==definir corrente
+  159  ==excluir vertice
+>>>   17  Linha:   160  Retorno errado ao excluir vértice. Deveria ser: 0  É: -858993460
+  163  ==definir corrente
+  166  ==excluir vertice
+>>>   18  Linha:   167  Retorno errado ao excluir vértice. Deveria ser: 0  É: -858993460
+  169  ==definir corrente
+  172  ==excluir vertice
+>>>   19  Linha:   173  Retorno errado ao excluir vértice. Deveria ser: 0  É: -858993460
+  175  ==definir corrente
+  178  ==excluir vertice
+>>>   20  Linha:   179  Retorno errado ao excluir vértice. Deveria ser: 0  É: -858993460
+  181  ==destruir grafo
+!!!   20  Linha:   182  Desalocar espaco recebeu ponteiro nulo 
+  184  == Criar grafo 0
+  187  ==destruir grafo
+!!!   20  Linha:   188  Desalocar espaco recebeu ponteiro nulo 
+  190  == Criar grafo 0
+  193  ==destruir grafo
+!!!   20  Linha:   194  Desalocar espaco recebeu ponteiro nulo 
+  196  == Criar grafo 0
+  199  ==destruir grafo
+!!!   20  Linha:   200  Desalocar espaco recebeu ponteiro nulo 
+  202  == Terminar controlar contadores
+>>>   21  Linha:   204  Número de contadores zero errado. Deveria ser: 1  É: 0
+>>>   22  Linha:   205  Não é comando recuperar:  =AceitaFalhasAcumuladas 1
+  207  == Terminar contagem
+>>>   23  Linha:   210  Comando não conhecido:  =fim
+
+!!! Número de linhas lidas:         210
+!!! Número de casos de teste:        53
+!!! Número comandos corretos:        75
+!!! Número de falhas encontradas:    23
+
+!!! Foram encontrados problemas
+
+
+!!! Numero de espacos ainda alocados: 18

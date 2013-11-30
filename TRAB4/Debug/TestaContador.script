@@ -1,0 +1,210 @@
+// Script:    TestaGrafo.script
+// Autor:     AFV
+// Data:      19/out/2013
+// Propósito: Testar Grafo
+//
+
+== Inicializar valores para grafo
+=declararparm   grafo0  int 0
+=declararparm   grafo1  int 1
+=declararparm   grafo2  int 2
+
+=declararparm   OK             int  0
+=declararparm   ValorNulo      int  1
+=declararparm   VerticeNulo    int  2
+=declararparm   ListaNula      int  3
+=declararparm   ConteudoNulo   int  4
+=declararparm   GrafoNulo      int  5
+=declararparm   MaisUmaOrig    int  7
+=declararparm   ArestaExiste   int  8
+=declararparm   FaltouMemoria  int  9
+=declararparm   VerticeExiste  int  10
+
+
+=declararparm   nome0    string  "rei"
+=declararparm   nome1    string  "rainha"
+=declararparm   nome2    string  "peao"
+=declararparm   nome3    string  "cavalo"
+=declararparm   nome4    string  "Bispo"
+=declararparm   nome5    string  "Torre"
+=declararparm   nome6    string  "xxxyyy"
+
+=declararparm   casa0    char  'A'
+=declararparm   casa1    char  'B'
+=declararparm   casa2    char  'C'
+=declararparm   casa3    char  'D'
+=declararparm   casa4    char  'E'
+=declararparm   casa5    char  'F'
+=declararparm   casa6    char  'G'
+
+=declararparm	aresAB	 string  "AB"
+=declararparm	aresBA	 string  "BA"
+=declararparm	aresCA	 string  "CA"
+=declararparm	aresAD	 string  "AD"
+=declararparm	aresAE	 string  "AE"
+=declararparm	aresEC	 string  "EC"
+=declararparm	aresDE	 string  "DE"
+=declararparm	aresEB	 string  "EB"
+=declararparm	aresFG	 string  "FG"
+=declararparm	aresFA	 string  "FA"
+
+
+== Iniciar contagem
+=inicializarcontadores  ""
+=lercontadores          "..\\src\\Grafo"
+=iniciarcontagem
+
+== Criar vertice 1
+=criarverticegrafo	grafo0	 nome1 	casa1 	GrafoNulo
+
+==Criar Aresta BA
+=criararesta		casa1	 casa0	grafo0	aresBA	GrafoNulo
+
+== Criar grafo 0
+=criargrafo		grafo0   OK
+
+== Verificar contadores, 1 deles já contou
+=verificarcontagens    1
+=contagemcontador   "GRA_CriarGrafo"  1
+=AceitaFalhasAcumuladas 1
+
+== Criar vertice 1
+=criarverticegrafo	grafo0	 nome1 	casa1 	GrafoNulo
+
+==Criar Aresta BA
+=criararesta		casa1	 casa0	grafo0	aresBA	GrafoNulo
+
+== Criar grafo 0
+=criargrafo		grafo0   OK
+
+==obter valor vertice grafo
+=obtervalorvertcorr     grafo0   nome6      ConteudoNulo
+
+== Criar vertice 0
+=criarverticegrafo	grafo0	 nome0 	casa0 	OK
+
+== Criar vertice 1
+=criarverticegrafo	grafo0	 nome1 	casa1 	OK
+
+== Criar vertice 1
+=criarverticegrafo	grafo0	 nome1 	casa1 	VerticeExiste
+
+== Criar vertice 2
+=criarverticegrafo	grafo0	 nome2 	casa2 	OK
+
+== Criar vertice 3
+=criarverticegrafo	grafo0	 nome3 	casa3 	OK
+
+== Criar vertice 4
+=criarverticegrafo	grafo0	 nome4 	casa4	OK
+
+== Criar vertice 5
+=criarverticegrafo	grafo0	 nome5 	casa5 	OK
+
+== Criar vertice 6
+=criarverticegrafo	grafo0	 nome6 	casa6 	OK
+
+==obter valor vertice grafo
+=obtervalorvertcorr     grafo0   nome6 OK
+
+==Criar Aresta BA
+=criararesta		casa1	 casa0	grafo0	aresBA	OK
+==Criar Aresta CA
+=criararesta		casa2	 casa0	grafo0	aresCA	OK		
+==Criar Aresta AD
+=criararesta		casa0	 casa3	grafo0	aresAD	OK	
+==Criar Aresta AD
+=criararesta		casa0	 casa3	grafo0	aresAD	ArestaExiste	
+==Criar Aresta AE
+=criararesta		casa0	 casa4	grafo0	aresAE	OK
+==Criar Aresta EB
+=criararesta		casa4	 casa0	grafo0	aresEB	OK
+==Criar Aresta EC
+=criararesta		casa4	 casa2	grafo0	aresEC	OK
+==Criar Aresta DE
+=criararesta		casa3	 casa4	grafo0	aresDE	OK	
+==Criar Aresta FG
+=criararesta		casa5	 casa6	grafo0	aresFG	OK
+
+		
+
+==vertice em origem
+=inserirvertorigens grafo0   casa0  OK
+
+==vertice em origem
+=inserirvertorigens grafo0   casa2  OK
+
+==vertice em origem
+=inserirvertorigens grafo0   casa2  MaisUmaOrig
+
+== Excluir Aresta
+=excluiraresta      casa3	 casa4	grafo0	OK
+
+
+==definir corrente
+=definircorrentegra grafo0   casa1  OK
+
+==excluir vertice
+=excluirvertice     grafo0   OK
+
+==definir corrente
+=definircorrentegra grafo0   casa2  OK
+
+==excluir vertice
+=excluirvertice     grafo0   OK
+
+==definir corrente
+=definircorrentegra grafo0   casa4  OK
+
+==excluir vertice
+=excluirvertice     grafo0   OK
+
+
+==definir corrente
+=definircorrentegra grafo0   casa3  OK
+
+==excluir vertice
+=excluirvertice     grafo0   OK
+
+==definir corrente
+=definircorrentegra grafo0   casa5  OK
+
+==excluir vertice
+=excluirvertice     grafo0   OK
+
+==definir corrente
+=definircorrentegra grafo0   casa6  OK
+
+==excluir vertice
+=excluirvertice     grafo0   OK
+
+==destruir grafo
+=destruirgrafo      grafo0   OK
+
+== Criar grafo 0
+=criargrafo		    grafo0   OK
+
+==destruir grafo
+=destruirgrafo      grafo0   OK
+
+== Criar grafo 0
+=criargrafo		    grafo1   OK
+
+==destruir grafo
+=destruirgrafo      grafo1   OK
+
+== Criar grafo 0
+=criargrafo		    grafo2   OK
+
+==destruir grafo
+=destruirgrafo      grafo2   OK
+
+== Terminar controlar contadores
+=pararcontagem
+=verificarcontagens    1
+=AceitaFalhasAcumuladas 1
+
+== Terminar contagem
+=terminarcontadores
+
+=fim
