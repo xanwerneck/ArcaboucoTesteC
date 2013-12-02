@@ -509,6 +509,55 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista) ;
 
 LIS_tpCondRet LIS_NumElem( LIS_tppLista pLista , int * numElem );
 
+/***********************************************************************
+*
+*  $FC Funcao: LIS  &Modifica o valor do corrente
+*
+*  $ED Descricao da funcao
+*     Modifica o valor do elemento corrente da lista
+*
+*  $EP Parametros
+*     pLista      - Ponteiro para a lista.
+*     pvalor      - Ponteiro para novo valor.
+* 
+*  $FV Valor retornado
+*     LIS_CondRetOK     
+*
+*  $AE CondRet deve ter sido instanciado
+*      Lista passada não pode ser nula.
+*
+*  $AS Se CondRet = LIS_CondRetOK
+*      Corrente possui o valor fornecido
+*
+***********************************************************************/
+
+LIS_tpCondRet LIS_ModificaValor(LIS_tppLista pLista, void * pValor);
+
+/***********************************************************************
+*
+*  $FC Funcao: LIS  &Seta elemento como corrente da lista
+*
+*  $ED Descricao da funcao
+*     Seta o elemento passado como corrente da lista
+*
+*  $EP Parametros
+*     pLista      - Ponteiro para a lista.
+*     pvalor      - Ponteiro para novo valor.
+* 
+*  $FV Valor retornado
+*     LIS_CondRetOK     
+*
+*  $AE CondRet deve ter sido instanciado
+*      Lista passada não pode ser nula.
+*
+*  $AS Se CondRet = LIS_CondRetOK
+*      Corrente possui nova referência.
+*
+***********************************************************************/
+
+LIS_tpCondRet LIS_SetarCorrente(LIS_tppLista pLista, void * pValor);
+
+
 
 #undef LISTA_EXT
 

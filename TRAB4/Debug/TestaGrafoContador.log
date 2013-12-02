@@ -1,0 +1,307 @@
+
+!!! Inicio dos testes
+!!!      Construto sob teste: TRAB4
+!!!      Script de teste:     TesteContadorGrafo.script
+
+!!!    0  Linha:     1  // Script:    TestaGrafo.script 
+!!!    0  Linha:     2  // Autor:     AFV 
+!!!    0  Linha:     3  // Data:      19/out/2013 
+!!!    0  Linha:     4  // Propósito: Testar Contadores e Espaços Alocados em GRAFO 
+!!!    0  Linha:     5  // 
+    7  == Inicializar valores para grafo
+!!!    0  Linha:    78  //Inicio dos testes 
+   80  == Iniciar contagem
+   86  == Verificar grafo com Erro
+>>>    1  Linha:    87  Tentou verificar grafo nao existente. 
+>>>    2  Linha:    87  Retorno errado ao verificar grafo Deveria ser: 0  É: 20
+<<<    1  Linha:    88  Falha esperada foi recuperada. 
+   90  ==Obter espacos alocados
+   94  ==Teste de memoria
+   98  ==verifica grafo recem criado
+  101  ==destruir grafo1
+  104  ==Eliminar limite de espaco
+  107  ==Teste de Memoria 2
+  117  ==Destruir Grafo
+  131  ==Verificando todos os espaços alocados
+  134  == Numero de Espacos Alocados (+10 grafos)
+!!!    1  Linha:   137  //* Criando Vértices do grafo */ 
+  138  == Criar vertice 0
+  141  == Criar vertice 1
+  144  == Criar vertice 1
+  147  == Criar vertice 2
+  150  == Criar vertice 3
+  153  == Criar vertice 4
+  156  == Criar vertice 5
+  159  == Criar vertice 6
+  162  == Numero de Espacos Alocados (+7 vertices)
+  165  == Numero de Espacos Alocados (ATIVOS)
+  168  == Numero de Espacos Alocados (INATIVOS)
+!!!    1  Linha:   171  //* Inserir arestas */ 
+  173  ==Criar Aresta BA
+  175  ==Criar Aresta CA
+  177  ==Criar Aresta AD
+  179  ==Criar Aresta AD
+  181  ==Criar Aresta AE
+  183  ==Criar Aresta EB
+  185  ==Criar Aresta EC
+  187  ==Criar Aresta DE
+  189  ==Criar Aresta FG
+  192  == Numero de Espacos Alocados (+8 arestas)
+  195  == Numero de Espacos Alocados (ATIVOS)
+  198  == Numero de Espacos Alocados (INATIVOS)
+!!!    1  Linha:   201  //* Fim de Inserir arestas */ 
+!!!    1  Linha:   203  //*Verificacoes em outro grafo */ 
+  205  == Elimina um espaco alocado
+  208  == Elimina um espaco alocado
+  211  == Numero de Espacos Alocados (-2 grafos)
+  214  == Recria o grafo1
+  217  == Criar vertice 4
+  220  == Criar vertice 5
+  223  == Criar vertice 6
+  226  ==Criar Aresta ED
+  228  ==Criar Aresta EG
+  230  ==Criar Aresta DE
+  232  ==Criar Aresta GD
+  235  == Recria o grafo2
+!!!    1  Linha:   238  //* Verificações finais */ 
+  240  == Exibir todos os espaços
+
+!!!  Espaco de dados, id:    37  pValor: 004EC36A  hexa: 6A C3 4E 00  E' origem lista  Id suc:    36
+     Id tipo valor: 1  Tamanho: 32  Ativo  Linha onde alocou: 248  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  90 D6 4E 00 10 D7 4E 00 00 00 00 00 E0 61 25 01   ÖN..×N.....àa%.
+    010  00 00 00 00 00 00 00 00 00 00 00 00 7C 7C 7C 7C   ............||||
+
+
+!!!  Espaco de dados, id:    36  pValor: 004EED1A  hexa: 1A ED 4E 00  Id ant:    37  Id suc:    35
+     Id tipo valor: 3  Tamanho: 8  Ativo  Linha onde alocou: 374  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  7C F5 20 00 0A C1 4E 00                           |õ ..ÁN.
+
+
+!!!  Espaco de dados, id:    35  pValor: 004EEC1A  hexa: 1A EC 4E 00  Id ant:    36  Id suc:    34
+     Id tipo valor: 3  Tamanho: 8  Ativo  Linha onde alocou: 374  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  7C F5 20 00 DA BF 4E 00                           |õ .Ú¿N.
+
+
+!!!  Espaco de dados, id:    34  pValor: 004EEB1A  hexa: 1A EB 4E 00  Id ant:    35  Id suc:    33
+     Id tipo valor: 3  Tamanho: 8  Ativo  Linha onde alocou: 374  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  7C F5 20 00 3A C2 4E 00                           |õ .:ÂN.
+
+
+!!!  Espaco de dados, id:    33  pValor: 004EEA1A  hexa: 1A EA 4E 00  Id ant:    34  Id suc:    32
+     Id tipo valor: 3  Tamanho: 8  Ativo  Linha onde alocou: 374  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  7C F5 20 00 0A C1 4E 00                           |õ ..ÁN.
+
+
+!!!  Espaco de dados, id:    32  pValor: 004EC23A  hexa: 3A C2 4E 00  Id ant:    33  Id suc:    31
+     Id tipo valor: 2  Tamanho: 28  Ativo  Linha onde alocou: 306  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  10 D6 4E 00 90 D5 4E 00 7C F5 20 00 47 7C 7C 7C   .ÖN.ÕN.|õ .G|||
+    010  E0 61 25 01 AA BE 4E 00 7C 7C 7C 7C               àa%.ª¾N.||||
+
+
+!!!  Espaco de dados, id:    31  pValor: 004EC10A  hexa: 0A C1 4E 00  Id ant:    32  Id suc:    30
+     Id tipo valor: 2  Tamanho: 28  Ativo  Linha onde alocou: 306  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  10 D5 4E 00 90 D4 4E 00 7C F5 20 00 44 7C 7C 7C   .ÕN.ÔN.|õ .D|||
+    010  E0 61 25 01 AA BE 4E 00 7C 7C 7C 7C               àa%.ª¾N.||||
+
+
+!!!  Espaco de dados, id:    30  pValor: 004EBFDA  hexa: DA BF 4E 00  Id ant:    31  Id suc:    29
+     Id tipo valor: 2  Tamanho: 28  Ativo  Linha onde alocou: 306  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  10 D4 4E 00 90 D3 4E 00 7C F5 20 00 45 7C 7C 7C   .ÔN.ÓN.|õ .E|||
+    010  E0 61 25 01 AA BE 4E 00 7C 7C 7C 7C               àa%.ª¾N.||||
+
+
+!!!  Espaco de dados, id:    29  pValor: 004EBEAA  hexa: AA BE 4E 00  Id ant:    30  Id suc:    28
+     Id tipo valor: 1  Tamanho: 32  Ativo  Linha onde alocou: 248  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  78 D9 5F 00 78 D8 5F 00 0A C1 4E 00 E0 61 25 01   xÙ_.xØ_..ÁN.àa%.
+    010  03 00 00 00 00 00 00 00 00 00 00 00 7C 7C 7C 7C   ............||||
+
+
+!!!  Espaco de dados, id:    28  pValor: 004EE91A  hexa: 1A E9 4E 00  Id ant:    29  Id suc:    27
+     Id tipo valor: 3  Tamanho: 8  Ativo  Linha onde alocou: 374  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  7C F5 20 00 7A BD 4E 00                           |õ .z½N.
+
+
+!!!  Espaco de dados, id:    27  pValor: 004EE802  hexa: 02 E8 4E 00  Id ant:    28  Id suc:    26
+     Id tipo valor: 3  Tamanho: 8  Ativo  Linha onde alocou: 374  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  7C F5 20 00 1A BB 4E 00                           |õ ..»N.
+
+
+!!!  Espaco de dados, id:    26  pValor: 004EE702  hexa: 02 E7 4E 00  Id ant:    27  Id suc:    25
+     Id tipo valor: 3  Tamanho: 8  Ativo  Linha onde alocou: 374  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  7C F5 20 00 BA B8 4E 00                           |õ .º¸N.
+
+
+!!!  Espaco de dados, id:    25  pValor: 004EE602  hexa: 02 E6 4E 00  Id ant:    26  Id suc:    24
+     Id tipo valor: 3  Tamanho: 8  Ativo  Linha onde alocou: 374  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  7C F5 20 00 5A B6 4E 00                           |õ .Z¶N.
+
+
+!!!  Espaco de dados, id:    24  pValor: 004EE502  hexa: 02 E5 4E 00  Id ant:    25  Id suc:    23
+     Id tipo valor: 3  Tamanho: 8  Ativo  Linha onde alocou: 374  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  7C F5 20 00 1A BB 4E 00                           |õ ..»N.
+
+
+!!!  Espaco de dados, id:    23  pValor: 004EE402  hexa: 02 E4 4E 00  Id ant:    24  Id suc:    22
+     Id tipo valor: 3  Tamanho: 8  Ativo  Linha onde alocou: 374  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  7C F5 20 00 EA B9 4E 00                           |õ .ê¹N.
+
+
+!!!  Espaco de dados, id:    22  pValor: 004EE302  hexa: 02 E3 4E 00  Id ant:    23  Id suc:    21
+     Id tipo valor: 3  Tamanho: 8  Ativo  Linha onde alocou: 374  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  7C F5 20 00 5A B6 4E 00                           |õ .Z¶N.
+
+
+!!!  Espaco de dados, id:    21  pValor: 004EE202  hexa: 02 E2 4E 00  Id ant:    22  Id suc:    20
+     Id tipo valor: 3  Tamanho: 8  Ativo  Linha onde alocou: 374  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  7C F5 20 00 5A B6 4E 00                           |õ .Z¶N.
+
+
+!!!  Espaco de dados, id:    20  pValor: 004EBD7A  hexa: 7A BD 4E 00  Id ant:    21  Id suc:    19
+     Id tipo valor: 2  Tamanho: 28  Ativo  Linha onde alocou: 306  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  10 D3 4E 00 90 D2 4E 00 7C F5 20 00 47 7C 7C 7C   .ÓN.ÒN.|õ .G|||
+    010  E0 61 25 01 D2 F5 5F 00 7C 7C 7C 7C               àa%.Òõ_.||||
+
+
+!!!  Espaco de dados, id:    19  pValor: 004EBC4A  hexa: 4A BC 4E 00  Id ant:    20  Id suc:    18
+     Id tipo valor: 2  Tamanho: 28  Ativo  Linha onde alocou: 306  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  10 D2 4E 00 90 D1 4E 00 7C F5 20 00 46 7C 7C 7C   .ÒN.ÑN.|õ .F|||
+    010  E0 61 25 01 D2 F5 5F 00 7C 7C 7C 7C               àa%.Òõ_.||||
+
+
+!!!  Espaco de dados, id:    18  pValor: 004EBB1A  hexa: 1A BB 4E 00  Id ant:    19  Id suc:    17
+     Id tipo valor: 2  Tamanho: 28  Ativo  Linha onde alocou: 306  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  78 E5 5F 00 F8 E4 5F 00 7C F5 20 00 45 7C 7C 7C   xå_.øä_.|õ .E|||
+    010  E0 61 25 01 D2 F5 5F 00 7C 7C 7C 7C               àa%.Òõ_.||||
+
+
+!!!  Espaco de dados, id:    17  pValor: 004EB9EA  hexa: EA B9 4E 00  Id ant:    18  Id suc:    16
+     Id tipo valor: 2  Tamanho: 28  Ativo  Linha onde alocou: 306  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  78 E4 5F 00 F8 E3 5F 00 7C F5 20 00 44 7C 7C 7C   xä_.øã_.|õ .D|||
+    010  E0 61 25 01 D2 F5 5F 00 7C 7C 7C 7C               àa%.Òõ_.||||
+
+
+!!!  Espaco de dados, id:    16  pValor: 004EB8BA  hexa: BA B8 4E 00  Id ant:    17  Id suc:    15
+     Id tipo valor: 2  Tamanho: 28  Ativo  Linha onde alocou: 306  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  78 E3 5F 00 F8 E2 5F 00 7C F5 20 00 43 7C 7C 7C   xã_.øâ_.|õ .C|||
+    010  E0 61 25 01 D2 F5 5F 00 7C 7C 7C 7C               àa%.Òõ_.||||
+
+
+!!!  Espaco de dados, id:    15  pValor: 004EB78A  hexa: 8A B7 4E 00  Id ant:    16  Id suc:    14
+     Id tipo valor: 2  Tamanho: 28  Ativo  Linha onde alocou: 306  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  78 E2 5F 00 F8 E1 5F 00 7C F5 20 00 42 7C 7C 7C   xâ_.øá_.|õ .B|||
+    010  E0 61 25 01 D2 F5 5F 00 7C 7C 7C 7C               àa%.Òõ_.||||
+
+
+!!!  Espaco de dados, id:    14  pValor: 004EB65A  hexa: 5A B6 4E 00  Id ant:    15  Id suc:    13
+     Id tipo valor: 2  Tamanho: 28  Ativo  Linha onde alocou: 306  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  78 E1 5F 00 F8 E0 5F 00 7C F5 20 00 41 7C 7C 7C   xá_.øà_.|õ .A|||
+    010  E0 61 25 01 D2 F5 5F 00 7C 7C 7C 7C               àa%.Òõ_.||||
+
+
+!!!  Espaco de dados, id:    13  pValor: 004EB52A  hexa: 2A B5 4E 00  Id ant:    14  Id suc:    12
+     Id tipo valor: 1  Tamanho: 32  Ativo  Linha onde alocou: 248  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  F8 DF 5F 00 78 E0 5F 00 00 00 00 00 E0 61 25 01   øß_.xà_.....àa%.
+    010  00 00 00 00 00 00 00 00 00 00 00 00 7C 7C 7C 7C   ............||||
+
+
+!!!  Espaco de dados, id:    12  pValor: 004EB3FA  hexa: FA B3 4E 00  Id ant:    13  Id suc:    11
+     Id tipo valor: 1  Tamanho: 32  Ativo  Linha onde alocou: 248  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  F8 DE 5F 00 78 DF 5F 00 00 00 00 00 E0 61 25 01   øÞ_.xß_.....àa%.
+    010  00 00 00 00 00 00 00 00 00 00 00 00 7C 7C 7C 7C   ............||||
+
+
+!!!  Espaco de dados, id:    11  pValor: 004EB2CA  hexa: CA B2 4E 00  Id ant:    12  Id suc:    10
+     Id tipo valor: 1  Tamanho: 32  Ativo  Linha onde alocou: 248  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  F8 DD 5F 00 78 DE 5F 00 00 00 00 00 E0 61 25 01   øÝ_.xÞ_.....àa%.
+    010  00 00 00 00 00 00 00 00 00 00 00 00 7C 7C 7C 7C   ............||||
+
+
+!!!  Espaco de dados, id:    10  pValor: 004EB19A  hexa: 9A B1 4E 00  Id ant:    11  Id suc:     9
+     Id tipo valor: 1  Tamanho: 32  Ativo  Linha onde alocou: 248  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  F8 DC 5F 00 78 DD 5F 00 00 00 00 00 E0 61 25 01   øÜ_.xÝ_.....àa%.
+    010  00 00 00 00 00 00 00 00 00 00 00 00 7C 7C 7C 7C   ............||||
+
+
+!!!  Espaco de dados, id:     9  pValor: 004EB052  hexa: 52 B0 4E 00  Id ant:    10  Id suc:     8
+     Id tipo valor: 1  Tamanho: 32  Ativo  Linha onde alocou: 248  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  F8 DB 5F 00 78 DC 5F 00 00 00 00 00 E0 61 25 01   øÛ_.xÜ_.....àa%.
+    010  00 00 00 00 00 00 00 00 00 00 00 00 7C 7C 7C 7C   ............||||
+
+
+!!!  Espaco de dados, id:     8  pValor: 005FFEF2  hexa: F2 FE 5F 00  Id ant:     9  Id suc:     7
+     Id tipo valor: 1  Tamanho: 32  Ativo  Linha onde alocou: 248  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  F8 DA 5F 00 78 DB 5F 00 00 00 00 00 E0 61 25 01   øÚ_.xÛ_.....àa%.
+    010  00 00 00 00 00 00 00 00 00 00 00 00 7C 7C 7C 7C   ............||||
+
+
+!!!  Espaco de dados, id:     7  pValor: 005FFDC2  hexa: C2 FD 5F 00  Id ant:     8  Id suc:     4
+     Id tipo valor: 1  Tamanho: 32  Ativo  Linha onde alocou: 248  Arquivo: boucotestec\trab4\trab4\grafo.c
+     Controle antes OK  Controle apos OK
+          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F   0123456789ABCDEF
+    000  F8 D9 5F 00 78 DA 5F 00 00 00 00 00 E0 61 25 01   øÙ_.xÚ_.....àa%.
+    010  00 00 00 00 00 00 00 00 00 00 00 00 7C 7C 7C 7C   ............||||
+
+
+!!!  Espaco de dados, id:     4  pValor: 005FF5D2  hexa: D2 F5 5F 00  Id ant:     7  E' final lista
+     Id tipo valor: 1  Tamanho: 32  Ativo  Linha onde alocou: 248  Arquivo: boucotestec\trab4\trab4\grafo.c
+     

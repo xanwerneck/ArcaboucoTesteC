@@ -1,0 +1,138 @@
+________________________________________________________________
+
+RELATÓRIO - Casos de Testes de Instrumentação - 02/dez/2013
+________________________________________________________________
+
+________________________________________________________________
+
+ÍNDICE
+________________________________________________________________
+
+1 - Casos de Teste
+2 - Descrição de cada caso de teste
+3 - Verificação utilizada para cada caso
+________________________________________________________________
+
+________________________________________________________________
+
+1 - CASOS DE TESTE
+________________________________________________________________
+
+1 - Elimina o elemento corrente da estrutura GRAFO
+2 - Atribui NULL ao destino da aresta corrente referente ao vértice corrente
+3 - Atribui NULL ao destino antecessor do vértice corrente
+4 - Atribui LIXO ao destino da aresta corrente referente ao vértice corrente
+5 - Atribui LIXO ao destino antecessor do vértice corrente
+6 - Atribui NULL ao conteúdo do vértice corrente
+7 - Altera o tipo do vértice corrente
+8 - Isola vértice corrente sem contudo dar free neste elemento
+9 - Atribui NULL ao vértice corrente
+10 - Atribui NULL ao vértice corrente da lista de origens do GRAFO.
+
+________________________________________________________________
+
+2 - DESCRIÇÃO DOS CASOS DE TESTE
+________________________________________________________________
+
+1 - Elimina o elemento corrente da estrutura GRAFO
+
+A função de deturpação neste caso simplesmente dá um free no elemento corrente
+do GRAFO;
+
+2 - Atribui NULL ao destino da aresta corrente referente ao vértice corrente
+
+Obtém a aresta corrente do vértice corrente do GRAFO, em seguida, o apontador
+desta aresta, que seria o destino de percurso no grafo recebe NULL;
+
+3 - Atribui NULL ao destino antecessor do vértice corrente
+
+Obtém o vértice corrente da lista de antecessores do vértice corrente do GRAFO,
+em seguida atribui NULL a este ponteiro, com isso o vértice perde a referência 
+para um elemento antecessor;
+
+4 - Atribui LIXO ao destino da aresta corrente referente ao vértice corrente
+
+Obtém a aresta corrente do vértice corrente do GRAFO, em seguida, o apontador
+desta aresta, que seria o destino de percurso no grafo recebe LIXO, ou seja,
+um elemento diferente do esperado;
+
+5 - Atribui LIXO ao destino antecessor do vértice corrente
+
+Obtém o vértice corrente da lista de antecessores do vértice corrente do GRAFO,
+em seguida atribui LIXO, ou seja, um elemento diferente do esperado a este 
+ponteiro, com isso o vértice perde a referência para um elemento antecessor;
+
+6 - Atribui NULL ao conteúdo do vértice corrente
+
+O conteúdo do elemento corrente do GRAFO recebe NULL;
+
+7 - Altera o tipo do vértice corrente
+
+A partir do elemento corrente do GRAFO, é alterado o tipo de referência 
+a este ponteiro, com isso a estrutura fica inconsistente, pois o corrente
+que deveria ser do tipo vértice recebe tipo diferente;
+
+8 - Isola vértice corrente sem contudo dar free neste elemento
+
+Exclui o elemento corrente da lista de vértices do GRAFO, com isso a quantidade
+de vértices fica diferente da obtida na montagem da estrutura;
+
+9 - Atribui NULL ao vértice corrente
+
+O ponteiro do elemento corrente do GRAFO recebe NULL;
+
+10 - Atribui NULL ao vértice corrente da lista de origens do GRAFO.
+
+Obtém o vértice corrente da lista de origens do GRAFO e atribui NULL
+a este ponteiro.
+
+________________________________________________________________
+
+3 - VERIFICAÇÃO UTILIZADA PARA CADA CASO DE TESTE
+________________________________________________________________
+
+1 - Elimina o elemento corrente da estrutura GRAFO
+
+Na função de verificação é acrescentado um contado de passagem que chega
+se existe um elemento corrente na estrutura GRAFO.
+
+2 - Atribui NULL ao destino da aresta corrente referente ao vértice corrente
+
+
+
+3 - Atribui NULL ao destino antecessor do vértice corrente
+
+
+
+4 - Atribui LIXO ao destino da aresta corrente referente ao vértice corrente
+
+
+
+5 - Atribui LIXO ao destino antecessor do vértice corrente
+
+
+
+6 - Atribui NULL ao conteúdo do vértice corrente
+
+
+
+7 - Altera o tipo do vértice corrente
+
+
+
+8 - Isola vértice corrente sem contudo dar free neste elemento
+
+
+
+9 - Atribui NULL ao vértice corrente
+
+
+
+10 - Atribui NULL ao vértice corrente da lista de origens do GRAFO.
+
+
+
+
+
+
+

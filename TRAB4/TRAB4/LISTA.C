@@ -536,6 +536,31 @@ LIS_tpCondRet LIS_ChecaOrigemNulo(LIS_tppLista pLista)
 
    } /* Fim funcao: LIS  &Procurar elemento contendo valor */
 
+/***************************************************************************
+*
+*  Funcao: LIS  &Modifica valor do elemento corrente da lista
+*  ****/
+LIS_tpCondRet LIS_ModificaValor(LIS_tppLista pLista, void * pValor)
+{
+
+   pLista->pElemCorr->pValor = pValor;
+
+   return LIS_CondRetOK;
+
+} /* Fim funcao: LIS &Modifica valor do elemento corrente da lista */
+
+/***************************************************************************
+*
+*  Funcao: LIS  &Modifica valor do elemento corrente da lista
+*  ****/
+LIS_tpCondRet LIS_SetarCorrente(LIS_tppLista pLista, void * pValor)
+{
+
+   pLista->pElemCorr = (tpElemLista *)&pValor;
+
+   return LIS_CondRetOK;
+
+} /* Fim funcao: LIS &Modifica valor do elemento corrente da lista */
 
 /************  Codigo das funcoes encapsuladas no modulo  *************/
 

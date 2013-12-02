@@ -1,2 +1,2 @@
-TRAB4 /STestaContador.script /LTestagrafo.log
+TRAB4 /STesteContadorGrafo.script /LTestaGrafoContador.log
 pause

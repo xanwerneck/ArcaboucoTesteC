@@ -18,15 +18,15 @@
 
 typedef enum
 {
-   CED_ID_TIPO_VALOR_NULO = 1 ,
+   CED_ID_TIPO_VALOR_NULO = 0 ,
 
-   GRA_TipoEspacoCabeca = 2 , 
+   GRA_TipoEspacoCabeca   = 1 , 
    
-   GRA_TipoEspacoVertice = 3 ,
+   GRA_TipoEspacoVertice  = 2 ,
    
-   GRA_TipoEspacoAresta = 4 ,
-
-   CED_ID_TIPO_ILEGAL = 999 
+   GRA_TipoEspacoAresta   = 3 ,
+   
+   CED_ID_TIPO_ILEGAL     = 999 
 
 } CED_tpIdTipoEspaco ;
 

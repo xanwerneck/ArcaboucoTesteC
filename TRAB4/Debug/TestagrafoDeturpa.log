@@ -22,86 +22,63 @@
    97  == Criar vertice 4
   100  == Criar vertice 5
   103  == Criar vertice 6
-  106  == Criar vertice 7
-ll>    1  Linha:   107  Tipo do parâmetro incorreto.  casa7
->>>    2  Linha:   107  Erro nos parâmetros do comando:  =criarverticegrafo	grafo0	  	casa7 	OK
-  109  ==obter valor vertice grafo
->>>    3  Linha:   110  Retorno errado ao obter valor do vértice corrente. Deveria ser: 0  É: 4
-  112  ==Criar Aresta BA
-  114  ==Criar Aresta CA
+  107  ==obter valor vertice grafo
+  110  ==Criar Aresta BA
+  112  ==Criar Aresta CA
+  114  ==Criar Aresta AD
   116  ==Criar Aresta AD
-  118  ==Criar Aresta AD
-  120  ==Criar Aresta AE
-  122  ==Criar Aresta EB
-  124  ==Criar Aresta EC
-  126  ==Criar Aresta DE
-  128  ==Criar Aresta FG
-  132  ==vertice em origem
-  135  ==vertice em origem
-  138  ==vertice em origem
-  141  == Excluir Aresta
-  145  ==definir corrente
-  148  ==excluir vertice
-  151  ==definir corrente
-  154  ==excluir vertice
+  118  ==Criar Aresta AE
+  120  ==Criar Aresta EB
+  122  ==Criar Aresta EC
+  124  ==Criar Aresta DE
+  126  ==Criar Aresta FG
+  130  ==vertice em origem
+  133  ==vertice em origem
+  136  ==vertice em origem
+  139  == Excluir Aresta
+  145  == Criar grafo 0
+  148  ==destruir grafo
+  151  == Criar grafo 0
+  154  ==destruir grafo
   157  ==definir corrente
-  160  ==excluir vertice
-  164  ==definir corrente
-  167  ==excluir vertice
-  170  ==definir corrente
-  173  ==excluir vertice
-  176  ==definir corrente
-  179  ==excluir vertice
-  182  == Criar grafo 0
-  185  ==destruir grafo
-!!!    3  Linha:   186  Desalocar espaco recebeu ponteiro nulo 
-  188  == Criar grafo 0
-  191  ==destruir grafo
-!!!    3  Linha:   192  Desalocar espaco recebeu ponteiro nulo 
-  194  ==vertice em origem
->>>    4  Linha:   195  Retorno errado ao inserir vertice na lista de origens Deveria ser: 0  É: 6
-  197  ==deturpargrafo  grafo0 DeturpaEliminaCorr      OK
->>>    5  Linha:   198  O caso de teste anterior está vazio. 
-  198  ==deturpargrafo  grafo0 DeturpaNullAntecessor   OK
-  200  ==deturpargrafo  grafo0 DeturpaLixoSucessor     OK
->>>    6  Linha:   201  O caso de teste anterior está vazio. 
-  201  ==deturpargrafo  grafo0 DeturpaLixoAntecessor   OK
->>>    7  Linha:   202  O caso de teste anterior está vazio. 
-  202  ==deturpargrafo  grafo0 DeturpaNullConteudo     OK
->>>    8  Linha:   203  O caso de teste anterior está vazio. 
-  203  ==deturpargrafo  grafo0 DeturpaAlteraTipo       OK
->>>    9  Linha:   204  O caso de teste anterior está vazio. 
-  204  ==deturpargrafo  grafo0 DeturpaIsolaVertice     OK
->>>   10  Linha:   205  O caso de teste anterior está vazio. 
-  205  ==deturpargrafo  grafo0 DeturpaNullCorrente     OK
->>>   11  Linha:   206  O caso de teste anterior está vazio. 
-  206  ==deturpargrafo  grafo0 DeturpaNullOrigem       OK
->>>   12  Linha:   208  O caso de teste anterior está vazio. 
-  208  ==verificargrafo grafo0 OK
->>>   13  Linha:   210  O caso de teste anterior está vazio. 
-  210  ==verificargrafo grafo2 OK
->>>   14  Linha:   212  O caso de teste anterior está vazio. 
-  212  == Terminar controlar contadores
-cc>   15  Linha:   214   Contagem em "GRA_DeturpaLixoAntecessor" é zero.
-cc>   16  Linha:   214   Contagem em "GRA_DeturpaLixoSucessor" é zero.
-cc>   17  Linha:   214   Contagem em "GRA_DeturpaNullCorrente" é zero.
-cc>   18  Linha:   214   Contagem em "VGRA_CorrenteEliminado" é zero.
-cc>   19  Linha:   214   Contagem em "VGRA_VerticeAntNulo" é zero.
-cc>   20  Linha:   214   Contagem em "VGRA_VerticeContNulo" é zero.
-cc>   21  Linha:   214   Contagem em "VGRA_VerticeCorrNulo" é zero.
-cc>   22  Linha:   214   Contagem em "VGRA_VerticeSucNulo" é zero.
-cc>   23  Linha:   214   Contagem em "VGRA_VerticeTipoErrado" é zero.
->>>   24  Linha:   214  Número de contadores zero errado. Deveria ser: 2  É: 9
->>>   25  Linha:   215  Não é comando recuperar:  =AceitaFalhasAcumuladas 0
-  217  == Terminar contagem
->>>   26  Linha:   220  Comando não conhecido:  =fim
+  160  ==deturpargrafo  grafo0 DeturpaEliminaCorr      OK
+>>>    1  Linha:   162  O caso de teste anterior está vazio. 
+  162  ==deturpargrafo  grafo0 DeturpaNullSucessor     OK
+>>>    2  Linha:   164  O caso de teste anterior está vazio. 
+  164  ==deturpargrafo  grafo0 DeturpaNullAntecessor   OK
+>>>    3  Linha:   166  O caso de teste anterior está vazio. 
+  166  ==deturpargrafo  grafo0 DeturpaLixoSucessor     OK
+>>>    4  Linha:   168  O caso de teste anterior está vazio. 
+  168  ==deturpargrafo  grafo0 DeturpaLixoAntecessor   OK
+>>>    5  Linha:   170  O caso de teste anterior está vazio. 
+  170  ==deturpargrafo  grafo0 DeturpaNullConteudo     OK
+>>>    6  Linha:   172  O caso de teste anterior está vazio. 
+  172  ==deturpargrafo  grafo0 DeturpaAlteraTipo       OK
+  176  ==deturpargrafo  grafo0 DeturpaNullCorrente     OK
+>>>    7  Linha:   178  O caso de teste anterior está vazio. 
+  178  ==deturpargrafo  grafo0 DeturpaNullOrigem       OK
+>>>    8  Linha:   181  Tipo do espaço de dados não é vertice Deveria ser: 999  É: 2
+>>>    9  Linha:   181  Tipo do espaço de dados não é vertice Deveria ser: 0  É: 2
+>>>   10  Linha:   181  Encontrado vertice fora do grafo 
+>>>   11  Linha:   181  Encontrado vertice fora do grafo 
+>>>   12  Linha:   181  Retorno errado ao verificar grafo Deveria ser: 0  É: 20
+  183  ==verificargrafo grafo2 OK
+>>>   13  Linha:   185  O caso de teste anterior está vazio. 
+  185  == Terminar controlar contadores
+cc>   14  Linha:   187   Contagem em "D_GRA_DeturpaCorrente" é zero.
+cc>   15  Linha:   187   Contagem em "GRA_ExcluirVerticeCorrente" é zero.
+cc>   16  Linha:   187   Contagem em "V_GRA_ErroTipoCabeca" é zero.
+>>>   17  Linha:   187  Número de contadores zero errado. Deveria ser: 2  É: 3
+>>>   18  Linha:   188  Não é comando recuperar:  =AceitaFalhasAcumuladas 0
+  190  == Terminar contagem
+>>>   19  Linha:   193  Comando não conhecido:  =fim
 
-!!! Número de linhas lidas:         220
-!!! Número de casos de teste:        59
-!!! Número comandos corretos:        95
-!!! Número de falhas encontradas:    26
+!!! Número de linhas lidas:         193
+!!! Número de casos de teste:        45
+!!! Número comandos corretos:        85
+!!! Número de falhas encontradas:    19
 
 !!! Foram encontrados problemas
 
 
-!!! Numero de espacos ainda alocados: 10
+!!! Numero de espacos ainda alocados: 15

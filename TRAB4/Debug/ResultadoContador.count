@@ -1,15 +1,15 @@
 //////////////////////////////////////////////////////////////////////
-// Contadores acumulados, gerado: 2013/11/30-16:27:45
+// Contadores acumulados, gerado: 2013/11/30-17:27:48
 //////////////////////////////////////////////////////////////////////
 
-GRA_CriarArestaGrafo\=16
-GRA_CriarGrafo\=8
-GRA_CriarVerticeGrafo\=14
-GRA_DefinirCorrente\=12
-GRA_DestruirGrafo\=8
-GRA_ExcluirAresta\=14
-GRA_ExcluirVerticeCorrente\=14
-GRA_InserirOrigem\=6
+GRA_CriarArestaGrafo\=24
+GRA_CriarGrafo\=12
+GRA_CriarVerticeGrafo\=21
+GRA_DefinirCorrente\=18
+GRA_DestruirGrafo\=12
+GRA_ExcluirAresta\=21
+GRA_ExcluirVerticeCorrente\=21
+GRA_InserirOrigem\=9
 
 //////////////////////////////////////////////////////////////////////
 // Fim arquivo de contadores acumulados

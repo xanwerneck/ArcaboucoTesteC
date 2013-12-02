@@ -1,35 +1,38 @@
 //////////////////////////////////////////////////////////////////////
-// Contadores acumulados, gerado: 2013/11/30-16:40:56
+// Contadores acumulados, gerado: 2013/12/02-01:19:15
 //////////////////////////////////////////////////////////////////////
 
-GRA_ChecarNomeVerticeCorrente\=18
-GRA_CriarArestaGrafo\=72
-GRA_CriarGrafo\=27
-GRA_CriarVerticeGrafo\=63
-GRA_DefinirCorrente\=54
-GRA_DestruirGrafo\=18
-GRA_DeturpaAlteraTipo\=2
-GRA_DeturpaCorrente\=3
-GRA_DeturpaIsolaVertice\=3
-GRA_DeturpaLixoAntecessor\=0
-GRA_DeturpaLixoSucessor\=0
-GRA_DeturpaNullAntecessor\=2
-GRA_DeturpaNullConteudo\=3
-GRA_DeturpaNullCorrente\=0
-GRA_DeturpaNullOrigem\=3
-GRA_DeturpaNullSucessor\=1
-GRA_ExcluirAresta\=45
-GRA_ExcluirVerticeCorrente\=54
-GRA_InserirOrigem\=36
-VGRA_CorrenteEliminado\=0
-VGRA_GrafoInexistente\=3
-VGRA_VerticeAntNulo\=0
-VGRA_VerticeContNulo\=0
-VGRA_VerticeCorrNulo\=0
-VGRA_VerticeOrigemQtdeInvalida\=1
-VGRA_VerticeQtdeInvalida\=3
-VGRA_VerticeSucNulo\=0
-VGRA_VerticeTipoErrado\=0
+D_GRA_DeturpaAlteraTipo\=4
+D_GRA_DeturpaCorrente\=0
+D_GRA_DeturpaIsolaVertice\=6
+D_GRA_DeturpaLixoAntecessor\=4
+D_GRA_DeturpaLixoSucessor\=8
+D_GRA_DeturpaNullAntecessor\=9
+D_GRA_DeturpaNullConteudo\=2
+D_GRA_DeturpaNullCorrente\=7
+D_GRA_DeturpaNullOrigem\=8
+D_GRA_DeturpaNullSucessor\=1
+GRA_ChecarNomeVerticeCorrente\=90
+GRA_CriarArestaGrafo\=360
+GRA_CriarGrafo\=135
+GRA_CriarVerticeGrafo\=315
+GRA_DefinirCorrente\=45
+GRA_DestruirGrafo\=90
+GRA_ExcluirAresta\=53
+GRA_ExcluirVerticeCorrente\=0
+GRA_InserirOrigem\=135
+V_GRA_ErroTipoCabeca\=0
+V_GRA_GrafoInexistente\=3
+V_GRA_VerticeAntLixo\=3
+V_GRA_VerticeAntNulo\=3
+V_GRA_VerticeContNulo\=1
+V_GRA_VerticeCorrNulo\=1
+V_GRA_VerticeOrigNulo\=4
+V_GRA_VerticeOrigemQtdeInvalida\=3
+V_GRA_VerticeQtdeInvalida\=6
+V_GRA_VerticeSucLixo\=3
+V_GRA_VerticeSucNulo\=1
+V_GRA_VerticeTipoErrado\=1
 
 //////////////////////////////////////////////////////////////////////
 // Fim arquivo de contadores acumulados

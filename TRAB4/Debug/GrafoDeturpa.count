@@ -14,22 +14,25 @@
 	GRA_DefinirCorrente
 	GRA_ExcluirVerticeCorrente
 	GRA_DestruirGrafo
-	GRA_DeturpaCorrente
-	GRA_DeturpaNullSucessor
-	GRA_DeturpaNullAntecessor
-	GRA_DeturpaLixoSucessor
-	GRA_DeturpaLixoAntecessor
-	GRA_DeturpaNullConteudo
-	GRA_DeturpaAlteraTipo
-	GRA_DeturpaIsolaVertice
-	GRA_DeturpaNullCorrente
-	GRA_DeturpaNullOrigem
-	VGRA_GrafoInexistente
-	VGRA_CorrenteEliminado
-	VGRA_VerticeSucNulo
-	VGRA_VerticeAntNulo
-	VGRA_VerticeContNulo
-	VGRA_VerticeTipoErrado
-	VGRA_VerticeQtdeInvalida
-	VGRA_VerticeOrigemQtdeInvalida
-	VGRA_VerticeCorrNulo
+	D_GRA_DeturpaCorrente
+	D_GRA_DeturpaNullSucessor
+	D_GRA_DeturpaNullAntecessor
+	D_GRA_DeturpaLixoSucessor
+	D_GRA_DeturpaLixoAntecessor
+	D_GRA_DeturpaNullConteudo
+	D_GRA_DeturpaAlteraTipo
+	D_GRA_DeturpaIsolaVertice
+	D_GRA_DeturpaNullCorrente
+	D_GRA_DeturpaNullOrigem
+	V_GRA_GrafoInexistente
+	V_GRA_VerticeCorrNulo
+	V_GRA_VerticeSucNulo
+	V_GRA_VerticeAntNulo
+	V_GRA_VerticeSucLixo
+	V_GRA_VerticeAntLixo
+	V_GRA_VerticeContNulo
+	V_GRA_VerticeTipoErrado
+	V_GRA_VerticeQtdeInvalida
+	V_GRA_VerticeOrigemQtdeInvalida
+	V_GRA_VerticeOrigNulo
+	V_GRA_ErroTipoCabeca

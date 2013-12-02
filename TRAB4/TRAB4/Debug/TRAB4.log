@@ -1,4 +1,4 @@
-﻿Build started 30/11/2013 16:40:28.
+﻿Build started 02/12/2013 01:35:57.
      1>Project "C:\Users\Alexandre Werneck\Documents\Visual Studio 2010\Projects\ArcaboucoTesteC\TRAB4\TRAB4\TRAB4.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\TRAB4.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -26,4 +26,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.01
+Time Elapsed 00:00:00.86

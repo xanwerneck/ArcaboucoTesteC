@@ -50,11 +50,13 @@ static const char MUDAR_VALOR_VERT_CMD      [ ] = "=mudarvalorvertcorr"   ;
 static const char DEFINIR_CORR_GRA_CMD      [ ] = "=definircorrentegra"   ;
 static const char DESTRUIR_GRA_CMD          [ ] = "=destruirgrafo"        ;
 
-/* os comandos a seguir somente operam em modo _DEBUG */
-static const char DETURPAR_GRA_CMD          [ ] = "=deturpargrafo"        ;
-static const char VERIFICAR_GRA_CMD         [ ] = "=verificargrafo"       ;
-static const char VER_MEMO_GRA_CMD          [ ] = "=vermemoriagrafo"      ;
+#ifdef _DEBUG
+	/* os comandos a seguir somente operam em modo _DEBUG */
+	static const char DETURPAR_GRA_CMD          [ ] = "=deturpargrafo"        ;
+	static const char VERIFICAR_GRA_CMD         [ ] = "=verificargrafo"       ;
+	static const char VER_MEMO_GRA_CMD          [ ] = "=vermemoriagrafo"      ;
 
+#endif
 
 #define TRUE  1
 #define FALSE 0
@@ -300,16 +302,16 @@ static void TES_excluirConteudo ( void * pValor );
                                     "Retorno errado ao destruir grafo!" );
 
 		} /* fim ativa: Testar GRA Destruir Grafo */
+		
+		/* Testar VerificarMemoria */
+            #ifdef _DEBUG
+                    else if ( strcmp( ComandoTeste , VER_MEMO_GRA_CMD ) == 0 )
+                    {
+                        CED_ExibirTodosEspacos( CED_ExibirTodos ) ;        
+                        return TST_CondRetOK ;
 
-			/* Testar VerificarMemoria */
-		  #ifdef _DEBUG
-			 else if ( strcmp( ComandoTeste , VER_MEMO_GRA_CMD ) == 0 )
-			 {
-				CED_ExibirTodosEspacos( CED_ExibirTodos ) ;        
-				return TST_CondRetOK ;
-
-			 } /* fim ativa: VerificarMemoria */
-		   #endif 
+                    } /* fim ativa: VerificarMemoria */
+            #endif 
 
 			/* Verificacao do Grafo */
 		  #ifdef _DEBUG
